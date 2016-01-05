@@ -1,0 +1,424 @@
+\documentclass[8pt]{report}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage[pdftex]{graphicx}
+\usepackage{enumerate}
+\usepackage{amsfonts}
+\usepackage{url}
+\usepackage{amsmath,amsfonts,amssymb,amsthm,epsfig,epstopdf,titling,url,array}
+\usepackage[]{units}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\hypersetup{colorlinks,
+			linkcolor=red!80!black, % color of internal links
+			citecolor=red!80!black, % color of links to bibliography
+			filecolor=magenta!80!black, % color of file links
+			urlcolor=cyan!80!black % color of external links
+			}
+
+\theoremstyle{plain}
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{lem}[thm]{Lemma}
+\newtheorem{prop}[thm]{Proposition}
+\newtheorem*{cor}{Corollary}
+
+\title{Approximate Binary Trees in External Memory Models}
+\author{Oliver Grant}
+\date{}
+
+\begin{document}
+\maketitle
+
+
+\begin{abstract}
+We examine the classic binary search tree problem of Knuth \cite{knuth1971optimum}. First, we quickly re-examine a solution of G{\"u}ttler, Melhorn and Schneider \cite{guttler1980binary} which was shown to have a worst case bound of $c*H + 2$ where $c \geq 1/H(1/3,2/3) \approx 1.08$. We give a new worst case bound on the heuristic of $H+4$. In the remainder of the work, we examine the problem under various models of external memory. First, we use the Hierarchical Memory Model (HMM) of Aggarwal et al. \cite{aggarwal1987model} and propose several approximate solutions. We find that the expected cost of search is at most $\frac{W_{HMM}(P)}{\lceil lg(s_{min}) \rceil} * (H+1)$ where $W_{HMM}(P)$ is a well-defined function of the probability distribution, $s_{min} = min(min_{i \in \{1,...,n\}}(p_i), min_{j \in \{0,...,n\}}(q_j)))$, and $H$ is the entropy of the distribution. Using this, we improve a bound given in Thite's 2001 thesis for the HMM$_2$ model in the approximate setting. We also examine the problem in the Hierarchical Memory with Block Transfer Model \cite{aggarwal1987hierarchical} and find approximate solutions. Similarly, we find the expected cost is at most $\frac{W_{HMBTM}(P)}{\lceil lg(s_{min}) \rceil} * (H+1)$ where $W_{HMBTM}(P)$ is a well-defined function of the probability distribution and $s_{min}$ and $H$ are as before. 
+\end{abstract}
+
+\tableofcontents
+
+\chapter{Introduction}
+
+
+\section{Binary Search Trees}
+
+A binary search tree is simple structure used to store key-value pairs. It was invented in the late 1950s and early 1960s and is generally attributed to the combined efforts of Windley, Booth, Colin and Hibbard \cite{windley1960trees} \cite{booth1960efficiency} \cite{hibbard1962some}. In general, the trees allow for quick binary searches through the data in search of a specific key. Each node has a key over which there is a total-ordering (a number, a string, etc.), as well as some value (generally the important information). Each tree node has at most two children generally labelled as the \textit{left} and \textit{right}. All nodes in the subtree of the \textit{left} child of a specific node have a key strictly less than the key of the node in question. Similarly, nodes in the subtree of the \textit{right} child of a specific node have a key strictly greater than the key of the node in question. A pointer is typically stored to a root node. Search begins from this root node and is done by recursively searching in either the \textit{left} or \textit{right} child of root node, or stopping if the root being searched has the correct key.
+
+\section{The Optimum Binary Search Tree Problem}
+
+Knuth first proposed the optimum binary search tree problem in 1971 \cite{knuth1971optimum}. We are given a set of $n$ words $B_1, B_2, ..., B_n$ and $2n+1$ frequencies, ${p_1, p_2, ..., p_n}$, ${q_0, q_1, ..., q_n}$ representing the probabilities of searching for each given word and the probabilities of searching for strings between (and outside of) these words. We have that $ q_0 + \sum\limits_{i=1}^n p_i+q_i = 1$. We also assume that without loss of generality $q_i+p_i+q_{i+1} \neq 0$ for any $i$. The words (and gaps between) are used as keys and the lexicographical ordering of them provides our order over the keys. Our goal is to construct a binary tree such that the expected cost of search is minimized. The names make up the leaves of the tree while, gaps make up the internal nodes. The weighted path length of the tree is: \\
+$P = \sum_{i=1}^{n} p_i(b_i+1) + \sum_{j=1}^{n} q_j(a_j)$ \\
+Where $b_i$ and $a_j$ represent the depth of nodes representing the $i^{th}$ word and $j^{th}$ gap respectively. The optimal solution of Knuth requires $O(n^2)$ time, and $O(n^2)$ space. This solution is both time and space intensive. We will later examine an approximate solution  to this problem of G{\"u}ttler, Mehlhorn and Schneider which uses $O(n^2)$ time but $O(n)$ space and improve its worst-case bound. However, these problems were examined under the RAM model which is an inadequate model for many situations. We examine the problem in more realistic models and look at approximate solutions under these settings.
+
+\section{Why Study Binary Search Trees}
+
+Binary search trees are ubiquitous throughout computer science with numerous applications. The basic binary search tree has been built upon in many ways. AVL trees (named after creators AdelsonVelskii and Landis) were the first form of self-balancing binary search trees introduced \cite{adelsonvelskii1963algorithm}. The trees invented by the pair in 1963 and maintain a height of $O(lg(n))$ where $n$ is the number of nodes in the tree during insertions and deletions (both of which take $O(lg(n))$ time). Improved self-balancing binary search trees followed in the form of red-black trees by Bayer in 1972 and splay trees by Sleator and Tarjan in 1985 \cite{bayer1972symmetric} \cite{sleator1985self}. Tango trees were invented in 2007 by Demaine et al. and provided the first $O(lg lg n)$ competitive binary tree \cite{demaine2007dynamic}. Here, $O(lg lg n)$ competitive means that the tango tree does at most $O(lg lg n)$ times more work (pointer movements and rotations) than an optimal offline tree. B trees are among the most commonly used binary tree variant and were invented in 1970 by Bayer and McCeight \cite{bayer1970organization}. 
+
+
+Binary space partition
+Binary Tries in routers
+Hash Trees
+Heaps - PQ
+Huffman Code - compression
+Syntax tree
+expression evaluation
+
+\section{Overview}
+
+In Chapter 2 I review previous work done in the areas of binary search trees, multiway trees, alphabetic trees and various models of external memory. In Chapter 3, I re-examine the Modified Minimum Entropy (MME) heuristic of G{\"u}ttler, Mehlhorn and Schneider \cite{guttler1980binary}. This is a $O(n)$ time algorithm for approximating the optimum binary search tree problem in the RAM model. The method worked very well in practice, and the group had great experimental results, but unfortunately they could not bound the worst case expected cost of the as they would have hoped. While simpler solutions like the \textit{Min-max} and \textit{Weight Balanced} techniques of Bayer \cite{bayer1975improved} had worst case costs of at most $H+2$, the trio's MME technique had a worst case expected search cost of $c*H+2$ where $c \approx 1.08$. I provide a new argument of its worst case expected search cost and show that it is within a constant of entropy: at worst $H+4$. In Chapter 4, I move on to external memory models, examining the optimum binary search tree problem under the hierarchical memory model as was done in Thite's thesis \cite{thite2008optimum}. I provide TWO? $O(n*lg(m_1))$ time algorithm which has a worst case expected cost of TODO FIX $C \leq (\lceil lg(m_1) \rceil * (\lfloor log_{m_1}(\frac{2}{min_{p,q}}) \rfloor + 1)) * W * (H + 1)$ WHERE TODO. The solution provided also gives a direct improvement over the solution Thite provided in the same work for HMM$_2$. In Chapter 5, I extend my solutions to examine a more realistic model for external memory, the hierarchical memory with block transfers model (HMBTM). I use similar algorithms which run in TODO and give worst case expected search costs of TODO. In Chapter 6 I summarize my findings and discuss several problems which remain open.
+
+
+\chapter{Background and Related Work}
+
+\section{Preliminaries}
+I MAY NOT EVEN NEED THIS SECTION (ESPECIALLY NOT WHAT IS CURRENTLY IN IT).
+
+$H = \sum_{i=1}^{n} p_i*log_2(1/p_i) + \sum_{j=0}^{n} q_i*log_2(1/q_j)$ is the entropy of the probability distribution. We will also use $H(x_1,x_2,...,x_n)$ to describe the entropy of various other probability distributions. We let $E_t=H(P_{L_t}(i), p_i, P_{R_t}(i))$ be the local entropy of a sub tree $t$ rooted at $B_i$. $P_{L_t}(p_i)=\frac{P_L(p_i)}{p_t}$ and $P_{R_t}(p_i)=\frac{P_R(p_i)}{p_t}$ describe the normalized probabilities of searching for a forward before or after (respectively) word $B_i$. Similarly, $P_{L_t}(q_j)$ and $P_{R_t}(q_j)$ describe the normalized probabilities of searching for a forward before or after (respectively) the gap between words $B_j$ and $B_{j+1}$.
+
+\section{Binary Search Trees}
+
+After Knuth's initial examination of the optimum binary search tree problem in 1971 \cite{knuth1971optimum}, several others have examined the approximate version of the problem. The optimal solution requires $O(n^2)$ time and space which is too costly in many situations. While unable to bound an approximate algorithm within a constant of the optimal solution, many authors have been able to bound the cost based on the entropy of the distribution of probabilities $H$. In 1975 Bayer showed that $H-log_2 H-(log_2 e-1) \leq C_{Opt}$, $C_{Opt} \leq C_{WB} H + 2$ and $C_{Opt} \leq C_{MM} \leq H + 2$ where $C_{Opt}, C_{WB}$, and $C_{MM}$ are optimal, weight-balanced and min-max costs \cite{bayer1975improved}. Weight-balanced and min-max costs heuristics are greedy and require both $O(n)$ time and $O(n)$ space to run. In 1980, G{\"u}ttler, Mehlhorn AND Schneider presented a new heuristic, the modified minimum entropy (MME) heuristic \cite{guttler1980binary} which built upon the ideas of Horibe \cite{horibe1977improved}. G{\"u}ttler, Mehlhorn AND Schneider gave empircal evidence that the heuristic out-performed others \cite{guttler1980binary}. While the heuristic took $O(n^2)$ time, it only required $O(n)$ space, a huge saving over the optimal solution. However, they were unable to prove that $C_{MME} \leq H+2$ (like previous heuristics of weight-balanced and min-max) and settled with $C_{MME} \leq c_1*H+2$ \\
+ where $c_1=1/H(1/3, 2/3) \approx 1.08$. In 1993, De Prisco and De Santis presented a new heuristic for constructing a near-optimum binary search tree \cite{de1993binary}. The method is more specifically explained later in this work (Section TODO) and has an upper bounded cost of at most $H+1-q_0-q_n+q_{max}$ where $q_{max}$ is the maximum weight leaf node. This method was later updated by and Dou\"{i}eb to have a worst case cost of  \cite{bose2009efficient}
+ \begin{center}
+$\frac{H}{lg(2k-1)} \leq P_{OPT} \leq P_T \leq \frac{H}{lg k} + 1 + \sum_{i=0}^n q_i - q_0 - q_n - \sum_{i=0}^m q_{rank[i]}$
+\end{center}
+Here, H is the entropy of the probability distribution, $P_{OPT}$ is the average path-length in the optimal tree, $P_T$ is the average path length of the tree built using their algorithm and $m=max({n-3P,P})-1 \geq \frac{n}{4} - 1$. $P$ is the number of increasing or decreasing sequences in a left-to-right read of the access probabilities of the leaves. Moreover, $q_{rank[i]}$ is the $i^{th}$ smallest access probability among all leaves except $q_0$ and $q_n$. \\ 
+ 
+\section{Alphabetic Trees}
+
+Given a set of $n$ keys with various probabilities, the problem is to build a binary search tree where every internal node has two children, leaves have no children, and the $n$ keys described are the leaves with minimum expected search cost. Here, the expected search cost is $\sum p_i * l_i*$ where $p_i$ is the probability of searching for leaf/key $i$ and $l_i$ is the leaf's level in the tree. The alphabetic ordering of the leaves must be maintained. This is the same as the binary search tree problem with all internal node weights zero.
+
+In 1952, Huffman famously developed the Huffman tree, which solved the same problem without a left-to-right ordering constraint on leaves \cite{huffman1952method}. Gilbert and Moore examined the problem with the added alphabetic constraint and developed a $O(n^3)$ algorithm which solved the problem optimally \cite{gilbert1959variable}. Hu and Tucker gave a $O(n^2)$ time and space algorithm in 1971 \cite{hu1971optimal} which was improved by Knuth to take only $O(n lg n)$ time and $O(n)$ space in 1973 \cite{knuth1973sorting}. The original proof of Hu and Tucker was extremely complicated, but was fortunately later simplified by Hu \cite{hu1973new} and Hu et al. \cite{hu1979binary}. Garsia and Wachs gave an independent $O(n lg n)$ time, $O(n)$ space algorithm in 1977 \cite{garsia1977new}. This was shown to be equivalent to the Hu and Tucker algorithm in 1982 by Hu \cite{Hu1982Book} and also went through a proof simplification \cite{kingston1988new} by Kingston in 1988.
+
+In 1991, Yeung proposed an approximate solution which solved the problem in $O(n)$ time and space \cite{yeung1991alphabetic}. The algorithm produced a tree with worst case cost $H + 2 - q_1-q_n$. This was later imporved by De Prisco and De Santis who created an $O(n)$ time algorithm which had a worst case cost of $H+1-q_0-q_n+q_{max}$ \cite{de1993binary}. The method was improved one more time by Bose and Dou\"{i}eb who improved upon Yeung's method by decreasing the bound by $\sum_{i=0}^m q_{rank[i]}$ where $m=max({n-3P,P})-1 \geq \frac{n}{4} - 1$, $P$ is the number of increasing or decreasing sequences in a left-to-right read of the access probabilities of the leaves and $q_{rank[i]}$ is the $i^{th}$ smallest access probability among all leaves except $q_0$ and $q_n$ \cite{bose2009efficient}. De Prisco and De Santis used Yeung's method within their own, so this improvement to Yeung's method gave an overall tighter bound of $H+1-q_0-q_n+q_{max}-\sum_{i=0}^m q_{rank[i]}$. CHECK THIS OUT TODO
+
+\section{Multiway Trees} 
+
+This static k-ary or multiway search tree problem is similar to optimum binary search tree problem with the added constraint that up to $k$ keys can be placed into a single node, and cost of search within a node is constant. Each internal node of the k-ary tree contains at least one and at most $k-1$ keys while a leaf node contains no keys. Successful searches end in an internal while unsuccessful searches end in one of the $n+1$ leaves of the tree. The cost of search is the average path depth is defined as :
+
+\begin{center}
+$\sum_{i=1}^{n} p_i(d_T(x_i)+1) + \sum_{j=0}^{n} q_j(d_T(x_{i-1},x_i))$
+\end{center}
+
+where $x_i$'s represent successful search keys, pairs $(x_{i-1},x_i)$ represent unsuccessful search "keys" and $d_T(x_i)$  or $d_T(x_{i-1},x_i)$ represent the depth of a specific successful or unsuccessful search respectively.
+
+Vishnavi et al. \cite{vaishnavi1980optimum}, and Gotlieb  \cite{gotlieb1981optimal} in 1980 and 1981 respectively independently solved the problem optimally in $O(k*n^3)$ time. In a slightly modified B-tree model (every leaf has same depth, every internal node is at least half full), Becker's 1994 work gave a $O(kn^{\alpha})$ time algorithm where $\alpha=2+log_k 2$ \cite{becker1994new}. Moreover, in 1997 Becker propsed an $O(Dkn)$ time algorithm where D is the height of the resulting tree\cite{becker1997construction}. The algorithm did not produce an optimal tree but was thought to be empirically close despite having no strong upper bound. In 2009, Bose and Dou\"{i}eb gave both an upper and lower bound on the optimal search tree in terms of the entropy of the probability distribution as well as an $O(n)$ time algorithm to build a near-optimal tree \cite{bose2009efficient}. There bounds of:
+\begin{center}
+$\frac{H}{lg(2k-1)} \leq P_{OPT} \leq P_T \leq \frac{H}{lg k} + 1 + \sum_{i=0}^n q_i - q_0 - q_n - \sum_{i=0}^m q_{rank[i]}$
+\end{center}
+will be discussed in more detail in section BLAH TODO of this paper.
+
+\section{Memory Models}
+
+HMM
+HMM BT
+Other Stuff
+Cache Oblivious
+Look at what Thite wrote about
+TODO - LOOK @ SURVEY ON MEMORY MODELS
+
+
+\chapter{An Improved Bound for the Modified Minimum Entropy Heuristic}
+
+
+\section{The Modified Minimum Entropy Heuristic}
+
+ As described in \cite{guttler1980binary}, the heuristic greedily chooses the word $B_i$ as the root such that $H(P_{L_t}(p_i), p_i/p_t, P_{R_t}(p_i))$ is maximized (local information gain) where $P_{L_t}(p_i)$ and $P_{R_t}(p_i)$ are the probabilities of searching for a word to the left and to the right of $p_i$ (normalized for the sub tree in question whose total probability is $p_t$). There are two exceptions to this rule. Firstly, if there exists $p_i$ such that $\frac{p_i}{p_t} > max(P_{L_t}(p_i), P_{R_t}(p_i))$ we always select $B_i$ as the root. Moreover, if there exists $q_j$ such that $\frac{q_j}{p_t} > max(P_{L_t}(q_j), P_{R_t}(q_j))$ then we select the root from among $B_j$ and $B_{j+1}$. $B_j$ is chosen if $P_{L_t}(q_j) > P_{R_t}(q_j)$ and $B_{j+1}$ is chosen otherwise. Since it takes linear time and constant space to find the all of the optimal local entropy splits in each level of the tree, our algorithm takes $O(n^2)$ time and linear space.  \\
+
+\section{MME is within 4 of Entropy}
+
+\begin{lem}
+When using the MME heuristic to choose the root of a binary search, one of the following three cases must occur: \\
+1) $E_t \geq 1-2 \frac{p_r}{p_t}$ \\
+2) There exists $q_i$ such that $\frac{q_i}{p_t} > max(P_{L_t}(q_i), P_{R_t}(q_i))$\\
+3)  $max(P_L(p_r), P_R(p_r)) < \frac{4}{5} p_t$\\
+\end{lem}
+\begin{proof}
+Suppose there exists some $p_i$ such that $\frac{p_i}{p_t} > max(P_{L_t}(p_i), P_{R_t}(p_i))$. By the MME heuristic, it must be selected as the root and thus $p_r=p_i$. As shown in \cite{gallager1968information} $H(x,1-x) \geq 2x$ when $x<1/2$. Thus we have: \\
+$E_t \geq H( max(P_{L_t}(p_i), P_{R_t}(p_i)), 1-max(P_{L_t}(p_i), P_{R_t}(p_i))$ \\
+$ \geq 2*max(P_{L_t}(p_i), P_{R_t}(p_i))$ \\ $ \geq 1-\frac{p_i}{p_t}$ \\ 
+$ \geq 1-2 \frac{p_i}{p_t} \geq 1-2 \frac{p_r}{p_t}$ \\
+ as required. \\
+ 
+ If we have a $p_i$ across the middle of the set (i.e. $P_{L_t}(p_i) < \frac{1}{2}p_t$ and $P_{R_t}(p_i) < \frac{1}{2}p_t$) then we have: \\
+ $E_t \geq H(x, y, 1-x-y)$ where $0 < x < 0.5$ and $0 < y < 0.5$  and we know that \\
+ $H(x, y, 1-x-y) \geq H(1/2, 1/2) = 1$ in this case.
+ Thus, $E_t \geq 1-2p_r$ as required. \\
+ 
+ Otherwise, we must have a $q_i$ spanning the middle of the data set (i.e. $P_{L_t}(q_i) < \frac{1}{2}p_t$ and $P_{R_t}(q_i) < \frac{1}{2}p_t$). Now supposed that case 2) does not occur: there does not exist a $q_i$ such that $\frac{q_i}{p_t} > max(P_{L_t}(q_i), P_{R_t}(q_i))$. Thus, we have that \\ $max(P_{L_t}(p_i), P_{R_t}(p_i)) \geq min(P_{L_t}(p_i), P_{R_t}(p_i)$ and \\ $max(P_{L_t}(p_i), P_{R_t}(p_i)) \geq q_i$ \\ Thus, $max(P_{L_t}(p_i), P_{R_t}(p_i)) \geq 1/3$ and by our assumption $max(P_{L_t}(p_i), P_{R_t}(p_i)) < 1/2$. \\
+ So, as in the proof of table 3 (5.3) in \cite{guttler1980binary}\\
+ $E_t \geq H(1/3, 2/3) \approx 0.92$. \\
+ Since we do not have case 1), we know that \\
+ $E_t < 1-2\frac{p_r}{q_t}$ \\
+$ \implies \frac{p_r}{q_t} < \frac{1-H(1/3, 2/3)}{2} \approx 0.04$ \\
+Suppose that $max(P_L(p_r), P_R(p_r)) \geq \frac{4}{5} p_t$ then we have \\
+$E_t \leq H(\frac{4}{5}, \frac{1-H(1/3, 2/3)}{2}, \frac{1}{5}-\frac{1-H(1/3, 2/3)}{2}) \approx 0.87 < H(1/3, 2/3) \geq E_t$ \\ 
+a contradiction. \\
+Thus, if we do not have case 1) or 2), we must have case 3).
+ 
+
+\end{proof}
+
+
+
+\begin{thm}
+$C_{MME} \leq H + 4$
+\end{thm}
+
+\begin{proof}
+This is very similar to the proof of theorem 4.4 in \cite{bayer1975improved}.
+We will first bound each $E_t$ on a case by case basis using the cases of Lemma 1.\\
+If case 1 occurs, we obviously have that \\
+$E_t \geq 1-2 \frac{p_r}{p_t}$ \\
+Note that this can only happen once for each word as a word can only be the root once. \\
+
+Let $q_m$ be the middle gap when case two or three occurs. When case 2 occurs we have that \\
+$E_t \geq H(\frac{1}{2}-\frac{1}{2} \frac{q_m}{p_t}, \frac{1}{2} + \frac{1}{2} \frac{q_m}{p_t}) \geq 2(\frac{1}{2}-\frac{1}{2} \frac{q_m}{p_t})=1-\frac{q_m}{p_t}$. \\
+Note that this can only happen twice for each gap (by the definition of the MME heuristic). \\
+
+When case 3 occurs we have that \\
+$E_t \geq H(\frac{1}{2}-\frac{1}{2} \frac{q_m}{p_t}, \frac{1}{2} + \frac{1}{2} \frac{q_m}{p_t}) \geq 1- \frac{4}{5} (\frac{q_m}{p_t})^2$ when $\frac{q_m}{p_t} < \frac{1}{2}$. \\
+
+As in \cite{bayer1975improved} we define a $b_t$ for each subtree as follows: \\
+let $b_t=2p_r$ for case 1. \\
+let $b_t=2q_m$ for case 2. \\
+let $b_t=\frac{q_m^2}{p_t}$ for case 3. \\
+Thus, we have \cite{bayer1975improved} \\
+$H = \sum\limits_{t \in S_T} P_t E_t \geq \sum P_t - \sum b_t = C - \sum b_t$ \\
+$ \implies C \leq H + \sum b_t$ \\ 
+Where $S_T$ is the set of all subtrees our our tree. \\
+
+As mentioned above, cases 1 and 2 can only occur once and twice respectively. Case 3 however, can occur many times, but each time it occurs, $\frac{q_m}{p_t}$ must decrease by a factor of $5/4$. Let $S_m$ be the set of all subtrees $t$ for which $q_m$ is the middle gap. We have that \\
+$C \leq H + \sum b_t = H + 2 \sum\limits_{r = 1}^n p_r + 2 \sum\limits_{m = 0}^n q_m + \sum\limits_{m = 0}^n \sum\limits_{t \in S_m} \frac{4}{5}\frac{q_m^2}{p_t}$ \\
+$\implies C \leq = H + 2 + \sum\limits_{m = 0}^n \frac{4}{5} q_m \sum\limits_{x=0}^{\infty} \frac{1}{2} * (\frac{4}{5}) ^ x$ \\
+$\implies C \leq = H + 2 + \sum\limits_{m = 0}^n \frac{4}{5}q_m \frac{5}{2}$ \\
+$\implies C \leq = H + 4$ \\
+
+\end{proof}
+
+\chapter{Approximate Binary Search in the Hierarchical Memory Model} 
+ 
+\section{The Hierarchical Memory Model}
+
+The Hierarchical Memory Model (HMM) was proposed in 1987 by Aggarwal et al. as an alternative to the classic RAM model \cite{aggarwal1987model}. It was intended to better model the multiple levels of the memory hierarchy. The model has an unlimited number of registers, $R_1, R_2, ...$ each with its own location in memory (positive integer). In the first version of the model, accessing a register at memory location $x_i$ takes $\lceil lg(x_i) \rceil$ time. Thus, computing $f(a_1, a_2, ..., a_n)$ takes time $\sum_{i=1}^{n} \lceil lg(location(a_i)) \rceil$. The original paper also considered arbitrary cost functions $f(x)$. We will use the cost function as was explained in Thite's thesis \cite{thite2008optimum}. Here, $\mu (a)$ is the cost of accessing memory location $a$. We have a series of memory sizes $m_1, m_2, ..., m_h$ where $m_l$ has infinite size each with an associated cost $c_1, c_2, ..., c_h$. We assume that $c_1 < c_2 < ... < c_h$. 
+
+\begin{center}$\mu (a) = c_i if \sum_{j = 1}^{i-1}m_j  < a \leq \sum_{j = 1}^{i}m_j$. \end{center}
+
+While Thite notes that typical memory hierarchies have increasing sizes for slower memory levels, we explicitly assume that successive memory sizes divide one another evenly:
+\begin{center}
+$m_1 < m_2 < ... < m_h$ and
+\end{center}
+\begin{center}
+$\forall i \in  \{1,2,...,h\}$, $m_i \mid m_{i+1}$.
+\end{center}
+
+\section{Thite's Optimum Binary Search Trees on the HMM Model}
+
+Thite's thesis provided solutions to several problems in the HMM and a related model \cite{thite2008optimum}. He first provided an optimal solution to the following problem (known as \textbf{Problem 5} in the work):\\
+
+
+\textbf{Problem [Optimum BST Under HMM].} Suppose we are given a set of $n$ ordered keys $x_1, x_2, ..., x_2$ with associated probabilities of search $p_1, p_2, ..., p_n$, as well as $n+1$ ranges $(- \infty, x_1), (x_1, x_2), ..., (x_{n-1}, x_n), (x_n, \infty)$ with associated probabilities of search $q_0, q_1, ..., q_n$. The problem is to construct a binary search tree $T$ over the set of keys and compute a memory assignment function $\phi : V (T) \rightarrow {1, 2, ..., n}$ that assigns nodes of $T$ to memory locations such that the expected cost of a search is minimized under the HMM model.\\
+
+
+He provided three separate optimum solutions; \textbf{Parts}, \textbf{Trunks}, and \textbf{Split}. These algorithms have various use cases, running in times $O(\frac{2^{h-1}}{(h-1)!}* n^{2h+1})$, $O(\frac{2^{n-m_h}*(n-m_h+h)^{n-m_h}*n^3}{(h-2)!})$ and $O(2^n)$ respectively. In the following sections, I will provide an approximate solution to this problem that runs in time $O(n*lg(m_1))$ and an upper bound on its expected search cost.  \\
+
+Thite also considered the same problem under the related HMM$_2$ model. This model assumes there are simply two levels of memory of size $m_1$ and $m_2$ with costs of access $c_1$ and $c_2$ where $c_1 < c_2$. Thite provided an optimal solution to this problem (named \textbf{TwoLevel}) which ran in time $O(n^5)$, $o(n^5)$ if $m_1 \in o(n)$, and $O(n^4)$ if $m_1 \in O(1)$. He also gave an $O(nlg n)$ time approximate solution with an upper bounded expected search cost of $c_2(H+1)$. The solution I provide which approximates the optimum tree under the HMM model also provides a strict improvement over Thite's approximate algorithm in both running time and expected cost under the HMM$_2$ model.
+
+
+\section{Efficient Near-Optimal Multiway Trees of Bose and Dou\"{i}eb}
+In 2009, Bose and Dou\"{i}eb's 2009 work provided a new construction method with linear running time (independent of the size of a node in tree) with the best expected cost to date \cite{bose2009efficient}. The group was able to prove that:
+\begin{center}
+$\frac{H}{lg(2k-1)} \leq P_{OPT} \leq P_T \leq \frac{H}{lg k} + 1 + \sum_{i=0}^n q_i - q_0 - q_n - \sum_{i=0}^m q_{rank[i]}$
+\end{center}
+Here, H is the entropy of the probability distribution, $P_{OPT}$ is the average path-length in the optimal tree, $P_T$ is the average path length of the tree built using their algorithm and $m=max({n-3P,P})-1 \geq \frac{n}{4} - 1$. $P$ is the number of increasing or decreasing sequences in a left-to-right read of the access probabilities of the leaves. Moreover, $q_{rank[i]}$ is the $i^{th}$ smallest access probability among all leaves except $q_0$ and $q_n$. \\
+ As described in the subsection TODO, we are given $n$ ordered keys with weights $p_0, ..., p_n$ as well as $n+1$ weights of unsuccessful searches $q_0,...,q_n$. We often refer to "keys" representing the gaps as $(x_{i-1},x_i)$ to be mean the "key" associated with a search between key $x_{i-1}$ and $x_i$. \\
+ 
+ The algorithm occurs in three steps. First, a new distribution is created by distributing all leaf weight to internal nodes. The peaks and valleys of the probability distribution of the leaf weights is used to do this assignment. After this, the new probability distribution is made into a k-ary tree using a greedy recursive algorithm. The algorithm essentially chooses the $l \leq k$ elements to go in the root node such that each child's subtree will have probability of access of at most $1/k$. They then reattach leaves to this internal key tree they have created. Their algorithm's design allows them to bound the depth of keys and leaves which ultimately allows them to achieve the bounds they have described. 
+
+\section{Algorithm ApproxMWPaging}
+
+First, we need a lemma about converting a multiway search tree to a binary search tree. For the sake of clarity, we will call what are typically known as \textit{nodes} of the multiway tree \textit{pages}. This represents how various items of our search tree will fit onto pages. We maintain the notion of calling the individual ordered set of items keys.
+
+\begin{lem}
+Given a multiway tree $T'$ with page size $k$ and $n$ keys, where keys are associated with a probability distribution of successful and unsuccessful searches as in Knuth's original optimum binary search tree problem, we can create a BST $T$ where each key in a given page $g$ of $T'$ forms a connected component in $T$ in $O(nlg(k))$ time.
+\end{lem}
+
+\begin{proof}
+For each page $g$, we sort its keys and create a complete BST $B$ over the keys. We create an ordering over all potential locations where keys could be added to the tree from left to right. All keys in all descendant pages of a page in a specific subtree rooted at a child of $g$ will lie in a specific range. There are at most $k+1$ of these ranges (since our page has at most $k$ keys). These ranges will precisely correspond to the at most $k+1$ locations where a new child key could be added to $B$. We note that we cannot add new children to keys which correspond to unsuccessful searches. We order these locations from left to right and attach root keys from the newly created BST's of each of the ordered (left to right) children of $g$. These will all be valid connections since each child of $g$ has keys in these correct ranges, and combining BST's in this fashion produces a valid BST. We perform a sort of $O(k)$ items (in time $O(klg(k))$) $O(n/k)$ times, and make $O(n)$ new parent child connections, giving us total time $O(n lg(k)$.
+\end{proof}
+
+In order to approximately solve the optimum BST problem under the HMM model, we will do the following: \\
+
+1) First, we create a Multiway Tree $T'$ using the algorithm of Bose and Dou\"{i}eb. This takes $O(n)$ time with our node size equal to $m_1$, the smallest level of our memory hierarchy \cite{bose2009efficient}. \\
+
+2) Inside each page (node of the multiway tree), we create a balanced binary search tree (ignoring weights). We call each of these $T'_k$ for $k \in {1,...,\lceil n/m_1 \rceil}$.   This takes $O(m_1)$ time per page, of which there are at most $O(n/m_1)$ giving us $O(n)$ time total. \\
+
+3) In order to make this into a proper binary search tree, we must connect the $O(n/m_1)$ BST's we have made as described in the previous Lemma. This takes $O(n lg(m_1))$ time. \\
+
+4) We pack things into memory in a breadth first search order in $T$ starting from the root. This takes $O(n)$ time. \\
+
+
+\textit{THIS IS THE OLD WAY. I THINK ITS NEEDED FOR TH BETTER MODEL BUT NOT FOR THIS. We pack things into memory in a breadth first search order in $T'$ starting from the root. We do not leave gaps if pages are not full. The individual items of the pages of size at most $m_1$ are stored in breadth first search order based on the trees made in step 2. This takes $O(n/m_1)$ for the breadth first search of $T'$, and $O(m_1)$ per page, of which there are $O(n/m_1)$, giving us $O(n)$ time.\\} 
+
+We are left with a binary search tree which has been properly packed into our memory in total time $O(n lg(m_1))$.
+
+\section{Expected Cost ApproxMWPaging}
+
+First, we bound the depth of nodes in our BST $T$. The depth of a key $x_i$ (denoted $(x_{i-1}, x_i)$ for unsuccessful searches) is defined as $d_T(x_i)$ ($d_T(x_{i-1},x_i)$).
+
+\begin{lem}
+For a key $x_i$,
+\begin{center} $d_T(x_i) \leq \lceil lg(m_1) \rceil * \lfloor log_{m_1}(\frac{1}{p_i}) \rfloor$. \end{center} 
+For a key $(x_{i-1},x_i)$,
+\begin{center} $d_T(x_{i_1},x_i) \leq \lceil lg(m_1) \rceil * (\lfloor log_{m_1}(\frac{2}{q_i}) \rfloor + 1)$. \end{center}
+\end{lem}
+
+\begin{proof}
+First we note that in the tree $T'$ we build using Bose and Dou\"{i}eb's multiway tree algorithm, the maximum depth of keys (call this $d_T'(x_i), d_T'(x_{i-1},x_i)$) for a page size $m_1$ is \cite{bose2009efficient}:
+\begin{center} $d_T(x_i) \leq \lfloor log_{m_1}(\frac{1}{p_i}) \rfloor$. \end{center} 
+\begin{center} $d_T(x_{i_1},x_i) \leq \lfloor log_{m_1}(\frac{2}{q_i}) \rfloor + 1$. \end{center}
+As explained in the paper, these follow from their Lemmas 1 and 2.
+
+Within a page, we make a balanced (not by weight) BST, so each key has a depth \textit{within} a page of at most $\lceil lg(m_1) \rceil$.
+
+Since our algorithm always connects the root of the BST made for page to a key in the BST made for the page's parent, a key $x_i$ has a depth of at most $\lfloor log_{m_1}(\frac{1}{p_i}) \rfloor$ in terms of pages accessed ($\lfloor log_{m_1}(\frac{2}{q_i}) \rfloor + 1$ pages for keys $(x_{i_1},x_i)$). Within a page, we will examine at most $\lceil lg(m_1) \rceil$ keys. Thus, a key's depth is at most the bound described.
+\end{proof}
+
+Let $min_{p,q} = min(min_{i \in \{1, ..., n\}}(p_i), min_{j \in \{0, ..., n\}}(q_j))$ be probability of searching for the smallest weighted key (successful of unsuccessful search). The by the lemma above it immediately follows that:
+\begin{cor}
+\begin{center} $height(T) \leq \lceil lg(m_1) \rceil * (\lfloor log_{m_1}(\frac{2}{min_{p,q}}) \rfloor + 1)$. \end{center}
+\end{cor}
+
+Using this, we can prove a more specific lemma about the height of our tree. 
+
+\begin{lem}
+ $height(T) \leq lg(\frac{1}{min_{p,q}}) + lg(m_1) + 2$.
+\end{lem}
+
+\begin{proof}
+From our corollary we have that:\\
+$height(T) \leq \lceil lg(m_1) \rceil * (\lfloor log_{m_1}(\frac{2}{min_{p,q}}) \rfloor + 1)$ \\
+
+$ \leq \lceil lg(m_1) \rceil * (\lfloor \frac{lg(\frac{2}{min_{p,q}})}{lg(m_1)} \rfloor + 1)$\\
+
+$ \leq \lceil lg(m_1) \rceil * ( \frac{ \lfloor lg(\frac{2}{min_{p,q}}) \rfloor}{\lceil lg(m_1) \rceil} + 1)$\\
+
+$ \leq  \lfloor lg(\frac{2}{min_{p,q}}) \rfloor + \lceil lg(m_1) \rceil$\\
+
+$ \leq  lg(\frac{1}{min_{p,q}}) + lg(m_1) + 2$.
+
+\end{proof}
+
+
+We now describe the cost of searching for key located at the deepest level of the tree: $W$. Let $m'_j = \sum_{k \leq j} m_j$. We define $m'_0 = 0$. Let $l$ be the smallest $j$ such that $m'_j > n$.
+
+\begin{lem} \hspace{1cm} \\
+$W \leq \sum_{k=1}^{l-1} (\lfloor lg(m'_i+1)-1 \rfloor - \lfloor lg(m'_{i-1}+1)-1 \rfloor)*c_i$\\ $+ (lg(\frac{1}{min_{p,q}}) + lg(m_1) + 2 - \lfloor lg(m'_{l-1}+1)-1 \rfloor)*c_l$ TODO FIX SPACING
+\end{lem}
+
+\begin{proof}
+Consider the accessing each key along the path from the root to the deepest key in $T$. We will access one key a depth $0$, one key at depth $1$ and so on. Because the tree is packed into memory in BFS order, a key a depth $i$ will be at memory location at most $2^{i+1}-1$. Now, consider how many levels of the binary search tree $T$ will fit inside of $m_1$, the fastest memory. In order for all keys of depth $i$ (and higher) to be in $m_1$ we need: \\
+$2^{i+1}-1 \leq m_1 \implies i \leq lg(m_1 + 1)-1$. \\
+Thus, at least $\lfloor lg(m_1 + 1)-1 \rfloor$ levels of $T$ fit on $m_1$. Next we examine how many fit on $m_2$. The last level to completely fit on $m_2$ or higher memories is max $i$ such that: \\
+$2^{i+1}-1 \leq m'_2 \implies i \leq lg(m'_2 + 1)-1$. \\
+Thus
+
+\end{proof}
+
+Next, we note that the cost of search for a key at some depth $i$ is at most $\frac{i}{height(T)}* W$.
+
+\begin{lem}
+The cost of searching for a keys $x_i$ and $(x_{i-1},x_i)$ can be bounded as follows:  \begin{center} $C(x_i) \leq \frac{\lfloor log_{m_1}(\frac{1}{p_i}) \rfloor}{\lceil lg(m_1) \rceil * (\lfloor log_{m_1}(\frac{2}{min_{p,q}}) \rfloor + 1)}* W$ \end{center}
+\begin{center} $C(x_{i-1},x_i) \leq \frac{\lfloor log_{m_1}(\frac{2}{q_i}) \rfloor + 1}{\lceil lg(m_1) \rceil * (\lfloor log_{m_1}(\frac{2}{min_{p,q}}) \rfloor + 1)}* W$ \end{center}
+\end{lem}
+
+\begin{proof}
+
+\end{proof}
+
+We can now bound the expected cost of search using the bounds for each key.
+
+\begin{thm}
+$C \leq (\lceil lg(m_1) \rceil * (\lfloor log_{m_1}(\frac{2}{min_{p,q}}) \rfloor + 1)) * W * (H + 1)$
+\end{thm}
+SIMPLY THE ABOVE THEN PROVE IT RATHER STRAIGHTFORWARDLY.
+\begin{proof}
+
+\end{proof}
+
+
+
+
+\section{Approximate Binary Search Trees of De Prisco and De Santis with Extensions by Bose and Dou\"{i}eb}
+
+As in the classic Knuth problem, we are given a set of $n$ probabilities of searching for words ($p_1, p_2, ..., p_n$), as well as $n+1$ probabilities of unsuccessful searches ($q_0, q_1, ..., q_n$). The duo provides an algorithm which constructs a binary search tree in $O(n)$ time with an expected cost of at most \cite{de1993binary}
+\begin{center}
+$H+1-q_0-q_n+q_{max}$
+\end{center}  where $q_{max}$ is the maximum probability of an unsuccessful search. This was later modified by Bose and Dou\"{i}eb (the same paper described in section TODO) to have an improved bound \cite{bose2009efficient}
+\begin{center}
+$P_T \leq H + 1 - q_0 - q_n + q_{max} - \sum_{i=0}^{m'} pq_{rank[i]}$
+\end{center}
+$P_T$ is the average path length of the tree built using their algorithm and $m'=max({2n-3P,P})-1 \geq \frac{n}{2} - 1$. $P$ is the number of increasing or decreasing sequences in a left-to-right read of the access probabilities of the leaves. Moreover, $pq_{rank[i]}$ is the $i^{th}$ smallest access probability among all keys and leaves except $q_0$ and $q_n$. \\
+
+First, I explain the algorithm of De Prisco and De Santis and then explain the extensions of Bose and Dou\"{i}eb. De Prisco and De Santis' algorithm occurs in three phases.\\
+
+In \textbf{Phase 1}, an auxiliary probability distribution is created using $2n$ zero probabilities, along with the $2n+1$ successful and unsuccessful search probabilities. Yeung's linear time alphabetic search tree algorithm is used with the $2n+1$ successful and unsuccessful search probabilities used as leaves of the new tree created, known as the \textit{starting tree}. \\
+
+In \textbf{Phase 2} what's known as the \textit{redundant tree} is created by moving $p_i$ keys up the \textit{starting tree} to the lowest common ancestor of keys $q_{i-1}$ and $q_i$. The keys which used to be called $p_i$ are relabelled to $old.p_i$. \\
+
+Finally, the \textit{derived tree} is constructed from the \textit{redundant tree} by removing redundant edges. Edges to and from nodes which represented zero probability keys are deleted. This derived tree is a binary search tree with the expected search cost described. \\
+
+In Bose and Dou\"{i}eb's work, they explain how they can substitute their algorithm for Yeung's linear time alphabetic search tree algorithm which results in a better bound (as described above). We use the updated version (by Bose and Dou\"{i}eb) of De Prisco and De Santis' algorithm as a subroutine in the sections to follow.
+
+\section{Algorithm ApproxBSTPaging}
+
+Our second solution to create an approximately optimum BST under the HMM model works as follows: \\
+
+1) First, we create an approximately optimal BST $T$ using the algorithm of De Prisco and De Santis \cite{de1993binary} (as updated by Bose and Dou\"{i}eb \cite{bose2009efficient}). This takes $O(n)$ time. \\
+
+2) In a similar fashion to step 4) of \textit{ApproxMWPaging}, we pack things into memory in a breadth first search order of $T$ starting from the root. This relative simply traversal also takes $O(n)$ time. \\
+
+We are left with a binary search tree which has been properly packed into our memory in total time $O(n)$.
+
+
+\section{Expected Cost ApproxBSTPaging}
+
+
+\chapter{Approximate Binary Search in the Hierarchical Memory with Block Transfer Model}
+
+\section{ApproxMWPaging with BT}
+Same as ApproxMWPaging for first 3 steps but pack things into memory diff. INSERT COMPLICATED DFS THING.
+When searching, we recursively put things up in memory 
+
+\section{Expected Cost ApproxMWPaging with BT}
+
+How a path has cost
+What cost is
+similar arg to ApproxMWPaging
+
+
+\section{ApproxBSTPaging with BT}
+Same as ApproxBSTPaging for first 3 steps but pack things into memory diff. INSERT COMPLICATED DFS THING.
+When searching, we recursively put things up in memory
+
+
+\section{Expected Cost ApproxBSTPaging with BT}
+How a path has cost
+What cost is
+similar arg to ApproxMWPaging
+
+\chapter{Conclusion and Open Problems}
+
+\section{Discussion}
+
+\section{Conclusion}
+
+
+
+\clearpage
+
+\bibliographystyle{abbrv}
+\bibliography{sample}
+
+
+\end{document}
