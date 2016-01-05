@@ -1,0 +1,41 @@
+This is BibTeX, Version 0.99dThe top-level auxiliary file: OG_MCS_Thesis.aux
+The style file: plain.bst
+I couldn't open database file uw-ethesis.bib
+---line 126 of file OG_MCS_Thesis.aux
+ : \bibdata{uw-ethesis
+ :                    }
+I'm skipping whatever remains of this command
+I found no database files---while reading file OG_MCS_Thesis.aux
+Warning--I didn't find a database entry for "knuth1971optimum"
+Warning--I didn't find a database entry for "guttler1980binary"
+Warning--I didn't find a database entry for "aggarwal1987model"
+Warning--I didn't find a database entry for "aggarwal1987hierarchical"
+Warning--I didn't find a database entry for "windley1960trees"
+Warning--I didn't find a database entry for "booth1960efficiency"
+Warning--I didn't find a database entry for "hibbard1962some"
+Warning--I didn't find a database entry for "adelsonvelskii1963algorithm"
+Warning--I didn't find a database entry for "bayer1972symmetric"
+Warning--I didn't find a database entry for "sleator1985self"
+Warning--I didn't find a database entry for "demaine2007dynamic"
+Warning--I didn't find a database entry for "bayer1970organization"
+Warning--I didn't find a database entry for "bayer1975improved"
+Warning--I didn't find a database entry for "thite2008optimum"
+Warning--I didn't find a database entry for "horibe1977improved"
+Warning--I didn't find a database entry for "de1993binary"
+Warning--I didn't find a database entry for "bose2009efficient"
+Warning--I didn't find a database entry for "huffman1952method"
+Warning--I didn't find a database entry for "gilbert1959variable"
+Warning--I didn't find a database entry for "hu1971optimal"
+Warning--I didn't find a database entry for "knuth1973sorting"
+Warning--I didn't find a database entry for "hu1973new"
+Warning--I didn't find a database entry for "hu1979binary"
+Warning--I didn't find a database entry for "garsia1977new"
+Warning--I didn't find a database entry for "Hu1982Book"
+Warning--I didn't find a database entry for "kingston1988new"
+Warning--I didn't find a database entry for "yeung1991alphabetic"
+Warning--I didn't find a database entry for "vaishnavi1980optimum"
+Warning--I didn't find a database entry for "gotlieb1981optimal"
+Warning--I didn't find a database entry for "becker1994new"
+Warning--I didn't find a database entry for "becker1997construction"
+Warning--I didn't find a database entry for "gallager1968information"
+(There were 2 error messages)

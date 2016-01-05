@@ -266,7 +266,7 @@ In 1991, Yeung proposed an approximate solution which solved the problem in $O(n
 
 \section{Multiway Trees} 
 
-This static k-ary or multiway search tree problem is similar to optimum binary search tree problem with the added constraint that up to $k$ keys can be placed into a single node, and cost of search within a node is constant. Each internal node of the k-ary tree contains at least one and at most $k-1$ keys while a leaf node contains no keys. Successful searches end in an internal while unsuccessful searches end in one of the $n+1$ leaves of the tree. The cost of search is the average path depth is defined as :
+This static k-ary or multiway search tree problem is similar to optimum binary search tree problem with the added constraint that up to $k$ keys can be placed into a single node, and cost of search within a node is constant. Multiway search trees maintain an ordering property similar to that of traditional binary search trees. Each key in every page in the subtree rooted at a specific location in a page $g$ (i.e. between two keys $k$ and $l$) must have its key lie between $k$ and $l$. Each internal node of the k-ary tree contains at least one and at most $k-1$ keys while a leaf node contains no keys. Successful searches end in an internal while unsuccessful searches end in one of the $n+1$ leaves of the tree. The cost of search is the average path depth is defined as :
 
 \begin{center}
 $\sum_{i=1}^{n} p_i(d_T(x_i)+1) + \sum_{j=0}^{n} q_j(d_T(x_{i-1},x_i))$
@@ -409,7 +409,7 @@ Here, H is the entropy of the probability distribution, $P_{OPT}$ is the average
 
 \section{Algorithm ApproxMWPaging}
 
-First, we need a lemma about converting a multiway search tree to a binary search tree. For the sake of clarity, we will call what are typically known as \textit{nodes} of the multiway tree \textit{pages}. This represents how various items of our search tree will fit onto pages. We maintain the notion of calling the individual ordered set of items keys.
+First, we need a lemma about converting a multiway search tree to a binary search tree. For the sake of clarity, we will call what are typically known as \textit{nodes} of the multiway tree \textit{pages}. This represents how various items of our search tree will fit onto pages. We maintain the notion of calling individual items \textit{keys}.
 
 \begin{lem}
 Given a multiway tree $T'$ with page size $k$ and $n$ keys, where keys are associated with a probability distribution of successful and unsuccessful searches as in Knuth's original optimum binary search tree problem, we can create a BST $T$ where each key in a given page $g$ of $T'$ forms a connected component in $T$ in $O(nlg(k))$ time.
@@ -440,7 +440,7 @@ First, we bound the depth of nodes in our BST $T$. The depth of a key $x_i$ (den
 
 \begin{lem}
 For a key $x_i$,
-\begin{center} $d_T(x_i) \leq \lceil lg(m_1) \rceil * \lfloor log_{m_1}(\frac{1}{p_i}) \rfloor$. \end{center} 
+\begin{center} $d_T(x_i) \leq \lceil lg(m_1) \rceil * \lfloor log_{m_1}(\frac{1}{p_i}) \rfloor$. \end{center}
 For a key $(x_{i-1},x_i)$,
 \begin{center} $d_T(x_{i_1},x_i) \leq \lceil lg(m_1) \rceil * (\lfloor log_{m_1}(\frac{2}{q_i}) \rfloor + 1)$. \end{center}
 \end{lem}
@@ -448,17 +448,17 @@ For a key $(x_{i-1},x_i)$,
 \begin{proof}
 First we note that in the tree $T'$ we build using Bose and Dou\"{i}eb's multiway tree algorithm, the maximum depth of keys (call this $d_T'(x_i), d_T'(x_{i-1},x_i)$) for a page size $m_1$ is \cite{bose2009efficient}:
 \begin{center} $d_T(x_i) \leq \lfloor log_{m_1}(\frac{1}{p_i}) \rfloor$. \end{center} 
-\begin{center} $d_T(x_{i_1},x_i) \leq \lfloor log_{m_1}(\frac{2}{q_i}) \rfloor + 1$. \end{center}
-As explained in the paper, these follow from their Lemmas 1 and 2.
+\begin{center} $d_T(x_{i-1},x_i) \leq \lfloor log_{m_1}(\frac{2}{q_i}) \rfloor + 1$. \end{center}
+As explained in the paper, these follow from Lemmas 1 and 2 of Bose and Dou\"{i}eb \cite{bose2009efficient}.
 
-Within a page, we make a balanced (not by weight) BST, so each key has a depth \textit{within} a page of at most $\lceil lg(m_1) \rceil$.
+Within a page, we make a balanced (ignoring weight) BST, so each key has a depth \textit{within} a page of at most $\lceil lg(m_1) \rceil$.
 
-Since our algorithm always connects the root of the BST made for page to a key in the BST made for the page's parent, a key $x_i$ has a depth of at most $\lfloor log_{m_1}(\frac{1}{p_i}) \rfloor$ in terms of pages accessed ($\lfloor log_{m_1}(\frac{2}{q_i}) \rfloor + 1$ pages for keys $(x_{i_1},x_i)$). Within a page, we will examine at most $\lceil lg(m_1) \rceil$ keys. Thus, a key's depth is at most the bound described.
+Since our algorithm always connects the root of the BST made for page to a key in the BST made for the page's parent, a key $x_i$ has a depth of at most $\lfloor log_{m_1}(\frac{1}{p_i}) \rfloor$ in terms of pages accessed ($\lfloor log_{m_1}(\frac{2}{q_i}) \rfloor + 1$ pages for keys ($(x_{i-11},x_i)$). Within a page, we will examine at most $\lceil lg(m_1) \rceil$ keys. Thus, a key's depth is at most the bound described.
 \end{proof}
 
-Let $min_{p,q} = min(min_{i \in \{1, ..., n\}}(p_i), min_{j \in \{0, ..., n\}}(q_j))$ be probability of searching for the smallest weighted key (successful of unsuccessful search). The by the lemma above it immediately follows that:
+Let $min_{p,q} = min(min_{i \in \{1, ..., n\}}(p_i), min_{j \in \{0, ..., n\}}(q_j))$ be probability of searching for the smallest weighted key (successful or unsuccessful search). The by the lemma above it immediately follows that:
 \begin{cor}
-\begin{center} $height(T) \leq \lceil lg(m_1) \rceil * (\lfloor log_{m_1}(\frac{2}{min_{p,q}}) \rfloor + 1)$. \end{center}
+\begin{center} $height(T) \leq d_T(min_{p,q}) \leq \lceil lg(m_1) \rceil * (\lfloor log_{m_1}(\frac{2}{min_{p,q}}) \rfloor + 1)$. \end{center}
 \end{cor}
 
 Using this, we can prove a more specific lemma about the height of our tree. 
@@ -482,7 +482,7 @@ $ \leq  lg(\frac{1}{min_{p,q}}) + lg(m_1) + 2$.
 \end{proof}
 
 
-We now describe the cost of searching for key located at the deepest level of the tree: $W$. Let $m'_j = \sum_{k \leq j} m_j$. We define $m'_0 = 0$. Let $l$ be the smallest $j$ such that $m'_j > n$.
+We now describe the cost of searching for a key located at deepest part of tree $T$: $W$. Let $m'_j = \sum_{k \leq j} m_j$. We define $m'_0 = 0$. Let $l$ be the smallest $j$ such that $m'_j > n$. $l$ represents how many levels of memory will be required for storing our tree.
 
 \begin{lem} \hspace{1cm} \\
 $W \leq \sum_{k=1}^{l-1} (\lfloor lg(m'_i+1)-1 \rfloor - \lfloor lg(m'_{i-1}+1)-1 \rfloor)*c_i$\\ $+ (lg(\frac{1}{min_{p,q}}) + lg(m_1) + 2 - \lfloor lg(m'_{l-1}+1)-1 \rfloor)*c_l$ TODO FIX SPACING
@@ -490,36 +490,77 @@ $W \leq \sum_{k=1}^{l-1} (\lfloor lg(m'_i+1)-1 \rfloor - \lfloor lg(m'_{i-1}+1)-
 
 \begin{proof}
 Consider the accessing each key along the path from the root to the deepest key in $T$. We will access one key a depth $0$, one key at depth $1$ and so on. Because the tree is packed into memory in BFS order, a key a depth $i$ will be at memory location at most $2^{i+1}-1$. Now, consider how many levels of the binary search tree $T$ will fit inside of $m_1$, the fastest memory. In order for all keys of depth $i$ (and higher) to be in $m_1$ we need: \\
-$2^{i+1}-1 \leq m_1 \implies i \leq lg(m_1 + 1)-1$. \\
-Thus, at least $\lfloor lg(m_1 + 1)-1 \rfloor$ levels of $T$ fit on $m_1$. Next we examine how many fit on $m_2$. The last level to completely fit on $m_2$ or higher memories is max $i$ such that: \\
-$2^{i+1}-1 \leq m'_2 \implies i \leq lg(m'_2 + 1)-1$. \\
-Thus
+$2^{i+1}-1 \leq m_1 \implies i \leq lg(m_1 + 1) - 1$. \\
+Thus, at least $\lfloor lg(m_1 + 1)-1 \rfloor$ levels of $T$ fit on $m_1$. Next we examine how many fit on $m_j$ for $1 < j < l$. The last level to completely fit on $m_j$ or higher memories is the maximum $i$ such that: \\
+$2^{i+1}-1 \leq m'_2 \implies i \leq lg(m'_j + 1)-1$. \\
+Thus, at least $\lfloor lg(m'_j + 1)-1 \rfloor$ levels of $T$ fit on $m_j$ or higher levels of memory. \\
+Thus, on our search for the deepest key in the tree, we will make at least $\lfloor lg(m_1 + 1)-1 \rfloor$ checks for elements located at memory $m_1$. This will cost a total of\\
+\begin{center}
+$\lfloor lg(m_1 + 1)-1 \rfloor * c_1$.\\
+\end{center}
+For each memory level $m_j$ for $1 < j < l$, we will make at least $\lfloor lg(m'_j + 1)-1 \rfloor$ checks in $m_j$ or higher memories. Of these checks, at least $\lfloor lg(m'_{j-1} + 1)-1 \rfloor$ will be in memory levels strictly higher up in the memory hierarchy than $j$. Since $c_j > c_i$ for $j > i$, an upper bound on the cost of searching for all elements in memory level $j$ on the path from the root to the deepest element of the tree is: \\
+\begin{center}
+$(\lfloor lg(m_1 + 1)-1 \rfloor - \lfloor lg(m'_{j-1} + 1)-1 \rfloor) * c_j$.\\
+\end{center}
+Finally, we can upper bound the cost by assuming that all remaining searches take place at $c_l$. Since the height of our tree is at most $lg(\frac{1}{min_{p,q}}) + lg(m_1) + 2$, searches at level $l$ will cost at most: \\
+\begin{center}
+$(lg(\frac{1}{min_{p,q}}) + lg(m_1) + 2 - \lfloor lg(m'_{l-1}+1)-1 \rfloor)*c_l$. \\
+\end{center}
+Combining the above three equations gives the desired bound.
 
 \end{proof}
 
 Next, we note that the cost of search for a key at some depth $i$ is at most $\frac{i}{height(T)}* W$.
 
 \begin{lem}
-The cost of searching for a keys $x_i$ and $(x_{i-1},x_i)$ can be bounded as follows:  \begin{center} $C(x_i) \leq \frac{\lfloor log_{m_1}(\frac{1}{p_i}) \rfloor}{\lceil lg(m_1) \rceil * (\lfloor log_{m_1}(\frac{2}{min_{p,q}}) \rfloor + 1)}* W$ \end{center}
-\begin{center} $C(x_{i-1},x_i) \leq \frac{\lfloor log_{m_1}(\frac{2}{q_i}) \rfloor + 1}{\lceil lg(m_1) \rceil * (\lfloor log_{m_1}(\frac{2}{min_{p,q}}) \rfloor + 1)}* W$ \end{center}
+The cost of searching for a keys $x_i$ and $(x_{i-1},x_i)$ ($C(x_i)$ and $C(x_{i-1},x_i)$ respectively)can be bounded as follows: 
+
+\begin{center} $C(x_i) \leq \frac{\lceil lg(m_1) \rceil * \frac{lg(\frac{1}{p_i})}{lg(m_1)}}{\lceil lg(n+1) - 1 \rceil} * W$ 
+\end{center}
+
+
+\begin{center}
+ $C(x_{i-1},x_i) \leq \frac{\lceil lg(m_1) \rceil * \lfloor log_{m_1}(\frac{2}{q_i}) \rfloor + 1}{\lceil lg(n+1) - 1 \rceil} * W$ 
+ \end{center}
 \end{lem}
 
 \begin{proof}
+From Lemma 4.5.1 we have a bound on the depth of keys $x_i$ and $(x_{i-1},x_i)$. Moreover, we know that since there are $n$ keys in our tree, our tree must have a height of at least:
+\begin{center}
+ $\lceil lg(n+1) - 1 \rceil$.
+\end{center}
+ Note that since our tree is stored in BFS order in memory, whenever we examine a key's child, it will be at a memory location of at least the same, if not higher cost (by being in the same or a deeper page). Thus, the path from the root to a specific key can be upper bounded by the cost of searching for the deepest element in the tree, multiplied by the fraction of the way down the tree $x_i$ or $(x_{i-1},x_i)$ are. Combining 4.5.1 and 4.5.4 with the minimum height of our tree gives: \\
+
+ $C(x_i) \leq \frac{\lceil lg(m_1) \rceil * \lfloor log_{m_1}(\frac{1}{p_i}) \rfloor}{\lceil lg(n+1) - 1 \rceil} * W$  \\
+ $\implies C(x_i) \leq \frac{\lceil lg(m_1) \rceil * \frac{lg(\frac{1}{p_i})}{lg(m_1)}}{\lceil lg(n+1) - 1 \rceil} * W$ \\
+ 
+ Similarly, \\
+ $C(x_{i-1},x_i) \leq \frac{\lceil lg(m_1) \rceil * \frac{lg(\frac{2}{q_i})+ 1}{lg(m_1)}}{\lceil lg(n+1) - 1 \rceil} * W$. \\ 
+ This completes the proof. 
+ 
+
 
 \end{proof}
 
 We can now bound the expected cost of search using the bounds for each key.
 
 \begin{thm}
-$C \leq (\lceil lg(m_1) \rceil * (\lfloor log_{m_1}(\frac{2}{min_{p,q}}) \rfloor + 1)) * W * (H + 1)$
+$C \leq  (\frac{\lceil lg(m_1) \rceil}{\lceil lg(n+1) - 1 \rceil*lg(m_1)} * W) * (H + 2)$
 \end{thm}
-SIMPLY THE ABOVE THEN PROVE IT RATHER STRAIGHTFORWARDLY.
+
 \begin{proof}
+The total expected cost of search is simply the sum of the weighted cost of search for all keys. Given our last lemma, we have that:
 
+$C \leq \sum_{i=1}^{n} p_i*C(x_i) + \sum_{j=1}^{n+1} q_i*C(x_{i-1},x_i)$ \\
+
+$\implies C \leq \sum_{i=1}^{n} p_i*\frac{\lceil lg(m_1) \rceil * \frac{lg(\frac{1}{p_i})}{lg(m_1)}}{\lceil lg(n+1) - 1 \rceil} * W + \sum_{j=1}^{n+1} q_i*\frac{\lceil lg(m_1) \rceil * \frac{lg(\frac{2}{q_i})+ 1}{lg(m_1)}}{\lceil lg(n+1) - 1 \rceil} * W$ \\
+
+$\implies C \leq  (\frac{\lceil lg(m_1) \rceil}{\lceil lg(n+1) - 1 \rceil*lg(m_1)} * W) * (\sum_{i=1}^{n} p_i*lg(\frac{1}{p_i}) + \sum_{j=1}^{n+1} (q_i*lg(\frac{2}{q_i})+ 1))$ \\
+
+$\implies C \leq  (\frac{\lceil lg(m_1) \rceil}{\lceil lg(n+1) - 1 \rceil*lg(m_1)} * W) * (\sum_{i=1}^{n} p_i*lg(\frac{1}{p_i}) + \sum_{j=1}^{n+1} (q_i*lg(\frac{1}{q_i}))+ 2$ \\
+
+$\implies C \leq  (\frac{\lceil lg(m_1) \rceil}{\lceil lg(n+1) - 1 \rceil*lg(m_1)} * W) * (H + 2)$.
 \end{proof}
-
-
-
 
 \section{Approximate Binary Search Trees of De Prisco and De Santis with Extensions by Bose and Dou\"{i}eb}
 
