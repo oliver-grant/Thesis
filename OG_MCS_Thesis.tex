@@ -435,6 +435,8 @@ In order to approximately solve the optimum BST problem under the HMM model, we 
 We are left with a binary search tree which has been properly packed into our memory in total time $O(n lg(m_1))$.
 
 \section{Expected Cost ApproxMWPaging}
+TODO MAYBE CHANGE TO JUST USE HEIGHT OF T
+
 
 First, we bound the depth of nodes in our BST $T$. The depth of a key $x_i$ (denoted $(x_{i-1}, x_i)$ for unsuccessful searches) is defined as $d_T(x_i)$ ($d_T(x_{i-1},x_i)$).
 
@@ -520,7 +522,7 @@ The cost of searching for a keys $x_i$ and $(x_{i-1},x_i)$ ($C(x_i)$ and $C(x_{i
 
 
 \begin{center}
- $C(x_{i-1},x_i) \leq \frac{\lceil lg(m_1) \rceil * \lfloor log_{m_1}(\frac{2}{q_i}) \rfloor + 1}{\lceil lg(n+1) - 1 \rceil} * W$ 
+ $C(x_{i-1},x_i) \leq \frac{\lceil lg(m_1) \rceil * \lfloor log_{m_1}(\frac{2}{q_i}) \rfloor}{\lceil lg(n+1) - 1 \rceil} * W$ 
  \end{center}
 \end{lem}
 
@@ -529,14 +531,16 @@ From Lemma 4.5.1 we have a bound on the depth of keys $x_i$ and $(x_{i-1},x_i)$.
 \begin{center}
  $\lceil lg(n+1) - 1 \rceil$.
 \end{center}
- Note that since our tree is stored in BFS order in memory, whenever we examine a key's child, it will be at a memory location of at least the same, if not higher cost (by being in the same or a deeper page). Thus, the path from the root to a specific key can be upper bounded by the cost of searching for the deepest element in the tree, multiplied by the fraction of the way down the tree $x_i$ or $(x_{i-1},x_i)$ are. Combining 4.5.1 and 4.5.4 with the minimum height of our tree gives: \\
+Note that since our tree is stored in BFS order in memory, whenever we examine a key's child, it will be at a memory location of at least the same, if not higher cost (by being in the same or a deeper page). Thus, the path from the root to a specific key can be upper bounded by the cost of searching for the deepest element in the tree, multiplied by the fraction of the way down the tree $x_i$ or $(x_{i-1},x_i)$ are. Note that when searching for keys, we must search along the entire path from root to the key in question, while we need only examine the path from the root to the parent of a key for unsuccessful $(x_{i-1},x_i)$ searches. Combining 4.5.1 and 4.5.4 with the minimum height of our tree gives: \\
 
  $C(x_i) \leq \frac{\lceil lg(m_1) \rceil * \lfloor log_{m_1}(\frac{1}{p_i}) \rfloor}{\lceil lg(n+1) - 1 \rceil} * W$  \\
  $\implies C(x_i) \leq \frac{\lceil lg(m_1) \rceil * \frac{lg(\frac{1}{p_i})}{lg(m_1)}}{\lceil lg(n+1) - 1 \rceil} * W$ \\
  
  Similarly, \\
- $C(x_{i-1},x_i) \leq \frac{\lceil lg(m_1) \rceil * \frac{lg(\frac{2}{q_i})+ 1}{lg(m_1)}}{\lceil lg(n+1) - 1 \rceil} * W$. \\ 
- This completes the proof. 
+ $C(x_{i-1},x_i) \leq \frac{\lceil lg(m_1) \rceil * \lfloor log_{m_1}(\frac{2}{q_i} + 1 - 1) \rfloor}{\lceil lg(n+1) - 1 \rceil} * W$  \\
+ $C(x_{i-1},x_i) \leq \frac{\lceil lg(m_1) \rceil * \frac{lg(\frac{2}{q_i})}{lg(m_1)}}{\lceil lg(n+1) - 1 \rceil} * W$. \\ 
+ 
+This completes the proof. 
  
 
 
@@ -545,7 +549,7 @@ From Lemma 4.5.1 we have a bound on the depth of keys $x_i$ and $(x_{i-1},x_i)$.
 We can now bound the expected cost of search using the bounds for each key.
 
 \begin{thm}
-$C \leq  (\frac{\lceil lg(m_1) \rceil}{\lceil lg(n+1) - 1 \rceil*lg(m_1)} * W) * (H + 2)$
+$C \leq  (\frac{\lceil lg(m_1) \rceil}{\lceil lg(n+1) - 1 \rceil*lg(m_1)} * W) * (H + 1)$
 \end{thm}
 
 \begin{proof}
@@ -553,14 +557,15 @@ The total expected cost of search is simply the sum of the weighted cost of sear
 
 $C \leq \sum_{i=1}^{n} p_i*C(x_i) + \sum_{j=1}^{n+1} q_i*C(x_{i-1},x_i)$ \\
 
-$\implies C \leq \sum_{i=1}^{n} p_i*\frac{\lceil lg(m_1) \rceil * \frac{lg(\frac{1}{p_i})}{lg(m_1)}}{\lceil lg(n+1) - 1 \rceil} * W + \sum_{j=1}^{n+1} q_i*\frac{\lceil lg(m_1) \rceil * \frac{lg(\frac{2}{q_i})+ 1}{lg(m_1)}}{\lceil lg(n+1) - 1 \rceil} * W$ \\
+$\implies C \leq \sum_{i=1}^{n} p_i*\frac{\lceil lg(m_1) \rceil * \frac{lg(\frac{1}{p_i})}{lg(m_1)}}{\lceil lg(n+1) - 1 \rceil} * W + \sum_{j=1}^{n+1} q_i*\frac{\lceil lg(m_1) \rceil * \frac{lg(\frac{2}{q_i})}{lg(m_1)}}{\lceil lg(n+1) - 1 \rceil} * W$ \\
 
-$\implies C \leq  (\frac{\lceil lg(m_1) \rceil}{\lceil lg(n+1) - 1 \rceil*lg(m_1)} * W) * (\sum_{i=1}^{n} p_i*lg(\frac{1}{p_i}) + \sum_{j=1}^{n+1} (q_i*lg(\frac{2}{q_i})+ 1))$ \\
+$\implies C \leq  (\frac{\lceil lg(m_1) \rceil}{\lceil lg(n+1) - 1 \rceil*lg(m_1)} * W) * (\sum_{i=1}^{n} p_i*lg(\frac{1}{p_i}) + \sum_{j=1}^{n+1} (q_i*lg(\frac{2}{q_i})))$ \\
 
-$\implies C \leq  (\frac{\lceil lg(m_1) \rceil}{\lceil lg(n+1) - 1 \rceil*lg(m_1)} * W) * (\sum_{i=1}^{n} p_i*lg(\frac{1}{p_i}) + \sum_{j=1}^{n+1} (q_i*lg(\frac{1}{q_i}))+ 2$ \\
+$\implies C \leq  (\frac{\lceil lg(m_1) \rceil}{\lceil lg(n+1) - 1 \rceil*lg(m_1)} * W) * (\sum_{i=1}^{n} p_i*lg(\frac{1}{p_i}) + \sum_{j=1}^{n+1} (q_i*lg(\frac{1}{q_i}))+ 1$ \\
 
-$\implies C \leq  (\frac{\lceil lg(m_1) \rceil}{\lceil lg(n+1) - 1 \rceil*lg(m_1)} * W) * (H + 2)$.
+$\implies C \leq  (\frac{\lceil lg(m_1) \rceil}{\lceil lg(n+1) - 1 \rceil*lg(m_1)} * W) * (H + 1)$.
 \end{proof}
+
 
 \section{Approximate Binary Search Trees of De Prisco and De Santis with Extensions by Bose and Dou\"{i}eb}
 
@@ -575,11 +580,11 @@ $P_T$ is the average path length of the tree built using their algorithm and $m'
 
 First, I explain the algorithm of De Prisco and De Santis and then explain the extensions of Bose and Dou\"{i}eb. De Prisco and De Santis' algorithm occurs in three phases.\\
 
-In \textbf{Phase 1}, an auxiliary probability distribution is created using $2n$ zero probabilities, along with the $2n+1$ successful and unsuccessful search probabilities. Yeung's linear time alphabetic search tree algorithm is used with the $2n+1$ successful and unsuccessful search probabilities used as leaves of the new tree created, known as the \textit{starting tree}. \\
+In \textbf{Phase 1}, an auxiliary probability distribution is created using $2n$ zero probabilities, along with the $2n+1$ successful and unsuccessful search probabilities. Yeung's linear time alphabetic search tree algorithm is used with the $2n+1$ successful and unsuccessful search probabilities used as leaves of the new tree created. This is referred to as the \textit{starting tree}. \\
 
 In \textbf{Phase 2} what's known as the \textit{redundant tree} is created by moving $p_i$ keys up the \textit{starting tree} to the lowest common ancestor of keys $q_{i-1}$ and $q_i$. The keys which used to be called $p_i$ are relabelled to $old.p_i$. \\
 
-Finally, the \textit{derived tree} is constructed from the \textit{redundant tree} by removing redundant edges. Edges to and from nodes which represented zero probability keys are deleted. This derived tree is a binary search tree with the expected search cost described. \\
+In \textbf{Phase 3} the \textit{derived tree} is constructed from the \textit{redundant tree} by removing redundant edges. Edges to and from nodes which represented zero probability keys are deleted. This derived tree is a binary search tree with the expected search cost described. \\
 
 In Bose and Dou\"{i}eb's work, they explain how they can substitute their algorithm for Yeung's linear time alphabetic search tree algorithm which results in a better bound (as described above). We use the updated version (by Bose and Dou\"{i}eb) of De Prisco and De Santis' algorithm as a subroutine in the sections to follow.
 
@@ -589,12 +594,67 @@ Our second solution to create an approximately optimum BST under the HMM model w
 
 1) First, we create an approximately optimal BST $T$ using the algorithm of De Prisco and De Santis \cite{de1993binary} (as updated by Bose and Dou\"{i}eb \cite{bose2009efficient}). This takes $O(n)$ time. \\
 
-2) In a similar fashion to step 4) of \textit{ApproxMWPaging}, we pack things into memory in a breadth first search order of $T$ starting from the root. This relative simply traversal also takes $O(n)$ time. \\
+2) In a similar fashion to step 4) of \textit{ApproxMWPaging}, we pack things into memory in a breadth first search order of $T$ starting from the root. This relative simple traversal also takes $O(n)$ time. \\
 
 We are left with a binary search tree which has been properly packed into our memory in total time $O(n)$.
 
 
 \section{Expected Cost ApproxBSTPaging}
+
+As explained in the Bose and Dou\"{i}eb paper, the average path length search cost of the tree created by their algorithm is at most:\\ \cite{bose2009efficient}
+$P_T \leq H + 1 - q_0 - q_n + q_{max} - \sum_{i=0}^{m'} pq_{rank[i]}$ \\
+
+Similar to the previous section, if we can bound the cost of search for a given path length, then we can form a bound on the average cost of search in the HMM model. Consider $min_{p,q}$ for our probability distribution. It is implicitly shown in the work of Bose and Dou\"{i}eb that: \\
+
+\iffalse
+Using this, we can prove a more specific lemma about the height of our tree. 
+
+\begin{lem}
+ $height(T) \leq  depth(min_{p,q}) \leq \lfloor lg(\frac{1}{min_{p,q}}) \rfloor + 2$.
+\end{lem}
+
+\begin{proof}
+I will simply give an outline here as the bulk of the proof follows from statements of Bose and Dou\"{i}eb, and is extremely similar to the ones presented in the previous sections. After \textbf{phase 1} of the algorithm, all "leaves" ($p's$ or $q's$ from our original data set) with probability $pq_i$ have depths of at most $\rfloor lg(\frac{1}{pq_i} \lfloor + 2$. After the final two phases of algorithm, at most one leaf has not moved up the tree. Thus, $depth(min_{p,q}) \leq lg(\frac{1}{min_{p,q}}) + 2$. Since $min_{p,q}$ is the smallest element in the distribution, this gives an upper bound on the height of the whole tree and the result follows.
+\end{proof}
+
+\fi
+
+
+As before, we can describe the cost of searching for a key located at deepest part of tree $T$: $W$. Recall, $m'_j = \sum_{k \leq j} m_j$, $m'_0 = 0$ and let $l$ be the smallest $j$ such that $m'_j > n$.
+
+\begin{lem} \hspace{1cm} \\
+$W \leq \sum_{k=1}^{l-1} (\lfloor lg(m'_i+1)-1 \rfloor - \lfloor lg(m'_{i-1}+1)-1 \rfloor)*c_i$\\ $+ (height(T) - \lfloor lg(m'_{l-1}+1)-1 \rfloor)*c_l$ 
+\end{lem}
+
+\begin{proof}
+Since we are simply putting things into memory in BFS order, and all we use is the height of the tree and the memory hierarchy, the proof is identical to that of \textbf{Lemma 4.5.3}.
+\end{proof}
+
+Next, we note that the cost of search for a key at some depth $i$ is at most $\frac{i}{height(T)}* W$. This must be true because the cost of examining nodes can only increase as we move down the tree because of the increasing property of the cost of access of our various levels of memory and our BFS packing algorithm. Since, we also know the expected path length of our tree we can show that: \\
+
+\begin{thm}
+$C \leq  (\frac{W}{height(T)}) * (H + 1 - q_0 - q_n + q_{max} - \sum_{i=0}^{m'} pq_{rank[i]})$
+\end{thm}
+
+\begin{proof}
+Note that the expected cost is equal to the expected path length for each key, multiplied by the cost of search for each key. Since we have an upper bound on the cost of search for an element at some depth $i$, and an upper bound on the expected path length
+\end{proof}
+
+
+\section{Improvements over Thite in the HMM$_2$ Model}
+
+Note here that $W < c_l*height(T)$ and thus $C < c_l*(H+1)$ when BLAH TODO so .
+
+The HMM$_2$ model is the same as the general HMM model with the added constraint that there are only two types of memory (slow and fast). In Thite's thesis, he proposed both an optimal solution to the problem, as well as an approximate solution that runs in time $O(n lg(n))$ \cite{thite2008optimum}. I show that my solution is at least as good, and may be better in certain situations. First I give an alternate bound to my expected cost which is similar to the one presented in Thite's work.
+
+\begin{lem}
+Let $m'_j = \sum_{k \leq j} m_j$. We define $m'_0 = 0$. Let $l$ be the smallest $j$ such that $m'_j > n$. Then the cost of search: \\
+$C \leq  c_l * (H + 1)$.
+\end{lem}
+
+\begin{proof}
+
+\end{proof}
 
 
 \chapter{Approximate Binary Search in the Hierarchical Memory with Block Transfer Model}
