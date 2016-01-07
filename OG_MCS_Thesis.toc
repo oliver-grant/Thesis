@@ -20,18 +20,18 @@
 \contentsline {section}{\numberline {4.3}Efficient Near-Optimal Multiway Trees of Bose and Dou\"{i}eb}{12}{section.4.3}
 \contentsline {section}{\numberline {4.4}Algorithm ApproxMWPaging}{13}{section.4.4}
 \contentsline {section}{\numberline {4.5}Expected Cost ApproxMWPaging}{15}{section.4.5}
-\contentsline {section}{\numberline {4.6}Approximate Binary Search Trees of De Prisco and De Santis with Extensions by Bose and Dou\"{i}eb}{19}{section.4.6}
-\contentsline {section}{\numberline {4.7}Algorithm ApproxBSTPaging}{20}{section.4.7}
+\contentsline {section}{\numberline {4.6}Approximate Binary Search Trees of De Prisco and De Santis with Extensions by Bose and Dou\"{i}eb}{18}{section.4.6}
+\contentsline {section}{\numberline {4.7}Algorithm ApproxBSTPaging}{19}{section.4.7}
 \contentsline {section}{\numberline {4.8}Expected Cost ApproxBSTPaging}{20}{section.4.8}
 \contentsline {section}{\numberline {4.9}Improvements over Thite in the HMM$_2$ Model}{21}{section.4.9}
-\contentsline {chapter}{\numberline {5}Approximate Binary Search in the Hierarchical Memory with Block Transfer Model}{23}{chapter.5}
-\contentsline {section}{\numberline {5.1}ApproxMWPaging with BT}{23}{section.5.1}
-\contentsline {section}{\numberline {5.2}Expected Cost ApproxMWPaging with BT}{23}{section.5.2}
-\contentsline {section}{\numberline {5.3}ApproxBSTPaging with BT}{23}{section.5.3}
-\contentsline {section}{\numberline {5.4}Expected Cost ApproxBSTPaging with BT}{24}{section.5.4}
-\contentsline {chapter}{\numberline {6}Conclusion and Open Problems}{25}{chapter.6}
-\contentsline {section}{\numberline {6.1}Discussion}{25}{section.6.1}
-\contentsline {section}{\numberline {6.2}Conclusion}{25}{section.6.2}
-\contentsline {chapter}{APPENDICES}{26}{appendix*.7}
-\contentsline {chapter}{\numberline {A}PDF Plots From Matlab}{27}{appendix.A}
-\contentsline {chapter}{\textbf {References}}{28}{section*.8}
+\contentsline {chapter}{\numberline {5}Approximate Binary Search in the Hierarchical Memory with Block Transfer Model}{22}{chapter.5}
+\contentsline {section}{\numberline {5.1}ApproxMWPaging with BT}{22}{section.5.1}
+\contentsline {section}{\numberline {5.2}Expected Cost ApproxMWPaging with BT}{22}{section.5.2}
+\contentsline {section}{\numberline {5.3}ApproxBSTPaging with BT}{22}{section.5.3}
+\contentsline {section}{\numberline {5.4}Expected Cost ApproxBSTPaging with BT}{23}{section.5.4}
+\contentsline {chapter}{\numberline {6}Conclusion and Open Problems}{24}{chapter.6}
+\contentsline {section}{\numberline {6.1}Discussion}{24}{section.6.1}
+\contentsline {section}{\numberline {6.2}Conclusion}{24}{section.6.2}
+\contentsline {chapter}{APPENDICES}{25}{appendix*.7}
+\contentsline {chapter}{\numberline {A}PDF Plots From Matlab}{26}{appendix.A}
+\contentsline {chapter}{\textbf {References}}{27}{section*.8}

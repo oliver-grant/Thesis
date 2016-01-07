@@ -435,8 +435,6 @@ In order to approximately solve the optimum BST problem under the HMM model, we 
 We are left with a binary search tree which has been properly packed into our memory in total time $O(n lg(m_1))$.
 
 \section{Expected Cost ApproxMWPaging}
-TODO MAYBE CHANGE TO JUST USE HEIGHT OF T
-
 
 First, we bound the depth of nodes in our BST $T$. The depth of a key $x_i$ (denoted $(x_{i-1}, x_i)$ for unsuccessful searches) is defined as $d_T(x_i)$ ($d_T(x_{i-1},x_i)$).
 
@@ -457,6 +455,8 @@ Within a page, we make a balanced (ignoring weight) BST, so each key has a depth
 
 Since our algorithm always connects the root of the BST made for page to a key in the BST made for the page's parent, a key $x_i$ has a depth of at most $\lfloor log_{m_1}(\frac{1}{p_i}) \rfloor$ in terms of pages accessed ($\lfloor log_{m_1}(\frac{2}{q_i}) \rfloor + 1$ pages for keys ($(x_{i-11},x_i)$). Within a page, we will examine at most $\lceil lg(m_1) \rceil$ keys. Thus, a key's depth is at most the bound described.
 \end{proof}
+
+\iffalse
 
 Let $min_{p,q} = min(min_{i \in \{1, ..., n\}}(p_i), min_{j \in \{0, ..., n\}}(q_j))$ be probability of searching for the smallest weighted key (successful or unsuccessful search). The by the lemma above it immediately follows that:
 \begin{cor}
@@ -483,15 +483,23 @@ $ \leq  lg(\frac{1}{min_{p,q}}) + lg(m_1) + 2$.
 
 \end{proof}
 
+\fi
 
-We now describe the cost of searching for a key located at deepest part of tree $T$: $W$. Let $m'_j = \sum_{k \leq j} m_j$. We define $m'_0 = 0$. Let $l$ be the smallest $j$ such that $m'_j > n$. $l$ represents how many levels of memory will be required for storing our tree.
+We now describe the cost of searching for a key located at deepest part of tree $T$: $W$. Let $m'_j = \sum_{k \leq j} m_j$. We define $m'_0 = 0$. Let $l$ be the smallest $j$ such that $m'_j > n$. $l$ represents how many levels of memory will be required for storing our tree. Let $H(T)$ represent the height of our tree.
+
+\iffalse
+\begin{lem} \hspace{1cm} \\
+$W \leq \sum_{k=1}^{l-1} (\lfloor lg(m'_i+1)-1 \rfloor - \lfloor lg(m'_{i-1}+1)-1 \rfloor)*c_i$\\ $+ (lg(\frac{1}{min_{p,q}}) + lg(m_1) + 2 - \lfloor lg(m'_{l-1}+1)-1 \rfloor)*c_l$ THIS USES THE OLD HEIGHT
+\end{lem}
+\fi
 
 \begin{lem} \hspace{1cm} \\
-$W \leq \sum_{k=1}^{l-1} (\lfloor lg(m'_i+1)-1 \rfloor - \lfloor lg(m'_{i-1}+1)-1 \rfloor)*c_i$\\ $+ (lg(\frac{1}{min_{p,q}}) + lg(m_1) + 2 - \lfloor lg(m'_{l-1}+1)-1 \rfloor)*c_l$ TODO FIX SPACING
+$W \leq \sum_{k=1}^{l-1} (\lfloor lg(m'_i+1)-1 \rfloor - \lfloor lg(m'_{i-1}+1)-1 \rfloor)*c_i$\\ $+ (height(T) - 1 - \lfloor lg(m'_{l-1}+1)-1 \rfloor)*c_l$ THIS USES THE OLD HEIGHT
 \end{lem}
 
+
 \begin{proof}
-Consider the accessing each key along the path from the root to the deepest key in $T$. We will access one key a depth $0$, one key at depth $1$ and so on. Because the tree is packed into memory in BFS order, a key a depth $i$ will be at memory location at most $2^{i+1}-1$. Now, consider how many levels of the binary search tree $T$ will fit inside of $m_1$, the fastest memory. In order for all keys of depth $i$ (and higher) to be in $m_1$ we need: \\
+Consider the accessing each key along the path from the root to the deepest key in $T$. Note that we will have to do $H(T)-1$ key comparisons in order to access the deepest leaf in the tree. We will access one key a depth $0$, one key at depth $1$ and so on. Because the tree is packed into memory in BFS order, a key a depth $i$ will be at memory location at most $2^{i+1}-1$. Now, consider how many levels of the binary search tree $T$ will fit inside of $m_1$, the fastest memory. In order for all keys of depth $i$ (and higher) to be in $m_1$ we need: \\
 $2^{i+1}-1 \leq m_1 \implies i \leq lg(m_1 + 1) - 1$. \\
 Thus, at least $\lfloor lg(m_1 + 1)-1 \rfloor$ levels of $T$ fit on $m_1$. Next we examine how many fit on $m_j$ for $1 < j < l$. The last level to completely fit on $m_j$ or higher memories is the maximum $i$ such that: \\
 $2^{i+1}-1 \leq m'_2 \implies i \leq lg(m'_j + 1)-1$. \\
@@ -512,7 +520,7 @@ Combining the above three equations gives the desired bound.
 
 \end{proof}
 
-Next, we note that the cost of search for a key at some depth $i$ is at most $\frac{i}{height(T)}* W$.
+Next, we note that the cost of search for a key at some depth $i$ is at most $\frac{i}{H(T)}* W$.
 
 \begin{lem}
 The cost of searching for a keys $x_i$ and $(x_{i-1},x_i)$ ($C(x_i)$ and $C(x_{i-1},x_i)$ respectively)can be bounded as follows: 
@@ -610,7 +618,7 @@ Similar to the previous section, if we can bound the cost of search for a given 
 Using this, we can prove a more specific lemma about the height of our tree. 
 
 \begin{lem}
- $height(T) \leq  depth(min_{p,q}) \leq \lfloor lg(\frac{1}{min_{p,q}}) \rfloor + 2$.
+ $H(T) \leq  depth(min_{p,q}) \leq \lfloor lg(\frac{1}{min_{p,q}}) \rfloor + 2$.
 \end{lem}
 
 \begin{proof}
@@ -623,17 +631,17 @@ I will simply give an outline here as the bulk of the proof follows from stateme
 As before, we can describe the cost of searching for a key located at deepest part of tree $T$: $W$. Recall, $m'_j = \sum_{k \leq j} m_j$, $m'_0 = 0$ and let $l$ be the smallest $j$ such that $m'_j > n$.
 
 \begin{lem} \hspace{1cm} \\
-$W \leq \sum_{k=1}^{l-1} (\lfloor lg(m'_i+1)-1 \rfloor - \lfloor lg(m'_{i-1}+1)-1 \rfloor)*c_i$\\ $+ (height(T) - \lfloor lg(m'_{l-1}+1)-1 \rfloor)*c_l$ 
+$W \leq \sum_{k=1}^{l-1} (\lfloor lg(m'_i+1)-1 \rfloor - \lfloor lg(m'_{i-1}+1)-1 \rfloor)*c_i$\\ $+ (H(T) - \lfloor lg(m'_{l-1}+1)-1 \rfloor)*c_l$ 
 \end{lem}
 
 \begin{proof}
 Since we are simply putting things into memory in BFS order, and all we use is the height of the tree and the memory hierarchy, the proof is identical to that of \textbf{Lemma 4.5.3}.
 \end{proof}
 
-Next, we note that the cost of search for a key at some depth $i$ is at most $\frac{i}{height(T)}* W$. This must be true because the cost of examining nodes can only increase as we move down the tree because of the increasing property of the cost of access of our various levels of memory and our BFS packing algorithm. Since, we also know the expected path length of our tree we can show that: \\
+Next, we note that the cost of search for a key at some depth $i$ is at most $\frac{i}{H(T)}* W$. This must be true because the cost of examining nodes can only increase as we move down the tree because of the increasing property of the cost of access of our various levels of memory and our BFS packing algorithm. Since, we also know the expected path length of our tree we can show that: \\
 
 \begin{thm}
-$C \leq  (\frac{W}{height(T)}) * (H + 1 - q_0 - q_n + q_{max} - \sum_{i=0}^{m'} pq_{rank[i]})$
+$C \leq  (\frac{W}{H(T)}) * (H + 1 - q_0 - q_n + q_{max} - \sum_{i=0}^{m'} pq_{rank[i]})$
 \end{thm}
 
 \begin{proof}
@@ -643,7 +651,7 @@ Note that the expected cost is equal to the expected path length for each key, m
 
 \section{Improvements over Thite in the HMM$_2$ Model}
 
-Note here that $W < c_l*height(T)$ and thus $C < c_l*(H+1)$ when BLAH TODO so .
+Note here that $W < c_l*H(T)$ and thus $C < c_l*(H+1)$ when BLAH TODO so .
 
 The HMM$_2$ model is the same as the general HMM model with the added constraint that there are only two types of memory (slow and fast). In Thite's thesis, he proposed both an optimal solution to the problem, as well as an approximate solution that runs in time $O(n lg(n))$ \cite{thite2008optimum}. I show that my solution is at least as good, and may be better in certain situations. First I give an alternate bound to my expected cost which is similar to the one presented in Thite's work.
 
