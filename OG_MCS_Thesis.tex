@@ -489,33 +489,41 @@ We now describe the cost of searching for a key located at deepest part of tree 
 
 \iffalse
 \begin{lem} \hspace{1cm} \\
-$W \leq \sum_{k=1}^{l-1} (\lfloor lg(m'_i+1)-1 \rfloor - \lfloor lg(m'_{i-1}+1)-1 \rfloor)*c_i$\\ $+ (lg(\frac{1}{min_{p,q}}) + lg(m_1) + 2 - \lfloor lg(m'_{l-1}+1)-1 \rfloor)*c_l$ THIS USES THE OLD HEIGHT
+$W \leq \sum_{k=1}^{l-1} (\lfloor lg(m'_i+1) \rfloor - \lfloor lg(m'_{i-1}+1) \rfloor)*c_i$\\ $+ (lg(\frac{1}{min_{p,q}}) + lg(m_1) + 2 - \lfloor lg(m'_{l-1}+1) \rfloor)*c_l$ THIS USES THE OLD HEIGHT
 \end{lem}
 \fi
 
-\begin{lem} \hspace{1cm} \\
-$W \leq \sum_{k=1}^{l-1} (\lfloor lg(m'_i+1)-1 \rfloor - \lfloor lg(m'_{i-1}+1)-1 \rfloor)*c_i$\\ $+ (height(T) - 1 - \lfloor lg(m'_{l-1}+1)-1 \rfloor)*c_l$ THIS USES THE OLD HEIGHT
+\begin{lem} 
+$W \leq \sum_{k=1}^{l-1} (\lfloor lg(m'_i+1) \rfloor - \lfloor lg(m'_{i-1}+1) \rfloor)*c_i+$\\  $ (H(T) - \lfloor lg(m'_{l-1}+1) \rfloor)*c_l$
 \end{lem}
 
 
 \begin{proof}
-Consider the accessing each key along the path from the root to the deepest key in $T$. Note that we will have to do $H(T)-1$ key comparisons in order to access the deepest leaf in the tree. We will access one key a depth $0$, one key at depth $1$ and so on. Because the tree is packed into memory in BFS order, a key a depth $i$ will be at memory location at most $2^{i+1}-1$. Now, consider how many levels of the binary search tree $T$ will fit inside of $m_1$, the fastest memory. In order for all keys of depth $i$ (and higher) to be in $m_1$ we need: \\
-$2^{i+1}-1 \leq m_1 \implies i \leq lg(m_1 + 1) - 1$. \\
-Thus, at least $\lfloor lg(m_1 + 1)-1 \rfloor$ levels of $T$ fit on $m_1$. Next we examine how many fit on $m_j$ for $1 < j < l$. The last level to completely fit on $m_j$ or higher memories is the maximum $i$ such that: \\
-$2^{i+1}-1 \leq m'_2 \implies i \leq lg(m'_j + 1)-1$. \\
-Thus, at least $\lfloor lg(m'_j + 1)-1 \rfloor$ levels of $T$ fit on $m_j$ or higher levels of memory. \\
-Thus, on our search for the deepest key in the tree, we will make at least $\lfloor lg(m_1 + 1)-1 \rfloor$ checks for elements located at memory $m_1$. This will cost a total of\\
+Consider the accessing each key along the path from the root to the deepest key in $T$. Note that we will have to examine $H(T)$ keys in order to access the deepest leaf in the tree. We will access one key a depth $0$, one key at depth $1$ and so on. Because the tree is packed into memory in BFS order, a key a depth $i$ will be at memory location at most $2^i-1$. Now, consider how many levels of the binary search tree $T$ will fit inside of $m_1$, the fastest memory. In order for all keys of depth $i$ (and higher) to be in $m_1$ we need: \\
+$2^i-1 \leq m_1 \implies i \leq lg(m_1 + 1)$. \\
+Thus, at least $\lfloor lg(m_1 + 1) \rfloor$ levels of $T$ fit on $m_1$. Next we examine how many fit on $m_j$ for $1 < j < l$. The last level to completely fit on $m_j$ or higher memories is the maximum $i$ such that: \\
+$2^{i+1}-1 \leq m'_2 \implies i \leq lg(m'_j + 1)$. \\
+Thus, at least $\lfloor lg(m'_j + 1) \rfloor$ levels of $T$ fit on $m_j$ or higher levels of memory. \\
+Thus, on our search for the deepest key in the tree, we will make at least $\lfloor lg(m_1 + 1) \rfloor$ checks for elements located at memory $m_1$. This will cost a total of\\
 \begin{center}
-$\lfloor lg(m_1 + 1)-1 \rfloor * c_1$.\\
+$\lfloor lg(m_1 + 1) \rfloor * c_1$.\\
 \end{center}
-For each memory level $m_j$ for $1 < j < l$, we will make at least $\lfloor lg(m'_j + 1)-1 \rfloor$ checks in $m_j$ or higher memories. Of these checks, at least $\lfloor lg(m'_{j-1} + 1)-1 \rfloor$ will be in memory levels strictly higher up in the memory hierarchy than $j$. Since $c_j > c_i$ for $j > i$, an upper bound on the cost of searching for all elements in memory level $j$ on the path from the root to the deepest element of the tree is: \\
+For each memory level $m_j$ for $1 < j < l$, we will make at least $\lfloor lg(m'_j + 1) \rfloor$ checks in $m_j$ or higher memories. Of these checks, at least $\lfloor lg(m'_{j-1} + 1) \rfloor$ will be in memory levels strictly higher up in the memory hierarchy than $j$. Since $c_j > c_i$ for $j > i$, an upper bound on the cost of searching for all elements in memory level $j$ on the path from the root to the deepest element of the tree is: \\
 \begin{center}
-$(\lfloor lg(m_1 + 1)-1 \rfloor - \lfloor lg(m'_{j-1} + 1)-1 \rfloor) * c_j$.\\
+$(\lfloor lg(m_1 + 1) \rfloor - \lfloor lg(m'_{j-1} + 1) \rfloor) * c_j$.\\
 \end{center}
-Finally, we can upper bound the cost by assuming that all remaining searches take place at $c_l$. Since the height of our tree is at most $lg(\frac{1}{min_{p,q}}) + lg(m_1) + 2$, searches at level $l$ will cost at most: \\
+Finally, we can upper bound the cost by assuming that all remaining searches take place at $c_l$. The searches at level $l$ will cost at most: \\
+
+\iffalse
 \begin{center}
-$(lg(\frac{1}{min_{p,q}}) + lg(m_1) + 2 - \lfloor lg(m'_{l-1}+1)-1 \rfloor)*c_l$. \\
+$(lg(\frac{1}{min_{p,q}}) + lg(m_1) + 2 - \lfloor lg(m'_{l-1}+1) \rfloor)*c_l$. \\
 \end{center}
+\fi
+
+\begin{center}
+$(lg(H(T) - \lfloor lg(m'_{l-1}+1) \rfloor)*c_l$. \\
+\end{center}
+
 Combining the above three equations gives the desired bound.
 
 \end{proof}
@@ -525,28 +533,28 @@ Next, we note that the cost of search for a key at some depth $i$ is at most $\f
 \begin{lem}
 The cost of searching for a keys $x_i$ and $(x_{i-1},x_i)$ ($C(x_i)$ and $C(x_{i-1},x_i)$ respectively)can be bounded as follows: 
 
-\begin{center} $C(x_i) \leq \frac{\lceil lg(m_1) \rceil * \frac{lg(\frac{1}{p_i})}{lg(m_1)}}{\lceil lg(n+1) - 1 \rceil} * W$ 
+\begin{center} $C(x_i) \leq \frac{\lceil lg(m_1) \rceil * \frac{lg(\frac{1}{p_i})}{lg(m_1)}}{\lceil lg(2n+2) \rceil} * W$ 
 \end{center}
 
 
 \begin{center}
- $C(x_{i-1},x_i) \leq \frac{\lceil lg(m_1) \rceil * \lfloor log_{m_1}(\frac{2}{q_i}) \rfloor}{\lceil lg(n+1) - 1 \rceil} * W$ 
+ $C(x_{i-1},x_i) \leq \frac{\lceil lg(m_1) \rceil * \lfloor log_{m_1}(\frac{2}{q_i}) \rfloor}{\lceil lg(2n+2) \rceil} * W$ 
  \end{center}
 \end{lem}
 
 \begin{proof}
-From Lemma 4.5.1 we have a bound on the depth of keys $x_i$ and $(x_{i-1},x_i)$. Moreover, we know that since there are $n$ keys in our tree, our tree must have a height of at least:
+From Lemma 4.5.1 we have a bound on the depth of keys $x_i$ and $(x_{i-1},x_i)$. Moreover, we know that since there are $2n+1$ keys in our tree, our tree must have a height of at least:
 \begin{center}
- $\lceil lg(n+1) - 1 \rceil$.
+ $\lceil lg(2n+2) \rceil$.
 \end{center}
 Note that since our tree is stored in BFS order in memory, whenever we examine a key's child, it will be at a memory location of at least the same, if not higher cost (by being in the same or a deeper page). Thus, the path from the root to a specific key can be upper bounded by the cost of searching for the deepest element in the tree, multiplied by the fraction of the way down the tree $x_i$ or $(x_{i-1},x_i)$ are. Note that when searching for keys, we must search along the entire path from root to the key in question, while we need only examine the path from the root to the parent of a key for unsuccessful $(x_{i-1},x_i)$ searches. Combining 4.5.1 and 4.5.4 with the minimum height of our tree gives: \\
 
- $C(x_i) \leq \frac{\lceil lg(m_1) \rceil * \lfloor log_{m_1}(\frac{1}{p_i}) \rfloor}{\lceil lg(n+1) - 1 \rceil} * W$  \\
- $\implies C(x_i) \leq \frac{\lceil lg(m_1) \rceil * \frac{lg(\frac{1}{p_i})}{lg(m_1)}}{\lceil lg(n+1) - 1 \rceil} * W$ \\
+ $C(x_i) \leq \frac{\lceil lg(m_1) \rceil * \lfloor log_{m_1}(\frac{1}{p_i}) \rfloor}{\lceil lg(2n+2) \rceil} * W$  \\
+ $\implies C(x_i) \leq \frac{\lceil lg(m_1) \rceil * \frac{lg(\frac{1}{p_i})}{lg(m_1)}}{\lceil lg(2n+2) \rceil} * W$ \\
  
  Similarly, \\
- $C(x_{i-1},x_i) \leq \frac{\lceil lg(m_1) \rceil * \lfloor log_{m_1}(\frac{2}{q_i} + 1 - 1) \rfloor}{\lceil lg(n+1) - 1 \rceil} * W$  \\
- $C(x_{i-1},x_i) \leq \frac{\lceil lg(m_1) \rceil * \frac{lg(\frac{2}{q_i})}{lg(m_1)}}{\lceil lg(n+1) - 1 \rceil} * W$. \\ 
+ $C(x_{i-1},x_i) \leq \frac{\lceil lg(m_1) \rceil * \lfloor log_{m_1}(\frac{2}{q_i} + 1 - 1) \rfloor}{\lceil lg(2n+2) \rceil} * W$  \\
+ $C(x_{i-1},x_i) \leq \frac{\lceil lg(m_1) \rceil * \frac{lg(\frac{2}{q_i})}{lg(m_1)}}{\lceil lg(2n+2) \rceil} * W$. \\ 
  
 This completes the proof. 
  
@@ -557,7 +565,7 @@ This completes the proof.
 We can now bound the expected cost of search using the bounds for each key.
 
 \begin{thm}
-$C \leq  (\frac{\lceil lg(m_1) \rceil}{\lceil lg(n+1) - 1 \rceil*lg(m_1)} * W) * (H + 1)$
+$C \leq  (\frac{\lceil lg(m_1) \rceil}{\lceil lg(2n+2) \rceil*lg(m_1)} * W) * (H + 1)$
 \end{thm}
 
 \begin{proof}
@@ -565,13 +573,13 @@ The total expected cost of search is simply the sum of the weighted cost of sear
 
 $C \leq \sum_{i=1}^{n} p_i*C(x_i) + \sum_{j=1}^{n+1} q_i*C(x_{i-1},x_i)$ \\
 
-$\implies C \leq \sum_{i=1}^{n} p_i*\frac{\lceil lg(m_1) \rceil * \frac{lg(\frac{1}{p_i})}{lg(m_1)}}{\lceil lg(n+1) - 1 \rceil} * W + \sum_{j=1}^{n+1} q_i*\frac{\lceil lg(m_1) \rceil * \frac{lg(\frac{2}{q_i})}{lg(m_1)}}{\lceil lg(n+1) - 1 \rceil} * W$ \\
+$\implies C \leq \sum_{i=1}^{n} p_i*\frac{\lceil lg(m_1) \rceil * \frac{lg(\frac{1}{p_i})}{lg(m_1)}}{\lceil lg(2n+2) \rceil} * W + \sum_{j=1}^{n+1} q_i*\frac{\lceil lg(m_1) \rceil * \frac{lg(\frac{2}{q_i})}{lg(m_1)}}{\lceil lg(2n+2) \rceil} * W$ \\
 
-$\implies C \leq  (\frac{\lceil lg(m_1) \rceil}{\lceil lg(n+1) - 1 \rceil*lg(m_1)} * W) * (\sum_{i=1}^{n} p_i*lg(\frac{1}{p_i}) + \sum_{j=1}^{n+1} (q_i*lg(\frac{2}{q_i})))$ \\
+$\implies C \leq  (\frac{\lceil lg(m_1) \rceil}{\lceil lg(2n+2) \rceil*lg(m_1)} * W) * (\sum_{i=1}^{n} p_i*lg(\frac{1}{p_i}) + \sum_{j=1}^{n+1} (q_i*lg(\frac{2}{q_i})))$ \\
 
-$\implies C \leq  (\frac{\lceil lg(m_1) \rceil}{\lceil lg(n+1) - 1 \rceil*lg(m_1)} * W) * (\sum_{i=1}^{n} p_i*lg(\frac{1}{p_i}) + \sum_{j=1}^{n+1} (q_i*lg(\frac{1}{q_i}))+ 1$ \\
+$\implies C \leq  (\frac{\lceil lg(m_1) \rceil}{\lceil lg(2n+2) \rceil*lg(m_1)} * W) * (\sum_{i=1}^{n} p_i*lg(\frac{1}{p_i}) + \sum_{j=1}^{n+1} (q_i*lg(\frac{1}{q_i}))+ 1$ \\
 
-$\implies C \leq  (\frac{\lceil lg(m_1) \rceil}{\lceil lg(n+1) - 1 \rceil*lg(m_1)} * W) * (H + 1)$.
+$\implies C \leq  (\frac{\lceil lg(m_1) \rceil}{\lceil lg(2n+2) \rceil*lg(m_1)} * W) * (H + 1)$.
 \end{proof}
 
 
@@ -631,7 +639,7 @@ I will simply give an outline here as the bulk of the proof follows from stateme
 As before, we can describe the cost of searching for a key located at deepest part of tree $T$: $W$. Recall, $m'_j = \sum_{k \leq j} m_j$, $m'_0 = 0$ and let $l$ be the smallest $j$ such that $m'_j > n$.
 
 \begin{lem} \hspace{1cm} \\
-$W \leq \sum_{k=1}^{l-1} (\lfloor lg(m'_i+1)-1 \rfloor - \lfloor lg(m'_{i-1}+1)-1 \rfloor)*c_i$\\ $+ (H(T) - \lfloor lg(m'_{l-1}+1)-1 \rfloor)*c_l$ 
+$W \leq \sum_{k=1}^{l-1} (\lfloor lg(m'_i+1) \rfloor - \lfloor lg(m'_{i-1}+1) \rfloor)*c_i$\\ $+ (H(T) - \lfloor lg(m'_{l-1}+1) \rfloor)*c_l$ 
 \end{lem}
 
 \begin{proof}
@@ -651,18 +659,61 @@ Note that the expected cost is equal to the expected path length for each key, m
 
 \section{Improvements over Thite in the HMM$_2$ Model}
 
-Note here that $W < c_l*H(T)$ and thus $C < c_l*(H+1)$ when BLAH TODO so .
-
 The HMM$_2$ model is the same as the general HMM model with the added constraint that there are only two types of memory (slow and fast). In Thite's thesis, he proposed both an optimal solution to the problem, as well as an approximate solution that runs in time $O(n lg(n))$ \cite{thite2008optimum}. I show that my solution is at least as good, and may be better in certain situations. First I give an alternate bound to my expected cost which is similar to the one presented in Thite's work.
 
 \begin{lem}
 Let $m'_j = \sum_{k \leq j} m_j$. We define $m'_0 = 0$. Let $l$ be the smallest $j$ such that $m'_j > n$. Then the cost of search: \\
-$C \leq  c_l * (H + 1)$.
+$C \leq  c_l * (H + 1 - q_0 - q_n + q_{max} - \sum_{i=0}^{m'} pq_{rank[i]})$.
 \end{lem}
 
 \begin{proof}
+By using the ApproxBSTPaging algorithm, we can simply assume all key accesses happen in the most expensive type of memory ($m_l$). Thus, our expected cost can be bounded by an upper bound on the average path length, multiplied by this upper bound on our cost of accessing each item.
+\end{proof}
+
+Moreover, for both ApproxMWPaging and ApproxBSTPaging:\\
+\begin{lem}
+Suppose $\sum_{k=1}^{l-1} (c_{i+1}-c_i)*(\lfloor lg(m'_i+1) \rfloor) > \lfloor lg(m'_1+1) \rfloor*c_1$. Then \\
+ $W < c_l*H(T)$. 
+\end{lem}
+
+\begin{proof}
+$W \leq \sum_{k=1}^{l-1} (\lfloor lg(m'_k+1) \rfloor - \lfloor lg(m'_{k-1}+1) \rfloor)*c_i$\\ $+ (height(T) - 1 - \lfloor lg(m'_{k-1}+1)-1 \rfloor)*c_l$ \\
+Rearranging the formula gives: \\
+$\implies W \leq H(T)*c_l + \lfloor lg(m'_1+1) \rfloor - \sum_{k=1}^{l-1} (c_{k+1}-c_k)\lfloor lg(m'_k+1) \rfloor $\\
+Thus, as long as $\sum_{k=1}^{l-1} (c_{k+1}-c_k)\lfloor lg(m'_k+1) \rfloor > \lfloor lg(m'_1+1) \rfloor$ then we will get our desired result.
 
 \end{proof}
+
+Note that our assumption will generally be true since $c_l > c_{l-1} > ... > c_1$ and $m_l > m_{l-1} > ... > m_1$. Finally, we can see that: \\
+
+\begin{thm}
+Suppose $\sum_{k=1}^{l-1} (c_{i+1}-c_i)*(\lfloor lg(m'_i+1) \rfloor) > \lfloor lg(m'_1+1) \rfloor*c_1$. Then \\
+$C <  c_l * (H + 1 - q_0 - q_n + q_{max} - \sum_{i=0}^{m'} pq_{rank[i]})$
+\end{thm}
+
+\begin{proof}
+$C \leq  (\frac{W}{H(T)}) * (H + 1 - q_0 - q_n + q_{max} - \sum_{i=0}^{m'} pq_{rank[i]})$
+Assuming $\sum_{k=1}^{l-1} (c_{i+1}-c_i)*(\lfloor lg(m'_i+1) \rfloor) > \lfloor lg(m'_1+1) \rfloor*c_1$ and using \textbf{Lemma 4.9.2} gives: \\
+$\implies C <  (\frac{c_l*H(T)}{H(T)}) * (H + 1 - q_0 - q_n + q_{max} - \sum_{i=0}^{m'} pq_{rank[i]})$ \\
+$\implies C <  c_l * (H + 1 - q_0 - q_n + q_{max} - \sum_{i=0}^{m'} pq_{rank[i]})$
+\end{proof}
+
+TODO UNDERSTAND WHY THIS ISN'T A DIRECT IMPROVEMENT. I'M CONFUSED
+
+Subbing our assumption into the HMM$_2$ model gives:
+$(c_2-c_1)*(\lfloor lg(m_1+1) \rfloor) > \lfloor lg(m_1+1) \rfloor*c_1$ \\
+$\implies c_2 > 2*c_1$ \\
+which is a valid assumption in many types of memory hierarchies.
+
+\begin{cor}
+$C <  c_2 * (H + 1 - q_0 - q_n + q_{max} - \sum_{i=0}^{m'} pq_{rank[i]})$ \\ whenever $c_2 > 2*c_1$
+\end{cor}
+
+In many types of memory hierarchies, this will provide an improvement over Thite's bound of: \\
+$C < c_2 * (H+1)$ \\
+especially in the case where $c_2 >> c_1$.
+
+
 
 
 \chapter{Approximate Binary Search in the Hierarchical Memory with Block Transfer Model}
