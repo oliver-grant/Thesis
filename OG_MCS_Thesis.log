@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2012.6.18)  7 JAN 2016 10:38
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2012.6.18)  7 JAN 2016 13:44
 entering extended mode
  %&-line parsing enabled.
 **OG_MCS_Thesis.tex
@@ -943,27 +943,44 @@ Underfull \hbox (badness 10000) in paragraph at lines 687--688
 
 [21] [22]
 Chapter 5.
+
+LaTeX Warning: Citation `aggarwal1987model' on page 23 undefined on input line 
+722.
+
+
+LaTeX Warning: Citation `aggarwal1987hierarchical' on page 23 undefined on inpu
+t line 722.
+
+
+LaTeX Warning: Citation `thite2008optimum' on page 23 undefined on input line 7
+22.
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 734--737
+
+ []
+
 [23
 
 
-] [24]
+] [24] [25]
 Chapter 6.
-[25
+[26
 
 
-] [26
+] [27
 
 
 ]
 Appendix A.
-[27
+[28
 
 
 ] (./OG_MCS_Thesis.bbl
 
 LaTeX Warning: Empty `thebibliography' environment on input line 3.
 
-) [28
+) [29
 
 
 
@@ -974,10 +991,10 @@ LaTeX Warning: There were undefined references.
 
  ) 
 Here is how much of TeX's memory you used:
- 7342 strings out of 493848
- 96667 string characters out of 1152823
+ 7345 strings out of 493848
+ 96698 string characters out of 1152823
  174299 words of memory out of 3000000
- 10400 multiletter control sequences out of 15000+50000
+ 10401 multiletter control sequences out of 15000+50000
  11806 words of font info for 45 fonts, out of 3000000 for 9000
  714 hyphenation exceptions out of 8191
  41i,6n,39p,1858b,377s stack positions out of 5000i,500n,10000p,200000b,50000s
@@ -993,9 +1010,9 @@ fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texmf-texlive/fonts/type1
 /public/amsfonts/cm/cmsy6.pfb></usr/share/texmf-texlive/fonts/type1/public/amsf
 onts/cm/cmsy8.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmti
 12.pfb>
-Output written on OG_MCS_Thesis.pdf (37 pages, 279371 bytes).
+Output written on OG_MCS_Thesis.pdf (38 pages, 283968 bytes).
 PDF statistics:
- 440 PDF objects out of 1000 (max. 8388607)
- 92 named destinations out of 1000 (max. 500000)
- 297 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 449 PDF objects out of 1000 (max. 8388607)
+ 94 named destinations out of 1000 (max. 500000)
+ 305 words of extra memory for PDF output out of 10000 (max. 10000000)
 

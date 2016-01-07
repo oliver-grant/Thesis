@@ -25,13 +25,14 @@
 \contentsline {section}{\numberline {4.8}Expected Cost ApproxBSTPaging}{20}{section.4.8}
 \contentsline {section}{\numberline {4.9}Improvements over Thite in the HMM$_2$ Model}{21}{section.4.9}
 \contentsline {chapter}{\numberline {5}Approximate Binary Search in the Hierarchical Memory with Block Transfer Model}{23}{chapter.5}
-\contentsline {section}{\numberline {5.1}ApproxMWPaging with BT}{23}{section.5.1}
-\contentsline {section}{\numberline {5.2}Expected Cost ApproxMWPaging with BT}{23}{section.5.2}
-\contentsline {section}{\numberline {5.3}ApproxBSTPaging with BT}{23}{section.5.3}
-\contentsline {section}{\numberline {5.4}Expected Cost ApproxBSTPaging with BT}{24}{section.5.4}
-\contentsline {chapter}{\numberline {6}Conclusion and Open Problems}{25}{chapter.6}
-\contentsline {section}{\numberline {6.1}Discussion}{25}{section.6.1}
-\contentsline {section}{\numberline {6.2}Conclusion}{25}{section.6.2}
-\contentsline {chapter}{APPENDICES}{26}{appendix*.7}
-\contentsline {chapter}{\numberline {A}PDF Plots From Matlab}{27}{appendix.A}
-\contentsline {chapter}{\textbf {References}}{28}{section*.8}
+\contentsline {section}{\numberline {5.1}Hierarchical Memory with Block Transfer Model}{23}{section.5.1}
+\contentsline {section}{\numberline {5.2}ApproxMWPaging with BT}{24}{section.5.2}
+\contentsline {section}{\numberline {5.3}Expected Cost ApproxMWPaging with BT}{24}{section.5.3}
+\contentsline {section}{\numberline {5.4}ApproxBSTPaging with BT}{25}{section.5.4}
+\contentsline {section}{\numberline {5.5}Expected Cost ApproxBSTPaging with BT}{25}{section.5.5}
+\contentsline {chapter}{\numberline {6}Conclusion and Open Problems}{26}{chapter.6}
+\contentsline {section}{\numberline {6.1}Discussion}{26}{section.6.1}
+\contentsline {section}{\numberline {6.2}Conclusion}{26}{section.6.2}
+\contentsline {chapter}{APPENDICES}{27}{appendix*.7}
+\contentsline {chapter}{\numberline {A}PDF Plots From Matlab}{28}{appendix.A}
+\contentsline {chapter}{\textbf {References}}{29}{section*.8}

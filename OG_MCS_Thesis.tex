@@ -718,9 +718,44 @@ especially in the case where $c_2 >> c_1$.
 
 \chapter{Approximate Binary Search in the Hierarchical Memory with Block Transfer Model}
 
+\section{Hierarchical Memory with Block Transfer Model}
+This model (HMBTM for short) was proposed by Aggarwal, Chandra, and Snir as an improvement over the HMM model \cite{aggarwal1987model} discussed previously \cite{aggarwal1987hierarchical}. The model with block transfer still has a memory hierarchy with increasing costs of access, but allows for any contiguous block of memory to be copied from one location to another with constant unit time per element after the initial access. This provides a better model for standard computers which can copy many words from one type of memory to another after accessing a single word. Like the HMM model, we have an unlimited number of registers (numbered 1, 2, , .. etc.) and we will still use the cost function as was explained in Thite's thesis \cite{thite2008optimum}. Here, $\mu (a)$ is the cost of accessing memory location $a$. We have a series of memory sizes $m_1, m_2, ..., m_h$ where $m_l$ has infinite size each with an associated cost $c_1, c_2, ..., c_h$. We assume that $c_1 < c_2 < ... < c_h$. 
+
+\begin{center}$\mu (a) = c_i if \sum_{j = 1}^{i-1}m_j  < a \leq \sum_{j = 1}^{i}m_j$. \end{center}
+
+We explicitly assume that successive memory sizes divide one another evenly:
+\begin{center}
+$m_1 < m_2 < ... < m_h$ and
+\end{center}
+\begin{center}
+$\forall i \in  \{1,2,...,h\}$, $m_i \mid m_{i+1}$.
+\end{center}
+
+In this new model, we are given the additional operational opportunity to move a block from one location to another. Specifically, a block copy operation is defined as: \\
+ $[x-l, x] \rightarrow [y-l,y]$. \\
+The contents of $\mu(x-i)$ are copied to $\mu(y-i)$ for $i \in \{0,...,l\}$. This is valid if the two intervals are disjoint. This copy operation costs $max(f(x,y)) + l$.\\
+
+I provide fast but approximate solutions to the optimum BST problem under new model in the following sections.
+
 \section{ApproxMWPaging with BT}
-Same as ApproxMWPaging for first 3 steps but pack things into memory diff. INSERT COMPLICATED DFS THING.
-When searching, we recursively put things up in memory 
+
+The first algorithm I provide is very similar to ApproxMWPaging. The first three steps of the algorithm are in fact identical. To review, we create a Multiway Tree $T'$ using the algorithm of Bose and Dou\"{i}eb, form balanced BST's within each page of $T'$, and then connect these balanced BSTs from $T'$ to form a valid BST $T$. This is done in $O(n lg(m_1))$ time. 
+
+
+BFS each balanced BST in $T'$
+
+Use pages from $T'$
+
+Create pages of pages of T' by doing BFS of  $T'$, pages are of size $m_2/m_1$, call this $T'_2$
+
+Recursively do this until we have $T'_l$
+
+An objects location is their BFS page order in $T'_l * m_l$ + ... + BFS page order in blah does this work?
+
+MAYBE I HAVE TO DO IT FROM $m_l $ backwards? I think that may do it.
+
+
+We are left with a binary search tree which has been properly packed into our memory in total time $O(n * l)$.
 
 \section{Expected Cost ApproxMWPaging with BT}
 

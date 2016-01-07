@@ -25,10 +25,11 @@
 \BOOKMARK [1][-]{section.4.8}{Expected Cost ApproxBSTPaging}{chapter.4}
 \BOOKMARK [1][-]{section.4.9}{Improvements over Thite in the HMM2 Model}{chapter.4}
 \BOOKMARK [0][-]{chapter.5}{Approximate Binary Search in the Hierarchical Memory with Block Transfer Model}{}
-\BOOKMARK [1][-]{section.5.1}{ApproxMWPaging with BT}{chapter.5}
-\BOOKMARK [1][-]{section.5.2}{Expected Cost ApproxMWPaging with BT}{chapter.5}
-\BOOKMARK [1][-]{section.5.3}{ApproxBSTPaging with BT}{chapter.5}
-\BOOKMARK [1][-]{section.5.4}{Expected Cost ApproxBSTPaging with BT}{chapter.5}
+\BOOKMARK [1][-]{section.5.1}{Hierarchical Memory with Block Transfer Model}{chapter.5}
+\BOOKMARK [1][-]{section.5.2}{ApproxMWPaging with BT}{chapter.5}
+\BOOKMARK [1][-]{section.5.3}{Expected Cost ApproxMWPaging with BT}{chapter.5}
+\BOOKMARK [1][-]{section.5.4}{ApproxBSTPaging with BT}{chapter.5}
+\BOOKMARK [1][-]{section.5.5}{Expected Cost ApproxBSTPaging with BT}{chapter.5}
 \BOOKMARK [0][-]{chapter.6}{Conclusion and Open Problems}{}
 \BOOKMARK [1][-]{section.6.1}{Discussion}{chapter.6}
 \BOOKMARK [1][-]{section.6.2}{Conclusion}{chapter.6}
