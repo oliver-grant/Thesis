@@ -653,7 +653,16 @@ $C \leq  (\frac{W}{H(T)}) * (H + 1 - q_0 - q_n + q_{max} - \sum_{i=0}^{m'} pq_{r
 \end{thm}
 
 \begin{proof}
-Note that the expected cost is equal to the expected path length for each key, multiplied by the cost of search for each key. Since we have an upper bound on the cost of search for an element at some depth $i$, and an upper bound on the expected path length
+
+Bose and Dou\"{i}eb show that after using their algorithm for Phase 1 of De Prisco and De Santis algorithm algorithm, every leaf of the \textit{starting tree} (all keys representing successful and unsuccessful searches) are at depth at most $\lfloor lg(\frac{1}{p}) \rfloor + 1$  for at least $\{2n-3P,P\}-1$ of $p \in \{ \{p_1, p_2, ..., p_n \} \cup \{ q_0, q_1, ..., q_n \} \}$ and $\lfloor lg(\frac{1}{p}) \rfloor + 2$ for all others. Recall that $P$ is the number of peaks in the probability distribution $q_0, p_1, q_1, ..., p_n, q_n$. Moreover, after phases two and three of the algorithm, each key has its depth decrease by 2, and all leaves (except one) move up the tree by one. Now, let $C_d(i)$ represent the cost of accessing a node at depth $i$. As mentioned above, this is at most $\frac{i}{H(T)}* W$. Using this, we can derive the following equation an upper bound on the expected cost of search: \\
+
+$C \leq \sum_{i=1}^{n}(p_i*\frac{depth(p_i)}{H(T)}* W)+ \sum_{i=0}^{n}(q_i*\frac{depth(q_i)}{H(T)}* W)$ \\
+
+$\implies C \leq \frac{W}{H(T)}(\sum_{i=1}^{n}(p_i*depth(p_i))+ \sum_{i=0}^{n}(q_i*depth(q_i)))$ \\
+
+$\implies C \leq \frac{W}{H(T)}(\sum_{i=1}^{n}(p_i*depth(p_i))+ \sum_{i=0}^{n}(q_i*depth(q_i)))$ \\
+
+Note that the expected cost is equal to the expected path length for each key, multiplied by the cost of search for each key. Since we have an upper bound on the cost of search for an element at some depth $i$, and an upper bound on the expected path length TODO
 \end{proof}
 
 
