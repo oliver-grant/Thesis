@@ -27,9 +27,10 @@
 \contentsline {chapter}{\numberline {5}Approximate Binary Search in the Hierarchical Memory with Block Transfer Model}{24}{chapter.5}
 \contentsline {section}{\numberline {5.1}Hierarchical Memory with Block Transfer Model}{24}{section.5.1}
 \contentsline {section}{\numberline {5.2}ApproxMWPaging with BT}{25}{section.5.2}
-\contentsline {section}{\numberline {5.3}Expected Cost ApproxMWPaging with BT}{25}{section.5.3}
-\contentsline {section}{\numberline {5.4}ApproxBSTPaging with BT}{26}{section.5.4}
-\contentsline {section}{\numberline {5.5}Expected Cost ApproxBSTPaging with BT}{26}{section.5.5}
+\contentsline {section}{\numberline {5.3}Search with ApproxMWPaging with BT}{26}{section.5.3}
+\contentsline {section}{\numberline {5.4}Expected Cost ApproxMWPaging with BT}{26}{section.5.4}
+\contentsline {section}{\numberline {5.5}ApproxBSTPaging with BT}{26}{section.5.5}
+\contentsline {section}{\numberline {5.6}Expected Cost ApproxBSTPaging with BT}{26}{section.5.6}
 \contentsline {chapter}{\numberline {6}Conclusion and Open Problems}{27}{chapter.6}
 \contentsline {section}{\numberline {6.1}Discussion}{27}{section.6.1}
 \contentsline {section}{\numberline {6.2}Conclusion}{27}{section.6.2}
