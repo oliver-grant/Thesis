@@ -1,4 +1,4 @@
-% uWaterloo Thesis Template for LaTeX 
+ % uWaterloo Thesis Template for LaTeX 
 % Last Updated May 24, 2011 by Stephen Carr, IST Client Services
 % FOR ASSISTANCE, please send mail to rt-IST-CSmathsci@ist.uwaterloo.ca
 % ADDED THIS LINE FROM THE OTHER SIDE
@@ -757,12 +757,59 @@ The first algorithm I provide is very similar to ApproxMWPaging. The first three
 
 To decide packing order, we will do a modified BFS of $T'$. We will always pack individual pages of $T'$ into memory in a BFS of the balanced BST formed from the page. 
 
+\iffalse
+# returns (leaf or pointer to correct key if exists)
+Search(curr, key, block_stack, offset_stack)
+	mem <- correct child of (curr - offset)
+	if mem < m_1 # if we are in the upper most block we are fine
+		curr = mem
+		if mem is leaf or the key return that
+		else return search(curr, key, block_stack, offset_stack)
+		
+	while (! block_stack.empty() AND mem > m'[block_stack.top()])
+		offset_stack.pop()
+		block_stack.pop()
+
+	if block_stack.empty() 
+		new_block_i = min i such that m_i' > mem
+		block_stack.push(new_block_i)
+		offset_stack.push(mem)
+		[mem, mem + m_{i-1}-1] -> [m'_{i-2}, m'_{i-1}-1]
+		return search(mem, key, block_stack, offset_stack)\
+
+# TO RUN
+search(root, key, empty empty)
+
+
+----------------------------------------
+
+# returns (r[], loc)
+pack(r[], i, loc)
+	if i = 0
+		from r[0] pack up to m_1 keys into memory in BFS order
+		loc += amount packed
+		push all children of all leaves of the BFS tree into r
+		return (r[1, ... r.end()], loc)
+	else
+		total = 0
+		while (total < m_{i+1} and !r.empty())
+			(loc, r) = pack(r[0, ... r.end()], i-1, loc)
+
+		return (r, loc)
+
+# TO RUN
+r.push_back(root)
+loc = 0
+for j = 0 to l-1
+	(loc,r) = pack(r,j,loc
+	
+\fi
+
+
 We pack pages into memory in BFS order (starting from the root page) until we have looked at $k$ total keys, where adding the $k+1^th$ page will be more than $m_2$ total keys.
 
 We then do $\frac{m_3}{m_2}$ BFS searches, the first $l$ of which start from the next $l$ pages to be searched in our original BFS search. For each of these $\frac{m_3}{m_2}$ BFS searches, we stop once we have looked at  $k$ total keys, where adding the $k+1^th$ page will be more than $m_2$ total keys. The remaining BFS searches will continue starting from the next pages in BFS order that have not been packed yet. These BFS searches will be the same size: stopping once we have looked at  $k$ total keys, where adding the $k+1^th$ page will be more than $m_2$ total keys. We continue to pack in this way until we have packed some $q$ pages, where packing another page will give us more than $m_3$ keys.
 
-
-THE ABOVE IS BLAH, THIS SHOULD BE WHAT I WRITE UP: TODO we should call $pack(m_i)$ which calls $pack(m_{i_1})$ until it shouldn't. etc.
 
 We are left with a binary search tree which has been properly packed into our memory in total time $O(n * l)$.
 
