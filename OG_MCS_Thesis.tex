@@ -759,23 +759,28 @@ To decide packing order, we will do a modified BFS of $T'$. We will always pack 
 
 \iffalse
 # returns (leaf or pointer to correct key if exists)
-Search(curr, key, block_stack, offset_stack)
-	mem <- correct child of (curr - offset)
+Search(curr, key, block_index_stack, offset_stack)
+	mem <- correct child of (curr - offset_stack.top()) #empty if no child
 	if mem < m_1 # if we are in the upper most block we are fine
-		curr = mem
-		if mem is leaf or the key return that
-		else return search(curr, key, block_stack, offset_stack)
+		if mem = empty return curr		
+		else return search(mem, key, block_index_stack, offset_stack)
 		
-	while (! block_stack.empty() AND mem > m'[block_stack.top()])
+	# this pops what block size we are using until we get a big enough one
+	while (! block_stack.empty() AND (mem > m'[block_stack.top()]))
 		offset_stack.pop()
-		block_stack.pop()
+		block_index_stack.pop()
 
 	if block_stack.empty() 
-		new_block_i = min i such that m_i' > mem
-		block_stack.push(new_block_i)
+		new_block_i = min i such that m_i' > mem # this can be sped up by remembering, if empty always bigger
+		block_index_stack.push(new_block_i)
+		offset_stack.push(curr)
+		[mem, mem + m_{i-1}-1] -> [m'_{i-2}, m'_{i-1}-1]
+		return search(mem, key, block_index_stack, offset_stack)
+	else
+		offset_stack.pop()
 		offset_stack.push(mem)
 		[mem, mem + m_{i-1}-1] -> [m'_{i-2}, m'_{i-1}-1]
-		return search(mem, key, block_stack, offset_stack)\
+		return search(mem, key, block_index_stack, offset_stack)
 
 # TO RUN
 search(root, key, empty empty)
@@ -784,16 +789,20 @@ search(root, key, empty empty)
 ----------------------------------------
 
 # returns (r[], loc)
+# WENT THROUGH EXAMPLE WITH A QUEUE INSTEAD OF A STACK...
 pack(r[], i, loc)
 	if i = 0
 		from r[0] pack up to m_1 keys into memory in BFS order
 		loc += amount packed
-		push all children of all leaves of the BFS tree into r
+		push all children of all leaves of the BFS tree into r. 
+			#push in reverse BFS order so that they are in BFS order on stack.
 		return (r[1, ... r.end()], loc)
 	else
 		total = 0
 		while (total < m_{i+1} and !r.empty())
+			old_loc = loc
 			(loc, r) = pack(r[0, ... r.end()], i-1, loc)
+			total += loc-old_loc
 
 		return (r, loc)
 
@@ -801,7 +810,7 @@ pack(r[], i, loc)
 r.push_back(root)
 loc = 0
 for j = 0 to l-1
-	(loc,r) = pack(r,j,loc
+	(loc,r) = pack(r,j,loc)
 	
 \fi
 
