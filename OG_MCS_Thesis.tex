@@ -758,6 +758,7 @@ The first algorithm I provide is very similar to ApproxMWPaging. The first three
 To decide packing order, we will do a modified BFS of $T'$. We will always pack individual pages of $T'$ into memory in a BFS of the balanced BST formed from the page. 
 
 \iffalse
+# CAN I USE A MODULO FUNCTION TO FIGURE OUT WHICH LEVEL TO COPY IT TO? I THINK I CAN! ALSO DOESNT MATTER
 # returns (leaf or pointer to correct key if exists)
 Search(curr, key, block_index_stack, offset_stack)
 	mem <- correct child of (curr - offset_stack.top()) #empty if no child
@@ -788,29 +789,31 @@ search(root, key, empty empty)
 
 ----------------------------------------
 
-# returns (r[], loc)
-# WENT THROUGH EXAMPLE WITH A QUEUE INSTEAD OF A STACK...
+# returns (root_q, loc)
 pack(r[], i, loc)
 	if i = 0
-		from r[0] pack up to m_1 keys into memory in BFS order
+		from root_q[0] pack up to m_1 keys into memory in BFS order
 		loc += amount packed
-		push all children of all leaves of the BFS tree into r. 
-			#push in reverse BFS order so that they are in BFS order on stack.
-		return (r[1, ... r.end()], loc)
+		root_q.pop()
+		push all children of all leaves of the BFS tree into root_q
+		return (root_q, loc)
 	else
 		total = 0
 		while (total < m_{i+1} and !r.empty())
 			old_loc = loc
-			(loc, r) = pack(r[0, ... r.end()], i-1, loc)
+			(loc, r_q) = pack(root_q[0], i-1, loc)
+			for each r in r_q root_q.push(r)
 			total += loc-old_loc
 
 		return (r, loc)
 
 # TO RUN
-r.push_back(root)
+root_q.push_back(root)
 loc = 0
 for j = 0 to l-1
-	(loc,r) = pack(r,j,loc)
+	while (total < m_{j+1} and !r.empty())
+		(loc,r_q) = pack(root_q[0], max i such that total + m_i < m_{j+1}, loc)
+		for each r in r_q root_q.push(r)
 	
 \fi
 
