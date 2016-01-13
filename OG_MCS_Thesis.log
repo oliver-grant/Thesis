@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2012.6.18)  12 JAN 2016 13:53
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2012.6.18)  13 JAN 2016 15:12
 entering extended mode
  %&-line parsing enabled.
 **OG_MCS_Thesis.tex
@@ -1013,15 +1013,12 @@ LaTeX Warning: Empty `thebibliography' environment on input line 3.
 
 LaTeX Warning: There were undefined references.
 
-
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
-
  ) 
 Here is how much of TeX's memory you used:
- 7352 strings out of 493848
- 96818 string characters out of 1152823
- 174402 words of memory out of 3000000
- 10406 multiletter control sequences out of 15000+50000
+ 7348 strings out of 493848
+ 96729 string characters out of 1152823
+ 174299 words of memory out of 3000000
+ 10402 multiletter control sequences out of 15000+50000
  11806 words of font info for 45 fonts, out of 3000000 for 9000
  714 hyphenation exceptions out of 8191
  41i,6n,39p,1858b,379s stack positions out of 5000i,500n,10000p,200000b,50000s

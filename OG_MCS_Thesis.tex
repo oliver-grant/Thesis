@@ -760,28 +760,36 @@ To decide packing order, we will do a modified BFS of $T'$. We will always pack 
 \iffalse
 # CAN I USE A MODULO FUNCTION TO FIGURE OUT WHICH LEVEL TO COPY IT TO? I THINK I CAN! ALSO DOESNT MATTER
 # returns (leaf or pointer to correct key if exists)
-Search(curr, key, block_index_stack, offset_stack)
-	mem <- correct child of (curr - offset_stack.top()) #empty if no child
-	if mem < m_1 # if we are in the upper most block we are fine
-		if mem = empty return curr		
-		else return search(mem, key, block_index_stack, offset_stack)
-		
-	# this pops what block size we are using until we get a big enough one
-	while (! block_stack.empty() AND (mem > m'[block_stack.top()]))
-		offset_stack.pop()
-		block_index_stack.pop()
+Search(mem, key, prev_moved_s, offset_s)
+	if (!(empty? prev_moved_s) and (mem >= prev_moved_s.top())) OR (mem >= m_1)
+		if !(empty? prev_moved_s) and (mem >= prev_moved_s.top())
+			mem += offset_s.top()
+			offset_s.pop()
+			prev_moved_s.pop()
+			if !(empty? offset_s)
+				mem -= offset_s.top()			
+		offset_s.push(mem)
+		amt_to_move = (min m_i' such that m_i' > mem) - mem
+		prev_moved_s.push(amt_to_move)
+		[mem, mem + amt_to_move - 1] -> [0, amt_to_move - 1]
+		Search(0, key, prev_moved_s, offset_s)
+	
+	else if (mem < m_1)
+		offset = 0
+		if (!empty? offset_s)
+			offset = offset_s.top()
+		if (key = mem.key) return mem.value
+		if (key < mem.key) 
+			if mem has no left child
+				return mem
+			else
+				Search(mem.left_child - offset, key, prev_moved_s, offset_s)
+		if (key > mem.key) 
+			if mem has no right child
+				return mem
+			else
+				Search(mem.right_child - offset, key, prev_moved_s, offset_s)
 
-	if block_stack.empty() 
-		new_block_i = min i such that m_i' > mem # this can be sped up by remembering, if empty always bigger
-		block_index_stack.push(new_block_i)
-		offset_stack.push(curr)
-		[mem, mem + m_{i-1}-1] -> [m'_{i-2}, m'_{i-1}-1]
-		return search(mem, key, block_index_stack, offset_stack)
-	else
-		offset_stack.pop()
-		offset_stack.push(mem)
-		[mem, mem + m_{i-1}-1] -> [m'_{i-2}, m'_{i-1}-1]
-		return search(mem, key, block_index_stack, offset_stack)
 
 # TO RUN
 search(root, key, empty empty)
@@ -790,9 +798,9 @@ search(root, key, empty empty)
 ----------------------------------------
 
 # returns (root_q, loc)
-pack(r[], i, loc)
+pack(r[], i, loc, amt)
 	if i = 0
-		from root_q[0] pack up to m_1 keys into memory in BFS order
+		from root_q[0] pack up to m_1 amt keys into memory in BFS order
 		loc += amount packed
 		root_q.pop()
 		push all children of all leaves of the BFS tree into root_q
@@ -811,8 +819,12 @@ pack(r[], i, loc)
 root_q.push_back(root)
 loc = 0
 for j = 0 to l-1
-	while (total < m_{j+1} and !r.empty())
-		(loc,r_q) = pack(root_q[0], max i such that total + m_i < m_{j+1}, loc)
+	while (loc < m_{j+1} and !r.empty())
+		if loc + m_1 < m_{j+1}
+			(loc,r_q) = pack(root_q[0], max i such that total + m_i < m_{j+1}, loc, m_{j+1} - total)
+		else
+			(loc,r_q) = pack(root_q[0], max i such that total + m_i < m_{j+1}, loc, m_i)
+		root_q.pop
 		for each r in r_q root_q.push(r)
 	
 \fi
