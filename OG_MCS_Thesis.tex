@@ -77,7 +77,9 @@
 %\newcommand{\texorpdfstring}[2]{#1} % does nothing, but defines the command
 % Anything defined here may be redefined by packages added below...
 
-
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{pifont}
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage[pdftex]{graphicx}
@@ -755,9 +757,78 @@ I provide fast but approximate solutions to the optimum BST problem under new mo
 
 The first algorithm I provide is very similar to ApproxMWPaging. The first three steps of the algorithm are in fact identical. To review, we create a Multiway Tree $T'$ using the algorithm of Bose and Dou\"{i}eb, form balanced BST's within each page of $T'$, and then connect these balanced BSTs from $T'$ to form a valid BST $T$. This is done in $O(n lg(m_1))$ time. 
 
-To decide packing order, we will do a modified BFS of $T'$. We will always pack individual pages of $T'$ into memory in a BFS of the balanced BST formed from the page. 
+To decide packing order, we will do a modified BFS of $T'$. We will always pack individual pages of $T'$ into memory in a BFS of the balanced BST formed from the page. \\
+
+
+
+
+
+\begin{algorithm}
+\caption{ApproxMWPaging with BT Packing}
+\label{CHalgorithm}
+\begin{algorithmic}[1]
+\Procedure{AMWBT\textendash Pack}{$r\_queue[], i, loc, amt$}
+\If{$i = 0$}
+	\State Create largest BFS tree $T$ possible from $r\_q[0]$ with at most $min(loc, amt)$ nodes
+	\State Push $T$ in BFS order into memory starting from memory location $loc$
+	\State $loc += size(T)$
+	\State $r\_q.pop()$
+	\For{each leaf $l$ in $T$ in BFS order}
+		\State Push all children of $l$ onto $r$
+	\EndFor
+	\State return $(r\_q[], loc)$
+		
+		
+\Else
+	\State $total = 0$
+	\While{$total < m_{i+1}$ and $\neg (empty?$ $r)$}
+		\State $old\_loc = loc$
+		\State $(loc, new\_r\_q) =$ AMWBT\textendash Pack $(r_queue[0,...,0], i-1, loc, m_i)$
+		\For{each node $r$ in $new\_r\_q$}
+			\State $r\_q.push(r)$
+		\EndFor
+		\State $total += loc-old\_loc$
+		\State return $(r\_q[], loc)$			
+	\EndWhile
+\EndIf
+\EndProcedure
+\end{algorithmic}
+\end{algorithm}
+
 
 \iffalse
+# returns (root_q, loc)
+pack(r[], i, loc, amt)
+	if i = 0
+		from root_q[0] pack up to m_1 amt keys into memory in BFS order
+		loc += amount packed
+		root_q.pop()
+		push all children of all leaves of the BFS tree into root_q
+		return (root_q, loc)
+	else
+		total = 0
+		while (total < m_{i+1} and !r.empty())
+			old_loc = loc
+			(loc, r_q) = pack(root_q[0], i-1, loc)
+			for each r in r_q root_q.push(r)
+			total += loc-old_loc
+
+		return (r, loc)
+
+# TO RUN
+root_q.push_back(root)
+loc = 0
+for j = 0 to l-1
+	while (loc < m_{j+1} and !r.empty())
+		if loc + m_1 < m_{j+1}
+			(loc,r_q) = pack(root_q[0], max i such that total + m_i < m_{j+1}, loc, m_{j+1} - total)
+		else
+			(loc,r_q) = pack(root_q[0], max i such that total + m_i < m_{j+1}, loc, m_i)
+		root_q.pop
+		for each r in r_q root_q.push(r)
+
+-----------------------------------------------
+
 # CAN I USE A MODULO FUNCTION TO FIGURE OUT WHICH LEVEL TO COPY IT TO? I THINK I CAN! ALSO DOESNT MATTER
 # returns (leaf or pointer to correct key if exists)
 Search(mem, key, prev_moved_s, offset_s)
@@ -797,35 +868,7 @@ search(root, key, empty empty)
 
 ----------------------------------------
 
-# returns (root_q, loc)
-pack(r[], i, loc, amt)
-	if i = 0
-		from root_q[0] pack up to m_1 amt keys into memory in BFS order
-		loc += amount packed
-		root_q.pop()
-		push all children of all leaves of the BFS tree into root_q
-		return (root_q, loc)
-	else
-		total = 0
-		while (total < m_{i+1} and !r.empty())
-			old_loc = loc
-			(loc, r_q) = pack(root_q[0], i-1, loc)
-			for each r in r_q root_q.push(r)
-			total += loc-old_loc
 
-		return (r, loc)
-
-# TO RUN
-root_q.push_back(root)
-loc = 0
-for j = 0 to l-1
-	while (loc < m_{j+1} and !r.empty())
-		if loc + m_1 < m_{j+1}
-			(loc,r_q) = pack(root_q[0], max i such that total + m_i < m_{j+1}, loc, m_{j+1} - total)
-		else
-			(loc,r_q) = pack(root_q[0], max i such that total + m_i < m_{j+1}, loc, m_i)
-		root_q.pop
-		for each r in r_q root_q.push(r)
 	
 \fi
 
