@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2012.6.18)  14 JAN 2016 15:58
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2012.6.18)  15 JAN 2016 13:31
 entering extended mode
  %&-line parsing enabled.
 **OG_MCS_Thesis.tex
@@ -1040,48 +1040,81 @@ Underfull \hbox (badness 10000) in paragraph at lines 750--753
 
 
 ]
+Underfull \hbox (badness 10000) in paragraph at lines 758--759
+
+ []
+
+
 Underfull \hbox (badness 10000) in paragraph at lines 760--761
 
  []
 
-Package hyperref Info: bookmark level for unknown algorithm defaults to 0 on in
-put line 767.
 
-Overfull \hbox (6.42766pt too wide) in paragraph at lines 874--875
-[] \OT1/cmr/m/n/12 AMWBT{Search$(\OML/cmm/m/it/12 mem:right[]child \OMS/cmsy/m/
-n/12 ^^@ \OML/cmm/m/it/12 offset; key; prev[]moved[]s; offset[]s\OT1/cmr/m/n/12
- )$ 
+Underfull \hbox (badness 10000) in paragraph at lines 762--763
+
  []
 
 
-LaTeX Warning: Float too large for page by 36.44986pt on input line 880.
+Underfull \hbox (badness 10000) in paragraph at lines 764--765
 
-[25] [26] [27]
+ []
 
-LaTeX Warning: Citation `de1993binary' on page 28 undefined on input line 895.
+[25]
+Package hyperref Info: bookmark level for unknown algorithm defaults to 0 on in
+put line 770.
+ [26]
+Overfull \hbox (6.61485pt too wide) in paragraph at lines 832--833
+[][]\OT1/cmr/bx/n/12 Lemma 5.3.1. []\OT1/cmr/m/it/12 BT{Range-Pack$\OT1/cmr/m/n
+/12 (\OML/cmm/m/it/12 r[]q\OT1/cmr/m/n/12 []\OML/cmm/m/it/12 ; i; loc; amt\OT1/
+cmr/m/n/12 )$ \OT1/cmr/m/it/12 re-turns an up-dated lo-ca-tion, call it $\OML/c
+mm/m/it/12 new[]loc$
+ []
 
 
-LaTeX Warning: Citation `bose2009efficient' on page 28 undefined on input line 
-895.
+Underfull \hbox (badness 10000) in paragraph at lines 836--837
 
-[28] [29]
+ []
+
+
+Overfull \hbox (11.34033pt too wide) in paragraph at lines 838--839
+[]\OT1/cmr/m/n/12 Suppose BT{Range-Pack$(\OML/cmm/m/it/12 r[]q\OT1/cmr/m/n/12 [
+]\OML/cmm/m/it/12 ; i; loc; amt\OT1/cmr/m/n/12 )$ re-turns $\OML/cmm/m/it/12 ne
+w[]loc$ \OT1/cmr/m/n/12 in time at most $\OML/cmm/m/it/12 O\OT1/cmr/m/n/12 (\OM
+L/cmm/m/it/12 l \OMS/cmsy/m/n/12 ^^C \OT1/cmr/m/n/12 (\OML/cmm/m/it/12 new[]loc
+ \OMS/cmsy/m/n/12 ^^@
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 838--839
+
+ []
+
+[27] [28] [29] [30]
+
+LaTeX Warning: Citation `de1993binary' on page 31 undefined on input line 931.
+
+
+LaTeX Warning: Citation `bose2009efficient' on page 31 undefined on input line 
+931.
+
+[31]
 Chapter 6.
-[30
+[32
 
 
-] [31
+] [33
 
 
 ]
 Appendix A.
-[32
+[34
 
 
 ] (./OG_MCS_Thesis.bbl
 
 LaTeX Warning: Empty `thebibliography' environment on input line 3.
 
-) [33
+) [35
 
 
 
@@ -1095,29 +1128,35 @@ LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 7995 strings out of 493848
- 106107 string characters out of 1152823
- 196081 words of memory out of 3000000
- 11015 multiletter control sequences out of 15000+50000
- 12797 words of font info for 48 fonts, out of 3000000 for 9000
+ 8016 strings out of 493848
+ 106319 string characters out of 1152823
+ 185081 words of memory out of 3000000
+ 11026 multiletter control sequences out of 15000+50000
+ 15398 words of font info for 58 fonts, out of 3000000 for 9000
  714 hyphenation exceptions out of 8191
  41i,7n,39p,1858b,379s stack positions out of 5000i,500n,10000p,200000b,50000s
-</usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/sha
-re/texmf-texlive/fonts/type1/public/amsfonts/cm/cmcsc10.pfb></usr/share/texmf-t
-exlive/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texmf-texlive/font
-s/type1/public/amsfonts/cm/cmmi12.pfb></usr/share/texmf-texlive/fonts/type1/pub
-lic/amsfonts/cm/cmmi6.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts
-/cm/cmmi8.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmr10.pf
-b></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/shar
-e/texmf-texlive/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/share/texmf-texl
-ive/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/share/texmf-texlive/fonts/typ
-e1/public/amsfonts/cm/cmr8.pfb></usr/share/texmf-texlive/fonts/type1/public/ams
-fonts/cm/cmsy10.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cm
-sy6.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmsy8.pfb></us
-r/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmti12.pfb>
-Output written on OG_MCS_Thesis.pdf (42 pages, 321849 bytes).
+</usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/sha
+re/texmf-texlive/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/share/texmf-te
+xlive/fonts/type1/public/amsfonts/cm/cmcsc10.pfb></usr/share/texmf-texlive/font
+s/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texmf-texlive/fonts/type1/pub
+lic/amsfonts/cm/cmmi10.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfont
+s/cm/cmmi12.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmmi5.
+pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmmi6.pfb></usr/sh
+are/texmf-texlive/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/share/texmf-te
+xlive/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/share/texmf-texlive/fonts/
+type1/public/amsfonts/cm/cmr10.pfb></usr/share/texmf-texlive/fonts/type1/public
+/amsfonts/cm/cmr12.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm
+/cmr17.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmr6.pfb></
+usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/share/tex
+mf-texlive/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/share/texmf-texlive/fo
+nts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texmf-texlive/fonts/type1/p
+ublic/amsfonts/cm/cmsy5.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfon
+ts/cm/cmsy6.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmsy7.
+pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/sh
+are/texmf-texlive/fonts/type1/public/amsfonts/cm/cmti12.pfb>
+Output written on OG_MCS_Thesis.pdf (44 pages, 399020 bytes).
 PDF statistics:
- 482 PDF objects out of 1000 (max. 8388607)
- 102 named destinations out of 1000 (max. 500000)
- 313 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 527 PDF objects out of 1000 (max. 8388607)
+ 107 named destinations out of 1000 (max. 500000)
+ 321 words of extra memory for PDF output out of 10000 (max. 10000000)
 
