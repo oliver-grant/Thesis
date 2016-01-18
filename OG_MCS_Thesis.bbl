@@ -1,3 +1,171 @@
-\begin{thebibliography}{}
+\begin{thebibliography}{10}
+
+\bibitem{adelsonvelskii1963algorithm}
+M~AdelsonVelskii and Evgenii~Mikhailovich Landis.
+\newblock An algorithm for the organization of information.
+\newblock Technical report, DTIC Document, 1963.
+
+\bibitem{aggarwal1987model}
+Alok Aggarwal, Bowen Alpern, Ashok Chandra, and Marc Snir.
+\newblock A model for hierarchical memory.
+\newblock In {\em Proceedings of the nineteenth annual ACM symposium on Theory
+  of computing}, pages 305--314. ACM, 1987.
+
+\bibitem{aggarwal1987hierarchical}
+Alok Aggarwal, Ashok~K Chandra, and Marc Snir.
+\newblock Hierarchical memory with block transfer.
+\newblock In {\em Foundations of Computer Science, 1987., 28th Annual Symposium
+  on}, pages 204--216. IEEE, 1987.
+
+\bibitem{bayer1970organization}
+R~Bayer and E~McCreight.
+\newblock Organization and maintenance of large ordered indices.
+\newblock In {\em Proceedings of the 1970 ACM SIGFIDET (now SIGMOD) Workshop on
+  Data Description, Access and Control}, pages 107--141. ACM, 1970.
+
+\bibitem{bayer1972symmetric}
+Rudolf Bayer.
+\newblock Symmetric binary b-trees: Data structure and maintenance algorithms.
+\newblock {\em Acta informatica}, 1(4):290--306, 1972.
+
+\bibitem{becker1994new}
+Peter Becker.
+\newblock A new algorithm for the construction of optimal b-trees.
+\newblock {\em Algorithm Theory—SWAT'94}, pages 49--60, 1994.
+
+\bibitem{becker1997construction}
+Peter Becker.
+\newblock Construction of nearly optimal multiway trees.
+\newblock In {\em Computing and Combinatorics}, pages 294--303. Springer, 1997.
+
+\bibitem{booth1960efficiency}
+Andrew~Donald Booth and Andrew~JT Colin.
+\newblock On the efficiency of a new method of dictionary construction.
+\newblock {\em Information and Control}, 3(4):327--334, 1960.
+
+\bibitem{bose2009efficient}
+Prosenjit Bose and Karim Dou{\"\i}eb.
+\newblock Efficient construction of near-optimal binary and multiway search
+  trees.
+\newblock In {\em Algorithms and Data Structures}, pages 230--241. Springer,
+  2009.
+
+\bibitem{de1993binary}
+Roberto De~Prisco and Alfredo De~Santis.
+\newblock On binary search trees.
+\newblock {\em Information Processing Letters}, 45(5):249--253, 1993.
+
+\bibitem{demaine2007dynamic}
+Erik~D Demaine, Dion Harmon, John Iacono, and Mihai P~a ˇ~trascu.
+\newblock Dynamic optimality-almost.
+\newblock {\em SIAM Journal on Computing}, 37(1):240--251, 2007.
+
+\bibitem{donald1999art}
+E~Knuth Donald.
+\newblock The art of computer programming.
+\newblock {\em Sorting and searching}, 3:426--458, 1999.
+
+\bibitem{garsia1977new}
+Adriano~M Garsia and Michelle~L Wachs.
+\newblock A new algorithm for minimum cost binary trees.
+\newblock {\em SIAM Journal on Computing}, 6(4):622--642, 1977.
+
+\bibitem{gilbert1959variable}
+Edgar~N Gilbert and Edward~F Moore.
+\newblock Variable-length binary encodings.
+\newblock {\em Bell System Technical Journal}, 38(4):933--967, 1959.
+
+\bibitem{gotlieb1981optimal}
+Leo Gotlieb.
+\newblock Optimal multi-way search trees.
+\newblock {\em SIAM Journal on Computing}, 10(3):422--433, 1981.
+
+\bibitem{guttler1980binary}
+Reiner G{\"u}ttler, Kurt Mehlhorn, and Wolfgang Schneider.
+\newblock Binary search trees: Average and worst case behavior.
+\newblock {\em Elektronische Informationsverarbeitung und Kybernetik},
+  16:41--61, 1980.
+
+\bibitem{hibbard1962some}
+Thomas~N Hibbard.
+\newblock Some combinatorial properties of certain trees with applications to
+  searching and sorting.
+\newblock {\em Journal of the ACM (JACM)}, 9(1):13--28, 1962.
+
+\bibitem{hu1973new}
+TC~Hu.
+\newblock A new proof of the tc algorithm.
+\newblock {\em SIAM Journal on Applied Mathematics}, 25(1):83--94, 1973.
+
+\bibitem{Hu1982Book}
+T.C. Hu.
+\newblock {\em Combinatorial Algorithms}.
+\newblock Addison-Wesley, MA, 1982.
+
+\bibitem{hu1979binary}
+TC~Hu, Daniel~J Kleitman, and Jeanne~K Tamaki.
+\newblock Binary trees optimum under various criteria.
+\newblock {\em SIAM Journal on Applied Mathematics}, 37(2):246--256, 1979.
+
+\bibitem{hu1971optimal}
+Te~C Hu and Alan~C Tucker.
+\newblock Optimal computer search trees and variable-length alphabetical codes.
+\newblock {\em SIAM Journal on Applied Mathematics}, 21(4):514--532, 1971.
+
+\bibitem{huffman1952method}
+David~A Huffman et~al.
+\newblock A method for the construction of minimum redundancy codes.
+\newblock {\em Proceedings of the IRE}, 40(9):1098--1101, 1952.
+
+\bibitem{kingston1988new}
+Feffrey~H Kingston.
+\newblock A new proof of the garsia-wachs algorithm.
+\newblock {\em Journal of Algorithms}, 9(1):129--136, 1988.
+
+\bibitem{knuth1973sorting}
+DE~Knuth.
+\newblock Sorting and searching.(the art of computer programming, vol. 3)
+  addison-wesley.
+\newblock {\em Reading, MA}, pages 551--575, 1973.
+
+\bibitem{knuth1971optimum}
+Donald~E. Knuth.
+\newblock Optimum binary search trees.
+\newblock {\em Acta informatica}, 1(1):14--25, 1971.
+
+\bibitem{korsh1981greedy}
+James~F Korsh.
+\newblock Greedy binary search trees are nearly optimal.
+\newblock {\em Information Processing Letters}, 13(1):16--19, 1981.
+
+\bibitem{korsh1982growing}
+James~F Korsh.
+\newblock Growing nearly optimal binary search trees.
+\newblock {\em Information Processing Letters}, 14(3):139--143, 1982.
+
+\bibitem{sleator1985self}
+Daniel~Dominic Sleator and Robert~Endre Tarjan.
+\newblock Self-adjusting binary search trees.
+\newblock {\em Journal of the ACM (JACM)}, 32(3):652--686, 1985.
+
+\bibitem{thite2008optimum}
+Shripad Thite.
+\newblock Optimum binary search trees on the hierarchical memory model.
+\newblock {\em arXiv preprint arXiv:0804.0940}, 2008.
+
+\bibitem{vaishnavi1980optimum}
+Vijay~K. Vaishnavi, Hans-Peter Kriegel, and Derick Wood.
+\newblock Optimum multiway search trees.
+\newblock {\em Acta Informatica}, 14(2):119--133, 1980.
+
+\bibitem{windley1960trees}
+Peter~F Windley.
+\newblock Trees, forests and rearranging.
+\newblock {\em The Computer Journal}, 3(2):84--88, 1960.
+
+\bibitem{yeung1991alphabetic}
+Raymond~W Yeung.
+\newblock Alphabetic codes revisited.
+\newblock {\em Information Theory, IEEE Transactions on}, 37(3):564--572, 1991.
 
 \end{thebibliography}

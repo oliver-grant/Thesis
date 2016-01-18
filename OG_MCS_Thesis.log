@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2012.6.18)  15 JAN 2016 13:31
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2012.6.18)  18 JAN 2016 16:32
 entering extended mode
  %&-line parsing enabled.
 **OG_MCS_Thesis.tex
@@ -449,15 +449,8 @@ LaTeX Info: Redefining \pageref on input line 191.
 
 
 ]
-
-LaTeX Warning: Citation `knuth1971optimum' on page iii undefined on input line 
-77.
-
-
-LaTeX Warning: Citation `guttler1980binary' on page iii undefined on input line
- 77.
-
 LaTeX Font Info:    Try loading font information for U+msa on input line 77.
+
 (/usr/share/texmf-texlive/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2009/06/22 v3.00 AMS symbols A
 )
@@ -465,16 +458,7 @@ LaTeX Font Info:    Try loading font information for U+msb on input line 77.
 
 (/usr/share/texmf-texlive/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2009/06/22 v3.00 AMS symbols B
-)
-
-LaTeX Warning: Citation `aggarwal1987model' on page iii undefined on input line
- 77.
-
-
-LaTeX Warning: Citation `aggarwal1987hierarchical' on page iii undefined on inp
-ut line 77.
-
-[3
+) [3
 
 
 ] [4
@@ -483,7 +467,8 @@ ut line 77.
 ] [5
 
 
-] (./OG_MCS_Thesis.toc [6
+]
+(./OG_MCS_Thesis.toc [6
 
 
 
@@ -501,34 +486,18 @@ ut line 77.
 
 
 
-]
-(./OG_MCS_Thesis.lof)
+] (./OG_MCS_Thesis.lof)
 \tf@lof=\write6
 \openout6 = `OG_MCS_Thesis.lof'.
 
- [9
+
+[9
 
 
 
 
 ])
 Chapter 1.
-
-LaTeX Warning: Citation `windley1960trees' on page 1 undefined on input line 21
-9.
-
-
-LaTeX Warning: Citation `booth1960efficiency' on page 1 undefined on input line
- 219.
-
-
-LaTeX Warning: Citation `hibbard1962some' on page 1 undefined on input line 219
-.
-
-
-LaTeX Warning: Citation `knuth1971optimum' on page 1 undefined on input line 22
-3.
-
 [1
 
 
@@ -536,149 +505,36 @@ LaTeX Warning: Citation `knuth1971optimum' on page 1 undefined on input line 22
 
 ]
 
-LaTeX Warning: Citation `adelsonvelskii1963algorithm' on page 2 undefined on in
-put line 229.
-
-
-LaTeX Warning: Citation `bayer1972symmetric' on page 2 undefined on input line 
-229.
-
-
-LaTeX Warning: Citation `sleator1985self' on page 2 undefined on input line 229
-.
-
-
-LaTeX Warning: Citation `demaine2007dynamic' on page 2 undefined on input line 
-229.
-
-
-LaTeX Warning: Citation `bayer1970organization' on page 2 undefined on input li
-ne 229.
-
-
-LaTeX Warning: Citation `guttler1980binary' on page 2 undefined on input line 2
-42.
-
-
 LaTeX Warning: Citation `bayer1975improved' on page 2 undefined on input line 2
 42.
-
-
-LaTeX Warning: Citation `thite2008optimum' on page 2 undefined on input line 24
-2.
 
 [2] [3]
 Chapter 2.
 
-LaTeX Warning: Citation `knuth1971optimum' on page 4 undefined on input line 25
-4.
-
-
 LaTeX Warning: Citation `bayer1975improved' on page 4 undefined on input line 2
-54.
-
-
-LaTeX Warning: Citation `guttler1980binary' on page 4 undefined on input line 2
-54.
+53.
 
 
 LaTeX Warning: Citation `horibe1977improved' on page 4 undefined on input line 
-254.
-
-
-LaTeX Warning: Citation `guttler1980binary' on page 4 undefined on input line 2
-54.
-
-
-LaTeX Warning: Citation `de1993binary' on page 4 undefined on input line 255.
-
-
-LaTeX Warning: Citation `bose2009efficient' on page 4 undefined on input line 2
-55.
+253.
 
 [4
 
 
 ]
-Underfull \hbox (badness 10000) in paragraph at lines 259--260
+Underfull \hbox (badness 10000) in paragraph at lines 257--258
 
  []
 
-
-LaTeX Warning: Citation `huffman1952method' on page 5 undefined on input line 2
-65.
-
-
-LaTeX Warning: Citation `gilbert1959variable' on page 5 undefined on input line
- 265.
-
-
-LaTeX Warning: Citation `hu1971optimal' on page 5 undefined on input line 265.
-
-
-LaTeX Warning: Citation `knuth1973sorting' on page 5 undefined on input line 26
-5.
-
-
-LaTeX Warning: Citation `hu1973new' on page 5 undefined on input line 265.
-
-
-LaTeX Warning: Citation `hu1979binary' on page 5 undefined on input line 265.
-
-
-LaTeX Warning: Citation `garsia1977new' on page 5 undefined on input line 265.
-
-
-LaTeX Warning: Citation `Hu1982Book' on page 5 undefined on input line 265.
-
-
-LaTeX Warning: Citation `kingston1988new' on page 5 undefined on input line 265
-.
-
-[5]
-
-LaTeX Warning: Citation `yeung1991alphabetic' on page 6 undefined on input line
- 267.
-
-
-LaTeX Warning: Citation `de1993binary' on page 6 undefined on input line 267.
-
-
-LaTeX Warning: Citation `bose2009efficient' on page 6 undefined on input line 2
-67.
-
-
-LaTeX Warning: Citation `vaishnavi1980optimum' on page 6 undefined on input lin
-e 279.
-
-
-LaTeX Warning: Citation `gotlieb1981optimal' on page 6 undefined on input line 
-279.
-
-
-LaTeX Warning: Citation `becker1994new' on page 6 undefined on input line 279.
-
-
-LaTeX Warning: Citation `becker1997construction' on page 6 undefined on input l
-ine 279.
-
-
-LaTeX Warning: Citation `bose2009efficient' on page 6 undefined on input line 2
-79.
-
-[6] [7]
+[5] [6] [7]
 Chapter 3.
 
-LaTeX Warning: Citation `guttler1980binary' on page 8 undefined on input line 3
-00.
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 300--301
+Underfull \hbox (badness 10000) in paragraph at lines 298--299
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 305--309
+Underfull \hbox (badness 10000) in paragraph at lines 303--307
 
  []
 
@@ -688,80 +544,64 @@ Underfull \hbox (badness 10000) in paragraph at lines 305--309
 ]
 
 LaTeX Warning: Citation `gallager1968information' on page 9 undefined on input 
-line 311.
+line 309.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 311--316
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 317--321
+Underfull \hbox (badness 10000) in paragraph at lines 309--314
 
  []
 
 
-LaTeX Warning: Citation `guttler1980binary' on page 9 undefined on input line 3
-23.
+Underfull \hbox (badness 10000) in paragraph at lines 315--319
+
+ []
 
 
 LaTeX Warning: Citation `bayer1975improved' on page 9 undefined on input line 3
-43.
+41.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 343--348
+Underfull \hbox (badness 10000) in paragraph at lines 341--346
 
  []
 
 [9]
-Underfull \hbox (badness 10000) in paragraph at lines 349--352
+Underfull \hbox (badness 10000) in paragraph at lines 347--350
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 353--355
+Underfull \hbox (badness 10000) in paragraph at lines 351--353
 
  []
 
 
 LaTeX Warning: Citation `bayer1975improved' on page 10 undefined on input line 
-356.
+354.
 
 
 LaTeX Warning: Citation `bayer1975improved' on page 10 undefined on input line 
-360.
+358.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 356--364
+Underfull \hbox (badness 10000) in paragraph at lines 354--362
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 365--370
+Underfull \hbox (badness 10000) in paragraph at lines 363--368
 
  []
 
 [10]
 Chapter 4.
 
-LaTeX Warning: Citation `aggarwal1987model' on page 11 undefined on input line 
-377.
-
-
-LaTeX Warning: Citation `thite2008optimum' on page 11 undefined on input line 3
-77.
-
-
-Overfull \hbox (12.74457pt too wide) in paragraph at lines 389--389
+Overfull \hbox (12.74457pt too wide) in paragraph at lines 387--387
 []\OT1/cmr/bx/n/17.28 Thite's Op-ti-mum Bi-nary Search Trees on the HMM
  []
 
 
-LaTeX Warning: Citation `thite2008optimum' on page 11 undefined on input line 3
-91.
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 391--392
+Underfull \hbox (badness 10000) in paragraph at lines 389--390
 
  []
 
@@ -769,32 +609,29 @@ Underfull \hbox (badness 10000) in paragraph at lines 391--392
 
 
 ]
-Underfull \hbox (badness 10000) in paragraph at lines 394--395
+Underfull \hbox (badness 10000) in paragraph at lines 392--393
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 397--398
+Underfull \hbox (badness 10000) in paragraph at lines 395--396
 
  []
-
-
-LaTeX Warning: Citation `bose2009efficient' on page 12 undefined on input line 
-403.
 
 [12]
-Underfull \hbox (badness 10000) in paragraph at lines 407--409
+Underfull \hbox (badness 10000) in paragraph at lines 405--407
 
  []
 
 [13]
-Underfull \hbox (badness 10000) in paragraph at lines 424--425
+Underfull \hbox (badness 10000) in paragraph at lines 422--423
 
  []
 
 
-LaTeX Warning: Citation `bose2009efficient' on page 14 undefined on input line 
-426.
+Underfull \hbox (badness 10000) in paragraph at lines 424--425
+
+ []
 
 
 Underfull \hbox (badness 10000) in paragraph at lines 426--427
@@ -812,55 +649,46 @@ Underfull \hbox (badness 10000) in paragraph at lines 430--431
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 432--433
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 435--436
+Underfull \hbox (badness 10000) in paragraph at lines 433--434
 
  []
 
 [14]
-
-LaTeX Warning: Citation `bose2009efficient' on page 15 undefined on input line 
-451.
-
-
-LaTeX Warning: Citation `bose2009efficient' on page 15 undefined on input line 
-454.
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 504--510
+Underfull \hbox (badness 10000) in paragraph at lines 502--508
 
  []
 
 [15]
-Underfull \hbox (badness 10000) in paragraph at lines 513--514
+Underfull \hbox (badness 10000) in paragraph at lines 511--512
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 517--518
+Underfull \hbox (badness 10000) in paragraph at lines 515--516
 
  []
 
 [16]
-Underfull \hbox (badness 10000) in paragraph at lines 552--553
+Underfull \hbox (badness 10000) in paragraph at lines 550--551
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 554--556
+Underfull \hbox (badness 10000) in paragraph at lines 552--554
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 557--560
+Underfull \hbox (badness 10000) in paragraph at lines 555--558
 
  []
 
 [17]
+Underfull \hbox (badness 10000) in paragraph at lines 574--575
+
+ []
+
+
 Underfull \hbox (badness 10000) in paragraph at lines 576--577
 
  []
@@ -876,27 +704,20 @@ Underfull \hbox (badness 10000) in paragraph at lines 580--581
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 582--583
-
- []
-
-
-Overfull \hbox (5.52057pt too wide) in paragraph at lines 588--588
+Overfull \hbox (5.52057pt too wide) in paragraph at lines 586--586
 \OT1/cmr/bx/n/17.28 and De San-tis with Ex-ten-sions by Bose and Dou^^?^^Peb 
  []
 
 
-LaTeX Warning: Citation `de1993binary' on page 18 undefined on input line 590.
-
-
-LaTeX Warning: Citation `bose2009efficient' on page 18 undefined on input line 
-593.
-
-
-Overfull \hbox (23.25266pt too wide) in paragraph at lines 597--598
+Overfull \hbox (23.25266pt too wide) in paragraph at lines 595--596
 $\OML/cmm/m/it/12 P[]$ \OT1/cmr/m/n/12 is the av-er-age path length of the tree
  built us-ing their al-go-rithm and $\OML/cmm/m/it/12 m[] \OT1/cmr/m/n/12 = \OM
 L/cmm/m/it/12 max\OT1/cmr/m/n/12 ([]) \OMS/cmsy/m/n/12 ^^@
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 595--596
+
  []
 
 
@@ -904,12 +725,12 @@ Underfull \hbox (badness 10000) in paragraph at lines 597--598
 
  []
 
-
+[18]
 Underfull \hbox (badness 10000) in paragraph at lines 599--600
 
  []
 
-[18]
+
 Underfull \hbox (badness 10000) in paragraph at lines 601--602
 
  []
@@ -920,7 +741,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 603--604
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 605--606
+Underfull \hbox (badness 10000) in paragraph at lines 609--610
 
  []
 
@@ -930,48 +751,36 @@ Underfull \hbox (badness 10000) in paragraph at lines 611--612
  []
 
 
-LaTeX Warning: Citation `de1993binary' on page 19 undefined on input line 613.
-
-
-LaTeX Warning: Citation `bose2009efficient' on page 19 undefined on input line 
-613.
-
-
 Underfull \hbox (badness 10000) in paragraph at lines 613--614
 
  []
 
-
-Underfull \hbox (badness 10000) in paragraph at lines 615--616
-
- []
-
 [19]
-
-LaTeX Warning: Citation `bose2009efficient' on page 20 undefined on input line 
-622.
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 622--624
+Underfull \hbox (badness 10000) in paragraph at lines 620--622
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 625--626
+Underfull \hbox (badness 10000) in paragraph at lines 623--624
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 651--652
+Underfull \hbox (badness 10000) in paragraph at lines 649--650
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 659--660
+Underfull \hbox (badness 10000) in paragraph at lines 657--658
 
  []
 
 [20]
+Underfull \hbox (badness 10000) in paragraph at lines 659--660
+
+ []
+
+
 Underfull \hbox (badness 10000) in paragraph at lines 661--662
 
  []
@@ -987,52 +796,31 @@ Underfull \hbox (badness 10000) in paragraph at lines 665--666
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 667--668
-
- []
+Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
+(hyperref)                removing `math shift' on input line 674.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `math shift' on input line 676.
+(hyperref)                removing `subscript' on input line 674.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `subscript' on input line 676.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `math shift' on input line 676.
-
-
-LaTeX Warning: Citation `thite2008optimum' on page 21 undefined on input line 6
-78.
+(hyperref)                removing `math shift' on input line 674.
 
 [21]
-Underfull \hbox (badness 10000) in paragraph at lines 689--690
+Underfull \hbox (badness 10000) in paragraph at lines 687--688
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 703--704
+Underfull \hbox (badness 10000) in paragraph at lines 701--702
 
  []
 
 [22] [23]
 Chapter 5.
 
-LaTeX Warning: Citation `aggarwal1987model' on page 24 undefined on input line 
-738.
-
-
-LaTeX Warning: Citation `aggarwal1987hierarchical' on page 24 undefined on inpu
-t line 738.
-
-
-LaTeX Warning: Citation `thite2008optimum' on page 24 undefined on input line 7
-38.
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 750--753
+Underfull \hbox (badness 10000) in paragraph at lines 748--751
 
  []
 
@@ -1040,6 +828,11 @@ Underfull \hbox (badness 10000) in paragraph at lines 750--753
 
 
 ]
+Underfull \hbox (badness 10000) in paragraph at lines 756--757
+
+ []
+
+
 Underfull \hbox (badness 10000) in paragraph at lines 758--759
 
  []
@@ -1054,16 +847,11 @@ Underfull \hbox (badness 10000) in paragraph at lines 762--763
 
  []
 
-
-Underfull \hbox (badness 10000) in paragraph at lines 764--765
-
- []
-
 [25]
 Package hyperref Info: bookmark level for unknown algorithm defaults to 0 on in
-put line 770.
+put line 768.
  [26]
-Overfull \hbox (6.61485pt too wide) in paragraph at lines 832--833
+Overfull \hbox (6.61485pt too wide) in paragraph at lines 830--831
 [][]\OT1/cmr/bx/n/12 Lemma 5.3.1. []\OT1/cmr/m/it/12 BT{Range-Pack$\OT1/cmr/m/n
 /12 (\OML/cmm/m/it/12 r[]q\OT1/cmr/m/n/12 []\OML/cmm/m/it/12 ; i; loc; amt\OT1/
 cmr/m/n/12 )$ \OT1/cmr/m/it/12 re-turns an up-dated lo-ca-tion, call it $\OML/c
@@ -1071,12 +859,12 @@ mm/m/it/12 new[]loc$
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 836--837
+Underfull \hbox (badness 10000) in paragraph at lines 834--835
 
  []
 
 
-Overfull \hbox (11.34033pt too wide) in paragraph at lines 838--839
+Overfull \hbox (11.34033pt too wide) in paragraph at lines 836--837
 []\OT1/cmr/m/n/12 Suppose BT{Range-Pack$(\OML/cmm/m/it/12 r[]q\OT1/cmr/m/n/12 [
 ]\OML/cmm/m/it/12 ; i; loc; amt\OT1/cmr/m/n/12 )$ re-turns $\OML/cmm/m/it/12 ne
 w[]loc$ \OT1/cmr/m/n/12 in time at most $\OML/cmm/m/it/12 O\OT1/cmr/m/n/12 (\OM
@@ -1085,19 +873,11 @@ L/cmm/m/it/12 l \OMS/cmsy/m/n/12 ^^C \OT1/cmr/m/n/12 (\OML/cmm/m/it/12 new[]loc
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 838--839
+Underfull \hbox (badness 10000) in paragraph at lines 836--837
 
  []
 
-[27] [28] [29] [30]
-
-LaTeX Warning: Citation `de1993binary' on page 31 undefined on input line 931.
-
-
-LaTeX Warning: Citation `bose2009efficient' on page 31 undefined on input line 
-931.
-
-[31]
+[27] [28] [29] [30] [31]
 Chapter 6.
 [32
 
@@ -1111,15 +891,18 @@ Appendix A.
 
 
 ] (./OG_MCS_Thesis.bbl
-
-LaTeX Warning: Empty `thebibliography' environment on input line 3.
-
-) [35
-
-
+Missing character: There is no â in font cmti12!
+Missing character: There is no € in font cmti12!
+Missing character: There is no ” in font cmti12!
+ [35
 
 
-] (./OG_MCS_Thesis.aux)
+
+
+]
+Missing character: There is no Ë in font cmr12!
+Missing character: There is no ‡ in font cmr12!
+ [36]) [37] (./OG_MCS_Thesis.aux)
 
 LaTeX Warning: There were undefined references.
 
@@ -1128,13 +911,13 @@ LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 8016 strings out of 493848
- 106319 string characters out of 1152823
- 185081 words of memory out of 3000000
- 11026 multiletter control sequences out of 15000+50000
+ 8054 strings out of 493848
+ 107082 string characters out of 1152823
+ 187461 words of memory out of 3000000
+ 11030 multiletter control sequences out of 15000+50000
  15398 words of font info for 58 fonts, out of 3000000 for 9000
  714 hyphenation exceptions out of 8191
- 41i,7n,39p,1858b,379s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 41i,7n,39p,2070b,399s stack positions out of 5000i,500n,10000p,200000b,50000s
 </usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/sha
 re/texmf-texlive/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/share/texmf-te
 xlive/fonts/type1/public/amsfonts/cm/cmcsc10.pfb></usr/share/texmf-texlive/font
@@ -1154,9 +937,9 @@ ublic/amsfonts/cm/cmsy5.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfon
 ts/cm/cmsy6.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmsy7.
 pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/sh
 are/texmf-texlive/fonts/type1/public/amsfonts/cm/cmti12.pfb>
-Output written on OG_MCS_Thesis.pdf (44 pages, 399020 bytes).
+Output written on OG_MCS_Thesis.pdf (46 pages, 421936 bytes).
 PDF statistics:
- 527 PDF objects out of 1000 (max. 8388607)
- 107 named destinations out of 1000 (max. 500000)
+ 632 PDF objects out of 1000 (max. 8388607)
+ 141 named destinations out of 1000 (max. 500000)
  321 words of extra memory for PDF output out of 10000 (max. 10000000)
 
