@@ -352,12 +352,25 @@ $E_t \geq H(\frac{1}{2}-\frac{1}{2} \frac{q_m}{p_t}, \frac{1}{2} + \frac{1}{2} \
 Note that by the definition of the ME Rule, when this occurs, $q_m$ must be a leaf of depth at most 2. Thus, this condition can only happen twice for each $q_m$. \\
 
 When case 2 does not occur (and we have a $q_m$ spanning the middle) we must have case 3. This gives us: \\
-$E_t \geq H(\frac{1}{2}-\frac{1}{2} \frac{q_m}{p_t}, \frac{1}{2} + \frac{1}{2} \frac{q_m}{p_t}) \geq 1- \frac{4}{5} (\frac{q_m}{p_t})^2$ when $\frac{q_m}{p_t} < \frac{1}{2}$ (which must be true since case 2 did not occur). \\
+$E_t \geq H(\frac{1}{2}-\frac{1}{2} \frac{q_m}{p_t}, \frac{1}{2} + \frac{1}{2} \frac{q_m}{p_t})$
 
-\iffalse
-TODO PROVE THIS DERIVATIVE
-derivative of (0.5-0.5*q)*log_2(1/(0.5-0.5*q)) + (0.5+0.5*q)*log_2(1/(0.5+0.5*q)) - (1-(4/5)*(q^2))
-\fi
+\newtheorem{claim}{Claim}
+\begin{claim}
+$H(\frac{1}{2}-\frac{1}{2} \frac{q_m}{p_t}, \frac{1}{2} + \frac{1}{2} \frac{q_m}{p_t}) \geq 1- \frac{4}{5} (\frac{q_m}{p_t})^2$ when $\frac{q_m}{p_t} < \frac{1}{2}$
+\end{claim}
+
+\begin{proof}
+In order to prove the claim, we find the minimum of \\
+$H(\frac{1}{2}-\frac{1}{2} \frac{q_m}{p_t}, \frac{1}{2} + \frac{1}{2} \frac{q_m}{p_t}) - (1 - \frac{4}{5} (\frac{q_m}{p_t})^2)$ when $0 < \frac{q_m}{p_t} < \frac{1}{2}$. \\
+To do this we take the derivative with respect to $\frac{q_m}{p_t}$. \\
+Let $F= H(\frac{1}{2}-\frac{1}{2} \frac{q_m}{p_t}, \frac{1}{2} + \frac{1}{2} \frac{q_m}{p_t}) - (1 - \frac{4}{5} (\frac{q_m}{p_t})^2)$ \\
+$\implies F = - (\frac{1}{2}-\frac{1}{2} \frac{q_m}{p_t})* lg(\frac{1}{2}-\frac{1}{2} \frac{q_m}{p_t}) - (\frac{1}{2} + \frac{1}{2} \frac{q_m}{p_t})*lg(\frac{1}{2} + \frac{1}{2} \frac{q_m}{p_t}) - (1 - \frac{4}{5} (\frac{q_m}{p_t})^2)$ \\
+$\implies F' = lg(\frac{1}{2}-\frac{1}{2} \frac{q_m}{p_t}) - lg(\frac{1}{2} + \frac{1}{2} \frac{q_m}{p_t}) + \frac{8}{5}\frac{q_m}{p_t}$ \\ 
+The only root here occurs when $\frac{q_m}{p_t} = 0$. Thus, we check when $\frac{q_m}{p_t} \rightarrow 0$ and $\frac{q_m}{p_t} \rightarrow \frac{1}{2}$. We note that: \\
+$F \rightarrow 0^{+}$ when $\frac{q_m}{p_t} \rightarrow 0$ and \\
+$F \rightarrow 0.0112781 > 0$ when $\frac{q_m}{p_t} \rightarrow \frac{1}{2}$. \\
+This proves the claim.
+\end{proof}
 
 As in \cite{bayer1975improved} we define a $b_t$ for each sub tree $t$ as follows: \\
 let $b_t=2p_r$ for case 1. \\
