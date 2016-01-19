@@ -239,20 +239,18 @@ expression evaluation
 
 \section{Overview}
 
-In Chapter 2 I review previous work done in the areas of binary search trees, multiway trees, alphabetic trees and various models of external memory. In Chapter 3, I re-examine the Modified Minimum Entropy (MME) heuristic of G{\"u}ttler, Mehlhorn and Schneider \cite{guttler1980binary}. This is a $O(n)$ time algorithm for approximating the optimum binary search tree problem in the RAM model. The method worked very well in practice, and the group had great experimental results, but unfortunately they could not bound the worst case expected cost of the as they would have hoped. While simpler solutions like the \textit{Min-max} and \textit{Weight Balanced} techniques of Bayer \cite{bayer1975improved} had worst case costs of at most $H+2$, the trio's MME technique had a worst case expected search cost of $c*H+2$ where $c \approx 1.08$. I provide a new argument of its worst case expected search cost and show that it is within a constant of entropy: at worst $H+4$. In Chapter 4, I move on to external memory models, examining the optimum binary search tree problem under the hierarchical memory model as was done in Thite's thesis \cite{thite2008optimum}. I provide TWO? $O(n*lg(m_1))$ time algorithm which has a worst case expected cost of TODO FIX $C \leq (\lceil lg(m_1) \rceil * (\lfloor log_{m_1}(\frac{2}{min_{p,q}}) \rfloor + 1)) * W * (H + 1)$ WHERE TODO. The solution provided also gives a direct improvement over the solution Thite provided in the same work for HMM$_2$. In Chapter 5, I extend my solutions to examine a more realistic model for external memory, the hierarchical memory with block transfers model (HMBTM). I use similar algorithms which run in TODO and give worst case expected search costs of TODO. In Chapter 6 I summarize my findings and discuss several problems which remain open.
+In Chapter 2 I review previous work done in the areas of binary search trees, multiway trees, alphabetic trees and various models of external memory. In Chapter 3, I re-examine the Modified Entropy Rule (ME) of G{\"u}ttler, Mehlhorn and Schneider \cite{guttler1980binary}. This is a $O(n)$ time algorithm for approximating the optimum binary search tree problem in the RAM model. The method worked very well in practice, and the group had great experimental results, but unfortunately they could not bound the worst case expected cost of the as they would have hoped. While simpler solutions like the \textit{Min-max} and \textit{Weight Balanced} techniques of Bayer \cite{bayer1975improved} had worst case costs of at most $H+2$, the trio's ME technique had a worst case expected search cost of $c*H+2$ where $c \approx 1.08$. I provide a new argument of its worst case expected search cost and show that it is within a constant of entropy: at worst $H+4$. In Chapter 4, I move on to external memory models, examining the optimum binary search tree problem under the hierarchical memory model as was done in Thite's thesis \cite{thite2008optimum}. I provide TWO? $O(n*lg(m_1))$ time algorithm which has a worst case expected cost of TODO FIX $C \leq (\lceil lg(m_1) \rceil * (\lfloor log_{m_1}(\frac{2}{min_{p,q}}) \rfloor + 1)) * W * (H + 1)$ WHERE TODO. The solution provided also gives a direct improvement over the solution Thite provided in the same work for HMM$_2$. In Chapter 5, I extend my solutions to examine a more realistic model for external memory, the hierarchical memory with block transfers model (HMBTM). I use similar algorithms which run in TODO and give worst case expected search costs of TODO. In Chapter 6 I summarize my findings and discuss several problems which remain open.
 
 
 \chapter{Background and Related Work}
 
-\section{Preliminaries}
 
-We will also use $H(x_1,x_2,...,x_n)$ to describe the entropy of various other probability distributions. We let $E_t=H(P_{L_t}(i), p_i, P_{R_t}(i))$ be the local entropy of a sub tree $t$ rooted at $B_i$. $P_{L_t}(p_i)=\frac{P_L(p_i)}{p_t}$ and $P_{R_t}(p_i)=\frac{P_R(p_i)}{p_t}$ describe the normalized probabilities of searching for a forward before or after (respectively) word $B_i$. Similarly, $P_{L_t}(q_j)$ and $P_{R_t}(q_j)$ describe the normalized probabilities of searching for a forward before or after (respectively) the gap between words $B_j$ and $B_{j+1}$.
 
 \section{Binary Search Trees}
 
-After Knuth's initial examination of the optimum binary search tree problem in 1971 \cite{knuth1971optimum}, several others have examined the approximate version of the problem. Knuth's optimal solution requires $O(n^2)$ time and space which is too costly in many situations. While unable to bound an approximate algorithm within a constant of the optimal solution, many authors have been able to bound the cost based on the entropy of the distribution of probabilities, $H$. Specifically, $H = \sum_{i=1}^{n} p_i*log_2(1/p_i) + \sum_{j=0}^{n} q_i*log_2(1/q_j)$. In 1975, Bayer showed that $H-log_2 H-(log_2 e-1) \leq C_{Opt}$, $C_{Opt} \leq C_{WB} H + 2$ and $C_{Opt} \leq C_{MM} \leq H + 2$ where $C_{Opt}, C_{WB}$, and $C_{MM}$ are costs for the optimal solution, as well as weight-balanced and min-max heuristic methods respectively \cite{bayer1975improved}. Weight-balanced and min-max costs heuristics are greedy and require both $O(n)$ time and $O(n)$ space to run. In 1980, G{\"u}ttler, Mehlhorn AND Schneider presented a new heuristic, the modified minimum entropy (MME) heuristic \cite{guttler1980binary} which built upon the ideas of Horibe \cite{horibe1977improved}. G{\"u}ttler, Mehlhorn AND Schneider gave empircal evidence that the heuristic out-performed others \cite{guttler1980binary}. While the heuristic took $O(n^2)$ time, it only required $O(n)$ space, a huge saving over the optimal solution. However, they were unable to prove that $C_{MME} \leq H+2$ (like previous heuristics of weight-balanced and min-max) and settled with $C_{MME} \leq c_1*H+2$ where $c_1=1/H(1/3, 2/3) \approx 1.08$. In 1993, De Prisco and De Santis presented a new heuristic for constructing a near-optimum binary search tree \cite{de1993binary}. The method is discussed in more detail in section~\ref{sec:deBST} and has an upper bounded cost of at most $H+1-q_0-q_n+q_{max}$ where $q_{max}$ is the maximum weight leaf node. This method was later updated by Bose and Dou\"{i}eb to have a worst case cost of  \cite{bose2009efficient}
+After Knuth's initial examination of the optimum binary search tree problem in 1971 \cite{knuth1971optimum}, several others have examined the approximate version of the problem. Knuth's optimal solution requires $O(n^2)$ time and space which is too costly in many situations. While unable to bound an approximate algorithm within a constant of the optimal solution, many authors have been able to bound the cost based on the entropy of the distribution of probabilities, $H$. Specifically, $H = \sum_{i=1}^{n} p_i*log_2(\frac{1}{p_i}) + \sum_{j=0}^{n} q_i*lg(\frac{1}{q_j})$. In 1975, Bayer showed that $H-lg H-(lg e-1) \leq C_{Opt}$, $C_{Opt} \leq C_{WB} \leq H + 2$ and $C_{Opt} \leq C_{MM} \leq H + 2$ where $C_{Opt}, C_{WB}$, and $C_{MM}$ are costs for the optimal solution, as well as weight-balanced and min-max heuristic methods respectively \cite{bayer1975improved}. Weight-balanced and min-max costs heuristics are greedy and require both $O(n)$ time and $O(n)$ space to run. In 1980, G{\"u}ttler, Mehlhorn and Schneider presented a new heuristic, the Modified Entropy Rule (ME) \cite{guttler1980binary} which built upon the ideas of Horibe \cite{horibe1977improved}. G{\"u}ttler, Mehlhorn AND Schneider gave empirical evidence that the heuristic out-performed others \cite{guttler1980binary}. While the heuristic took $O(n^2)$ time, it only required $O(n)$ space, a huge savings over the optimal solution. However, they were unable to prove that $C_{ME} \leq H+2$ (like previous weight-balanced and min-max heuristics) and settled with $C_{ME} \leq c_1*H+2$ where $c_1=\frac{1}{H(\frac{1}{3}, \frac{2}{3})} \approx 1.08$. In 1993, De Prisco and De Santis presented a new heuristic for constructing a near-optimum binary search tree \cite{de1993binary}. The method is discussed in more detail in section~\ref{sec:deBST} and has an upper bounded cost of at most $H+1-q_0-q_n+q_{max}$ where $q_{max}$ is the maximum weight leaf node. This method was later updated by Bose and Dou\"{i}eb to have a worst case cost of 
  \begin{center}
-$\frac{H}{lg(2k-1)} \leq P_{OPT} \leq P_T \leq \frac{H}{lg k} + 1 + \sum_{i=0}^n q_i - q_0 - q_n - \sum_{i=0}^m q_{rank[i]}$
+$\frac{H}{lg(2k-1)} \leq P_{OPT} \leq P_T \leq \frac{H}{lg k} + 1 + \sum_{i=0}^n q_i - q_0 - q_n - \sum_{i=0}^m q_{rank[i]}$ \cite{bose2009efficient}
 \end{center}
 Here, H is the entropy of the probability distribution, $P_{OPT}$ is the average path-length in the optimal tree, $P_T$ is the average path length of the tree built using their algorithm and $m=max({n-3P,P})-1 \geq \frac{n}{4} - 1$. $P$ is the number of increasing or decreasing sequences in a left-to-right read of the access probabilities of the leaves. Moreover, $q_{rank[i]}$ is the $i^{th}$ smallest access probability among all leaves except $q_0$ and $q_n$. \\ 
  
@@ -292,79 +290,91 @@ TODO - LOOK @ SURVEY ON MEMORY MODELS
 
 \chapter{An Improved Bound for the Modified Minimum Entropy Heuristic}
 
+\section{Preliminaries}
+
+Recall that $H = \sum_{i=1}^{n} p_i*lg(\frac{1}{p_i}) + \sum_{j=0}^{n} q_i*lg(\frac{1}{q_j})$. We also use $H(x_1,x_2,...,x_n)$ to describe the entropy of probability distribution $(x_1, x_2, ...., x_n)$. For sub tree $t$, we let $p_t$ be its total probability. $P_{L}(p_i)$ and $P_{R}(p_i)$ are probabilities of searching for a word lexicographically before or after (respectively) word $B_i$. $P_{L_t}(p_i)=\frac{P_L(p_i)}{p_t}$ and $P_{R_t}(p_i)=\frac{P_R(p_i)}{p_t}$ are these same probabilities normalized for sub tree $t$. Similarly, $P_{L_t}(q_j)$ and $P_{R_t}(q_j)$ describe the normalized probabilities of searching for a word before or after (respectively) the lexicographic gap between words $B_j$ and $B_{j+1}$. We let $E_t=H(P_{L_t}(p_i), \frac{p_i}{p_t}, P_{R_t}(p_i))$ be the local entropy of a sub tree $t$ rooted at word $B_i$.  
 
 \section{The Modified Minimum Entropy Heuristic}
 
- As described in \cite{guttler1980binary}, the heuristic greedily chooses the word $B_i$ as the root such that $H(P_{L_t}(p_i), p_i/p_t, P_{R_t}(p_i))$ is maximized (local information gain) where $P_{L_t}(p_i)$ and $P_{R_t}(p_i)$ are the probabilities of searching for a word to the left and to the right of $p_i$ (normalized for the sub tree in question whose total probability is $p_t$). There are two exceptions to this rule. Firstly, if there exists $p_i$ such that $\frac{p_i}{p_t} > max(P_{L_t}(p_i), P_{R_t}(p_i))$ we always select $B_i$ as the root. Moreover, if there exists $q_j$ such that $\frac{q_j}{p_t} > max(P_{L_t}(q_j), P_{R_t}(q_j))$ then we select the root from among $B_j$ and $B_{j+1}$. $B_j$ is chosen if $P_{L_t}(q_j) > P_{R_t}(q_j)$ and $B_{j+1}$ is chosen otherwise. Since it takes linear time and constant space to find the all of the optimal local entropy splits in each level of the tree, the algorithm takes $O(n^2)$ time and linear space.  \\
+As described in \cite{guttler1980binary}, the heuristic greedily chooses the word $B_i$ as the root such that $H(P_{L_t}(p_i), \frac{p_i}{p_t}, P_{R_t}(p_i))$ is maximized. There are two exceptions to this rule. First, if there exists $p_i$ such that $\frac{p_i}{p_t} > max(P_{L_t}(p_i), P_{R_t}(p_i))$ we always select $B_i$ as the root. Moreover, if there exists $q_j$ such that $\frac{q_j}{p_t} > max(P_{L_t}(q_j), P_{R_t}(q_j))$ then we select the root from among $B_j$ and $B_{j+1}$. $B_j$ is chosen if $P_{L_t}(q_j) > P_{R_t}(q_j)$ and $B_{j+1}$ is chosen otherwise. Since it takes linear time and constant space to find the all of the optimal local entropy splits in each level of the tree, the algorithm takes $O(n^2)$ time and $O(n)$ space.  \\
 
-\section{MME is within 4 of Entropy}
+\section{ME is within 4 of Entropy}
 
 \begin{lem}
-When using the MME heuristic to choose the root of a binary search, one of the following three cases must occur: \\
+When using the ME Rule to choose the root $B_r$ of a binary search tree $t$ with total probability $p_t$, one of the following three cases must occur: \\
 1) $E_t \geq 1-2 \frac{p_r}{p_t}$ \\
 2) There exists $q_i$ such that $\frac{q_i}{p_t} > max(P_{L_t}(q_i), P_{R_t}(q_i))$\\
-3)  $max(P_L(p_r), P_R(p_r)) < \frac{4}{5} p_t$\\
+3)  $max(P_{L_t}(p_r), P_{R_t}(p_r)) < \frac{4}{5} p_t$\\
 \end{lem}
 \begin{proof}
-Suppose there exists some $p_i$ such that $\frac{p_i}{p_t} > max(P_{L_t}(p_i), P_{R_t}(p_i))$. By the MME heuristic, it must be selected as the root and thus $p_r=p_i$. As shown in \cite{gallager1968information} $H(x,1-x) \geq 2x$ when $x<1/2$. Thus we have: \\
+Suppose there exists some $p_i$ such that $\frac{p_i}{p_t} > max(P_{L_t}(p_i), P_{R_t}(p_i))$. By the ME Rule, it must be selected as the root and thus $p_r=p_i$. Moreover, both $P_{L_t}(p_i)$ and $P_{R_t}(p_i))$ must be less than one half. As shown in \cite{gallager1968information} $H(x,1-x) \geq 2x$ when $x<\frac{1}{2}$. Thus we have: \\
 $E_t \geq H( max(P_{L_t}(p_i), P_{R_t}(p_i)), 1-max(P_{L_t}(p_i), P_{R_t}(p_i))$ \\
 $ \geq 2*max(P_{L_t}(p_i), P_{R_t}(p_i))$ \\ $ \geq 1-\frac{p_i}{p_t}$ \\ 
 $ \geq 1-2 \frac{p_i}{p_t} \geq 1-2 \frac{p_r}{p_t}$ \\
  as required. \\
  
- If we have a $p_i$ across the middle of the set (i.e. $P_{L_t}(p_i) < \frac{1}{2}p_t$ and $P_{R_t}(p_i) < \frac{1}{2}p_t$) then we have: \\
- $E_t \geq H(x, y, 1-x-y)$ where $0 < x < 0.5$ and $0 < y < 0.5$  and we know that \\
- $H(x, y, 1-x-y) \geq H(1/2, 1/2) = 1$ in this case.
+ If we do not have some $p_i$ such that $\frac{p_i}{p_t} > max(P_{L_t}(p_i), P_{R_t}(p_i))$ but do have some $p_i$ such that $P_{L_t}(p_i) \leq \frac{1}{2}p_t$ and $P_{R_t}(p_i) \leq \frac{1}{2}p_t$) then we have: \\
+ $E_t \geq H(P_{L_t}(p_i), \frac{p_i}{p_t} , P_{R_t}(p_i)$ where $0 \leq P_{L_t}(p_i) \leq 0.5$, $0 \leq \frac{p_i}{p_t} \leq 0.5$ and $0 \leq P_{R_t}(p_i) \leq 0.5$  and we know that \\
+ $H(P_{L_t}(p_i), \frac{p_i}{p_t} , P_{R_t}(p_i)) \geq H(1/2, 1/2) = 1$ in this case.
  Thus, $E_t \geq 1-2p_r$ as required. \\
  
- Otherwise, we must have a $q_i$ spanning the middle of the data set (i.e. $P_{L_t}(q_i) < \frac{1}{2}p_t$ and $P_{R_t}(q_i) < \frac{1}{2}p_t$). Now supposed that case 2) does not occur: there does not exist a $q_i$ such that $\frac{q_i}{p_t} > max(P_{L_t}(q_i), P_{R_t}(q_i))$. Thus, we have that \\ $max(P_{L_t}(p_i), P_{R_t}(p_i)) \geq min(P_{L_t}(p_i), P_{R_t}(p_i)$ and \\ $max(P_{L_t}(p_i), P_{R_t}(p_i)) \geq q_i$ \\ Thus, $max(P_{L_t}(p_i), P_{R_t}(p_i)) \geq 1/3$ and by our assumption $max(P_{L_t}(p_i), P_{R_t}(p_i)) < 1/2$. \\
+ Otherwise, we must have some $q_i$ spanning the middle of the data set (i.e. $P_{L_t}(q_i) < \frac{1}{2}p_t$ and $P_{R_t}(q_i) < \frac{1}{2}p_t$). Suppose that case 2) does not occur: there does not exist a $q_i$ such that $\frac{q_i}{p_t} > max(P_{L_t}(q_i), P_{R_t}(q_i))$. Then, we have that \\ $max(P_{L_t}(p_i), P_{R_t}(p_i)) \geq min(P_{L_t}(p_i), P_{R_t}(p_i))$ and \\ $max(P_{L_t}(p_i), P_{R_t}(p_i)) \geq q_i$ \\ Thus, $max(P_{L_t}(p_i), P_{R_t}(p_i)) \geq 1/3$ and by our assumption $max(P_{L_t}(p_i), P_{R_t}(p_i)) < \frac{1}{2}$. \\
  So, as in the proof of table 3 (5.3) in \cite{guttler1980binary}\\
  $E_t \geq H(1/3, 2/3) \approx 0.92$. \\
- Since we do not have case 1), we know that \\
- $E_t < 1-2\frac{p_r}{q_t}$ \\
-$ \implies \frac{p_r}{q_t} < \frac{1-H(1/3, 2/3)}{2} \approx 0.04$ \\
-Suppose that $max(P_L(p_r), P_R(p_r)) \geq \frac{4}{5} p_t$ then we have \\
-$E_t \leq H(\frac{4}{5}, \frac{1-H(1/3, 2/3)}{2}, \frac{1}{5}-\frac{1-H(1/3, 2/3)}{2}) \approx 0.87 < H(1/3, 2/3) \geq E_t$ \\ 
+
+Now also suppose that case 1) does not occur. 
+$\implies E_t < 1-2\frac{p_r}{q_t}$ \\
+$\implies \frac{p_r}{q_t} < \frac{1-H(\frac{1}{3}, \frac{2}{3})}{2} \approx 0.04$ \\
+Suppose that $max(P_{L_t}(p_r), P_{R_t}(p_r)) \geq \frac{4}{5} p_t$ then we have \\
+$E_t \leq H(\frac{4}{5}, \frac{1-H(\frac{1}{3}, \frac{2}{3})}{2}, \frac{1}{5}-\frac{1-H(\frac{1}{3}, \frac{2}{3})}{2}) \approx 0.87 < H(\frac{1}{3}, \frac{2}{3}) \geq E_t$ \\ 
 a contradiction. \\
-Thus, if we do not have case 1) or 2), we must have case 3).
+Thus, if we do not have case 1) or 2), we must have case 3). Since this is our last remaining case, this completes the proof.
  
 
 \end{proof}
 
 
-
 \begin{thm}
-$C_{MME} \leq H + 4$
+$C_{ME} \leq H + 4$
 \end{thm}
 
 \begin{proof}
-This is very similar to the proof of theorem 4.4 in \cite{bayer1975improved}.
-We will first bound each $E_t$ on a case by case basis using the cases of Lemma 1.\\
+This uses a similar style to the proof of theorem 4.4 in \cite{bayer1975improved}.
+We will bind each $E_t$ for each sub tree of our BST on a case by case basis using the cases of \textbf{Lemma 3.3.1}.\\
 If case 1 occurs, we obviously have that \\
 $E_t \geq 1-2 \frac{p_r}{p_t}$ \\
-Note that this can only happen once for each word as a word can only be the root once. \\
+Note that this can only happen once for each word (a word can only be root once). \\
 
-Let $q_m$ be the middle gap when case two or three occurs. When case 2 occurs we have that \\
+While it wasn't explicitly stated, in \textbf{Lemma 3.3.1} it was shown that if some $p_i$ spans in the middle of the data set, $P_{L_t}(p_i) \leq \frac{1}{2}p_t$ and $P_{R_t}(p_i) \leq \frac{1}{2}p_t$, then regardless of whether or not $\frac{p_i}{p_t} > max(P_{L_t}(p_i), P_{R_t}(p_i))$, we can still show that case 1 occurs. Suppose for the remainder of the proof that there is no such middle-spanning $p_i$.
+
+Let $q_m$ be the unique middle gap (i.e. $P_{L_t}(q_m) < \frac{1}{2} p_t$ and $P_{R_t}(q_m) < \frac{1}{2} p_t$) when case 2 or 3 occurs. When case 2 occurs we have that: \\
 $E_t \geq H(\frac{1}{2}-\frac{1}{2} \frac{q_m}{p_t}, \frac{1}{2} + \frac{1}{2} \frac{q_m}{p_t}) \geq 2(\frac{1}{2}-\frac{1}{2} \frac{q_m}{p_t})=1-\frac{q_m}{p_t}$. \\
-Note that this can only happen twice for each gap (by the definition of the MME heuristic). \\
+Note that by the definition of the ME Rule, when this occurs, $q_m$ must be a leaf of depth at most 2. Thus, this condition can only happen twice for each $q_m$. \\
 
-When case 3 occurs we have that \\
-$E_t \geq H(\frac{1}{2}-\frac{1}{2} \frac{q_m}{p_t}, \frac{1}{2} + \frac{1}{2} \frac{q_m}{p_t}) \geq 1- \frac{4}{5} (\frac{q_m}{p_t})^2$ when $\frac{q_m}{p_t} < \frac{1}{2}$. \\
+When case 2 does not occur (and we have a $q_m$ spanning the middle) we must have case 3. This gives us: \\
+$E_t \geq H(\frac{1}{2}-\frac{1}{2} \frac{q_m}{p_t}, \frac{1}{2} + \frac{1}{2} \frac{q_m}{p_t}) \geq 1- \frac{4}{5} (\frac{q_m}{p_t})^2$ when $\frac{q_m}{p_t} < \frac{1}{2}$ (which must be true since case 2 did not occur). \\
 
-As in \cite{bayer1975improved} we define a $b_t$ for each subtree as follows: \\
+\iffalse
+TODO PROVE THIS DERIVATIVE
+derivative of (0.5-0.5*q)*log_2(1/(0.5-0.5*q)) + (0.5+0.5*q)*log_2(1/(0.5+0.5*q)) - (1-(4/5)*(q^2))
+\fi
+
+As in \cite{bayer1975improved} we define a $b_t$ for each sub tree $t$ as follows: \\
 let $b_t=2p_r$ for case 1. \\
 let $b_t=2q_m$ for case 2. \\
 let $b_t=\frac{q_m^2}{p_t}$ for case 3. \\
-Thus, we have \cite{bayer1975improved} \\
-$H = \sum\limits_{t \in S_T} P_t E_t \geq \sum P_t - \sum b_t = C - \sum b_t$ \\
-$ \implies C \leq H + \sum b_t$ \\ 
-Where $S_T$ is the set of all subtrees our our tree. \\
+Note that, in 1975 Bayer showed that: \\
+$C = \sum_{t \in S_T} p_t$ and $H = \sum_{t \in S_T} P_t E_t $ Where $S_T$ is the set of all sub trees of our tree (\textbf{Lemma 2.3} \cite{bayer1975improved}).
+Thus, we have\\
+$H = \sum_{t \in S_T} P_t E_t \geq \sum_{t \in S_T} P_t - \sum b_t = C - \sum b_t$ \\
+$ \implies C \leq H + \sum b_t$ \\
 
-As mentioned above, cases 1 and 2 can only occur once and twice respectively. Case 3 however, can occur many times, but each time it occurs, $\frac{q_m}{p_t}$ must decrease by a factor of $5/4$. Let $S_m$ be the set of all subtrees $t$ for which $q_m$ is the middle gap. We have that \\
-$C \leq H + \sum b_t = H + 2 \sum\limits_{r = 1}^n p_r + 2 \sum\limits_{m = 0}^n q_m + \sum\limits_{m = 0}^n \sum\limits_{t \in S_m} \frac{4}{5}\frac{q_m^2}{p_t}$ \\
-$\implies C \leq = H + 2 + \sum\limits_{m = 0}^n \frac{4}{5} q_m \sum\limits_{x=0}^{\infty} \frac{1}{2} * (\frac{4}{5}) ^ x$ \\
-$\implies C \leq = H + 2 + \sum\limits_{m = 0}^n \frac{4}{5}q_m \frac{5}{2}$ \\
-$\implies C \leq = H + 4$ \\
+As mentioned above, cases 1 and 2 can only occur once and twice respectively. Case 3 however, can occur many times, but each time it occurs, $\frac{q_m}{p_t}$ must decrease by a factor of $\frac{5}{4}$ since $max(P_{L_t}(p_r), P_{R_t}(p_r)) < \frac{4}{5} p_t$ (we recursively examine a smaller sub tree). Moreover, if $\frac{q_m}{p_t} > \frac{1}{2}$ then we will have case 2. Let $S_m$ be the set of all sub trees $t$ for which $q_m$ is the middle gap and case 3 only applies. We have that \\
+$C \leq H + \sum b_t = H + 2 \sum\limits_{r = 1}^n p_r + 2 \sum\limits_{m = 0}^n q_m + \sum\limits_{m = 0}^n \sum\limits_{t \in S_m} \frac{4}{5}\frac{q_m^2}{p_t}$ \\ 
+By factoring out $q_m$ and examining only cases up to $\frac{q_m}{p_t} = \frac{1}{2}$ we get: \\
+$\implies C \leq H + 2 + \sum\limits_{m = 0}^n \frac{4}{5} q_m \sum\limits_{x=0}^{\infty} \frac{1}{2} * (\frac{4}{5}) ^ x$ \\
+$\implies C \leq H + 2 + \sum\limits_{m = 0}^n \frac{4}{5}q_m (\frac{1}{2} * \frac{1}{1-\frac{4}{5}})$ (geometric series) \\
+$\implies C \leq H + 4$ \\
 
 \end{proof}
 

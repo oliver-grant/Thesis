@@ -2,48 +2,44 @@ This is BibTeX, Version 0.99c (TeX Live 2009/Debian)
 The top-level auxiliary file: OG_MCS_Thesis.aux
 The style file: plain.bst
 Database file #1: uw-ethesis/uw-ethesis.bib
-Warning--I didn't find a database entry for "bayer1975improved"
-Warning--I didn't find a database entry for "horibe1977improved"
-Warning--I didn't find a database entry for "gallager1968information"
-You've used 32 entries,
+You've used 35 entries,
             2118 wiz_defined-function locations,
-            692 strings with 8067 characters,
-and the built_in function-call counts, 10797 in all, are:
-= -- 1147
-> -- 360
-< -- 7
-+ -- 152
-- -- 112
-* -- 736
-:= -- 1740
-add.period$ -- 101
-call.type$ -- 32
-change.case$ -- 151
+            703 strings with 8346 characters,
+and the built_in function-call counts, 11537 in all, are:
+= -- 1218
+> -- 381
+< -- 8
++ -- 162
+- -- 118
+* -- 777
+:= -- 1866
+add.period$ -- 110
+call.type$ -- 35
+change.case$ -- 161
 chr.to.int$ -- 0
-cite$ -- 32
-duplicate$ -- 427
-empty$ -- 903
-format.name$ -- 112
-if$ -- 2290
+cite$ -- 35
+duplicate$ -- 462
+empty$ -- 974
+format.name$ -- 118
+if$ -- 2445
 int.to.chr$ -- 0
-int.to.str$ -- 32
-missing$ -- 32
-newline$ -- 163
-num.names$ -- 64
-pop$ -- 124
+int.to.str$ -- 35
+missing$ -- 37
+newline$ -- 178
+num.names$ -- 70
+pop$ -- 141
 preamble$ -- 1
-purify$ -- 119
+purify$ -- 128
 quote$ -- 0
-skip$ -- 307
+skip$ -- 327
 stack$ -- 0
-substring$ -- 904
-swap$ -- 95
-text.length$ -- 7
+substring$ -- 945
+swap$ -- 99
+text.length$ -- 8
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 126
+type$ -- 134
 warning$ -- 0
-while$ -- 129
-width$ -- 34
-write$ -- 358
-(There were 3 warnings)
+while$ -- 137
+width$ -- 37
+write$ -- 390
