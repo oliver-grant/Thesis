@@ -253,6 +253,7 @@ After Knuth's initial examination of the optimum binary search tree problem in 1
 $\frac{H}{lg(2k-1)} \leq P_{OPT} \leq P_T \leq \frac{H}{lg k} + 1 + \sum_{i=0}^n q_i - q_0 - q_n - \sum_{i=0}^m q_{rank[i]}$ \cite{bose2009efficient}
 \end{center}
 Here, H is the entropy of the probability distribution, $P_{OPT}$ is the average path-length in the optimal tree, $P_T$ is the average path length of the tree built using their algorithm and $m=max({n-3P,P})-1 \geq \frac{n}{4} - 1$. $P$ is the number of increasing or decreasing sequences in a left-to-right read of the access probabilities of the leaves. Moreover, $q_{rank[i]}$ is the $i^{th}$ smallest access probability among all leaves except $q_0$ and $q_n$. \\ 
+
  
 \section{Alphabetic Trees}
 
@@ -333,6 +334,26 @@ Thus, if we do not have case 1) or 2), we must have case 3). Since this is our l
 
 \end{proof}
 
+Before we examine the main theorem I show a small claim.
+
+\newtheorem{claim}{Claim}
+\begin{claim}
+$H(\frac{1}{2}-\frac{1}{2} x, \frac{1}{2} + \frac{1}{2} x) \geq 1- \frac{4}{5} (x)^2$ when $0 < x < \frac{1}{2}$
+\end{claim}
+
+\begin{proof}
+In order to prove the claim, we find the minimum of \\
+$H(\frac{1}{2}-\frac{1}{2} x, \frac{1}{2} + \frac{1}{2} x) - (1 - \frac{4}{5} (x)^2)$ when $0 < x < \frac{1}{2}$. \\
+To do this we take the derivative with respect to $x$. \\
+Let $F= H(\frac{1}{2}-\frac{1}{2} x, \frac{1}{2} + \frac{1}{2} x) - (1 - \frac{4}{5} (x)^2)$ \\
+$\implies F = - (\frac{1}{2}-\frac{1}{2} x)* lg(\frac{1}{2}-\frac{1}{2} x) - (\frac{1}{2} + \frac{1}{2} x)*lg(\frac{1}{2} + \frac{1}{2} x) - (1 - \frac{4}{5} (x)^2)$ \\
+$\implies F' = lg(\frac{1}{2}-\frac{1}{2} x) - lg(\frac{1}{2} + \frac{1}{2} x) + \frac{8}{5}x$ \\ 
+The only root here occurs when $x = 0$. Thus, we check when $x \rightarrow 0$ and $x \rightarrow \frac{1}{2}$. We note that: \\
+$F \rightarrow 0^{+}$ when $x \rightarrow 0$ and \\
+$F \rightarrow \approx 0.0112781 > 0$ when $x \rightarrow \frac{1}{2}$. \\
+Thus, $H(\frac{1}{2}-\frac{1}{2} x, \frac{1}{2} + \frac{1}{2} x) - (1 - \frac{4}{5} (x)^2) > 0$ for $ 0 < x < \frac{1}{2}$ which proves the claim.
+\end{proof} 
+
 
 \begin{thm}
 $C_{ME} \leq H + 4$
@@ -352,25 +373,9 @@ $E_t \geq H(\frac{1}{2}-\frac{1}{2} \frac{q_m}{p_t}, \frac{1}{2} + \frac{1}{2} \
 Note that by the definition of the ME Rule, when this occurs, $q_m$ must be a leaf of depth at most 2. Thus, this condition can only happen twice for each $q_m$. \\
 
 When case 2 does not occur (and we have a $q_m$ spanning the middle) we must have case 3. This gives us: \\
-$E_t \geq H(\frac{1}{2}-\frac{1}{2} \frac{q_m}{p_t}, \frac{1}{2} + \frac{1}{2} \frac{q_m}{p_t})$
-
-\newtheorem{claim}{Claim}
-\begin{claim}
-$H(\frac{1}{2}-\frac{1}{2} \frac{q_m}{p_t}, \frac{1}{2} + \frac{1}{2} \frac{q_m}{p_t}) \geq 1- \frac{4}{5} (\frac{q_m}{p_t})^2$ when $\frac{q_m}{p_t} < \frac{1}{2}$
-\end{claim}
-
-\begin{proof}
-In order to prove the claim, we find the minimum of \\
-$H(\frac{1}{2}-\frac{1}{2} \frac{q_m}{p_t}, \frac{1}{2} + \frac{1}{2} \frac{q_m}{p_t}) - (1 - \frac{4}{5} (\frac{q_m}{p_t})^2)$ when $0 < \frac{q_m}{p_t} < \frac{1}{2}$. \\
-To do this we take the derivative with respect to $\frac{q_m}{p_t}$. \\
-Let $F= H(\frac{1}{2}-\frac{1}{2} \frac{q_m}{p_t}, \frac{1}{2} + \frac{1}{2} \frac{q_m}{p_t}) - (1 - \frac{4}{5} (\frac{q_m}{p_t})^2)$ \\
-$\implies F = - (\frac{1}{2}-\frac{1}{2} \frac{q_m}{p_t})* lg(\frac{1}{2}-\frac{1}{2} \frac{q_m}{p_t}) - (\frac{1}{2} + \frac{1}{2} \frac{q_m}{p_t})*lg(\frac{1}{2} + \frac{1}{2} \frac{q_m}{p_t}) - (1 - \frac{4}{5} (\frac{q_m}{p_t})^2)$ \\
-$\implies F' = lg(\frac{1}{2}-\frac{1}{2} \frac{q_m}{p_t}) - lg(\frac{1}{2} + \frac{1}{2} \frac{q_m}{p_t}) + \frac{8}{5}\frac{q_m}{p_t}$ \\ 
-The only root here occurs when $\frac{q_m}{p_t} = 0$. Thus, we check when $\frac{q_m}{p_t} \rightarrow 0$ and $\frac{q_m}{p_t} \rightarrow \frac{1}{2}$. We note that: \\
-$F \rightarrow 0^{+}$ when $\frac{q_m}{p_t} \rightarrow 0$ and \\
-$F \rightarrow 0.0112781 > 0$ when $\frac{q_m}{p_t} \rightarrow \frac{1}{2}$. \\
-This proves the claim.
-\end{proof}
+$E_t \geq H(\frac{1}{2}-\frac{1}{2} \frac{q_m}{p_t}, \frac{1}{2} + \frac{1}{2} \frac{q_m}{p_t})$ \\
+By subbing in $\frac{q_m}{p_t}$ for $x$ we know from \textbf{Claim 1} that:
+$\implies E_t \geq 1- \frac{4}{5} (\frac{q_m}{p_t})^2$\\
 
 As in \cite{bayer1975improved} we define a $b_t$ for each sub tree $t$ as follows: \\
 let $b_t=2p_r$ for case 1. \\
