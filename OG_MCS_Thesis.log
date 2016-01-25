@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2012.6.18)  20 JAN 2016 09:26
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2012.6.18)  25 JAN 2016 16:22
 entering extended mode
  %&-line parsing enabled.
 **OG_MCS_Thesis.tex
@@ -516,7 +516,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 255--256
 [5] [6] [7]
 Chapter 3.
 
-Underfull \hbox (badness 10000) in paragraph at lines 300--301
+Underfull \hbox (badness 10000) in paragraph at lines 301--302
 
  []
 
@@ -524,104 +524,96 @@ Underfull \hbox (badness 10000) in paragraph at lines 300--301
 
 
 ]
-Underfull \hbox (badness 10000) in paragraph at lines 305--309
+Underfull \hbox (badness 10000) in paragraph at lines 306--310
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 311--316
+Underfull \hbox (badness 10000) in paragraph at lines 312--317
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 317--321
+Underfull \hbox (badness 10000) in paragraph at lines 318--322
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 322--325
+Underfull \hbox (badness 10000) in paragraph at lines 323--326
 
  []
 
 [9]
 \c@claim=\count124
 
-Underfull \hbox (badness 10000) in paragraph at lines 363--368
+Underfull \hbox (badness 10000) in paragraph at lines 364--369
 
  []
 
 [10]
-Underfull \hbox (badness 10000) in paragraph at lines 371--374
+Underfull \hbox (badness 10000) in paragraph at lines 372--375
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 375--379
+Underfull \hbox (badness 10000) in paragraph at lines 376--380
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 380--389
+Underfull \hbox (badness 10000) in paragraph at lines 381--390
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 390--396
+Underfull \hbox (badness 10000) in paragraph at lines 391--397
 
  []
 
 [11] [12]
 Chapter 4.
-
-Overfull \hbox (12.74457pt too wide) in paragraph at lines 415--415
-[]\OT1/cmr/bx/n/17.28 Thite's Op-ti-mum Bi-nary Search Trees on the HMM
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 417--418
-
- []
-
 [13
 
 
 ]
-Underfull \hbox (badness 10000) in paragraph at lines 420--421
+Overfull \hbox (12.74457pt too wide) in paragraph at lines 417--417
+[]\OT1/cmr/bx/n/17.28 Thite's Op-ti-mum Bi-nary Search Trees on the HMM
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 419--420
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 423--424
+Underfull \hbox (badness 10000) in paragraph at lines 422--423
+
+ []
+
+
+Overfull \hbox (8.31389pt too wide) in paragraph at lines 425--426
+\OT1/cmr/m/n/12 rithms have var-i-ous use cases and run-ning of times $\OML/cmm
+/m/it/12 O\OT1/cmr/m/n/12 ([] \OMS/cmsy/m/n/12 ^^C \OML/cmm/m/it/12 n[]\OT1/cmr
+/m/n/12 )$, $\OML/cmm/m/it/12 O\OT1/cmr/m/n/12 ([])$
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 425--426
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 431--432
 
  []
 
 [14]
-Underfull \hbox (badness 10000) in paragraph at lines 433--435
+Underfull \hbox (badness 10000) in paragraph at lines 442--444
 
  []
 
 [15]
-Underfull \hbox (badness 10000) in paragraph at lines 450--451
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 452--453
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 454--455
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 456--457
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 458--459
+Underfull \hbox (badness 10000) in paragraph at lines 459--460
 
  []
 
@@ -630,174 +622,195 @@ Underfull \hbox (badness 10000) in paragraph at lines 461--462
 
  []
 
+
+Underfull \hbox (badness 10000) in paragraph at lines 463--464
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 465--466
+
+ []
+
 [16]
-Underfull \hbox (badness 10000) in paragraph at lines 530--536
+Underfull \hbox (badness 10000) in paragraph at lines 467--468
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 470--471
 
  []
 
 [17]
-Underfull \hbox (badness 10000) in paragraph at lines 539--540
+Underfull \hbox (badness 10000) in paragraph at lines 539--545
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 543--544
+Underfull \hbox (badness 10000) in paragraph at lines 548--549
 
  []
 
 [18]
-Underfull \hbox (badness 10000) in paragraph at lines 578--579
+Underfull \hbox (badness 10000) in paragraph at lines 552--553
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 580--582
+Underfull \hbox (badness 10000) in paragraph at lines 587--588
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 583--586
+Underfull \hbox (badness 10000) in paragraph at lines 589--591
 
  []
 
 [19]
-Underfull \hbox (badness 10000) in paragraph at lines 602--603
+Underfull \hbox (badness 10000) in paragraph at lines 592--595
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 604--605
+Underfull \hbox (badness 10000) in paragraph at lines 611--612
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 606--607
+Underfull \hbox (badness 10000) in paragraph at lines 613--614
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 608--609
+Underfull \hbox (badness 10000) in paragraph at lines 615--616
 
  []
 
 
-Overfull \hbox (5.52057pt too wide) in paragraph at lines 614--614
+Underfull \hbox (badness 10000) in paragraph at lines 617--618
+
+ []
+
+
+Overfull \hbox (5.52057pt too wide) in paragraph at lines 623--623
 \OT1/cmr/bx/n/17.28 and De San-tis with Ex-ten-sions by Bose and Dou^^?^^Peb 
  []
 
-
-Overfull \hbox (23.25266pt too wide) in paragraph at lines 623--624
+[20]
+Overfull \hbox (23.25266pt too wide) in paragraph at lines 632--633
 $\OML/cmm/m/it/12 P[]$ \OT1/cmr/m/n/12 is the av-er-age path length of the tree
  built us-ing their al-go-rithm and $\OML/cmm/m/it/12 m[] \OT1/cmr/m/n/12 = \OM
 L/cmm/m/it/12 max\OT1/cmr/m/n/12 ([]) \OMS/cmsy/m/n/12 ^^@
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 623--624
+Underfull \hbox (badness 10000) in paragraph at lines 632--633
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 625--626
-
- []
-
-[20]
-Underfull \hbox (badness 10000) in paragraph at lines 627--628
+Underfull \hbox (badness 10000) in paragraph at lines 634--635
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 629--630
+Underfull \hbox (badness 10000) in paragraph at lines 636--637
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 631--632
+Underfull \hbox (badness 10000) in paragraph at lines 638--639
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 637--638
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 639--640
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 641--642
+Underfull \hbox (badness 10000) in paragraph at lines 640--641
 
  []
 
 [21]
-Underfull \hbox (badness 10000) in paragraph at lines 648--650
+Underfull \hbox (badness 10000) in paragraph at lines 646--647
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 651--652
+Underfull \hbox (badness 10000) in paragraph at lines 648--649
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 677--678
+Underfull \hbox (badness 10000) in paragraph at lines 650--651
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 685--686
+Underfull \hbox (badness 10000) in paragraph at lines 657--659
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 660--661
 
  []
 
 [22]
-Underfull \hbox (badness 10000) in paragraph at lines 687--688
+Underfull \hbox (badness 10000) in paragraph at lines 686--687
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 689--690
+Underfull \hbox (badness 10000) in paragraph at lines 694--695
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 691--692
+Underfull \hbox (badness 10000) in paragraph at lines 696--697
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 693--694
+Underfull \hbox (badness 10000) in paragraph at lines 698--699
 
  []
 
 
-Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `math shift' on input line 702.
+Underfull \hbox (badness 10000) in paragraph at lines 700--701
+
+ []
 
 
-Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `subscript' on input line 702.
+Underfull \hbox (badness 10000) in paragraph at lines 702--703
 
-
-Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `math shift' on input line 702.
+ []
 
 [23]
-Underfull \hbox (badness 10000) in paragraph at lines 715--716
+
+Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
+(hyperref)                removing `math shift' on input line 711.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
+(hyperref)                removing `subscript' on input line 711.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
+(hyperref)                removing `math shift' on input line 711.
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 724--725
 
  []
 
-
-Underfull \hbox (badness 10000) in paragraph at lines 729--730
+[24]
+Underfull \hbox (badness 10000) in paragraph at lines 738--739
 
  []
 
-[24] [25]
+[25]
 Chapter 5.
 
-Underfull \hbox (badness 10000) in paragraph at lines 776--779
+Underfull \hbox (badness 10000) in paragraph at lines 785--788
 
  []
 
@@ -805,30 +818,30 @@ Underfull \hbox (badness 10000) in paragraph at lines 776--779
 
 
 ]
-Underfull \hbox (badness 10000) in paragraph at lines 784--785
+Underfull \hbox (badness 10000) in paragraph at lines 793--794
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 786--787
+Underfull \hbox (badness 10000) in paragraph at lines 795--796
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 788--789
+Underfull \hbox (badness 10000) in paragraph at lines 797--798
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 790--791
+Underfull \hbox (badness 10000) in paragraph at lines 799--800
 
  []
 
 [27]
 Package hyperref Info: bookmark level for unknown algorithm defaults to 0 on in
-put line 796.
+put line 805.
  [28]
-Overfull \hbox (6.61485pt too wide) in paragraph at lines 858--859
+Overfull \hbox (6.61485pt too wide) in paragraph at lines 867--868
 [][]\OT1/cmr/bx/n/12 Lemma 5.3.1. []\OT1/cmr/m/it/12 BT{Range-Pack$\OT1/cmr/m/n
 /12 (\OML/cmm/m/it/12 r[]q\OT1/cmr/m/n/12 []\OML/cmm/m/it/12 ; i; loc; amt\OT1/
 cmr/m/n/12 )$ \OT1/cmr/m/it/12 re-turns an up-dated lo-ca-tion, call it $\OML/c
@@ -836,12 +849,12 @@ mm/m/it/12 new[]loc$
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 862--863
+Underfull \hbox (badness 10000) in paragraph at lines 871--872
 
  []
 
 
-Overfull \hbox (11.34033pt too wide) in paragraph at lines 864--865
+Overfull \hbox (11.34033pt too wide) in paragraph at lines 873--874
 []\OT1/cmr/m/n/12 Suppose BT{Range-Pack$(\OML/cmm/m/it/12 r[]q\OT1/cmr/m/n/12 [
 ]\OML/cmm/m/it/12 ; i; loc; amt\OT1/cmr/m/n/12 )$ re-turns $\OML/cmm/m/it/12 ne
 w[]loc$ \OT1/cmr/m/n/12 in time at most $\OML/cmm/m/it/12 O\OT1/cmr/m/n/12 (\OM
@@ -850,7 +863,7 @@ L/cmm/m/it/12 l \OMS/cmsy/m/n/12 ^^C \OT1/cmr/m/n/12 (\OML/cmm/m/it/12 new[]loc
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 864--865
+Underfull \hbox (badness 10000) in paragraph at lines 873--874
 
  []
 
@@ -885,10 +898,10 @@ LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 8067 strings out of 493848
- 107228 string characters out of 1152823
- 190588 words of memory out of 3000000
- 11037 multiletter control sequences out of 15000+50000
+ 8068 strings out of 493848
+ 107237 string characters out of 1152823
+ 190630 words of memory out of 3000000
+ 11038 multiletter control sequences out of 15000+50000
  15398 words of font info for 58 fonts, out of 3000000 for 9000
  714 hyphenation exceptions out of 8191
  41i,7n,39p,2063b,399s stack positions out of 5000i,500n,10000p,200000b,50000s
@@ -911,9 +924,9 @@ ublic/amsfonts/cm/cmsy5.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfon
 ts/cm/cmsy6.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmsy7.
 pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/sh
 are/texmf-texlive/fonts/type1/public/amsfonts/cm/cmti12.pfb>
-Output written on OG_MCS_Thesis.pdf (48 pages, 430080 bytes).
+Output written on OG_MCS_Thesis.pdf (48 pages, 431458 bytes).
 PDF statistics:
- 653 PDF objects out of 1000 (max. 8388607)
+ 654 PDF objects out of 1000 (max. 8388607)
  147 named destinations out of 1000 (max. 500000)
  321 words of extra memory for PDF output out of 10000 (max. 10000000)
 

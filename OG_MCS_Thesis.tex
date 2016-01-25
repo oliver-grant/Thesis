@@ -263,7 +263,8 @@ In 1952, Huffman famously developed the Huffman tree, which solved the same prob
 
 In 1991, Yeung proposed an approximate solution which solved the problem in $O(n)$ time and space \cite{yeung1991alphabetic}. The algorithm produced a tree with worst case cost $H + 2 - q_1-q_n$. This was later imporved by De Prisco and De Santis who created an $O(n)$ time algorithm which had a worst case cost of $H+1-q_0-q_n+q_{max}$ \cite{de1993binary}. The method was improved one more time by Bose and Dou\"{i}eb who improved upon Yeung's method by decreasing the bound by $\sum_{i=0}^m q_{rank[i]}$ where $m=max({n-3P,P})-1 \geq \frac{n}{4} - 1$, $P$ is the number of increasing or decreasing sequences in a left-to-right read of the access probabilities of the leaves and $q_{rank[i]}$ is the $i^{th}$ smallest access probability among all leaves except $q_0$ and $q_n$ \cite{bose2009efficient}. De Prisco and De Santis used Yeung's method within their own, so this improvement to Yeung's method gave an overall tighter bound of $H+1-q_0-q_n+q_{max}-\sum_{i=0}^m q_{rank[i]}$. CHECK THIS OUT TODO
 
-\section{Multiway Trees} 
+\section{Multiway Trees} \label{sec:MWT}
+
 
 This static k-ary or multiway search tree problem is similar to optimum binary search tree problem with the added constraint that up to $k$ keys can be placed into a single node, and cost of search within a node is constant. Multiway search trees maintain an ordering property similar to that of traditional binary search trees. Each key in every page in the subtree rooted at a specific location in a page $g$ (i.e. between two keys $k$ and $l$) must have its key lie between $k$ and $l$. Each internal node of the k-ary tree contains at least one and at most $k-1$ keys while a leaf node contains no keys. Successful searches end in an internal while unsuccessful searches end in one of the $n+1$ leaves of the tree. The cost of search is the average path depth is defined as :
 
@@ -400,16 +401,17 @@ $\implies C \leq H + 4$ \\
  
 \section{The Hierarchical Memory Model}
 
-The Hierarchical Memory Model (HMM) was proposed in 1987 by Aggarwal et al. as an alternative to the classic RAM model \cite{aggarwal1987model}. It was intended to better model the multiple levels of the memory hierarchy. The model has an unlimited number of registers, $R_1, R_2, ...$ each with its own location in memory (positive integer). In the first version of the model, accessing a register at memory location $x_i$ takes $\lceil lg(x_i) \rceil$ time. Thus, computing $f(a_1, a_2, ..., a_n)$ takes time $\sum_{i=1}^{n} \lceil lg(location(a_i)) \rceil$. The original paper also considered arbitrary cost functions $f(x)$. We will use the cost function as was explained in Thite's thesis \cite{thite2008optimum}. Here, $\mu (a)$ is the cost of accessing memory location $a$. We have a series of memory sizes $m_1, m_2, ..., m_h$ where $m_l$ has infinite size each with an associated cost $c_1, c_2, ..., c_h$. We assume that $c_1 < c_2 < ... < c_h$. 
+The Hierarchical Memory Model (HMM) was proposed in 1987 by Aggarwal et al. as an alternative to the classic RAM model \cite{aggarwal1987model}. It was intended to better model the multiple levels of the memory hierarchy. The model has an unlimited number of registers, $R_1, R_2, ...$ each with its own location in memory (positive integer). In the first version of the model, accessing a register at memory location $x_i$ takes $\lceil lg(x_i) \rceil$ time. Thus, computing $f(a_1, a_2, ..., a_n)$ takes time $\sum_{i=1}^{n} \lceil lg(location(a_i)) \rceil$. The original paper also considered arbitrary cost functions $f(x)$. We will use the cost function as was explained in Thite's thesis \cite{thite2008optimum}. Here, $\mu (a)$ is the cost of accessing memory location $a$. We have a series of memory sizes $m_1, m_2, ..., m_l$. Each memory level has a finite size except $m_l$ which we assume has infinite size. Each memory level has an associated cost of access $c_1, c_2, ..., c_l$. We assume that $c_1 < c_2 < ... < c_l$. 
 
 \begin{center}$\mu (a) = c_i if \sum_{j = 1}^{i-1}m_j  < a \leq \sum_{j = 1}^{i}m_j$. \end{center}
 
-While Thite notes that typical memory hierarchies have increasing sizes for slower memory levels, we explicitly assume that successive memory sizes divide one another evenly:
+Thite notes that typical memory hierarchies have decreasing sizes for faster memory levels (moving \textit{up} the memory hierarchy). We make the same assumption:
 \begin{center}
-$m_1 < m_2 < ... < m_h$ and
+$m_1 < m_2 < ... < m_l$ and
 \end{center}
+Unlike Thite, we also explicitly assume that successive memory level sizes divide one another evenly:
 \begin{center}
-$\forall i \in  \{1,2,...,h\}$, $m_i \mid m_{i+1}$.
+$\forall i \in  \{1,2,...,l-1\}$, $m_i \mid m_{i+1}$.
 \end{center}
 
 \section{Thite's Optimum Binary Search Trees on the HMM Model}
@@ -420,31 +422,38 @@ Thite's thesis provided solutions to several problems in the HMM and a related m
 \textbf{Problem [Optimum BST Under HMM].} Suppose we are given a set of $n$ ordered keys $x_1, x_2, ..., x_2$ with associated probabilities of search $p_1, p_2, ..., p_n$, as well as $n+1$ ranges $(- \infty, x_1), (x_1, x_2), ..., (x_{n-1}, x_n), (x_n, \infty)$ with associated probabilities of search $q_0, q_1, ..., q_n$. The problem is to construct a binary search tree $T$ over the set of keys and compute a memory assignment function $\phi : V (T) \rightarrow {1, 2, ..., n}$ that assigns nodes of $T$ to memory locations such that the expected cost of a search is minimized under the HMM model.\\
 
 
-He provided three separate optimum solutions; \textbf{Parts}, \textbf{Trunks}, and \textbf{Split}. These algorithms have various use cases, running in times $O(\frac{2^{h-1}}{(h-1)!}* n^{2h+1})$, $O(\frac{2^{n-m_h}*(n-m_h+h)^{n-m_h}*n^3}{(h-2)!})$ and $O(2^n)$ respectively. In the following sections, I will provide an approximate solution to this problem that runs in time $O(n*lg(m_1))$ and an upper bound on its expected search cost.  \\
+He provided three separate optimum solutions; \textbf{Parts}, \textbf{Trunks}, and \textbf{Split}. These algorithms have various use cases and running of times $O(\frac{2^{h-1}}{(h-1)!}* n^{2h+1})$, $O(\frac{2^{n-m_h}*(n-m_h+h)^{n-m_h}*n^3}{(h-2)!})$ and $O(2^n)$ respectively. Here, $h$ is the minimum memory level such that all $n$ keys can fit on memories $\leq h$: \\
+\begin{center}
+$min(h \in \{1,..,l\} ): n \leq \sum_{i = 1}^{h}m_i$
+\end{center}
 
-Thite also considered the same problem under the related HMM$_2$ model. This model assumes there are simply two levels of memory of size $m_1$ and $m_2$ with costs of access $c_1$ and $c_2$ where $c_1 < c_2$. Thite provided an optimal solution to this problem (named \textbf{TwoLevel}) which ran in time $O(n^5)$, $o(n^5)$ if $m_1 \in o(n)$, and $O(n^4)$ if $m_1 \in O(1)$. He also gave an $O(nlg n)$ time approximate solution with an upper bounded expected search cost of $c_2(H+1)$. The solution I provide which approximates the optimum tree under the HMM model also provides a strict improvement over Thite's approximate algorithm in both running time and expected cost under the HMM$_2$ model.
+
+ In the following sections, I will provide two approximate solutions to this problem that run in time $O(n*lg(m_1))$ and provide an upper bound on their expected search costs.  \\
+
+Thite also considered the same problem under the related HMM$_2$ model. This model assumes there are simply two levels of memory of size $m_1$ and $m_2$ with costs of access $c_1$ and $c_2$ where $c_1 < c_2$. Thite provided an optimal solution to this problem (named \textbf{TwoLevel}) which ran in time $O(n^5)$. It ran in $o(n^5)$, if $m_1 \in o(n)$, and in $O(n^4)$ if $m_1 \in O(1)$. He also gave an $O(nlg n)$ time approximate solution with an upper bounded expected search cost of $c_2(H+1)$. The solution I provide in  which approximates the optimum tree under the HMM model also provides an improvement over Thite's approximate algorithm in both running time and expected cost under the HMM$_2$ model.
 
 
 \section{Efficient Near-Optimal Multiway Trees of Bose and Dou\"{i}eb}
-In 2009, Bose and Dou\"{i}eb's 2009 work provided a new construction method with linear running time (independent of the size of a node in tree) with the best expected cost to date \cite{bose2009efficient}. The group was able to prove that:
+
+In order to approximately solve the optimum BST problem under the HMM model, I will use a multiway search tree construction algorithm of Bose and Dou\"{i}eb. In 2009, the duo devised a new method with linear running time (independent of the size of a node in tree) and with the best expected cost to date \cite{bose2009efficient}. The group was able to prove that:
 \begin{center}
 $\frac{H}{lg(2k-1)} \leq P_{OPT} \leq P_T \leq \frac{H}{lg k} + 1 + \sum_{i=0}^n q_i - q_0 - q_n - \sum_{i=0}^m q_{rank[i]}$
 \end{center}
-Here, H is the entropy of the probability distribution, $P_{OPT}$ is the average path-length in the optimal tree, $P_T$ is the average path length of the tree built using their algorithm and $m=max({n-3P,P})-1 \geq \frac{n}{4} - 1$. $P$ is the number of increasing or decreasing sequences in a left-to-right read of the access probabilities of the leaves. Moreover, $q_{rank[i]}$ is the $i^{th}$ smallest access probability among all leaves except $q_0$ and $q_n$. \\
- As described in the subsection TODO, we are given $n$ ordered keys with weights $p_0, ..., p_n$ as well as $n+1$ weights of unsuccessful searches $q_0,...,q_n$. We often refer to "keys" representing the gaps as $(x_{i-1},x_i)$ to be mean the "key" associated with a search between key $x_{i-1}$ and $x_i$. \\
+Here, H is the entropy of the probability distribution, $P_{OPT}$ is the average path-length in the optimal tree, $P_T$ is the average path length of the tree built using their algorithm and $m=max({n-3P,P})-1 \geq \frac{n}{4} - 1$. $P$ is the number of increasing or decreasing sequences in a left-to-right read of the access probabilities of the leaves. Moreover, $q_{rank[i]}$ is the $i^{th}$ smallest access probability among all leaves except $q_0$ and $q_n$. Finally, $k$ is the size of a node in the tree. \\
+ As described in the section~\ref{sec:MWT}, in the multiway search tree problem we are given $n$ ordered keys with weights $p_0, ..., p_n$ as well as $n+1$ weights of unsuccessful searches $q_0,...,q_n$. We often refer to "keys" representing the gaps as $(x_{i-1},x_i)$ to be mean the "key" associated with a search between key $x_{i-1}$ and $x_i$. \\
  
- The algorithm occurs in three steps. First, a new distribution is created by distributing all leaf weight to internal nodes. The peaks and valleys of the probability distribution of the leaf weights is used to do this assignment. After this, the new probability distribution is made into a k-ary tree using a greedy recursive algorithm. The algorithm essentially chooses the $l \leq k$ elements to go in the root node such that each child's subtree will have probability of access of at most $1/k$. They then reattach leaves to this internal key tree they have created. Their algorithm's design allows them to bound the depth of keys and leaves which ultimately allows them to achieve the bounds they have described. 
+ The algorithm occurs in three steps. First, a new distribution is created by distributing all leaf weights to appropriate internal nodes. Without going into great detail, essentially an examination of the peaks and valleys of the probability distribution of the leaf weights is used to do this weight reassignment. After this, the new probability distribution is made into a k-ary tree using a greedy recursive algorithm. The algorithm recursively chooses the $l \leq k$ elements to go in the root node such that each child's subtree will have probability of access of at most $1/k$. After this internal key tree has been completed, leaf nodes are reattached. Their algorithm's design allows them to bound the depth of keys and leaves. This ultimately allows them to achieve the bounds they have described. 
 
 \section{Algorithm ApproxMWPaging}
 
-First, we need a lemma about converting a multiway search tree to a binary search tree. For the sake of clarity, we will call what are typically known as \textit{nodes} of the multiway tree \textit{pages}. This represents how various items of our search tree will fit onto pages. We maintain the notion of calling individual items \textit{keys}.
+First, we need a lemma about converting a multiway search tree to a binary search tree. For the sake of clarity, we will call what are typically known as \textit{nodes} of the multiway tree \textit{pages}. This represents how various items of our search tree will fit onto pages of our memory hierarchy. We maintain the notion of calling individual items \textit{keys}.
 
 \begin{lem}
-Given a multiway tree $T'$ with page size $k$ and $n$ keys, where keys are associated with a probability distribution of successful and unsuccessful searches as in Knuth's original optimum binary search tree problem, we can create a BST $T$ where each key in a given page $g$ of $T'$ forms a connected component in $T$ in $O(nlg(k))$ time.
+Given a multiway tree $T'$ with page size $k$ and $n$ keys, where keys are associated with a probability distribution of successful and unsuccessful searches as in Knuth's original optimum binary search tree problem, we can create a BST $T$ where each key in a given page $g \in T'$ forms a connected component in $T$ in $O(nlg(k))$ time.
 \end{lem}
 
 \begin{proof}
-For each page $g$, we sort its keys and create a complete BST $B$ over the keys. We create an ordering over all potential locations where keys could be added to the tree from left to right. All keys in all descendant pages of a page in a specific subtree rooted at a child of $g$ will lie in a specific range. There are at most $k+1$ of these ranges (since our page has at most $k$ keys). These ranges will precisely correspond to the at most $k+1$ locations where a new child key could be added to $B$. We note that we cannot add new children to keys which correspond to unsuccessful searches. We order these locations from left to right and attach root keys from the newly created BST's of each of the ordered (left to right) children of $g$. These will all be valid connections since each child of $g$ has keys in these correct ranges, and combining BST's in this fashion produces a valid BST. We perform a sort of $O(k)$ items (in time $O(klg(k))$) $O(n/k)$ times, and make $O(n)$ new parent child connections, giving us total time $O(n lg(k)$.
+For each page $g$, we sort its keys by value and create a complete BST $B$ over the keys. We create an ordering over all potential locations where keys could be added to the tree from left to right. All keys in all descendant pages of a page $g$ in a specific subtree rooted at a child of $g$ will lie in a specific range. There are at most $k+1$ of these ranges (since our page has at most $k$ keys). These ranges will precisely correspond to the at most $k+1$ locations where a new child key could be added to $B$. We note that we cannot add new children to keys which correspond to unsuccessful searches. We order these locations from left to right and attach root keys from the newly created BST's of each of the ordered (left to right) children of $g$. These will all be valid connections since each child of $g$ has keys in these correct ranges, and combining BST's in this fashion produces a valid BST. We perform a sort of $O(k)$ items (in time $O(klg(k))$) $O(n/k)$ times, and make $O(n)$ new parent child connections, giving us total time $O(n lg(k)$.
 \end{proof}
 
 In order to approximately solve the optimum BST problem under the HMM model, we will do the following: \\

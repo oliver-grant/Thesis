@@ -12,18 +12,18 @@
 \contentsline {section}{\numberline {2.4}Memory Models}{7}{section.2.4}
 \contentsline {chapter}{\numberline {3}An Improved Bound for the Modified Minimum Entropy Heuristic}{8}{chapter.3}
 \contentsline {section}{\numberline {3.1}Preliminaries}{8}{section.3.1}
-\contentsline {section}{\numberline {3.2}The Modified Minimum Entropy Heuristic}{8}{section.3.2}
+\contentsline {section}{\numberline {3.2}The Modified Entropy Rule}{8}{section.3.2}
 \contentsline {section}{\numberline {3.3}ME is within 4 of Entropy}{9}{section.3.3}
 \contentsline {chapter}{\numberline {4}Approximate Binary Search in the Hierarchical Memory Model}{13}{chapter.4}
 \contentsline {section}{\numberline {4.1}The Hierarchical Memory Model}{13}{section.4.1}
 \contentsline {section}{\numberline {4.2}Thite's Optimum Binary Search Trees on the HMM Model}{14}{section.4.2}
-\contentsline {section}{\numberline {4.3}Efficient Near-Optimal Multiway Trees of Bose and Dou\"{i}eb}{14}{section.4.3}
-\contentsline {section}{\numberline {4.4}Algorithm ApproxMWPaging}{15}{section.4.4}
+\contentsline {section}{\numberline {4.3}Efficient Near-Optimal Multiway Trees of Bose and Dou\"{i}eb}{15}{section.4.3}
+\contentsline {section}{\numberline {4.4}Algorithm ApproxMWPaging}{16}{section.4.4}
 \contentsline {section}{\numberline {4.5}Expected Cost ApproxMWPaging}{17}{section.4.5}
-\contentsline {section}{\numberline {4.6}Approximate Binary Search Trees of De Prisco and De Santis with Extensions by Bose and Dou\"{i}eb}{20}{section.4.6}
-\contentsline {section}{\numberline {4.7}Algorithm ApproxBSTPaging}{21}{section.4.7}
+\contentsline {section}{\numberline {4.6}Approximate Binary Search Trees of De Prisco and De Santis with Extensions by Bose and Dou\"{i}eb}{21}{section.4.6}
+\contentsline {section}{\numberline {4.7}Algorithm ApproxBSTPaging}{22}{section.4.7}
 \contentsline {section}{\numberline {4.8}Expected Cost ApproxBSTPaging}{22}{section.4.8}
-\contentsline {section}{\numberline {4.9}Improvements over Thite in the HMM$_2$ Model}{23}{section.4.9}
+\contentsline {section}{\numberline {4.9}Improvements over Thite in the HMM$_2$ Model}{24}{section.4.9}
 \contentsline {chapter}{\numberline {5}Approximate Binary Search in the Hierarchical Memory with Block Transfer Model}{26}{chapter.5}
 \contentsline {section}{\numberline {5.1}Hierarchical Memory with Block Transfer Model}{26}{section.5.1}
 \contentsline {section}{\numberline {5.2}ApproxMWPaging with BT}{27}{section.5.2}
