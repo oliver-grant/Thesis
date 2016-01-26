@@ -19,22 +19,22 @@
 \contentsline {section}{\numberline {4.2}Thite's Optimum Binary Search Trees on the HMM Model}{14}{section.4.2}
 \contentsline {section}{\numberline {4.3}Efficient Near-Optimal Multiway Trees of Bose and Dou\"{i}eb}{15}{section.4.3}
 \contentsline {section}{\numberline {4.4}Algorithm ApproxMWPaging}{16}{section.4.4}
-\contentsline {section}{\numberline {4.5}Expected Cost ApproxMWPaging}{17}{section.4.5}
-\contentsline {section}{\numberline {4.6}Approximate Binary Search Trees of De Prisco and De Santis with Extensions by Bose and Dou\"{i}eb}{21}{section.4.6}
-\contentsline {section}{\numberline {4.7}Algorithm ApproxBSTPaging}{22}{section.4.7}
-\contentsline {section}{\numberline {4.8}Expected Cost ApproxBSTPaging}{22}{section.4.8}
-\contentsline {section}{\numberline {4.9}Improvements over Thite in the HMM$_2$ Model}{24}{section.4.9}
-\contentsline {chapter}{\numberline {5}Approximate Binary Search in the Hierarchical Memory with Block Transfer Model}{26}{chapter.5}
-\contentsline {section}{\numberline {5.1}Hierarchical Memory with Block Transfer Model}{26}{section.5.1}
-\contentsline {section}{\numberline {5.2}ApproxMWPaging with BT}{27}{section.5.2}
-\contentsline {section}{\numberline {5.3}ApproxMWPaging with BT Running Time }{29}{section.5.3}
-\contentsline {section}{\numberline {5.4}Search with ApproxMWPaging with BT}{32}{section.5.4}
-\contentsline {section}{\numberline {5.5}Expected Cost ApproxMWPaging with BT}{33}{section.5.5}
-\contentsline {section}{\numberline {5.6}ApproxBSTPaging with BT}{33}{section.5.6}
-\contentsline {section}{\numberline {5.7}Expected Cost ApproxBSTPaging with BT}{33}{section.5.7}
-\contentsline {chapter}{\numberline {6}Conclusion and Open Problems}{34}{chapter.6}
-\contentsline {section}{\numberline {6.1}Discussion}{34}{section.6.1}
-\contentsline {section}{\numberline {6.2}Conclusion}{34}{section.6.2}
-\contentsline {chapter}{APPENDICES}{35}{appendix*.7}
-\contentsline {chapter}{\numberline {A}PDF Plots From Matlab}{36}{appendix.A}
-\contentsline {chapter}{\textbf {References}}{37}{section*.8}
+\contentsline {section}{\numberline {4.5}Expected Cost ApproxMWPaging}{19}{section.4.5}
+\contentsline {section}{\numberline {4.6}Approximate Binary Search Trees of De Prisco and De Santis with Extensions by Bose and Dou\"{i}eb}{22}{section.4.6}
+\contentsline {section}{\numberline {4.7}Algorithm ApproxBSTPaging}{23}{section.4.7}
+\contentsline {section}{\numberline {4.8}Expected Cost ApproxBSTPaging}{24}{section.4.8}
+\contentsline {section}{\numberline {4.9}Improvements over Thite in the HMM$_2$ Model}{25}{section.4.9}
+\contentsline {chapter}{\numberline {5}Approximate Binary Search in the Hierarchical Memory with Block Transfer Model}{28}{chapter.5}
+\contentsline {section}{\numberline {5.1}Hierarchical Memory with Block Transfer Model}{28}{section.5.1}
+\contentsline {section}{\numberline {5.2}ApproxMWPaging with BT}{29}{section.5.2}
+\contentsline {section}{\numberline {5.3}ApproxMWPaging with BT Running Time }{31}{section.5.3}
+\contentsline {section}{\numberline {5.4}Search with ApproxMWPaging with BT}{34}{section.5.4}
+\contentsline {section}{\numberline {5.5}Expected Cost ApproxMWPaging with BT}{35}{section.5.5}
+\contentsline {section}{\numberline {5.6}ApproxBSTPaging with BT}{35}{section.5.6}
+\contentsline {section}{\numberline {5.7}Expected Cost ApproxBSTPaging with BT}{35}{section.5.7}
+\contentsline {chapter}{\numberline {6}Conclusion and Open Problems}{36}{chapter.6}
+\contentsline {section}{\numberline {6.1}Discussion}{36}{section.6.1}
+\contentsline {section}{\numberline {6.2}Conclusion}{36}{section.6.2}
+\contentsline {chapter}{APPENDICES}{37}{appendix*.7}
+\contentsline {chapter}{\numberline {A}PDF Plots From Matlab}{38}{appendix.A}
+\contentsline {chapter}{\textbf {References}}{39}{section*.8}

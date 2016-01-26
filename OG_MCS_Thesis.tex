@@ -89,6 +89,8 @@
 \usepackage{amsmath,amsfonts,amssymb,amsthm,epsfig,epstopdf,titling,url,array}
 \usepackage[]{units}
 \usepackage{xcolor}
+\usepackage{fancybox}
+\usepackage{tikz}
 \theoremstyle{plain}
 \newtheorem{thm}{Theorem}[section]
 \newtheorem{lem}[thm]{Lemma}
@@ -448,7 +450,7 @@ Here, H is the entropy of the probability distribution, $P_{OPT}$ is the average
 
 First, we need a lemma about converting a multiway search tree to a binary search tree. For the sake of clarity, we will call what are typically known as \textit{nodes} of the multiway tree \textit{pages}. This represents how various items of our search tree will fit onto pages of our memory hierarchy. We maintain the notion of calling individual items \textit{keys}.
 
-\begin{lem}
+\begin{lem}\label{MWTBSTLem}
 Given a multiway tree $T'$ with page size $k$ and $n$ keys, where keys are associated with a probability distribution of successful and unsuccessful searches as in Knuth's original optimum binary search tree problem, we can create a BST $T$ where each key in a given page $g \in T'$ forms a connected component in $T$ in $O(nlg(k))$ time.
 \end{lem}
 
@@ -458,18 +460,151 @@ For each page $g$, we sort its keys by value and create a complete BST $B$ over 
 
 In order to approximately solve the optimum BST problem under the HMM model, we will do the following: \\
 
-1) First, we create a Multiway Tree $T'$ using the algorithm of Bose and Dou\"{i}eb. This takes $O(n)$ time with our node size equal to $m_1$, the smallest level of our memory hierarchy \cite{bose2009efficient}. \\
+1) First, we create a Multiway Tree $T'$ using the algorithm of Bose and Dou\"{i}eb. This takes $O(n)$ time with our node size equal to $m_1$ (the smallest level of our memory hierarchy) \cite{bose2009efficient}. \\
 
-2) Inside each page (node of the multiway tree), we create a balanced binary search tree (ignoring weights). We call each of these $T'_k$ for $k \in {1,...,\lceil n/m_1 \rceil}$.   This takes $O(m_1)$ time per page, of which there are at most $O(n/m_1)$ giving us $O(n)$ time total. \\
+2) Inside each page (node of the multiway tree $T'$), we create a balanced binary search tree (ignoring weights). We use a simple greedy approach where we sort the keys, then recursively select the middle key as the root.  We call each of these $T'_k$ for $k \in {1,...,\lceil n/m_1 \rceil}$. This takes $O(m_1*lg(m_1))$ time per page, of which there are at most $O(n/m_1)$ giving us $O(n*lg(m_1))$ time total. \\
 
-3) In order to make this into a proper binary search tree, we must connect the $O(n/m_1)$ BST's we have made as described in the previous Lemma. This takes $O(n lg(m_1))$ time. \\
+3) In order to make this into a proper binary search tree, we must connect the $O(n/m_1)$ BST's we have made as described in Lemma~\ref{MWTBSTLem}. From $T'$, we create a BST $T$. This takes $O(n*lg(m_1))$ time. \\
 
-4) We pack things into memory in a breadth first search order in $T$ starting from the root. This takes $O(n)$ time. \\
+4) We pack keys into memory in a breadth first search order of $T$ starting from the root. This takes $O(n)$ time. \\
+
+We are left with a binary search tree which has been properly packed into our memory in total time $O(n*lg(m_1))$.
+
+\pagebreak
 
 
-\textit{THIS IS THE OLD WAY. I THINK ITS NEEDED FOR TH BETTER MODEL BUT NOT FOR THIS. We pack things into memory in a breadth first search order in $T'$ starting from the root. We do not leave gaps if pages are not full. The individual items of the pages of size at most $m_1$ are stored in breadth first search order based on the trees made in step 2. This takes $O(n/m_1)$ for the breadth first search of $T'$, and $O(m_1)$ per page, of which there are $O(n/m_1)$, giving us $O(n)$ time.\\} 
+% Set the overall layout of the tree
+\tikzstyle{level 1}=[level distance=3cm, sibling distance=3cm]
+\tikzstyle{level 2}=[level distance=3cm, sibling distance=3cm]
 
-We are left with a binary search tree which has been properly packed into our memory in total time $O(n lg(m_1))$.
+
+\begin{center}
+\scriptsize
+
+\begin{tikzpicture}[scale=0.5]
+
+\node [circle,draw] (z){4\: 8 14}
+  child {node [circle,draw] (a) {1\: \:2\: \:3}    
+  }  
+  child {node [circle,draw] (b) {5\: \:6\: \:7}
+  }  
+  child {node [circle,draw] (c) {9\: 10 11}
+    child {node [circle,draw] (e) {12 \:\:\: 13}}
+  }
+  child {node [circle,draw] (d) {15 16 17}
+  };
+
+\end{tikzpicture}
+
+% Set the overall layout of the tree
+\tikzstyle{level 1}=[level distance=3cm, sibling distance=3.5cm]
+\tikzstyle{level 2}=[level distance=3cm, sibling distance=3.5cm]
+
+\tikzset{smnode/.style={level 1/.style={level distance=1cm, sibling distance=1cm}, circle, draw}}
+\tikzstyle{level 1}=[level distance=3cm, sibling distance=3.5cm]
+\tikzstyle{level 2}=[level distance=3cm, sibling distance=3.5cm]
+\tikzstyle{level 3}=[level distance=1cm, sibling distance=1cm]
+\begin{tikzpicture}
+
+\node[circle,draw] (z){
+	\tikzstyle{level 1}=[level distance=1cm, sibling distance=1cm]
+	\begin{tikzpicture}
+	\node [draw,circle] (zZ){8}
+  	child {node [draw,circle] (Za) {4}    
+  	}  
+  	child {node [draw,circle] (Zb) {14}
+  	};
+	\end{tikzpicture}
+}	
+	  	
+  child {node [circle,draw] (a) {
+	\tikzstyle{level 2}=[level distance=1cm, sibling distance=1cm]
+	\begin{tikzpicture}
+	\node [circle,draw] (z){2}
+  	child {node [circle,draw] (a) {1}    
+  	}  
+  	child {node [circle,draw] (b) {3}
+  	};
+	\end{tikzpicture}  
+  }edge from parent[shorten <=1.02cm] 
+  }  
+  child {node [circle,draw] (b) {
+	\tikzstyle{level 2}=[level distance=1cm, sibling distance=1cm]
+	\begin{tikzpicture}
+	\node [circle,draw] (z){6}
+  	child {node [circle,draw] (a) {5}    
+  	}  
+  	child {node [circle,draw] (b) {7}
+  	};
+	\end{tikzpicture}   
+  }edge from parent[shorten <=1.02cm]
+  } 
+  child {node [circle,draw] (c) {
+	\tikzstyle{level 2}=[level distance=1cm, sibling distance=1cm]
+	\begin{tikzpicture}
+	\node [circle,draw] (z){10}
+  	child {node [circle,draw] (a) {9}    
+  	}  
+  	child {node [circle,draw] (b) {11}
+  	};
+	\end{tikzpicture}  
+  	}
+  	child {node [circle,draw] (asdf) {
+  	\tikzstyle{level 2}=[level distance=1cm, sibling distance=1cm]
+	\begin{tikzpicture} 
+	  	\node [smnode] (zz){12}
+	  	child {node [circle,draw=none] {}edge from parent[draw=none]}	  	
+  		child {node [smnode] (asaa) {13}    
+  		}; 		
+	\end{tikzpicture}	
+  	}
+  	}  	    
+  edge from parent[shorten <=0.97cm]
+  }
+  child {node [circle,draw] (d) {
+	\tikzstyle{level 2}=[level distance=1cm, sibling distance=1cm]
+	\begin{tikzpicture}
+	\node [circle,draw] (z){16}
+  	child {node [circle,draw] (a) {15}    
+  	}  
+  	child {node [circle,draw] (b) {17}
+  	};
+	\end{tikzpicture}   
+  }edge from parent[shorten <=0.97cm]
+  };
+\end{tikzpicture}
+
+
+\tikzstyle{level 1}=[level distance=1cm]
+\tikzstyle{level 2}=[level distance=1cm]
+\tikzstyle{level 3}=[level distance=1cm]
+\begin{tikzpicture}[level/.style={sibling distance=60mm/#1}]
+\node [circle,draw] (z){8}
+  child {node [circle,draw] (a) {4}    
+	child {node [circle,draw] (b) {2}
+		child {node [circle,draw] (c) {1}}
+		child {node [circle,draw] (d) {3}}}  
+  	child {node [circle,draw] (e) {6}
+		child {node [circle,draw] (f) {5}}
+		child {node [circle,draw] (g) {7}}}  
+  }  
+  child {node [circle,draw] (h) {14}    
+	child {node [circle,draw] (i) {10}
+		child {node [circle,draw] (j) {9}}
+		child {node [circle,draw] (k) {11}
+			child {node [circle,draw=none] (o) {}edge from parent[draw=none]}
+			child {node [circle,draw] (o) {12}
+				child {node [circle,draw=none] (s) {}edge from parent[draw=none]}				
+				child {node [circle,draw] (p) {13}
+		}}}}  
+  	child {node [circle,draw] (l) {16}
+		child {node [circle,draw] (m) {15}}
+		child {node [circle,draw] (n) {17}}}  
+  };
+
+\end{tikzpicture}
+\end{center}
+
 
 \section{Expected Cost ApproxMWPaging}
 
@@ -483,14 +618,12 @@ For a key $(x_{i-1},x_i)$,
 \end{lem}
 
 \begin{proof}
-First we note that in the tree $T'$ we build using Bose and Dou\"{i}eb's multiway tree algorithm, the maximum depth of keys (call this $d_T'(x_i), d_T'(x_{i-1},x_i)$) for a page size $m_1$ is \cite{bose2009efficient}:
-\begin{center} $d_T(x_i) \leq \lfloor log_{m_1}(\frac{1}{p_i}) \rfloor$. \end{center} 
-\begin{center} $d_T(x_{i-1},x_i) \leq \lfloor log_{m_1}(\frac{2}{q_i}) \rfloor + 1$. \end{center}
+First we note that in the tree $T'$ we build using Bose and Dou\"{i}eb's multiway tree algorithm, the maximum depth of keys (call this $d_{T'}(x_i), d_{T'}(x_{i-1},x_i)$) for a page size $m_1$ is \cite{bose2009efficient}:
+\begin{center} $d_{T'}(x_i) \leq \lfloor log_{m_1}(\frac{1}{p_i}) \rfloor$. \end{center} 
+\begin{center} $d_{T'}(x_{i-1},x_i) \leq \lfloor log_{m_1}(\frac{2}{q_i}) \rfloor + 1$. \end{center}
 As explained in the paper, these follow from Lemmas 1 and 2 of Bose and Dou\"{i}eb \cite{bose2009efficient}.
 
-Within a page, we make a balanced (ignoring weight) BST, so each key has a depth \textit{within} a page of at most $\lceil lg(m_1) \rceil$.
-
-Since our algorithm always connects the root of the BST made for page to a key in the BST made for the page's parent, a key $x_i$ has a depth of at most $\lfloor log_{m_1}(\frac{1}{p_i}) \rfloor$ in terms of pages accessed ($\lfloor log_{m_1}(\frac{2}{q_i}) \rfloor + 1$ pages for keys ($(x_{i-11},x_i)$). Within a page, we will examine at most $\lceil lg(m_1) \rceil$ keys. Thus, a key's depth is at most the bound described.
+Inside a page, we make a balanced (ignoring weight) BST, so each key has a depth within a page of at most $\lceil lg(m_1) \rceil$. Since our algorithm always connects the root of the BST made for page to a key in the BST made for the page's parent, a key $x_i$ has a \textit{page depth} (the number of unique pages accessed in order to access the key) of at most $\lfloor log_{m_1}(\frac{1}{p_i}) \rfloor$ ($\lfloor log_{m_1}(\frac{2}{q_i}) \rfloor + 1$ pages for keys ($(x_{i-11},x_i)$). Since we will examine at most $\lceil lg(m_1) \rceil$ keys within any one page a key's depth is at most the bound described.
 \end{proof}
 
 \iffalse
@@ -522,53 +655,51 @@ $ \leq  lg(\frac{1}{min_{p,q}}) + lg(m_1) + 2$.
 
 \fi
 
-We now describe the cost of searching for a key located at deepest part of tree $T$: $W$. Let $m'_j = \sum_{k \leq j} m_j$. We define $m'_0 = 0$. Let $l$ be the smallest $j$ such that $m'_j > n$. $l$ represents how many levels of memory will be required for storing our tree. Let $H(T)$ represent the height of our tree.
+We now describe the cost of searching for a key located at deepest part of tree $T$: $W$. Let $m'_j = \sum_{k \leq j} m_j$. We define $m'_0 = 0$. As defined previously we let $l$ be the smallest $j$ such that $m'_j > n$. Let $H(T)$ be the height of $T$.
 
-\iffalse
+
 \begin{lem} \hspace{1cm} \\
-$W \leq \sum_{k=1}^{l-1} (\lfloor lg(m'_i+1) \rfloor - \lfloor lg(m'_{i-1}+1) \rfloor)*c_i$\\ $+ (lg(\frac{1}{min_{p,q}}) + lg(m_1) + 2 - \lfloor lg(m'_{l-1}+1) \rfloor)*c_l$ THIS USES THE OLD HEIGHT
-\end{lem}
-\fi
-
-\begin{lem} 
-$W \leq \sum_{k=1}^{l-1} (\lfloor lg(m'_i+1) \rfloor - \lfloor lg(m'_{i-1}+1) \rfloor)*c_i+$\\  $ (H(T) - \lfloor lg(m'_{l-1}+1) \rfloor)*c_l$
+$W \leq \sum_{i=1}^{l-1} (\lfloor lg(m'_i+1) \rfloor - \lfloor lg(m'_{i-1}+1) \rfloor)*c_i+ (H(T) - \lfloor lg(m'_{l-1}+1) \rfloor)*c_l$
 \end{lem}
 
 
 \begin{proof}
-Consider the accessing each key along the path from the root to the deepest key in $T$. Note that we will have to examine $H(T)$ keys in order to access the deepest leaf in the tree. We will access one key a depth $0$, one key at depth $1$ and so on. Because the tree is packed into memory in BFS order, a key a depth $i$ will be at memory location at most $2^i-1$. Now, consider how many levels of the binary search tree $T$ will fit inside of $m_1$, the fastest memory. In order for all keys of depth $i$ (and higher) to be in $m_1$ we need: \\
-$2^i-1 \leq m_1 \implies i \leq lg(m_1 + 1)$. \\
-Thus, at least $\lfloor lg(m_1 + 1) \rfloor$ levels of $T$ fit on $m_1$. Next we examine how many fit on $m_j$ for $1 < j < l$. The last level to completely fit on $m_j$ or higher memories is the maximum $i$ such that: \\
-$2^{i+1}-1 \leq m'_2 \implies i \leq lg(m'_j + 1)$. \\
-Thus, at least $\lfloor lg(m'_j + 1) \rfloor$ levels of $T$ fit on $m_j$ or higher levels of memory. \\
-Thus, on our search for the deepest key in the tree, we will make at least $\lfloor lg(m_1 + 1) \rfloor$ checks for elements located at memory $m_1$. This will cost a total of\\
+Consider the accessing each key along the path from the root to the deepest key in $T$. We will examine $H(T)$ keys. We will access one key at depth $0$, one key at depth $1$, and so on. Because the tree is packed into memory in BFS order, a key a depth $i$ will be at memory location at most $2^i-1$. Now, consider how many levels of the binary search tree $T$ will fit in $m_1$. In order for all keys of depth $i$ (and higher) to be in $m_1$ we need:
 \begin{center}
-$\lfloor lg(m_1 + 1) \rfloor * c_1$.\\
+$2^i-1 \leq m_1 \implies i \leq lg(m_1 + 1)$.
 \end{center}
-For each memory level $m_j$ for $1 < j < l$, we will make at least $\lfloor lg(m'_j + 1) \rfloor$ checks in $m_j$ or higher memories. Of these checks, at least $\lfloor lg(m'_{j-1} + 1) \rfloor$ will be in memory levels strictly higher up in the memory hierarchy than $j$. Since $c_j > c_i$ for $j > i$, an upper bound on the cost of searching for all elements in memory level $j$ on the path from the root to the deepest element of the tree is: \\
+Thus, at least $\lfloor lg(m_1 + 1) \rfloor$ levels of $T$ will completely fit on $m_1$. Next we examine how many levels of $T$ fit on $m_j$ for $1 < j < l$. The last level to completely fit on $m_j$ or higher memories is the maximum $i$ such that:
 \begin{center}
-$(\lfloor lg(m_1 + 1) \rfloor - \lfloor lg(m'_{j-1} + 1) \rfloor) * c_j$.\\
+$2^{i+1}-1 \leq m'_j \implies i \leq lg(m'_j + 1)$.
 \end{center}
-Finally, we can upper bound the cost by assuming that all remaining searches take place at $c_l$. The searches at level $l$ will cost at most: \\
-
-\iffalse
+Thus, at least $\lfloor lg(m'_j + 1) \rfloor$ levels of $T$ fit on $m_j$ or higher levels of memory.
+On our search for the deepest key in the tree, we will make at least $\lfloor lg(m_1 + 1) \rfloor$ checks for elements located at memory $m_1$. This will cost a total of
 \begin{center}
-$(lg(\frac{1}{min_{p,q}}) + lg(m_1) + 2 - \lfloor lg(m'_{l-1}+1) \rfloor)*c_l$. \\
+$\lfloor lg(m_1 + 1) \rfloor * c_1$.
 \end{center}
-\fi
+For each memory level $m_j$ for $1 < j < l$, we will make at least $\lfloor lg(m'_j + 1) \rfloor$ checks in $m_j$ or higher memories. Of these checks, at least $\lfloor lg(m'_{j-1} + 1) \rfloor$ will be in memory levels strictly higher up in the memory hierarchy than $j$. Since $c_j > c_i$ for $j > i$, an upper bound on the cost of searching for all elements in memory level $j$ on the path from the root to the deepest element of the tree is:
+\begin{center}
+$(\lfloor lg(m_j + 1) \rfloor - \lfloor lg(m'_{j-1} + 1) \rfloor) * c_j$.\\
+\end{center}
+Finally, we can upper bound the cost of search within $m_l$ by assuming that all remaining searches take place at memory level $l$. The searches at level $l$ will cost at most:
 
 \begin{center}
-$(lg(H(T) - \lfloor lg(m'_{l-1}+1) \rfloor)*c_l$. \\
+$(lg(H(T) - \lfloor lg(m'_{l-1}+1) \rfloor)*c_l$.
 \end{center}
 
-Combining the above three equations gives the desired bound.
+Combining the above three equations (and summing over every memory level) gives us the total cost of searching for a key in the deepest part of the tree:\\
+
+
+$W \leq \lfloor lg(m_1 + 1) \rfloor * c_1 + \sum_{i=2}^{l-1} (\lfloor lg(m'_i+1) \rfloor - \lfloor lg(m'_{i-1}+1) \rfloor)*c_i+ (H(T) - \lfloor lg(m'_{l-1}+1) \rfloor)*c_l$
+$\implies W \leq \sum_{i=1}^{l-1} (\lfloor lg(m'_i+1) \rfloor - \lfloor lg(m'_{i-1}+1) \rfloor)*c_i+ (H(T) - \lfloor lg(m'_{l-1}+1) \rfloor)*c_l$
+
 
 \end{proof}
 
 Next, we note that the cost of search for a key at some depth $i$ is at most $\frac{i}{H(T)}* W$.
 
 \begin{lem}
-The cost of searching for a keys $x_i$ and $(x_{i-1},x_i)$ ($C(x_i)$ and $C(x_{i-1},x_i)$ respectively)can be bounded as follows: 
+The cost of searching for a keys $x_i$ and $(x_{i-1},x_i)$ ($C(x_i)$ and $C(x_{i-1},x_i)$ respectively) can be bounded as follows: 
 
 \begin{center} $C(x_i) \leq \frac{\lceil lg(m_1) \rceil * \frac{lg(\frac{1}{p_i})}{lg(m_1)}}{\lceil lg(2n+2) \rceil} * W$ 
 \end{center}
@@ -580,11 +711,8 @@ The cost of searching for a keys $x_i$ and $(x_{i-1},x_i)$ ($C(x_i)$ and $C(x_{i
 \end{lem}
 
 \begin{proof}
-From Lemma 4.5.1 we have a bound on the depth of keys $x_i$ and $(x_{i-1},x_i)$. Moreover, we know that since there are $2n+1$ keys in our tree, our tree must have a height of at least:
-\begin{center}
- $\lceil lg(2n+2) \rceil$.
-\end{center}
-Note that since our tree is stored in BFS order in memory, whenever we examine a key's child, it will be at a memory location of at least the same, if not higher cost (by being in the same or a deeper page). Thus, the path from the root to a specific key can be upper bounded by the cost of searching for the deepest element in the tree, multiplied by the fraction of the way down the tree $x_i$ or $(x_{i-1},x_i)$ are. Note that when searching for keys, we must search along the entire path from root to the key in question, while we need only examine the path from the root to the parent of a key for unsuccessful $(x_{i-1},x_i)$ searches. Combining 4.5.1 and 4.5.4 with the minimum height of our tree gives: \\
+From Lemma 4.5.1 we have a bound on the depth of keys $x_i$ and $(x_{i-1},x_i)$. Moreover, we know that since there are $2n+1$ keys in our tree, our tree must have a height of at least $\lceil lg(2n+2) \rceil$.
+Note that since our tree is stored in BFS order in memory, whenever we examine a key's child, it will be at a memory location of at least the same, if not higher cost (by being in the same or a deeper page). Thus, the path from the root to a specific key can be upper bounded by the cost of searching for the deepest element in the tree, multiplied by the fraction of the way down the tree the key in question is. Note that when searching for keys, we must search along the entire path from root to the key in question, while we need only examine the path from the root to the parent of a key for unsuccessful $(x_{i-1},x_i)$ searches. Combining 4.5.1 and 4.5.4 with the minimum height of our tree gives: \\
 
  $C(x_i) \leq \frac{\lceil lg(m_1) \rceil * \lfloor log_{m_1}(\frac{1}{p_i}) \rfloor}{\lceil lg(2n+2) \rceil} * W$  \\
  $\implies C(x_i) \leq \frac{\lceil lg(m_1) \rceil * \frac{lg(\frac{1}{p_i})}{lg(m_1)}}{\lceil lg(2n+2) \rceil} * W$ \\
