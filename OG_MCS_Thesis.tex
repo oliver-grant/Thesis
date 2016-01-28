@@ -91,6 +91,7 @@
 \usepackage{xcolor}
 \usepackage{fancybox}
 \usepackage{tikz}
+\usepackage{stmaryrd}
 \theoremstyle{plain}
 \newtheorem{thm}{Theorem}[section]
 \newtheorem{lem}[thm]{Lemma}
@@ -225,6 +226,19 @@ A binary search tree is simple structure used to store key-value pairs. It was i
 Knuth first proposed the optimum binary search tree problem in 1971 \cite{knuth1971optimum}. We are given a set of $n$ words $B_1, B_2, ..., B_n$ and $2n+1$ frequencies, ${p_1, p_2, ..., p_n}$, ${q_0, q_1, ..., q_n}$ representing the probabilities of searching for each given word and the probabilities of searching for strings between (and outside of) these words. We have that $ q_0 + \sum\limits_{i=1}^n p_i+q_i = 1$. We also assume that without loss of generality $q_i+p_i+q_{i+1} \neq 0$ for any $i$. The words (and gaps between) are used as keys and the lexicographical ordering of them provides our order over the keys. Our goal is to construct a binary tree such that the expected cost of search is minimized. The names make up the leaves of the tree while, gaps make up the internal nodes. The weighted path length of the tree is: \\
 $P = \sum_{i=1}^{n} p_i(b_i+1) + \sum_{j=1}^{n} q_j(a_j)$ \\
 Where $b_i$ and $a_j$ represent the depth of nodes representing the $i^{th}$ word and $j^{th}$ gap respectively. The optimal solution of Knuth requires $O(n^2)$ time, and $O(n^2)$ space. This solution is both time and space intensive. We will later examine an approximate solution  to this problem of G{\"u}ttler, Mehlhorn and Schneider which uses $O(n^2)$ time but $O(n)$ space and improve its worst-case bound. However, these problems were examined under the RAM model which is an inadequate model for many situations. We examine the problem in more realistic models and look at approximate solutions under these settings.
+
+\section{Three-Way Entropy Splitting}
+\definecolor{lightgrey}{rgb}{0.95,0.92,0.92} % Defines the color used for content box headers
+
+While modern computers typically only support two-way branching, we consider this problem under the three-way branch model. \\~\\ Examples of this can be seen in FORTRAN 77 which describes the arithmetic IF \cite{fortran} \\
+
+\colorbox{lightgrey}{ \fontfamily{cmtt}\selectfont \uppercase{IF (expr) label1, label2, label3} } \\
+ 
+Control is transferred to label1, label2 or label3 \\
+if $expr < 0$, $expr=0$, or $expr > 0$ respectively using a single command.
+
+TODO COMPLETE
+
 
 \section{Why Study Binary Search Trees}
 
@@ -1103,6 +1117,42 @@ Given what we have already shown, this algorithm is extremely simple to explain.
 How a path has cost
 What cost is
 similar arg to ApproxMWPaging
+
+%=========================================
+\chapter{BST over Multisets}
+
+\section{The Multiset Binary Search Tree Problem}
+
+In this chapter we examine a problem related to the initial optimal binary search tree problem of Knuth \cite{knuth1971optimum}. Consider a multiset (a set with possible duplicate values) of $n$ probabilities: $p = \lbag p_1, p_2, ..., p_n \rbag$ such that $\sum\limits_{i=1}^n p_i = 1$. Our goal is to minimize the expected path length of nodes (the cost of our search in comparisons):
+\begin{center}
+$P = \sum_{i=1}^{n} p_i(b_i+1) - \sum_{i \in L}p_i$
+\end{center}
+Here, $b_i$ is the depth of key $p_i$ and $L$ is the set of leaves of the tree. We subtract the weight of the leaves of the tree since we need one less comparison to return a pointer a leaf node (as in the original optimal BST problem). 
+
+\section{OPT-MSBST}
+
+I propose the following simple algorithm titled \textit{OPT-MSBST} for solving this multiset binary search tree problem and subsequently show that it is optimal. \\
+
+1) First, we create a vector $r$ which is equal to the sorted (from largest to smallest) multiset $p$. \\
+
+2) We create BST $T$ as follows. The root of our tree will be $r_1$, its two children will be $r_2$ and $r_3$, and so on. Formally, $r_i$ will be placed at location $i$ in the BFS order of $T$.
+
+\begin{lem}
+The tree $T$ created by \textit{OPT-MSBST} solves the multiset binary search tree problem optimally. Moreover, it is unique up to permutation of probabilities within any level of $T$.
+\end{lem}
+
+\begin{proof}
+We prove this by inducting on the height of $T$. Consider the case where the height of $T$ is $1$ (we omit the obvious case where $p$ is empty). Since our tree has height $1$, it must only have one probability $p_1$. It is selected as our root and the expected cost of this tree is simply $1$ which is optimal. Moreover, this is the only tree possible so it is obviously the unique solution as required. Suppose all trees created by \textit{OPT-MSBST} with height $<k$ are optimal and unique up to permutations within a level. Consider a tree of height $k$ TODO FIX AND FINISH
+\end{proof}
+
+
+
+
+
+
+%=========================================
+
+
 
 \chapter{Conclusion and Open Problems}
 
