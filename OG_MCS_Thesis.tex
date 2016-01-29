@@ -1121,13 +1121,26 @@ similar arg to ApproxMWPaging
 %=========================================
 \chapter{BST over Multisets}
 
-\section{The Multiset Binary Search Tree Problem}
+\section{The Multiset Binary Search Tree Problem}\label{The Multiset Binary Search Tree Problem}
 
-In this chapter we examine a problem related to the initial optimal binary search tree problem of Knuth \cite{knuth1971optimum}. Consider a multiset (a set with possible duplicate values) of $n$ probabilities: $p = \lbag p_1, p_2, ..., p_n \rbag$ such that $\sum\limits_{i=1}^n p_i = 1$. Our goal is to minimize the expected path length of nodes (the cost of our search in comparisons):
+In this chapter we examine a problem related to the initial optimal binary search tree problem of Knuth \cite{knuth1971optimum}. Consider a multiset (a set with possible duplicate values) of $n$ probabilities: $p = \lbag p_1, p_2, ..., p_n \rbag$ such that $\sum\limits_{i=1}^n p_i = 1$. Our goal is to create a tree $T$ which minimizes the expected path length of nodes $P_T$ (the expected cost of our search in comparisons):
 \begin{center}
-$P = \sum_{i=1}^{n} p_i(b_i+1) - \sum_{i \in L}p_i$
+$P_T = \sum_{i=1}^{n} p_i(b_i+1) - \sum_{i \in L}p_i$
 \end{center}
-Here, $b_i$ is the depth of key $p_i$ and $L$ is the set of leaves of the tree. We subtract the weight of the leaves of the tree since we need one less comparison to return a pointer a leaf node (as in the original optimal BST problem). 
+Here, $b_i$ is the depth of key $p_i$ and $L$ is the set of leaves of the tree. We subtract the weight of the leaves of the tree since we need one less comparison to return a pointer a leaf node (as in the original optimal BST problem). In order to simplify our proof later we define $f$ (the working height of a node) as follows:
+\begin{center}
+\[
+    f(p_i)= 
+\begin{cases}
+    b_i+1,& \text{if } p_i is an internal node\\
+    b_i,              & \text{otherwise}.
+\end{cases}
+\]
+\end{center}
+Our expected path length can then be re-written as:
+\begin{center}
+$P_T = \sum_{i=1}^{n} p_i*f(p_i)$.
+\end{center}
 
 \section{OPT-MSBST}
 
@@ -1135,18 +1148,83 @@ I propose the following simple algorithm titled \textit{OPT-MSBST} for solving t
 
 1) First, we create a vector $r$ which is equal to the sorted (from largest to smallest) multiset $p$. \\
 
-2) We create BST $T$ as follows. The root of our tree will be $r_1$, its two children will be $r_2$ and $r_3$, and so on. Formally, $r_i$ will be placed at location $i$ in the BFS order of $T$.
+2) We create BST $T$ as follows. The root of our tree will be $r_1$, its two children will be $r_2$ and $r_3$, and so on. Formally, $r_i$ will be placed at location $i$ in the BFS order of $T$. \\
 
-\begin{lem}
-The tree $T$ created by \textit{OPT-MSBST} solves the multiset binary search tree problem optimally. Moreover, it is unique up to permutation of probabilities within any level of $T$.
+The complete proof of the optimality of this algorithm follows a similar form to the proof that Huffman codes are optimal \cite{huffman1952method}. First, we introduce a useful lemma.
+
+\begin{lem}\label{MS Swap Lemma}
+Let $T$ be a BST created for a multiset of probabilities as described in the problem definition in~\ref{The Multiset Binary Search Tree Problem}. Let $T'$ be the tree created by swapping the node locations of $p_j$ and $p_k$ in $T$. Then,
+\begin{center}
+$P_{T'}-P_T = (p_j - p_k)*(f(p_k)-f(p_j))$
+\end{center}
 \end{lem}
 
 \begin{proof}
-We prove this by inducting on the height of $T$. Consider the case where the height of $T$ is $1$ (we omit the obvious case where $p$ is empty). Since our tree has height $1$, it must only have one probability $p_1$. It is selected as our root and the expected cost of this tree is simply $1$ which is optimal. Moreover, this is the only tree possible so it is obviously the unique solution as required. Suppose all trees created by \textit{OPT-MSBST} with height $<k$ are optimal and unique up to permutations within a level. Consider a tree of height $k$ TODO FIX AND FINISH
+We let $f'$ represent the working height of a node in $T'$. \\
+
+$P_{T'}-P_T = \sum_{i=1}^{n} p_i*f'(p_i) - \sum_{i=1}^{n} p_i*f(p_i)$ \\
+$= p_j*f'(p_j)+p_k*f'(p_k) - p_j*f(p_j)+p_k*f(p_k)$\\
+$= p_j*f(p_k)+p_k*f(p_j) - p_j*f(p_j)+p_k*f(p_k)$\\
+$= p_j*(f(p_k)-f(p_j)) + p_k (f(p_j) + f(p_k))$\\
+$= p_j*(f(p_k)-f(p_j)) - p_k (f(p_k)-f(p_j))$\\
+$= (p_j - p_k)*(f(p_k)-f(p_j))$
 \end{proof}
 
+Next, we prove the optimality of this algorithm. 
+
+\begin{lem}
+The tree $T$ created by \textit{OPT-MSBST} for the multiset of probabilities $p$ solves the multiset binary search tree problem optimally.
+\end{lem}
+
+\begin{proof}
+We prove this by inducting on $n$, the size of our multiset of probabilities. Consider the case where $|p| = 1$. In this case, we create the only tree possible which is obviously optimal. Suppose all trees created by \textit{OPT-MSBST} with $k-1$ nodes are optimal. Consider the case where $|p|=k$. Let $p_{min} \in p$ be the probability of the node placed in the final position in BFS order in $T$. By the definition of \textit{OPT-MSBST}, $p_{min}=min(p_i \in p)$.
+
+ We define $p'$, a multiset of probabilities of size $k-1$ where
+\begin{center}
+$p'_i=\frac{p_i}{1-p_{min}} \implies p_i = p'_i*(1-p_{min})$
+\end{center}
+
+Note that \\
+$\sum\limits_{p'_i \in p'} = \sum_{p_i \in (p - \{p_{min}\})}p'_i$\\
+$ = \sum_{p_i \in (p - \{p_{min}\})}\frac{p_i}{1-p_{min}}$\\
+$ = \frac{1}{1-p_{min}}*\sum_{p_i \in (p - \{p_{min}\})}p_i$\\
+$ = \frac{1}{1-p_{min}}*(1-p_{min})$\\
+$= 1$. \\
+
+Thus, let $T'$ be the tree created for $p'$ by \textit{OPT-MSBST}. By our induction hypothesis, it is optimal. During the running of the algorithm, we assume all ties on probabilities during sorting will be broken in the same way as in the creation of $T$. Because of this, and the definition of \textit{OPT-MSBST}, for all $p'_i \in p'$, $f(p')=f(p)$. Now, we consider the cost of our tree $T$: \\
+
+$P_T = \sum_{p_i \in (p - \{p_{min}\})} p_i*f(p_i) + p_{min}*f(p_{min})$ \\
+$= \sum_{p_i \in (p - \{p_{min}\})} p'_i*(1-p_{min})*f'(p_i) + p_{min}*f(p_{min})$ \\
+$= (1-p_{min})*\sum_{p'_i \in p'} p'_i*f'(p_i) + p_{min}*f(p_{min})$ \\
+$= (1-p_{min})*P_{T'} + p_{min}*f(p_{min})$ \\
+
+Suppose for contradiction that $T$ is not optimal, and there exists a better tree $Z$ which is optimal and has $p_{min}$ located in a position which is of maximum $f_z$ value over the entire tree. We let $f_z$ represent the working depth of a node in $Z$. Suppose there is no such optimal tree $Z$ (with $p_{min}$ in a position as described). There exists a node with probability $p_j$ in $Z$ with $f_z(p_j) > f_z(p_{min})$. By Lemma~\ref{MS Swap Lemma}, we can swap the locations of the nodes corresponding to $p_j$ and $p_{min}$ and get a tree at least as good (if not better) since $p_{min}=min(p_i \in p)$. Thus, there exists such a tree $Z$ which is optimal and has $p_{min}$ located in a position which is of maximum $f_z$ value over the tree.
+
+We let $Z'$ be tree made from $Z$ by removing $p_{min}$ from the tree over the probability distribution $p'$ as above. If $p_{min}$ is a leaf, we simply take out the leaf. If it is an internal node (it must be the parent of a leaf since it has maximum $f$ value) we simply move one of its children (call it $l$), put it in $p_{min}$'s place, and make its possible other child (call it $r$) the child of $l$. Consider the cost of $Z$: \\
+$P_Z = \sum_{p_i \in p)} p_i*f_z(p_i)$ \\
+$= \sum_{p_i \in (p - \{p_{min}\})} p_i*f_z(p_i) + p_{min}*f_z(p_{min})$ \\
+as with $T'$, we can similarly say that: \\
+$= \sum_{p_i \in p'} (1-p_{min})*p'_i*f_z(p_i) + p_{min}*f_z(p_{min})$ \\
+$= (1-p_{min})*P_{Z'} + p_{min}*f_z(p_{min})$ \\
+
+Note that our algorithm creates a balanced binary search tree, so the maximum value of $f$ for $T$ cannot be greater than the maximum value of $f_Z$ for $Z$. This means that $f(p_{min}) \leq f_Z(p_{min})$. Thus, we have that \\
+$P_Z < P_T$ \\
+$\implies (1-p_{min})*P_{Z'} + p_{min}*f_Z(p_{min}) < (1-p_{min})*P_{T'} + p_{min}*f(p_{min})$ \\
+$\implies P_{Z'} < P_{T'}$ \\
+Which is a contradiction. Thus, $T$ must be optimal as desired.
 
 
+\end{proof}
+
+We are now ready to prove our main theorem.
+
+\begin{thm}
+The tree $T$ created by \textit{OPT-MSBST} for the multiset of probabilities $p$ solves the multiset binary search tree problem optimally and is unique up to permutation of the assignment of nodes which have the same $f$ value in $T$ and permutation of the assignment of nodes which correspond to the same probability.
+\end{thm}
+
+\begin{proof}
+Since we already know that \textit{OPT-MSBST} provides an optimal solution, all that remains is to show that the tree $T$ created is unique up to permutations described. Suppose for contradiction there exists an optimal tree $Z$ for probability multiset $p$ with $f_z(p_i) \neq f(p_i)$ and there does not exists a permutation of assignments of nodes with the same probabilities as $p_i$ which gives $f_z(p_i) = f(p_i)$. This leaves us with two cases; $f_z(p_i) < f(p_i)$ or $f_z(p_i) > f(p_i)$. If $f_z(p_i) < f(p_i)$
+\end{proof}
 
 
 

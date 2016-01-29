@@ -1,45 +1,9 @@
-This is BibTeX, Version 0.99c (TeX Live 2009/Debian)
-The top-level auxiliary file: OG_MCS_Thesis.aux
+This is BibTeX, Version 0.99dThe top-level auxiliary file: OG_MCS_Thesis.aux
 The style file: plain.bst
 Database file #1: uw-ethesis/uw-ethesis.bib
-You've used 35 entries,
-            2118 wiz_defined-function locations,
-            703 strings with 8346 characters,
-and the built_in function-call counts, 11537 in all, are:
-= -- 1218
-> -- 381
-< -- 8
-+ -- 162
-- -- 118
-* -- 777
-:= -- 1866
-add.period$ -- 110
-call.type$ -- 35
-change.case$ -- 161
-chr.to.int$ -- 0
-cite$ -- 35
-duplicate$ -- 462
-empty$ -- 974
-format.name$ -- 118
-if$ -- 2445
-int.to.chr$ -- 0
-int.to.str$ -- 35
-missing$ -- 37
-newline$ -- 178
-num.names$ -- 70
-pop$ -- 141
-preamble$ -- 1
-purify$ -- 128
-quote$ -- 0
-skip$ -- 327
-stack$ -- 0
-substring$ -- 945
-swap$ -- 99
-text.length$ -- 8
-text.prefix$ -- 0
-top$ -- 0
-type$ -- 134
-warning$ -- 0
-while$ -- 137
-width$ -- 37
-write$ -- 390
+Repeated entry---line 348 of file uw-ethesis/uw-ethesis.bib
+ : @article{huffman1952method
+ :                           ,
+I'm skipping whatever remains of this entry
+Warning--I didn't find a database entry for "fortran"
+(There was 1 error message)

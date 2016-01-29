@@ -35,10 +35,10 @@
 \contentsline {section}{\numberline {5.7}Expected Cost ApproxBSTPaging with BT}{35}{section.5.7}
 \contentsline {chapter}{\numberline {6}BST over Multisets}{36}{chapter.6}
 \contentsline {section}{\numberline {6.1}The Multiset Binary Search Tree Problem}{36}{section.6.1}
-\contentsline {section}{\numberline {6.2}OPT-MSBST}{36}{section.6.2}
-\contentsline {chapter}{\numberline {7}Conclusion and Open Problems}{38}{chapter.7}
-\contentsline {section}{\numberline {7.1}Discussion}{38}{section.7.1}
-\contentsline {section}{\numberline {7.2}Conclusion}{38}{section.7.2}
-\contentsline {chapter}{APPENDICES}{39}{appendix*.7}
-\contentsline {chapter}{\numberline {A}PDF Plots From Matlab}{40}{appendix.A}
-\contentsline {chapter}{\textbf {References}}{41}{section*.8}
+\contentsline {section}{\numberline {6.2}OPT-MSBST}{37}{section.6.2}
+\contentsline {chapter}{\numberline {7}Conclusion and Open Problems}{40}{chapter.7}
+\contentsline {section}{\numberline {7.1}Discussion}{40}{section.7.1}
+\contentsline {section}{\numberline {7.2}Conclusion}{40}{section.7.2}
+\contentsline {chapter}{APPENDICES}{41}{appendix*.7}
+\contentsline {chapter}{\numberline {A}PDF Plots From Matlab}{42}{appendix.A}
+\contentsline {chapter}{\textbf {References}}{43}{section*.8}
