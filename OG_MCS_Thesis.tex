@@ -1223,7 +1223,7 @@ The tree $T$ created by \textit{OPT-MSBST} for the multiset of probabilities $p$
 \end{thm}
 
 \begin{proof}
-Since we already know that \textit{OPT-MSBST} provides an optimal solution, all that remains is to show that the tree $T$ created is unique up to permutations described. Suppose for contradiction there exists an optimal tree $Z$ for probability multiset $p$ with $f_z(p_i) \neq f(p_i)$ and there does not exists a permutation of assignments of nodes with the same probabilities as $p_i$ which gives $f_z(p_i) = f(p_i)$. This leaves us with two cases; $f_z(p_i) < f(p_i)$ or $f_z(p_i) > f(p_i)$. If $f_z(p_i) < f(p_i)$
+Since we already know that \textit{OPT-MSBST} provides an optimal solution, all that remains is to show that the tree $T$ (created for probability multiset $p$ with working node level function $f$) is unique up to permutations described. Consider any optimal tree $Z$ for probability multiset $p$. Suppose their exists $p_i \in p$ and $p_j \in p$ such that $p_i < p_j$ and $f_z(p_i) < f_z(p_j)$. By Lemma~\ref{MS Swap Lemma} swapping $p_i$ and $p_j$ gives a strictly better tree, a contradiction. Thus, no such $p_i$ and $p_j$ must exist. This exactly means that $Z$ is identical to $T$ up to permutations between identical probabilities and within levels of $f$ as required.
 \end{proof}
 
 
