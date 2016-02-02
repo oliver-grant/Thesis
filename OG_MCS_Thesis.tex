@@ -219,46 +219,51 @@
 
 \section{Binary Search Trees}
 
-A binary search tree is simple structure used to store key-value pairs. It was invented in the late 1950s and early 1960s and is generally attributed to the combined efforts of Windley, Booth, Colin and Hibbard \cite{windley1960trees} \cite{booth1960efficiency} \cite{hibbard1962some}. In general, the trees allow for quick binary searches through the data in search of a specific key. Each node has a key over which there is a total-ordering (a number, a string, etc.), as well as some value (generally the important information). Each tree node has at most two children generally labelled as the \textit{left} and \textit{right}. All nodes in the subtree of the \textit{left} child of a specific node have a key strictly less than the key of the node in question. Similarly, nodes in the subtree of the \textit{right} child of a specific node have a key strictly greater than the key of the node in question. A pointer is typically stored to a root node. Search begins from this root node and is done by recursively searching in either the \textit{left} or \textit{right} child of root node, or stopping if the root being searched has the correct key.
+A binary search tree is simple structure used to store key-value pairs. It was invented in the late 1950s and early 1960s and is generally attributed to the combined efforts of Windley, Booth, Colin and Hibbard \cite{windley1960trees} \cite{booth1960efficiency} \cite{hibbard1962some}. In general, binary search trees (BST's) allow for quick binary searches through the data for a specific key. There is a total ordering over the keys of the tree. These are typically things like numbers, words, etc. The value of a node in the BST usually represents some piece of important information, and is often a pointer to large structure somewhere else in memory. Each BST node has at most two children which are generally labelled as the \textit{left} and \textit{right} children. All nodes in the subtree of the \textit{left} child of a specific node $p$ have a key strictly less than the key of $p$. Similarly, nodes in the subtree of the \textit{right} child of $p$ have a key strictly greater than the key of $p$. A pointer is typically stored to a root node. Search begins from this root node and is done by recursively searching in either the \textit{left} or \textit{right} child of a node, and stopping if node being searched has the correct key, or if the node reached has no children.
 
 \section{The Optimum Binary Search Tree Problem}
 
-Knuth first proposed the optimum binary search tree problem in 1971 \cite{knuth1971optimum}. We are given a set of $n$ words $B_1, B_2, ..., B_n$ and $2n+1$ frequencies, ${p_1, p_2, ..., p_n}$, ${q_0, q_1, ..., q_n}$ representing the probabilities of searching for each given word and the probabilities of searching for strings between (and outside of) these words. We have that $ q_0 + \sum\limits_{i=1}^n p_i+q_i = 1$. We also assume that without loss of generality $q_i+p_i+q_{i+1} \neq 0$ for any $i$. The words (and gaps between) are used as keys and the lexicographical ordering of them provides our order over the keys. Our goal is to construct a binary tree such that the expected cost of search is minimized. The names make up the leaves of the tree while, gaps make up the internal nodes. The weighted path length of the tree is: \\
+Knuth first proposed the optimum binary search tree problem in 1971 \cite{knuth1971optimum}. We are given a set of $n$ words $B_1, B_2, ..., B_n$ and $2n+1$ frequencies, ${p_1, p_2, ..., p_n}$, ${q_0, q_1, ..., q_n}$ representing the probabilities of searching for each given word and the probabilities of searching for strings lexicographically between (and outside of) these words. We have that $ q_0 + \sum\limits_{i=1}^n p_i+q_i = 1$. We also assume that without loss of generality that $q_i+p_i+q_{i+1} \neq 0$ for any $i$. The words (and gaps between) are used as keys and the lexicographical ordering of them provides our order over the keys. Our goal is to construct a binary tree such that the expected cost of search is minimized. The names make up the leaves of the tree while, gaps make up the internal nodes. The expected weighted path length of the tree (the expected cost of search) is: \\
 $P = \sum_{i=1}^{n} p_i(b_i+1) + \sum_{j=1}^{n} q_j(a_j)$ \\
-Where $b_i$ and $a_j$ represent the depth of nodes representing the $i^{th}$ word and $j^{th}$ gap respectively. The optimal solution of Knuth requires $O(n^2)$ time, and $O(n^2)$ space. This solution is both time and space intensive. We will later examine an approximate solution  to this problem of G{\"u}ttler, Mehlhorn and Schneider which uses $O(n^2)$ time but $O(n)$ space and improve its worst-case bound. However, these problems were examined under the RAM model which is an inadequate model for many situations. We examine the problem in more realistic models and look at approximate solutions under these settings.
+Where $b_i$ and $a_j$ represent the depth of nodes representing the $i^{th}$ word and $j^{th}$ gap respectively. The optimal solution of Knuth requires $O(n^2)$ time, and $O(n^2)$ space. This solution is both time and space intensive. We will later examine an approximate solution  to this problem of G{\"u}ttler, Mehlhorn and Schneider which uses $O(n^2)$ time but $O(n)$ space and improve its worst-case bound \cite{guttler1980binary}. However, these problems were examined under the RAM model which is an inadequate model for many situations. We examine the problem in more realistic models and look at approximate solutions under these settings.
 
-\section{Three-Way Entropy Splitting}
+\section{Three-Way Branching}
+
+
+While modern computers typically only support two-way branching, the optimum BST problem proposed by Knuthis explored under the three-way branch model. This model allows a single comparison operation to transfer control to three different locations. \\~\\ Examples of this can be seen in FORTRAN 77 which describes the arithmetic IF \cite{fortran} \\
+
 \definecolor{lightgrey}{rgb}{0.95,0.92,0.92} % Defines the color used for content box headers
-
-While modern computers typically only support two-way branching, we consider this problem under the three-way branch model. \\~\\ Examples of this can be seen in FORTRAN 77 which describes the arithmetic IF \cite{fortran} \\
-
 \colorbox{lightgrey}{ \fontfamily{cmtt}\selectfont \uppercase{IF (expr) label1, label2, label3} } \\
  
-Control is transferred to label1, label2 or label3 \\
-if $expr < 0$, $expr=0$, or $expr > 0$ respectively using a single command.
+Control is transferred to \uppercase{label1}, \uppercase{label2} or \uppercase{label3} if $expr < 0$, $expr=0$, or $expr > 0$ respectively using a single comparison command. The difference between a two-way branch model is significant and can be seen through a simple example of searching among 3 keys.
 
-TODO COMPLETE
+\begin{center}
 
+\begin{tikzpicture}
+
+\node [circle,draw] (z){a}
+  child {node [circle,draw] (a) {b}    
+  }  
+  child {node [circle,draw] (b) {c}
+  };
+\end{tikzpicture}
+
+\end{center}
+
+Assume the probability of search for any of $a,b$, or $c$ is $\frac{1}{3}$. Under the three-way branch model, this can be done using exactly one comparison by asking if the key we are search for is less than $b$, equal to $b$, or strictly greater than $b$ and returning the correct key appropriately. Under a standard two-way branch model, this would require an extra comparison operation $\frac{2}{3}$ of the time as we can only distinguish one of the the three cases from the other two using a single two-way $<, >, \leq$ or $\geq$. This gives an expected cost of $1$ in the three-way branch model and $\frac{5}{3}$ in the two-way model. More specifically, each comparison can reveal $3$ bits of information in the three-way model, while only $2$ bits per comparison can be revealed in the two-way model. 
 
 \section{Why Study Binary Search Trees}
 
-Binary search trees are ubiquitous throughout computer science with numerous applications. The basic binary search tree has been built upon in many ways. AVL trees (named after creators AdelsonVelskii and Landis) were the first form of self-balancing binary search trees introduced \cite{adelsonvelskii1963algorithm}. The trees invented by the pair in 1963 and maintain a height of $O(lg(n))$ where $n$ is the number of nodes in the tree during insertions and deletions (both of which take $O(lg(n))$ time). Improved self-balancing binary search trees followed in the form of red-black trees by Bayer in 1972 and splay trees by Sleator and Tarjan in 1985 \cite{bayer1972symmetric} \cite{sleator1985self}. Tango trees were invented in 2007 by Demaine et al. and provided the first $O(lg lg n)$ competitive binary tree \cite{demaine2007dynamic}. Here, $O(lg lg n)$ competitive means that the tango tree does at most $O(lg lg n)$ times more work (pointer movements and rotations) than an optimal offline tree. B trees are among the most commonly used binary tree variant and were invented in 1970 by Bayer and McCeight \cite{bayer1970organization}. 
+Binary search trees are ubiquitous throughout computer science with numerous applications. The basic binary search tree has been built upon in many ways. AVL trees (named after creators AdelsonVelskii and Landis) were the first form of self-balancing binary search trees introduced \cite{adelsonvelskii1963algorithm}. The trees were invented by the pair in 1963 and maintain a height of $O(lg(n))$ where $n$ is the number of nodes in the tree during insertions and deletions (both of which take $O(lg(n))$ time). Improved self-balancing binary search trees followed in the form of red-black trees by Bayer in 1972 and splay trees by Sleator and Tarjan in 1985 \cite{bayer1972symmetric} \cite{sleator1985self}. Tango trees were invented in 2007 by Demaine et al. and provided the first $O(lg lg n)$ competitive binary tree \cite{demaine2007dynamic}. Here, $O(lg lg n)$ competitive means that the tango tree does at most $O(lg lg n)$ times more work (pointer movements and rotations) than an optimal offline tree. B trees are among the most commonly used binary tree variant and were invented in 1970 by Bayer and McCeight \cite{bayer1970organization}. \\
 
-
-Binary space partition
-Binary Tries in routers
-Hash Trees
-Heaps - PQ
-Huffman Code - compression
-Syntax tree
-expression evaluation
+BST's and their extensions are integral to a large number of applications. For example, a BST variant known as the binary space partition is a method for recursviely subdividing space in order to store information in an easily accessible way. It is used extensively in 3D graphics \cite{schumacker1969study} \cite{paterson1992optimal}. Binary tries are similar to binary trees but only have values stored at the leaves. Binary tries are used routinely used in routers and IP lookup data structures \cite{song2010building}. Another example can be seen in the C++ std::map data structure, which is usually implemented using a red-black tree (another extension of binary search trees) in order to store its key-value pairs \cite{CppMap}. Finally, syntax trees (trees used in the parsing of various programming languages) are created using binary (and more complicated) tree structures. These trees are used in the parsing of written code during compilation \cite{louden1997compiler}.
 
 \section{Overview}
 
-In Chapter 2 I review previous work done in the areas of binary search trees, multiway trees, alphabetic trees and various models of external memory. In Chapter 3, I re-examine the Modified Entropy Rule (ME) of G{\"u}ttler, Mehlhorn and Schneider \cite{guttler1980binary}. This is a $O(n)$ time algorithm for approximating the optimum binary search tree problem in the RAM model. The method worked very well in practice, and the group had great experimental results, but unfortunately they could not bound the worst case expected cost of the as they would have hoped. While simpler solutions like the \textit{Min-max} and \textit{Weight Balanced} techniques of Bayer \cite{bayer1975improved} had worst case costs of at most $H+2$, the trio's ME technique had a worst case expected search cost of $c*H+2$ where $c \approx 1.08$. I provide a new argument of its worst case expected search cost and show that it is within a constant of entropy: at worst $H+4$. In Chapter 4, I move on to external memory models, examining the optimum binary search tree problem under the hierarchical memory model as was done in Thite's thesis \cite{thite2008optimum}. I provide TWO? $O(n*lg(m_1))$ time algorithm which has a worst case expected cost of TODO FIX $C \leq (\lceil lg(m_1) \rceil * (\lfloor log_{m_1}(\frac{2}{min_{p,q}}) \rfloor + 1)) * W * (H + 1)$ WHERE TODO. The solution provided also gives a direct improvement over the solution Thite provided in the same work for HMM$_2$. In Chapter 5, I extend my solutions to examine a more realistic model for external memory, the hierarchical memory with block transfers model (HMBTM). I use similar algorithms which run in TODO and give worst case expected search costs of TODO. In Chapter 6 I summarize my findings and discuss several problems which remain open.
+In Chapter~\ref{Background and Related Work} I review previous work done in the areas of binary search trees, multiway trees, alphabetic trees and various models of external memory. In Chapter~\ref{An Improved Bound for the Modified Minimum Entropy Heuristic}, I re-examine the Modified Entropy Rule (ME) of G{\"u}ttler, Mehlhorn and Schneider \cite{guttler1980binary}. This is an $O(n^2)$ time, $O(n)$ space, algorithm for approximating the optimum binary search tree problem in the RAM model. The method works very well in practice, and the group had great experimental results, but unfortunately they could not bound the worst case expected cost as well as they would have hoped. While simpler solutions like the \textit{Min-max} and \textit{Weight Balanced} techniques of Bayer had worst case costs of at most $H+2$, the trio's ME technique had a worst case expected search cost of $c*H+2$ where $c \approx 1.08$ \cite{bayer1975improved} \cite{guttler1980binary}. I provide a new argument of the ME rule's worst case expected search cost and show that it is within a constant of entropy: at worst $H+4$. In Chapter~\ref{Approximate Binary Search in the Hierarchical Memory Model}, I move on to external memory models, examining the optimum binary search tree problem under the Hierarchical Memory Model of Aggarwal et al. \cite{aggarwal1987model} . I provide two $O(n*lg(m_1))$ time algorithms which have worst case expected cost of TODO FIX $C \leq (\lceil lg(m_1) \rceil * (\lfloor log_{m_1}(\frac{2}{min_{p,q}}) \rfloor + 1)) * W * (H + 1)$ WHERE TODO. The solution provided also gives a direct improvement over the solution Thite provided in the same work for HMM$_2$. In Chapter~\ref{Approximate Binary Search in the Hierarchical Memory with Block Transfer Model}, I extend my solutions to examine a more realistic model for external memory, the hierarchical memory with block transfers model (HMBTM). I use similar algorithms which run in TODO and give worst case expected search costs of TODO. In Chapter~\ref{BST over Multisets} I consider a variant of the optimum binary search tree problem (in the RAM model) where the set of probabilities given are from an unordered multiset. I show that a simple approach gives the optimum solution which is unique up to certain permutations. Finally, in Chapter~\ref{Conclusion and Open Problems}, I summarize my findings and discuss several problems which remain open.
 
 
-\chapter{Background and Related Work}
+\chapter{Background and Related Work} \label{Background and Related Work}
 
 
 
@@ -306,7 +311,7 @@ Look at what Thite wrote about
 TODO - LOOK @ SURVEY ON MEMORY MODELS
 
 
-\chapter{An Improved Bound for the Modified Minimum Entropy Heuristic}
+\chapter{An Improved Bound for the Modified Minimum Entropy Heuristic}\label{An Improved Bound for the Modified Minimum Entropy Heuristic}
 
 \section{Preliminaries}
 
@@ -413,7 +418,7 @@ $\implies C \leq H + 4$ \\
 
 \end{proof}
 
-\chapter{Approximate Binary Search in the Hierarchical Memory Model} 
+\chapter{Approximate Binary Search in the Hierarchical Memory Model}\label{Approximate Binary Search in the Hierarchical Memory Model}
  
 \section{The Hierarchical Memory Model}
 
@@ -914,7 +919,7 @@ especially in the case where $c_2 >> c_1$.
 
 
 
-\chapter{Approximate Binary Search in the Hierarchical Memory with Block Transfer Model}
+\chapter{Approximate Binary Search in the Hierarchical Memory with Block Transfer Model}\label{Approximate Binary Search in the Hierarchical Memory with Block Transfer Model}
 
 \section{Hierarchical Memory with Block Transfer Model}
 This model (HMBTM for short) was proposed by Aggarwal, Chandra, and Snir as an improvement over the HMM model \cite{aggarwal1987model} discussed previously \cite{aggarwal1987hierarchical}. The model with block transfer still has a memory hierarchy with increasing costs of access, but allows for any contiguous block of memory to be copied from one location to another with constant unit time per element after the initial access. This provides a better model for standard computers which can copy many words from one type of memory to another after accessing a single word. Like the HMM model, we have an unlimited number of registers (numbered 1, 2, , .. etc.) and we will still use the cost function as was explained in Thite's thesis \cite{thite2008optimum}. Here, $\mu (a)$ is the cost of accessing memory location $a$. We have a series of memory sizes $m_1, m_2, ..., m_h$ where $m_l$ has infinite size each with an associated cost $c_1, c_2, ..., c_h$. We assume that $c_1 < c_2 < ... < c_h$. 
@@ -1119,7 +1124,7 @@ What cost is
 similar arg to ApproxMWPaging
 
 %=========================================
-\chapter{BST over Multisets}
+\chapter{BST over Multisets} \label{BST over Multisets}
 
 \section{The Multiset Binary Search Tree Problem}\label{The Multiset Binary Search Tree Problem}
 
@@ -1232,7 +1237,7 @@ Since we already know that \textit{OPT-MSBST} provides an optimal solution, all 
 
 
 
-\chapter{Conclusion and Open Problems}
+\chapter{Conclusion and Open Problems} \label{Conclusion and Open Problems}
 
 \section{Discussion}
 
