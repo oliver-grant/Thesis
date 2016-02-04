@@ -92,6 +92,8 @@
 \usepackage{fancybox}
 \usepackage{tikz}
 \usepackage{stmaryrd}
+\usepackage{caption}
+\usepackage{subcaption}
 \theoremstyle{plain}
 \newtheorem{thm}{Theorem}[section]
 \newtheorem{lem}[thm]{Lemma}
@@ -237,6 +239,7 @@ While modern computers typically only support two-way branching, the optimum BST
  
 Control is transferred to \uppercase{label1}, \uppercase{label2} or \uppercase{label3} if $expr < 0$, $expr=0$, or $expr > 0$ respectively using a single comparison command. The difference between a two-way branch model is significant and can be seen through a simple example of searching among 3 keys.
 
+\begin{figure}[!ht]
 \begin{center}
 
 \begin{tikzpicture}
@@ -247,8 +250,10 @@ Control is transferred to \uppercase{label1}, \uppercase{label2} or \uppercase{l
   child {node [circle,draw] (b) {c}
   };
 \end{tikzpicture}
+\caption{A 3 node binary tree.}
 
 \end{center}
+\end{figure}
 
 Assume the probability of search for any of $a,b$, or $c$ is $\frac{1}{3}$. Under the three-way branch model, this can be done using exactly one comparison by asking if the key we are search for is less than $b$, equal to $b$, or strictly greater than $b$ and returning the correct key appropriately. Under a standard two-way branch model, this would require an extra comparison operation $\frac{2}{3}$ of the time as we can only distinguish one of the the three cases from the other two using a single two-way $<, >, \leq$ or $\geq$. This gives an expected cost of $1$ in the three-way branch model and $\frac{5}{3}$ in the two-way model. More specifically, each comparison can reveal $3$ bits of information in the three-way model, while only $2$ bits per comparison can be revealed in the two-way model. 
 
@@ -269,37 +274,48 @@ In Chapter~\ref{Background and Related Work} I review previous work done in the 
 
 \section{Binary Search Trees}
 
-After Knuth's initial examination of the optimum binary search tree problem in 1971 \cite{knuth1971optimum}, several others have examined the approximate version of the problem. Knuth's optimal solution requires $O(n^2)$ time and space which is too costly in many situations. While unable to bound an approximate algorithm within a constant of the optimal solution, many authors have been able to bound the cost based on the entropy of the distribution of probabilities, $H$. Specifically, $H = \sum_{i=1}^{n} p_i*log_2(\frac{1}{p_i}) + \sum_{j=0}^{n} q_i*lg(\frac{1}{q_j})$. In 1975, Bayer showed that $H-lg H-(lg e-1) \leq C_{Opt}$, $C_{Opt} \leq C_{WB} \leq H + 2$ and $C_{Opt} \leq C_{MM} \leq H + 2$ where $C_{Opt}, C_{WB}$, and $C_{MM}$ are costs for the optimal solution, as well as weight-balanced and min-max heuristic methods respectively \cite{bayer1975improved}. Weight-balanced and min-max costs heuristics are greedy and require both $O(n)$ time and $O(n)$ space to run. In 1980, G{\"u}ttler, Mehlhorn and Schneider presented a new heuristic, the Modified Entropy Rule (ME) \cite{guttler1980binary} which built upon the ideas of Horibe \cite{horibe1977improved}. G{\"u}ttler, Mehlhorn and Schneider gave empirical evidence that the heuristic out-performed others \cite{guttler1980binary}. While the heuristic took $O(n^2)$ time, it only required $O(n)$ space, a huge savings over the optimal solution. However, they were unable to prove that $C_{ME} \leq H+2$ (like previous weight-balanced and min-max heuristics) and settled with $C_{ME} \leq c_1*H+2$ where $c_1=\frac{1}{H(\frac{1}{3}, \frac{2}{3})} \approx 1.08$. In 1993, De Prisco and De Santis presented a new heuristic for constructing a near-optimum binary search tree \cite{de1993binary}. The method is discussed in more detail in section~\ref{sec:deBST} and has an upper bounded cost of at most $H+1-q_0-q_n+q_{max}$ where $q_{max}$ is the maximum weight leaf node. This method was later updated by Bose and Dou\"{i}eb to have a worst case cost of 
- \begin{center}
-$\frac{H}{lg(2k-1)} \leq P_{OPT} \leq P_T \leq \frac{H}{lg k} + 1 + \sum_{i=0}^n q_i - q_0 - q_n - \sum_{i=0}^m q_{rank[i]}$ \cite{bose2009efficient}
+After Knuth's initial examination of the optimum binary search tree problem in 1971 \cite{knuth1971optimum}, several others have examined the approximate version of the problem. Knuth's optimal solution requires $O(n^2)$ time and space which is too costly in many situations. While unable to bound an approximate algorithm within a constant of the optimal solution, many authors have been able to bound the cost based on the entropy of the distribution of probabilities, $H$. Specifically, 
+\begin{center}
+$H = \sum_{i=1}^{n} p_i*lg(\frac{1}{p_i}) + \sum_{j=0}^{n} q_i*lg(\frac{1}{q_j})$.
 \end{center}
-Here, H is the entropy of the probability distribution, $P_{OPT}$ is the average path-length in the optimal tree, $P_T$ is the average path length of the tree built using their algorithm and $m=max({n-3P,P})-1 \geq \frac{n}{4} - 1$. $P$ is the number of increasing or decreasing sequences in a left-to-right read of the access probabilities of the leaves. Moreover, $q_{rank[i]}$ is the $i^{th}$ smallest access probability among all leaves except $q_0$ and $q_n$. \\ 
+In 1975, Bayer showed that 
+\begin{center}
+$H-lg H-(lg e-1) \leq C_{Opt}$, $C_{Opt} \leq C_{WB} \leq H + 2$ and $C_{Opt} \leq C_{MM} \leq H + 2$
+\end{center}
+where $C_{Opt}, C_{WB}$, and $C_{MM}$ are costs for the optimal solution, as well as weight-balanced and min-max heuristic methods respectively \cite{bayer1975improved}. Weight-balanced and min-max costs heuristics are greedy and require both $O(n)$ time and $O(n)$ space to run. In 1980, G{\"u}ttler, Mehlhorn and Schneider presented a new heuristic, the Modified Entropy Rule (ME) \cite{guttler1980binary} which built upon the ideas of Horibe \cite{horibe1977improved}. G{\"u}ttler, Mehlhorn and Schneider gave empirical evidence that the heuristic out-performed others \cite{guttler1980binary}. While the heuristic took $O(n^2)$ time, it only required $O(n)$ space, a huge savings over the optimal solution. However, they were unable to prove that $C_{ME} \leq H+2$ (like previous weight-balanced and min-max heuristics) and settled with $C_{ME} \leq c_1*H+2$ where $c_1=\frac{1}{H(\frac{1}{3}, \frac{2}{3})} \approx 1.08$. I reexamine this method and provide a new bound of giving a new bound of $H+4$ in Chapter~\ref{An Improved Bound for the Modified Minimum Entropy Heuristic}. In 1993, De Prisco and De Santis presented a new heuristic for constructing a near-optimum binary search tree \cite{de1993binary}. The method is discussed in more detail in section~\ref{sec:deBST} and has an upper bounded cost of at most $H+1-q_0-q_n+q_{max}$ where $q_{max}$ is the maximum weight leaf node. This method was later updated by Bose and Dou\"{i}eb (and is also discussed in section~\ref{sec:deBST}) to have a worst case cost of 
+\begin{center}
+$H + 1 - q_0 - q_n + q_{max} - \sum_{i=0}^{m'} pq_{rank[i]}$
+\end{center}
+Here, $m'=max({2n-3P,P})-1 \geq \frac{n}{2} - 1$ where $P$ is the number of increasing or decreasing sequences in a left-to-right read of the access probabilities of the leaves and.  $pq_{rank[i]}$ is the $i^{th}$ smallest access probability among all keys and leaves except $q_0$ and $q_n$.
 
  
 \section{Alphabetic Trees}
 
-Given a set of $n$ keys with various probabilities, the problem is to build a binary search tree where every internal node has two children, leaves have no children, and the $n$ keys described are the leaves with minimum expected search cost. Here, the expected search cost is $\sum p_i * l_i*$ where $p_i$ is the probability of searching for leaf/key $i$ and $l_i$ is the leaf's level in the tree. The alphabetic ordering of the leaves must be maintained. This is the same as the binary search tree problem with all internal node weights zero.
+Optimum alphabetic trees is an important related problem worth discussing. Given a set of $n$ keys with various probabilities, we wish to build a binary search tree where every internal node has two children, leaves have no children, and the $n$ keys described are the leaves with minimum expected search cost. Here, the expected search cost is $\sum p_i * l_i*$ where $p_i$ is the probability of searching for leaf/key $i$ and $l_i$ is the leaf's level in the tree. The alphabetic ordering of the leaves must be maintained. This is the same as the binary search tree problem with all internal node weights zero.
 
-In 1952, Huffman famously developed the Huffman tree, which solved the same problem without a left-to-right ordering constraint on leaves \cite{huffman1952method}. Gilbert and Moore examined the problem with the added alphabetic constraint and developed a $O(n^3)$ algorithm which solved the problem optimally \cite{gilbert1959variable}. Hu and Tucker gave a $O(n^2)$ time and space algorithm in 1971 \cite{hu1971optimal} which was improved by Knuth to take only $O(n lg n)$ time and $O(n)$ space in 1973 \cite{knuth1973sorting}. The original proof of Hu and Tucker was extremely complicated, but was fortunately later simplified by Hu \cite{hu1973new} and Hu et al. \cite{hu1979binary}. Garsia and Wachs gave an independent $O(n lg n)$ time, $O(n)$ space algorithm in 1977 \cite{garsia1977new}. This was shown to be equivalent to the Hu and Tucker algorithm in 1982 by Hu \cite{Hu1982Book} and also went through a proof simplification \cite{kingston1988new} by Kingston in 1988.
+In 1952, Huffman famously developed the Huffman tree, which solved the same problem without a left-to-right ordering constraint on leaves \cite{huffman1952method}. Gilbert and Moore examined the problem with the added alphabetic constraint and developed a $O(n^3)$ algorithm which solved the problem optimally \cite{gilbert1959variable}. Hu and Tucker gave a $O(n^2)$ time and space algorithm in 1971 \cite{hu1971optimal} which was improved by Knuth to take only $O(n lg n)$ time and $O(n)$ space in 1973 \cite{knuth1973sorting}. The original proof of Hu and Tucker was extremely complicated, but was later simplified by Hu \cite{hu1973new} and Hu et al. \cite{hu1979binary}. Garsia and Wachs gave an independent $O(n lg n)$ time, $O(n)$ space algorithm in 1977 \cite{garsia1977new}. This was shown to be equivalent to the Hu and Tucker algorithm in 1982 by Hu \cite{Hu1982Book} and also went through a proof simplification \cite{kingston1988new} by Kingston in 1988.
 
-In 1991, Yeung proposed an approximate solution which solved the problem in $O(n)$ time and space \cite{yeung1991alphabetic}. The algorithm produced a tree with worst case cost $H + 2 - q_1-q_n$. This was later imporved by De Prisco and De Santis who created an $O(n)$ time algorithm which had a worst case cost of $H+1-q_0-q_n+q_{max}$ \cite{de1993binary}. The method was improved one more time by Bose and Dou\"{i}eb who improved upon Yeung's method by decreasing the bound by $\sum_{i=0}^m q_{rank[i]}$ where $m=max({n-3P,P})-1 \geq \frac{n}{4} - 1$, $P$ is the number of increasing or decreasing sequences in a left-to-right read of the access probabilities of the leaves and $q_{rank[i]}$ is the $i^{th}$ smallest access probability among all leaves except $q_0$ and $q_n$ \cite{bose2009efficient}. De Prisco and De Santis used Yeung's method within their own, so this improvement to Yeung's method gave an overall tighter bound of $H+1-q_0-q_n+q_{max}-\sum_{i=0}^m q_{rank[i]}$. CHECK THIS OUT TODO
+In 1991, Yeung proposed an approximate solution which solved the problem in $O(n)$ time and space \cite{yeung1991alphabetic}. The algorithm produced a tree with worst case cost $H + 2 - q_1-q_n$. This was later imporved by De Prisco and De Santis who created an $O(n)$ time algorithm which had a worst case cost of $H+1-q_0-q_n+q_{max}$ \cite{de1993binary}. The method was improved one more time by Bose and Dou\"{i}eb who improved upon Yeung's method by decreasing the bound by $\sum_{i=0}^m q_{rank[i]}$ where $m=max({n-3P,P})-1 \geq \frac{n}{4} - 1$, $P$ is the number of increasing or decreasing sequences in a left-to-right read of the access probabilities of the leaves and $q_{rank[i]}$ is the $i^{th}$ smallest access probability among all leaves except $q_0$ and $q_n$ \cite{bose2009efficient}. Replacing Yeung's method with the improved algorithm of Bose and Dou\"{i}eb in the De Prisco and De Santis algorithm gave the tightest bound seen so far of 
+\begin{center}
+$H+1+\sum_{i=1}^{n}q_i-q_0-q_n-\sum_{i=0}^m q_{rank[i]}$. 
+\end{center}
 
 \section{Multiway Trees} \label{sec:MWT}
 
 
-This static k-ary or multiway search tree problem is similar to optimum binary search tree problem with the added constraint that up to $k$ keys can be placed into a single node, and cost of search within a node is constant. Multiway search trees maintain an ordering property similar to that of traditional binary search trees. Each key in every page in the subtree rooted at a specific location in a page $g$ (i.e. between two keys $k$ and $l$) must have its key lie between $k$ and $l$. Each internal node of the k-ary tree contains at least one and at most $k-1$ keys while a leaf node contains no keys. Successful searches end in an internal while unsuccessful searches end in one of the $n+1$ leaves of the tree. The cost of search is the average path depth is defined as :
+Another related problem is the static k-ary or multiway search tree problem. It is similar to optimum binary search tree problem with the added constraint that up to $k$ keys can be placed into a single node, and cost of search within a node is constant. Multiway search trees maintain an ordering property similar to that of traditional binary search trees. Each key in every page in the subtree rooted at a specific location in a page $g$ (i.e. between two keys $k$ and $l$) must have its key lie between $k$ and $l$. Each internal node of the k-ary tree contains at least one and at most $k-1$ keys while a leaf node contains no keys. Successful searches end in an internal node while unsuccessful searches end in one of the $n+1$ leaves of the tree. The cost of search is the average path depth which is defined as:
 
 \begin{center}
 $\sum_{i=1}^{n} p_i(d_T(x_i)+1) + \sum_{j=0}^{n} q_j(d_T(x_{i-1},x_i))$
 \end{center}
 
-where $x_i$'s represent successful search keys, pairs $(x_{i-1},x_i)$ represent unsuccessful search "keys" and $d_T(x_i)$  or $d_T(x_{i-1},x_i)$ represent the depth of a specific successful or unsuccessful search respectively.
+where $x_i$'s represent successful search keys, pairs $(x_{i-1},x_i)$ represent unsuccessful search "keys" and $d_T(x_i)$  or $d_T(x_{i-1},x_i)$ represent the depth of a specific successful or unsuccessful searches respectively.
 
-Vishnavi et al. \cite{vaishnavi1980optimum}, and Gotlieb  \cite{gotlieb1981optimal} in 1980 and 1981 respectively independently solved the problem optimally in $O(k*n^3)$ time. In a slightly modified B-tree model (every leaf has same depth, every internal node is at least half full), Becker's 1994 work gave a $O(kn^{\alpha})$ time algorithm where $\alpha=2+log_k 2$ \cite{becker1994new}. Moreover, in 1997 Becker propsed an $O(Dkn)$ time algorithm where D is the height of the resulting tree\cite{becker1997construction}. The algorithm did not produce an optimal tree but was thought to be empirically close despite having no strong upper bound. In 2009, Bose and Dou\"{i}eb gave both an upper and lower bound on the optimal search tree in terms of the entropy of the probability distribution as well as an $O(n)$ time algorithm to build a near-optimal tree \cite{bose2009efficient}. There bounds of:
+Vishnavi et al. \cite{vaishnavi1980optimum}, and Gotlieb  \cite{gotlieb1981optimal} in 1980 and 1981 respectively independently solved the problem optimally in $O(k*n^3)$ time. In a slightly modified B-tree model (every leaf has same depth, every internal node is at least half full), Becker's 1994 work gave a $O(kn^{\alpha})$ time algorithm where $\alpha=2+log_k 2$ \cite{becker1994new}. Later, in 1997, Becker propsed an $O(Dkn)$ time algorithm where D is the height of the resulting tree\cite{becker1997construction}. The algorithm did not produce an optimal tree but was thought to be empirically close despite having no strong upper bound. In 2009, Bose and Dou\"{i}eb gave both an upper and lower bound on the optimal search tree in terms of the entropy of the probability distribution as well as an $O(n)$ time algorithm to build a near-optimal tree \cite{bose2009efficient}. Their bounds of:
 \begin{center}
 $\frac{H}{lg(2k-1)} \leq P_{OPT} \leq P_T \leq \frac{H}{lg k} + 1 + \sum_{i=0}^n q_i - q_0 - q_n - \sum_{i=0}^m q_{rank[i]}$
 \end{center}
-will be discussed in more detail in section BLAH TODO of this paper.
+will be discussed in more detail in section~\ref{43} of this paper.
 
 \section{Memory Models}
 
@@ -490,15 +506,17 @@ In order to approximately solve the optimum BST problem under the HMM model, we 
 We are left with a binary search tree which has been properly packed into our memory in total time $O(n*lg(m_1))$.
 
 \pagebreak
-
+\begin{figure}
 
 % Set the overall layout of the tree
 \tikzstyle{level 1}=[level distance=3cm, sibling distance=3cm]
 \tikzstyle{level 2}=[level distance=3cm, sibling distance=3cm]
 
-
 \begin{center}
+\begin{subfigure}[b]{0.3\textwidth}
+
 \scriptsize
+
 
 \begin{tikzpicture}[scale=0.5]
 
@@ -514,6 +532,8 @@ We are left with a binary search tree which has been properly packed into our me
   };
 
 \end{tikzpicture}
+\caption{Phase 1)}
+\end{subfigure}
 
 % Set the overall layout of the tree
 \tikzstyle{level 1}=[level distance=3cm, sibling distance=3.5cm]
@@ -523,8 +543,9 @@ We are left with a binary search tree which has been properly packed into our me
 \tikzstyle{level 1}=[level distance=3cm, sibling distance=3.5cm]
 \tikzstyle{level 2}=[level distance=3cm, sibling distance=3.5cm]
 \tikzstyle{level 3}=[level distance=1cm, sibling distance=1cm]
+\begin{subfigure}[b]{0.3\textwidth}
 \begin{tikzpicture}
-
+\scriptsize
 \node[circle,draw] (z){
 	\tikzstyle{level 1}=[level distance=1cm, sibling distance=1cm]
 	\begin{tikzpicture}
@@ -592,11 +613,14 @@ We are left with a binary search tree which has been properly packed into our me
   }edge from parent[shorten <=0.97cm]
   };
 \end{tikzpicture}
-
+\caption{Phase 2)}
+\end{subfigure}
 
 \tikzstyle{level 1}=[level distance=1cm]
 \tikzstyle{level 2}=[level distance=1cm]
 \tikzstyle{level 3}=[level distance=1cm]
+\begin{subfigure}[b]{0.8\textwidth}
+
 \begin{tikzpicture}[level/.style={sibling distance=60mm/#1}]
 \node [circle,draw] (z){8}
   child {node [circle,draw] (a) {4}    
@@ -622,7 +646,15 @@ We are left with a binary search tree which has been properly packed into our me
   };
 
 \end{tikzpicture}
+\caption{Phase 3)}
+
+
+
+\end{subfigure}
 \end{center}
+
+\caption{An example of the first three steps of the ApproxMWPaging Algorithm.}
+\end{figure}
 
 
 \section{Expected Cost ApproxMWPaging} \label{45}
