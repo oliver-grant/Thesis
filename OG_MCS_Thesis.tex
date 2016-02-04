@@ -506,14 +506,14 @@ In order to approximately solve the optimum BST problem under the HMM model, we 
 We are left with a binary search tree which has been properly packed into our memory in total time $O(n*lg(m_1))$.
 
 \pagebreak
-\begin{figure}
+\begin{figure}[H]
 
 % Set the overall layout of the tree
 \tikzstyle{level 1}=[level distance=3cm, sibling distance=3cm]
 \tikzstyle{level 2}=[level distance=3cm, sibling distance=3cm]
 
 \begin{center}
-\begin{subfigure}[b]{0.3\textwidth}
+\begin{subfigure}[b]{0.36\textwidth}
 
 \scriptsize
 
@@ -534,6 +534,9 @@ We are left with a binary search tree which has been properly packed into our me
 \end{tikzpicture}
 \caption{Phase 1)}
 \end{subfigure}
+\end{center}
+
+\vspace{3em}
 
 % Set the overall layout of the tree
 \tikzstyle{level 1}=[level distance=3cm, sibling distance=3.5cm]
@@ -543,7 +546,8 @@ We are left with a binary search tree which has been properly packed into our me
 \tikzstyle{level 1}=[level distance=3cm, sibling distance=3.5cm]
 \tikzstyle{level 2}=[level distance=3cm, sibling distance=3.5cm]
 \tikzstyle{level 3}=[level distance=1cm, sibling distance=1cm]
-\begin{subfigure}[b]{0.3\textwidth}
+\begin{center}
+\begin{subfigure}[b]{0.82\textwidth}
 \begin{tikzpicture}
 \scriptsize
 \node[circle,draw] (z){
@@ -615,11 +619,20 @@ We are left with a binary search tree which has been properly packed into our me
 \end{tikzpicture}
 \caption{Phase 2)}
 \end{subfigure}
+\end{center}
+
+\end{figure}
+
+\clearpage
+
+\begin{figure}[H]
+\begin{center}
+\scriptsize
 
 \tikzstyle{level 1}=[level distance=1cm]
 \tikzstyle{level 2}=[level distance=1cm]
 \tikzstyle{level 3}=[level distance=1cm]
-\begin{subfigure}[b]{0.8\textwidth}
+\begin{subfigure}[b]{0.72\textwidth}
 
 \begin{tikzpicture}[level/.style={sibling distance=60mm/#1}]
 \node [circle,draw] (z){8}
@@ -652,6 +665,42 @@ We are left with a binary search tree which has been properly packed into our me
 
 \end{subfigure}
 \end{center}
+
+
+\begin{center}
+\scriptsize
+
+\begin{subfigure}[b]{0.72\textwidth}
+
+
+\begin{center}
+    \begin{tabular}{ | l | l | l | p{5cm} |}
+    \hline
+    Memory Location & Node & Left Child Location & Right Child Location \\ \hline
+    1  & 8  & 2    & 3    \\ \hline
+    2  & 4  & 4    & 5    \\ \hline
+    3  & 14 & 6    & 7    \\ \hline
+    4  & 2  & 8    & 9    \\ \hline
+    5  & 6  & 10   & 11   \\ \hline
+    6  & 10 & 12   & 13   \\ \hline
+    7  & 16 & 14   & 15   \\ \hline
+    8  & 1  & NULL & NULL \\ \hline
+    9  & 3  & NULL & NULL \\ \hline
+    10 & 5  & NULL & NULL \\ \hline
+    11 & 7  & NULL & NULL \\ \hline
+    12 & 9  & NULL & NULL \\ \hline
+    13 & 11 & NULL & 16   \\ \hline
+    14 & 15 & NULL & NULL \\ \hline
+    15 & 17 & NULL & NULL \\ \hline
+    16 & 12 & NULL & 17   \\ \hline
+    17 & 13 & NULL & NULL \\ \hline
+    \end{tabular}
+\end{center}
+
+\caption{Phase 4)}
+\end{subfigure}
+\end{center}
+
 
 \caption{An example of the first three steps of the ApproxMWPaging Algorithm.}
 \end{figure}
@@ -1284,8 +1333,6 @@ Since we already know that \textit{OPT-MSBST} provides an optimal solution, all 
 \chapter*{APPENDICES}
 \addcontentsline{toc}{chapter}{APPENDICES}
 %======================================================================
-\chapter[PDF Plots From Matlab]{Matlab Code for Making a PDF Plot}
-\label{AppendixA}
 
 
 %----------------------------------------------------------------------
