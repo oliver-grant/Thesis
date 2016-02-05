@@ -485,7 +485,7 @@ As described in the section~\ref{sec:MWT}, in the multiway search tree problem w
  
  The algorithm occurs in three steps. First, a new distribution is created by distributing all leaf weights to appropriate internal nodes. Without going into great detail, essentially an examination of the peaks and valleys of the probability distribution of the leaf weights is used to do this weight reassignment. After this, the new probability distribution is made into a k-ary tree using a greedy recursive algorithm. The algorithm recursively chooses the $l \leq k$ elements to go in the root node such that each child's subtree will have probability of access of at most $1/k$. After this internal key tree has been completed, leaf nodes are reattached. Their algorithm's design allows them to bound the depth of keys and leaves. This ultimately allows them to achieve the bounds they have described. 
 
-\section{Algorithm ApproxMWPaging}
+\section{Algorithm ApproxMWPaging}\label{Algorithm ApproxMWPaging}
 
 First, we need a lemma about converting a multiway search tree to a binary search tree. For the sake of clarity, we will call what are typically known as \textit{nodes} of the multiway tree \textit{pages}. This represents how various items of our search tree will fit onto pages of our memory hierarchy. We maintain the notion of calling individual items \textit{keys}.
 
@@ -712,53 +712,40 @@ We are left with a binary search tree which has been properly packed into our me
 
 \section{Expected Cost ApproxMWPaging} \label{45}
 
-First, we bound the depth of nodes in our BST $T$. The depth of a key $x_i$ (denoted $(x_{i-1}, x_i)$ for unsuccessful searches) is defined as $d_T(x_i)$ ($d_T(x_{i-1},x_i)$). Note that depth is the number of edges between a node and the root (i.e. the depth of the root is $0$).
+First, we bound the depth of nodes in our BST $T$. The depth of a key $x_i$ (denoted $(x_{i-1}, x_i)$ for unsuccessful searches) is defined as $d_T(x_i)$ ($d_T(x_{i-1},x_i)$). Note that depth is the number of edges between a node and the root (i.e. the depth of the root is $0$). As in the work of Bose and Dou\"{i}eb, let $m=max({n-3P,P})-1 \geq \frac{n}{4} - 1$ where $P$ is the number of increasing or decreasing sequences in a left-to-right read of the access probabilities of the leaves \cite{bose2009efficient}.
 
 \begin{lem} \label{451}
-TODO - FIX TO BE BLAH FOR SOME Q'S, BLAH FOR OTHERS
 For a key $x_i$,
 \begin{center} $d_T(x_i) \leq lg(\frac{1}{p_i})$. \end{center}
 For a key $(x_{i-1},x_i)$,
-\begin{center} $d_T(x_{i_1},x_i) \leq lg(\frac{1}{q_i}) + 1$. \end{center}
+\begin{center} $d_T(x_{i_1},x_i) \leq lg(\frac{1}{q_i}) + 2$ for all leaves, and\\
+ $d_T(x_{i_1},x_i) \leq lg(\frac{1}{q_i}) + 1$ for at least $m$ of them (and the two extremal leaves). \end{center}
+  
+\begin{center}
+
+\end{center}
+
 \end{lem}
 
 \begin{proof}
 First we note that in the tree $T'$ we build using Bose and Dou\"{i}eb's multiway tree algorithm, the maximum depth of keys (call this $d_{T'}(x_i), d_{T'}(x_{i-1},x_i)$) for a page size $m_1$ is \cite{bose2009efficient}:
 \begin{center} $d_{T'}(x_i) \leq \lfloor log_{m_1}(\frac{1}{p_i}) \rfloor$. \end{center} 
-\begin{center} $d_{T'}(x_{i-1},x_i) \leq \lfloor log_{m_1}(\frac{2}{q_i}) \rfloor + 1$. \end{center}
+\begin{center} $d_{T'}(x_{i_1},x_i) \leq \lfloor log_{m_1}(\frac{2}{q_i}) \rfloor + 1$ for all leaves, and\\
+ $d_T(x_{i_1},x_i) \leq \lfloor log_{m_1}(\frac{1}{q_i}) \rfloor + 1$ for at least $m$ of them (and the two extremal leaves). \end{center}
 As explained in the paper, these follow from Lemmas 1 and 2 of Bose and Dou\"{i}eb \cite{bose2009efficient}.
 
-Inside a page, we make a balanced (ignoring weight) BST, so each key has a depth within a page of at most $\lceil lg(m_1) \rceil$. Since our algorithm always connects the root of the BST made for page to a key in the BST made for the page's parent, a key $x_i$ has a \textit{page depth} (the number of unique pages accessed in order to access the key) of at most $\lfloor log_{m_1}(\frac{1}{p_i}) \rfloor$ ($\lfloor log_{m_1}(\frac{2}{q_i}) \rfloor + 1$ pages for keys ($(x_{i-11},x_i)$). Since we will examine at most $\lceil lg(m_1) \rceil$ keys within any one page (and only 1 key in a leaf page) a key's depth is at most the bound described.
-\end{proof}
+Inside a page, we make a balanced (ignoring weight) BST, so each key has a depth within a page of at most $\lfloor lg(m_1) \rfloor$. Since our algorithm always connects the root of the BST made for page to a key in the BST made for the page's parent, a key $x_i$ has a \textit{page depth} (the number of unique pages accessed in order to access the key) of at most  the bounds on $d_{T'}(x_i)$ and $d_{T'}(x_{i_1},x_i)$ described. Since we will examine at most $\lceil lg(m_1) \rceil$ keys within any one page (and only 1 key in a leaf page) a key's depth is at most \\
+$d_T(x_i) \leq \lfloor lg(m1) \rfloor \lfloor log_{m_1}(\frac{1}{p_i}) \rfloor$ \\
+$\implies d_T(x_i) \leq lg(m1)*log_{m_1}(\frac{1}{p_i})$ \\
+$\implies d_T(x_i) \leq lg(\frac{1}{p_i})$. \\
+For an unsuccessful search \\
+$d_T(x_{i_1},x_i) \leq \lfloor lg(m1) \rfloor \lfloor log_{m_1}(\frac{2}{q_i}) \rfloor + 1$ \\
+$\implies d_T(x_{i_1},x_i) \leq lg(m1)*log_{m_1}(\frac{2}{q_i}) + 1$ \\
+$\implies d_T(x_{i_1},x_i) \leq lg(\frac{1}{q_i}) + 2$ for all leaves, and \\
+$\implies d_T(x_{i_1},x_i) \leq lg(\frac{1}{q_i}) + 1$ for at least $m$ of them (and the two extremal leaves).
 
-\iffalse
-
-Let $min_{p,q} = min(min_{i \in \{1, ..., n\}}(p_i), min_{j \in \{0, ..., n\}}(q_j))$ be probability of searching for the smallest weighted key (successful or unsuccessful search). The by the lemma above it immediately follows that:
-\begin{cor}
-\begin{center} $height(T) \leq d_T(min_{p,q}) \leq \lceil lg(m_1) \rceil * (\lfloor log_{m_1}(\frac{2}{min_{p,q}}) \rfloor + 1)$. \end{center}
-\end{cor}
-
-Using this, we can prove a more specific lemma about the height of our tree. 
-
-\begin{lem}
- $height(T) \leq lg(\frac{1}{min_{p,q}}) + lg(m_1) + 2$.
-\end{lem}
-
-\begin{proof}
-From our corollary we have that:\\
-$height(T) \leq \lceil lg(m_1) \rceil * (\lfloor log_{m_1}(\frac{2}{min_{p,q}}) \rfloor + 1)$ \\
-
-$ \leq \lceil lg(m_1) \rceil * (\lfloor \frac{lg(\frac{2}{min_{p,q}})}{lg(m_1)} \rfloor + 1)$\\
-
-$ \leq \lceil lg(m_1) \rceil * ( \frac{ \lfloor lg(\frac{2}{min_{p,q}}) \rfloor}{\lceil lg(m_1) \rceil} + 1)$\\
-
-$ \leq  \lfloor lg(\frac{2}{min_{p,q}}) \rfloor + \lceil lg(m_1) \rceil$\\
-
-$ \leq  lg(\frac{1}{min_{p,q}}) + lg(m_1) + 2$.
 
 \end{proof}
-
-\fi
 
 We now describe the cost of searching for a key located at deepest part of tree $T$: $W$. Let $m'_j = \sum_{k \leq j} m_j$. We define $m'_0 = 0$. As defined previously we let $l$ be the smallest $j$ such that $m'_j > n$. Let $H(T)$ be the height of $T$.
 
@@ -823,38 +810,39 @@ Note that $\frac{W}{H(T)}$ represents the average cost per memory access when ac
 \begin{lem}
 The cost of searching for a keys $x_i$ and $(x_{i-1},x_i)$ ($C(x_i)$ and $C(x_{i-1},x_i)$ respectively) can be bounded as follows: 
 
-\begin{center} $C(x_i) \leq \frac{\lceil lg(m_1) \rceil * \lfloor log_{m_1}(\frac{1}{p_i}) \rfloor}{H(T)} * W < \lceil lg(m_1) \rceil * \lfloor log_{m_1}(\frac{1}{p_i}) \rfloor*c_l$ 
+\begin{center} $C(x_i) \leq (\lg(\frac{1}{p_i})+1)*\frac{W}{H(T)} < (lg(\frac{1}{p_i})+1)*c_l$ 
 \end{center}
 
 
 \begin{center}
-$C(x_{i-1},x_i) \leq \frac{\lceil lg(m_1) \rceil * (\lfloor log_{m_1}(\frac{2}{q_i}) \rfloor)}{H(T)} * W < \lceil lg(m_1) \rceil * (\lfloor log_{m_1}(\frac{2}{q_i}) \rfloor)*c_l$
+$C(x_{i-1},x_i) \leq (lg(\frac{1}{q_i})+2)*\frac{W}{H(T)} < (lg(\frac{1}{q_i})+2)*c_l$ for all leaves, and \\
+$C(x_{i-1},x_i) \leq (lg(\frac{1}{q_i})+1)*\frac{W}{H(T)} < (lg(\frac{1}{q_i})+1)*c_l$ for at least $m$ of them (and the two extremal leaves).
+
  \end{center}
 \end{lem}
 
 \begin{proof}
-From Lemma~\ref{451} we have a bound on the depth of keys $x_i$ and $(x_{i-1},x_i)$. Note that since our tree is stored in BFS order in memory, whenever we examine a key's child, it will be at a memory location of at least the same, if not higher cost (by being in the same or a deeper page). Thus, the cost of accessing the entire path from the root to a specific key can be upper bounded by multiplying the length of this path by the average cost per memory access of the most expensive (and deepest) key of the tree. Note that when searching for keys, we must search along the entire path from root to the key in question, while we need only examine the path from the root to the parent of a key for unsuccessful $(x_{i-1},x_i)$ searches. Combining~\ref{451} and~\ref{452} gives: \\
- $C(x_i) \leq \frac{\lceil lg(m_1) \rceil * \lfloor log_{m_1}(\frac{1}{p_i}) \rfloor}{H(T)} * W$   \\
+From Lemma~\ref{451} we have a bound on the depth of keys $x_i$ and $(x_{i-1},x_i)$. We must do $d_T(x_i) + 1$ accesses to find a key and $d_T(x_{i_1},x_i)$ accesses to find a leaf. Note that since our tree is stored in BFS order in memory, whenever we examine a key's child, it will be at a memory location of at least the same, if not higher cost (by being in the same or a deeper page). Thus, the cost of accessing the entire path from the root to a specific key can be upper bounded by multiplying the length of this path by the average cost per memory access of the most expensive (and deepest) key of the tree (this is exactly $\frac{W}{H(T)}$). Note that when searching for keys, we must search along the entire path from root to the key in question, while we need only examine the path from the root to the parent of a key for unsuccessful $(x_{i-1},x_i)$ searches. Combining~\ref{451}, ~\ref{452} and~\ref{W<HT} gives \\
+$C(x_i) \leq (\lg(\frac{1}{p_i})+1)*\frac{W}{H(T)}$   \\
+$\implies C(x_i) < (\lg(\frac{1}{p_i})+1)*\frac{H(T)*c_l}{H(T)}$   \\
+$\implies C(x_i) < (lg(\frac{1}{p_i})+1)*c_l$
 
- Which implies, from Lemma~\ref{W<HT} that:
+For leaves we have that\\
 
- $C(x_i) < \frac{\lceil lg(m_1) \rceil * \lfloor log_{m_1}(\frac{1}{p_i}) \rfloor}{H(T)}*H(T)*c_l$\\
- $\implies C(x_i) < \lceil lg(m_1) \rceil * \lfloor log_{m_1}(\frac{1}{p_i}) \rfloor*c_l$ \\
-
-
-Note that we do not have to access the leaf node itself when we are searching for it, so we can subtract $1$ from its effective depth. This gives us\\
-
- $C(x_{i-1},x_i) \leq \frac{\lceil lg(m_1) \rceil * (\lfloor log_{m_1}(\frac{2}{q_i}) \rfloor)}{H(T)} * W$\\
- $\implies C(x_{i-1},x_i) < \frac{\lceil lg(m_1) \rceil * (\lfloor log_{m_1}(\frac{2}{q_i}) \rfloor)}{H(T)} * H(T)*c_l$\\
- $\implies C(x_{i-1},x_i) < \lceil lg(m_1) \rceil * (\lfloor log_{m_1}(\frac{2}{q_i}) \rfloor)*c_l$\\ 
-
+$C(x_{i-1},x_i) \leq (\lg(\frac{1}{q_i})+2)*\frac{W}{H(T)}$   \\
+$\implies C(x_{i-1},x_i) \leq (\lg(\frac{1}{q_i})+2)*\frac{H(T)*c_l}{H(T)}$   \\
+$\implies C(x_{i-1},x_i) < (\lg(\frac{1}{q_i})+2)*c_l$ for all leaves, and \\
+$\implies C(x_{i-1},x_i) < (\lg(\frac{1}{q_i})+1)*c_l$ for at least $m$ of them (and the two extremal leaves).
 
 \end{proof}
 
 We can now bound the expected cost of search using the bounds for the cost each key.
 
-\begin{thm}
-$C \leq  (\frac{1+\frac{1}{lg(m_1)}}{H(T)} * W) * (H + 1) < (1+\frac{1}{lg(m_1)}) * (H + 1) * c_l$
+\begin{thm} \label{ApproxMWPagingThm}
+$C \leq  (\frac{W}{H(T)} * (H + 1 + \sum_{i=0}^n q_i - q_0 - q_n - \sum_{i=0}^m q_{rank[i]})$ \\
+and \\
+$C < (H + 1 + \sum_{i=0}^n q_i - q_0 - q_n - \sum_{i=0}^m q_{rank[i]}) * c_l$ \\
+where $pq_{rank[i]}$ is the $i^{th}$ smallest access probability among all keys and leaves except $q_0$ and $q_n$.
 \end{thm}
 
 \begin{proof}
@@ -862,17 +850,15 @@ The total expected cost of search is simply the sum of the weighted cost of sear
 
 $C \leq \sum_{i=1}^{n} p_i*C(x_i) + \sum_{j=1}^{n+1} q_j*C(x_{i-1},x_i)$ \\
 
-$\implies C \leq \sum_{i=1}^{n} p_i*\frac{\lceil lg(m_1) \rceil * \lfloor log_{m_1}(\frac{1}{p_i}) \rfloor}{H(T)} * W + \sum_{j=1}^{n+1} q_j*\frac{\lceil lg(m_1) \rceil * (\lfloor log_{m_1}(\frac{2}{q_j}) \rfloor)}{H(T)} * W$ \\
+$\implies C \leq \sum_{i=1}^{n} p_i*(\lg(\frac{1}{p_i})+1)*\frac{W}{H(T)} + (\sum_{i=0}^{n} q_i(\lg(\frac{1}{q_i})+2) - q_0 - q_n -  \sum_{i=0}^m q_{rank[i]} )*\frac{W}{H(T)} $ \\
 
-$\implies C \leq \sum_{i=1}^{n} p_i*\frac{ (lg(m_1)+1) * log_{m_1}(\frac{1}{p_i})}{H(T)} * W + \sum_{j=1}^{n+1} q_j*\frac{(lg(m_1)+1) * log_{m_1}(\frac{2}{q_j})}{H(T)} * W$ \\
+$\implies C \leq \frac{W}{H(T)} (\sum_{i=1}^{n} p_i\lg(\frac{1}{p_i}) + \sum_{i=0}^{n} q_i\lg(\frac{1}{q_i}) + \sum_{i=1}^{n} p_i + 2\sum_{i=0}^{n} q_i - q_0 - q_n - \sum_{i=0}^m q_{rank[i]} )$ \\
 
-$\implies C \leq \sum_{i=1}^{n} p_i*\frac{ (lg(m_1)+1) * \frac{lg(\frac{1}{p_i})}{lg(m_1)}}{H(T)} * W + \sum_{j=1}^{n+1} q_j*\frac{(lg(m_1)+1) * \frac{lg(\frac{2}{q_j})}{lg(m_1)}}{H(T)} * W$ \\
+$\implies C \leq  \frac{W}{H(T)} (H + 1 + \sum_{i=0}^n q_i - q_0 - q_n - \sum_{i=0}^m q_{rank[i]})$ \\
 
-$\implies C \leq \frac{1+\frac{1}{lg(m_1)}}{H(T)} * W * (\sum_{i=1}^{n} p_i*\frac{1}{p_i} + \sum_{j=1}^{n+1} q_j*\frac{2}{q_j})$ \\
+By Lemma~\ref{W<HT} gives: \\
+$\implies C < (H + 1 + \sum_{i=0}^n q_i - q_0 - q_n - \sum_{i=0}^m q_{rank[i]}) * c_l$ \\
 
-$\implies C \leq \frac{1+\frac{1}{lg(m_1)}}{H(T)} * W * (H+1)$ \\
-By Lemma~\ref{W<HT} gives:
-$\implies C < (1+\frac{1}{lg(m_1)}) * (H + 1) * c_l$.
 \end{proof}
 
 
@@ -899,7 +885,7 @@ In \textbf{Phase 3} the \textit{derived tree} is constructed from the \textit{re
 
 In Bose and Dou\"{i}eb's work, they explain how they can substitute their algorithm for Yeung's linear time alphabetic search tree algorithm which results in a better bound (as described above). We use the updated version (by Bose and Dou\"{i}eb) of De Prisco and De Santis' algorithm as a subroutine in the sections to follow.
 
-\section{Algorithm ApproxBSTPaging}
+\section{Algorithm ApproxBSTPaging}\label{Algorithm ApproxBSTPaging}
 
 Our second solution to create an approximately optimal BST under the HMM model works as follows: \\
 
@@ -930,82 +916,65 @@ Since we are simply putting keys into memory in BFS order, and all we use is the
 Since we have the same result as Lemma~\ref{452}, this immediately implies Lemma~\ref{W<HT} is true as well. Assuming that $l \neq 1$, we have that $W<H(T)*c_l$. As in the proof of the expected cost ApproxMWPaging, $\frac{W}{H(T)}$ represents the average cost per memory access when accessing the deepest (and most costly) element of our tree. Thus, $\frac{W}{H(T)}$ upper bounds the average cost per memory access when searching for any element of $T$.
 \\
 
-\begin{thm}
-$C \leq  (\frac{W}{H(T)}) * (H + 1 - q_0 - q_n + q_{max} - \sum_{i=0}^{m'} pq_{rank[i]})$
+\begin{thm} \label{ApproxBSTThm}
+$C \leq  (\frac{W}{H(T)}) * (H + 1 - q_0 - q_n + q_{max} - \sum_{i=0}^{m'} pq_{rank[i]})$ and \\
+$C <  (H + 1 - q_0 - q_n + q_{max} - \sum_{i=0}^{m'} pq_{rank[i]})*c_l$
 \end{thm}
 
 \begin{proof}
 
 Bose and Dou\"{i}eb show that after using their algorithm for Phase 1 of De Prisco and De Santis algorithm algorithm, every leaf of the \textit{starting tree} (all keys representing successful and unsuccessful searches) are at depth at most $\lfloor lg(\frac{1}{p}) \rfloor + 1$  for at least $max\{2n-3P,P\}-1$ of $p \in \{ \{p_1, p_2, ..., p_n \} \cup \{ q_0, q_1, ..., q_n \} \}$ and $\lfloor lg(\frac{1}{p}) \rfloor + 2$ for all others. Recall that $P$ is the number of peaks in the probability distribution $q_0, p_1, q_1, ..., p_n, q_n$. After phases two and three of the algorithm, each key has its depth decrease by 2, and all leaves (except one) move up the tree by one.
 
-$C \leq \sum_{i=1}^{n}(p_i*\frac{depth(p_i)}{H(T)}* W)+ \sum_{j=0}^{n}(q_j*\frac{(depth(q_i)-1)}{H(T)}* W)$ \\
+$C \leq \sum_{i=1}^{n}(p_i*\frac{depth(p_i)+1}{H(T)}* W)+ \sum_{i=0}^{n}(q_i*\frac{(depth(q_i))}{H(T)}* W)$ \\
 
-$\implies C \leq \frac{W}{H(T)}(\sum_{i=1}^{n}(p_i*depth(p_i))+ \sum_{j=0}^{n}(q_j*(depth(q_j)-1)))$ \\
+$\implies C \leq \frac{W}{H(T)}(\sum_{i=1}^{n}(p_i*(depth(p_i)+1))+ \sum_{i=0}^{n}(q_i*(depth(q_i))))$ \\
 
-$\implies C \leq \frac{W}{H(T)}(\sum_{i=1}^{n}(p_i*\lfloor lg(\frac{1}{p_i}) \rfloor+ \sum_{i=0}^{n}(q_i*\lfloor lg(\frac{1}{q_i}) -1 + 1 \rfloor) )$ \\
+$\implies C \leq \frac{W}{H(T)}(Average Path Length(T))$ \\
 
-Note that the expected cost is equal to the expected path length for each key, multiplied by the cost of search for each key. Since we have an upper bound on the cost of search for an element at some depth $i$, and an upper bound on the expected path length TODO
+$\implies C \leq  (\frac{W}{H(T)}) * (H + 1 - q_0 - q_n + q_{max} - \sum_{i=0}^{m'} pq_{rank[i]})$ \\
+and by Lemma~\ref{W<HT} \\
+$\implies C <  (H + 1 - q_0 - q_n + q_{max} - \sum_{i=0}^{m'} pq_{rank[i]})*c_l$
 \end{proof}
-
-IS IT DEPTH + 1 FOR THE KEYS?
-SHOULD WE BE DOING AN EXTRA ACCESS FOR LEAVES RELATIVE TO HOW THEY DID IT BEFORE.
 
 
 \section{Improvements over Thite in the HMM$_2$ Model}
 
-The HMM$_2$ model is the same as the general HMM model with the added constraint that there are only two types of memory (slow and fast). In Thite's thesis, he proposed both an optimal solution to the problem, as well as an approximate solution that runs in time $O(n lg(n))$ \cite{thite2008optimum}. I show that my solution is at least as good, and may be better in certain situations. First I give an alternate bound to my expected cost which is similar to the one presented in Thite's work.
+The HMM$_2$ model is the same as the general HMM model with the added constraint that there are only two types of memory (slow and fast). In Thite's thesis, he proposed both an optimal solution to the problem, as well as an approximate solution (\textit{Algorithm Approx-BST}) that runs in time $O(n lg(n))$ \cite{thite2008optimum}. I first show that the proof of quality of approximation of Thite's approximate algorithm has a small mistake which raises its cost from at most \\
+\begin{center}
+$c_2(H+1)$\\
+to \\
+$c_2(H+1+\sum_{i=0}^{n}q_i)$
+\end{center}
 
-\begin{lem}
-Let $m'_j = \sum_{k \leq j} m_j$. We define $m'_0 = 0$. Let $l$ be the smallest $j$ such that $m'_j > n$. Then the cost of search: \\
-$C \leq  c_l * (H + 1 - q_0 - q_n + q_{max} - \sum_{i=0}^{m'} pq_{rank[i]})$.
-\end{lem}
-
-\begin{proof}
-By using the ApproxBSTPaging algorithm, we can simply assume all key accesses happen in the most expensive type of memory ($m_l$). Thus, our expected cost can be bounded by an upper bound on the average path length, multiplied by this upper bound on our cost of accessing each item.
-\end{proof}
-
-Moreover, for both ApproxMWPaging and ApproxBSTPaging:\\
-\begin{lem}
-Suppose $\sum_{k=1}^{l-1} (c_{i+1}-c_i)*(\lfloor lg(m'_i+1) \rfloor) > \lfloor lg(m'_1+1) \rfloor*c_1$. Then \\
- $W < c_l*H(T)$. 
-\end{lem}
-
-\begin{proof}
-$W \leq \sum_{k=1}^{l-1} (\lfloor lg(m'_k+1) \rfloor - \lfloor lg(m'_{k-1}+1) \rfloor)*c_i$\\ $+ (height(T) - 1 - \lfloor lg(m'_{k-1}+1)-1 \rfloor)*c_l$ \\
-Rearranging the formula gives: \\
-$\implies W \leq H(T)*c_l + \lfloor lg(m'_1+1) \rfloor - \sum_{k=1}^{l-1} (c_{k+1}-c_k)\lfloor lg(m'_k+1) \rfloor $\\
-Thus, as long as $\sum_{k=1}^{l-1} (c_{k+1}-c_k)\lfloor lg(m'_k+1) \rfloor > \lfloor lg(m'_1+1) \rfloor$ then we will get our desired result.
-
-\end{proof}
-
-Note that our assumption will generally be true since $c_l > c_{l-1} > ... > c_1$ and $m_l > m_{l-1} > ... > m_1$. Finally, we can see that: \\
+This is of particular interest because if Thite's bound on \textit{Algorithm Approx-BST} had been correct, then in the case where $c_2=c_1$ (typical RAM model), Thite's method would have provided a strict improvement over the work of Bose and Dou\"{i}eb \cite{bose2009efficient} which seems unlikely since Thite used the BST approximation algorithm of Mehlhorn's from 1984 \cite{mehlhorn1984sorting} (much before the work of Bose and Dou\"{i}eb). By simply subbing in for $l=2$ we immediately get that, under this HMM$_2$ model, both ApproxMWPaging and ApproxBSTPaging provide strict improvements over Thite's \textit{Algorithm Approx-BST}. 
 
 \begin{thm}
-Suppose $\sum_{k=1}^{l-1} (c_{i+1}-c_i)*(\lfloor lg(m'_i+1) \rfloor) > \lfloor lg(m'_1+1) \rfloor*c_1$. Then \\
-$C <  c_l * (H + 1 - q_0 - q_n + q_{max} - \sum_{i=0}^{m'} pq_{rank[i]})$
+In the HMM$_2$ model, ApproxMWPaging has an expected cost of at most \\
+\begin{center}
+$C_{ApproxMWPaging} < (H + 1 + \sum_{i=0}^n q_i - q_0 - q_n - \sum_{i=0}^m q_{rank[i]}) * c_2$
+\end{center}
+and ApproxBSTPaging has an expected cost of at most \\
+\begin{center}
+$C_{ApproxBSTPaging} <  (H + 1 - q_0 - q_n + q_{max} - \sum_{i=0}^{m'} pq_{rank[i]})*c_2$.
+\end{center}
+ApproxMWPaging does so in $O(n*lg(m_1))$ while ApproxBSTPaging runs in $O(n)$.
 \end{thm}
 
 \begin{proof}
-$C \leq  (\frac{W}{H(T)}) * (H + 1 - q_0 - q_n + q_{max} - \sum_{i=0}^{m'} pq_{rank[i]})$
-Assuming $\sum_{k=1}^{l-1} (c_{i+1}-c_i)*(\lfloor lg(m'_i+1) \rfloor) > \lfloor lg(m'_1+1) \rfloor*c_1$ and using \textbf{Lemma 4.9.2} gives: \\
-$\implies C <  (\frac{c_l*H(T)}{H(T)}) * (H + 1 - q_0 - q_n + q_{max} - \sum_{i=0}^{m'} pq_{rank[i]})$ \\
-$\implies C <  c_l * (H + 1 - q_0 - q_n + q_{max} - \sum_{i=0}^{m'} pq_{rank[i]})$
+We can directly sub $l=2$ into Theorems~\ref{ApproxMWPagingThm} and~\ref{ApproxBSTThm} to get the desired result (the running times are as explained in sections~\ref{Algorithm ApproxMWPaging} and~\ref{Algorithm ApproxBSTPaging}).
 \end{proof}
 
-TODO UNDERSTAND WHY THIS ISN'T A DIRECT IMPROVEMENT. I'M CONFUSED
+Since both \\
+\begin{center}
+$ C_{ApproxMWPaging} < (H + 1 + \sum_{i=0}^n q_i - q_0 - q_n - \sum_{i=0}^m q_{rank[i]}) * c_2 < c_2(H+1+\sum_{i=0}^{n}q_i)$
+\end{center}
+ and
+ \begin{center}
+ $C_{ApproxBSTPaging} < (H + 1 - q_0 - q_n + q_{max} - \sum_{i=0}^{m'} pq_{rank[i]})*c_2 < c_2(H+1+\sum_{i=0}^{n}q_i)$
+ \end{center}
 
-Subbing our assumption into the HMM$_2$ model gives:
-$(c_2-c_1)*(\lfloor lg(m_1+1) \rfloor) > \lfloor lg(m_1+1) \rfloor*c_1$ \\
-$\implies c_2 > 2*c_1$ \\
-which is a valid assumption in many types of memory hierarchies.
+and both ApproxMWPaging and ApproxBSTPaging run in time $o(nlg(n))$, both methods provide a strictly better approximation and run faster than the \textit{Algorithm Approx-BST} of Thite.
 
-\begin{cor}
-$C <  c_2 * (H + 1 - q_0 - q_n + q_{max} - \sum_{i=0}^{m'} pq_{rank[i]})$ \\ whenever $c_2 > 2*c_1$
-\end{cor}
-
-In many types of memory hierarchies, this will provide an improvement over Thite's bound of: \\
-$C < c_2 * (H+1)$ \\
-especially in the case where $c_2 >> c_1$.
 
 
 
