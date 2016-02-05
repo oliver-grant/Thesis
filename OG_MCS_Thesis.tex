@@ -712,13 +712,13 @@ We are left with a binary search tree which has been properly packed into our me
 
 \section{Expected Cost ApproxMWPaging} \label{45}
 
-First, we bound the depth of nodes in our BST $T$. The depth of a key $x_i$ (denoted $(x_{i-1}, x_i)$ for unsuccessful searches) is defined as $d_T(x_i)$ ($d_T(x_{i-1},x_i)$).
+First, we bound the depth of nodes in our BST $T$. The depth of a key $x_i$ (denoted $(x_{i-1}, x_i)$ for unsuccessful searches) is defined as $d_T(x_i)$ ($d_T(x_{i-1},x_i)$). Note that depth is the number of edges between a node and the root (i.e. the depth of the root is $0$).
 
 \begin{lem} \label{451}
 For a key $x_i$,
-\begin{center} $d_T(x_i) \leq \lceil lg(m_1) \rceil * \lfloor log_{m_1}(\frac{1}{p_i}) \rfloor$. \end{center}
+\begin{center} $d_T(x_i) \leq lg(\frac{1}{p_i})$. \end{center}
 For a key $(x_{i-1},x_i)$,
-\begin{center} $d_T(x_{i_1},x_i) \leq \lceil lg(m_1) \rceil * (\lfloor log_{m_1}(\frac{2}{q_i}) \rfloor) + 1$. \end{center}
+\begin{center} $d_T(x_{i_1},x_i) \leq lg(\frac{1}{q_i}) + 1$. \end{center}
 \end{lem}
 
 \begin{proof}
@@ -935,7 +935,7 @@ $C \leq  (\frac{W}{H(T)}) * (H + 1 - q_0 - q_n + q_{max} - \sum_{i=0}^{m'} pq_{r
 
 \begin{proof}
 
-Bose and Dou\"{i}eb show that after using their algorithm for Phase 1 of De Prisco and De Santis algorithm algorithm, every leaf of the \textit{starting tree} (all keys representing successful and unsuccessful searches) are at depth at most $\lfloor lg(\frac{1}{p}) \rfloor + 1$  for at least $\{2n-3P,P\}-1$ of $p \in \{ \{p_1, p_2, ..., p_n \} \cup \{ q_0, q_1, ..., q_n \} \}$ and $\lfloor lg(\frac{1}{p}) \rfloor + 2$ for all others. Recall that $P$ is the number of peaks in the probability distribution $q_0, p_1, q_1, ..., p_n, q_n$. After phases two and three of the algorithm, each key has its depth decrease by 2, and all leaves (except one) move up the tree by one.
+Bose and Dou\"{i}eb show that after using their algorithm for Phase 1 of De Prisco and De Santis algorithm algorithm, every leaf of the \textit{starting tree} (all keys representing successful and unsuccessful searches) are at depth at most $\lfloor lg(\frac{1}{p}) \rfloor + 1$  for at least $max\{2n-3P,P\}-1$ of $p \in \{ \{p_1, p_2, ..., p_n \} \cup \{ q_0, q_1, ..., q_n \} \}$ and $\lfloor lg(\frac{1}{p}) \rfloor + 2$ for all others. Recall that $P$ is the number of peaks in the probability distribution $q_0, p_1, q_1, ..., p_n, q_n$. After phases two and three of the algorithm, each key has its depth decrease by 2, and all leaves (except one) move up the tree by one.
 
 $C \leq \sum_{i=1}^{n}(p_i*\frac{depth(p_i)}{H(T)}* W)+ \sum_{j=0}^{n}(q_j*\frac{(depth(q_i)-1)}{H(T)}* W)$ \\
 
