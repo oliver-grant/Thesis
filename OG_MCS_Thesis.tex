@@ -229,9 +229,9 @@ A binary search tree is a simple structure used to store key-value pairs. It was
 
 Knuth first proposed the optimum binary search tree problem in 1971 \cite{knuth1971optimum}. We are given a set of $n$ keys (originally known as words), $B_1, B_2, ..., B_n$ and $2n+1$ frequencies, ${p_1, p_2, ..., p_n}$, ${q_0, q_1, ..., q_n}$ representing the probabilities of searching for each given key and the probabilities of searching in the gaps between and outside of these keys. We have that $ \sum\limits_{i=0}^n q_i + \sum\limits_{i=1}^n p_i = 1$. We also assume that without loss of generality that $q_{i-1}+p_i+q_i \neq 0$ for any $i \in \{1,...,n\}$. Otherwise, we could simply solve the problem with key $p_i$ removed. The keys (and lexicographic gaps between them) are used as keys and the alphabetic ordering of them provides our order over the keys. The keys must make up the internal nodes of the tree while gaps make up the leaves. Our goal is to construct a binary tree such that the average weighted path length over the nodes is minimized.  This weighted average path length is also referred to as the expected cost of search and is formally defined as: 
 \begin{equation}\label{1.1}
-P = \sum_{i=1}^{n} p_i(b_i+1) + \sum_{j=1}^{n} q_j(a_j)
+P = \sum_{i=1}^{n} p_i \cdot (d_T(B_i)+1) + \sum_{j=0}^{n} q_j \cdot(d_T(B_{j-1}, B_j))
 \end{equation}
-Here $b_i$ and $a_j$ represent the depth of nodes representing the $B_i$ and $j^{th}$ gap respectively. The optimal solution of Knuth requires $\Theta(n^2)$ time, and $\Theta(n^2)$ space. This solution is both time and space intensive. We will later examine an approximate solution to this problem of G{\"u}ttler, Mehlhorn and Schneider (the Modified Entropy Rule) which uses $O(n^2)$ time but $O(n)$ space and improve its worst-case bound \cite{guttler1980binary}. However, these problems were examined under the RAM model which is an inadequate model for many situations. We examine the problem in more realistic models and look at approximate solutions under these settings.
+where $p_i$ and $q_j$ are the probabilities of searching for key $B_i$ or gap $(B_{i-1}, B_i)$ respectively and $d_T(B_i)$ and $d_T(B_{j-1}, B_j)$ are the depths of $B_i$ and $(B_{j-1}, B_j)$ respectively in the tree $T$. The optimal solution of Knuth requires $\Theta(n^2)$ time, and $\Theta(n^2)$ space. This solution is both time and space intensive. We will later examine an approximate solution to this problem of G{\"u}ttler, Mehlhorn and Schneider (the Modified Entropy Rule) which uses $O(n^2)$ time but $O(n)$ space and improve its worst-case bound \cite{guttler1980binary}. However, these problems were examined under the RAM model which is an inadequate model for many situations. We examine the problem in more realistic models and look at approximate solutions under these settings.
 
 \section{Three-Way Branching}
 
@@ -286,7 +286,8 @@ In 1975, P. Bayer showed that
 \begin{align*}
 H-\lg H-(\lg e-1) \leq C_{Opt} \leq C_{WB}, C_{MM} \leq H + 2
 \end{align*}
-where $C_{Opt}, C_{WB}$, and $C_{MM}$ are costs for the optimal solution, as well as weight-balanced and min-max heuristic methods respectively \cite{bayer1975improved}. Weight-balanced and min-max cost heuristics are greedy and require both $O(n)$ time and $O(n)$ space to run. In 1980, G{\"u}ttler, Mehlhorn and Schneider presented a new heuristic, the Modified Entropy Rule (ME) \cite{guttler1980binary} which built upon the ideas of Horibe \cite{horibe1977improved}. G{\"u}ttler, Mehlhorn and Schneider gave empirical evidence that the heuristic out-performed others \cite{guttler1980binary}. While the heuristic took $O(n^2)$ time, it only required $O(n)$ space, a huge savings over the optimal solution. However, they were unable to prove that $C_{ME} \leq H+2$ (unlike previous weight-balanced and min-max heuristics) and settled with $C_{ME} \leq c_1\cdot H+2$ where $c_1=\frac{1}{H(\frac{1}{3}, \frac{2}{3})} \approx 1.08$. We re-examine this method and provide a new bound of $H+4$ in Chapter~\ref{An Improved Bound for the Modified Minimum Entropy Heuristic}. In 1993, De Prisco and De Santis presented a new heuristic for constructing a near-optimum binary search tree \cite{de1993binary}. The method is discussed in more detail in section~\ref{sec:deBST} and has an upper bounded cost of at most $H+1-q_0-q_n+q_{max}$ where $q_{max}$ is the maximum weight leaf node. This method was later updated by Bose and Dou\"{i}eb (and is also discussed in section~\ref{sec:deBST}) to have a worst case cost of 
+where $C_{Opt}, C_{WB}$, and $C_{MM}$ are costs for the optimal solution, as well as weight-balanced and min-max heuristic methods respectively \cite{bayer1975improved}. Weight-balanced and min-max cost heuristics are greedy and require both $O(n)$ time and $O(n)$ space to run. These greedy heuristics use a top-down approach where the tree root is selected from among the $n$ keys, and we recurse in both the left and right subtrees. Let $P_L(B_i)$ and $P_R(B_i)$ represent the probabilities of searching for a key before or after key $B_i$ respectively. The Weight-balanced approach, makes this greedy root selection by picking the root $B_i$ such that $|P_L(B_i)-P_R(B_i)|$ is minimized.
+  In 1980, G{\"u}ttler, Mehlhorn and Schneider presented a new heuristic, the Modified Entropy Rule (ME) \cite{guttler1980binary} which built upon the ideas of Horibe \cite{horibe1977improved}. The Entropy Rule greedily selects $B_i$ as the root such that $H(P_L(B_i), p_i, P_R(B_i))$ is maximized (as discussed in Chapter~\ref{An Improved Bound for the Modified Minimum Entropy Heuristic}, this was modified to improve its performance). G{\"u}ttler, Mehlhorn and Schneider gave empirical evidence that the heuristic out-performed others \cite{guttler1980binary}. While the heuristic took $O(n^2)$ time, it only required $O(n)$ space, a huge savings over the optimal solution. However, they were unable to prove that $C_{ME} \leq H+2$ (unlike previous weight-balanced and min-max heuristics) and settled with $C_{ME} \leq c_1\cdot H+2$ where $c_1=\frac{1}{H(\frac{1}{3}, \frac{2}{3})} \approx 1.08$. We re-examine this method and provide a new bound of $H+4$ in Chapter~\ref{An Improved Bound for the Modified Minimum Entropy Heuristic}. In 1993, De Prisco and De Santis presented a new heuristic for constructing a near-optimum binary search tree \cite{de1993binary}. The method is discussed in more detail in section~\ref{sec:deBST} and has an upper bounded cost of at most $H+1-q_0-q_n+q_{max}$ where $q_{max}$ is the maximum weight leaf node. This method was later updated by Bose and Dou\"{i}eb (and is also discussed in section~\ref{sec:deBST}) to have a worst case cost of 
 \begin{align*}
 H + 1 - q_0 - q_n + q_{max} - \sum_{i=0}^{m'} pq_{\text{rank}[i]}.
 \end{align*}
@@ -295,13 +296,13 @@ Here, $m'=\max({2n-3P,P})-1 \geq \frac{n}{2} - 1$ where $P$ is the number of inc
  
 \section{Alphabetic Trees}
 
-Optimum alphabetic trees is an important related problem relevant later in this thesis. Given a set of $n$ keys (keys $B_1, ..., B_n$) with various probabilities, we wish to build a binary search tree where every internal node has two children, leaves have no children, and the $n$ keys described are the leaves. We wish to build the tree with the minimum expected search cost. The expected search cost is
+Determining the optimum alphabetic tree is an important related problem relevant later in this thesis. Given a set of $n$ keys (keys $B_1, ..., B_n$) with various probabilities, we wish to build a binary search tree where every internal node has two children, leaves have no children, and the $n$ keys described are the leaves. We wish to build the tree with the minimum expected search cost. The expected search cost is
 \begin{align*}
 \sum_{i=1}^{i=n} p_i \cdot d_T(B_i)
 \end{align*}
 where $p_i$ is the probability of searching for key $B_i$ and $d_T(B_i)$ is the depth of the leaf representing the key $B_i$ in the tree $T$. The alphabetic ordering of the leaves must be maintained. This is the same as the binary search tree problem with all internal node weights zero.
 
-In 1952, Huffman famously developed the Huffman tree, which solved the same problem without a lexicographic ordering constraint on leaves \cite{huffman1952method}. Gilbert and Moore examined the problem with the added alphabetic constraint and developed a $O(n^3)$ algorithm which solved the problem optimally \cite{gilbert1959variable}. Hu and Tucker gave a $O(n^2)$ time and space algorithm in 1971 \cite{hu1971optimal} which was improved by Knuth to take only $O(n \lg n)$ time and $O(n)$ space in 1973 \cite{knuth1973sorting}. The original proof of Hu and Tucker was extremely complicated, but was later simplified by Hu \cite{hu1973new} and Hu et al. \cite{hu1979binary}. Garsia and Wachs gave an independent $O(n \lg n)$ time, $O(n)$ space algorithm in 1977 \cite{garsia1977new}. This new algorithm by Garsia and Wachs was shown to be equivalent to the Hu and Tucker algorithm in 1982 by Hu \cite{Hu1982Book} and also went through a proof simplification \cite{kingston1988new} by Kingston in 1988.
+In 1952, Huffman developed the well known Huffman tree, which solved the same problem without a lexicographic ordering constraint on leaves \cite{huffman1952method}. Gilbert and Moore examined the problem with the added alphabetic constraint and developed a $O(n^3)$ algorithm which solved the problem optimally \cite{gilbert1959variable}. Hu and Tucker gave a $O(n^2)$ time and space algorithm in 1971 \cite{hu1971optimal} which was improved by Knuth to take only $O(n \lg n)$ time and $O(n)$ space in 1973 \cite{knuth1973sorting}. The original proof of Hu and Tucker was extremely complicated, but was later simplified by Hu \cite{hu1973new} and Hu et al. \cite{hu1979binary}. Garsia and Wachs gave an independent $O(n \lg n)$ time, $O(n)$ space algorithm in 1977 \cite{garsia1977new}. This new algorithm by Garsia and Wachs was shown to be equivalent to the Hu and Tucker algorithm in 1982 by Hu \cite{Hu1982Book} and also went through a proof simplification \cite{kingston1988new} by Kingston in 1988.
 
 In 1991, Yeung proposed an approximate solution which solved the problem in $O(n)$ time and space \cite{yeung1991alphabetic}. The algorithm produced a tree with worst case cost $H + 2 - q_1-q_n$. This algorithm was later improved by De Prisco and De Santis who created an $O(n)$ time algorithm which has a worst case cost of $H+1-q_0-q_n+q_{max}$ \cite{de1993binary}. The method was improved one more time by Bose and Dou\"{i}eb who improved upon Yeung's method by decreasing the bound by $\sum_{i=0}^m q_{\text{rank}[i]}$ where $m=\max({n-3P,P})-1 \geq \frac{n}{4} - 1$, $P$ is the number of increasing or decreasing sequences in a left-to-right read of the access probabilities of the leaves and $q_{\text{rank}[i]}$ is the $i^{th}$ smallest access probability among all leaves except $q_0$ and $q_n$ \cite{bose2009efficient}. Replacing Yeung's method with the improved algorithm of Bose and Dou\"{i}eb in the De Prisco and De Santis algorithm gave the tightest bound seen so far of 
 \begin{align*}
@@ -314,10 +315,10 @@ H+1+\sum_{i=1}^{n}q_i-q_0-q_n-\sum_{i=0}^m q_{\text{rank}[i]}.
 Another related problem is the static k-ary or multiway search tree problem. It is similar to optimum binary search tree problem with the added constraint that up to $k$ keys can be placed into a single node, and the cost of search within a node is constant. Multiway search trees maintain an ordering property similar to that of traditional binary search trees. Each key in every page $g$ that isn't the root page must have its keys lie between some keys $l$ and $l'$, two keys located in $g's$ parent. Each internal node of the k-ary tree contains at least one and at most $k-1$ keys while a leaf node contains no keys and represents searching for an item a gap between keys. Successful searches end in an internal node while unsuccessful searches end in one of the $n+1$ leaves of the tree. The cost of search is the average path depth which is defined as:
 
 \begin{align*}
-\sum_{i=1}^{n} p_i(d_T(x_i)+1) + \sum_{j=0}^{n} q_j(d_T(x_{i-1},x_i))
+\sum_{i=1}^{n} p_i(d_T(B_i)+1) + \sum_{j=0}^{n} q_j(d_T(B_{i-1},B_i))
 \end{align*}
 
-\noindent where $x_i$'s represent successful search keys, pairs $(x_{i-1},x_i)$ represent unsuccessful search "keys" and $d_T(x_i)$  or $d_T(x_{i-1},x_i)$ represent the depth of a specific successful or unsuccessful searches respectively for a key $x_i$ or a key $(x_{i-1},x_i)$ in the tree $T$.
+\noindent where $B_i$'s represent successful search keys, pairs $(B_{i-1},B_i)$ represent gaps and $d_T(B_i)$  or $d_T(B_{i-1},B_i)$ represent the depth of keys or gaps respectively for a key $B_i$ or a $(B_{i-1},B_i)$ in the tree $T$.
 
 Vishnavi et al. \cite{vaishnavi1980optimum}, and Gotlieb  \cite{gotlieb1981optimal} in 1980 and 1981 respectively independently solved the problem optimally in $O(k\cdot n^3)$ time. In a slightly modified B-tree model (every leaf has the same depth, every internal node is at least half full), Becker's 1994 work gave a $O(kn^{\alpha})$ time algorithm where $\alpha=2+log_k 2$ \cite{becker1994new}. Later, in 1997, Becker propsed an $O(Dkn)$ time algorithm where D is the height of the resulting tree \cite{becker1997construction}. The algorithm did not produce an optimal tree but was thought to be empirically close despite having no strong upper bound. In 2009, Bose and Dou\"{i}eb gave both an upper and lower bound on the optimal search tree in terms of the entropy of the probability distribution as well as an $O(n)$ time algorithm to build a near-optimal tree \cite{bose2009efficient}. Their bounds of
 \begin{align*}
@@ -327,9 +328,9 @@ is discussed in more detail in section~\ref{43} of this paper.
 
 \section{Memory Models}
 
-In the typical RAM model, we assume that all reads and writes from memory take a constant amount of time. While this is a valid assumption in many situations (both in the context of theory and programming) when dealing with very large data sets, this is simply not the case. A typical computer has a memory hierarchy with CPU registers, various levels of cache, RAM, SSD and/or hard drives. Each of these memory levels has increasing size but decreasing I/O speed. Typically, the difference between the levels is dramatic (reading from disk takes roughly a million times longer than accessing a CPU register) \cite{vitter2001external}. Moreover, many memory hierarchies allow blocks of memory to be moved quickly after a single key or cache line has been accessed. It is thus possible to take advantage of the locality of data during computations. Moreover, it is imperative to consider memory I/O speeds, especially when the dataset being worked on does not fit on internal memory. \textit{External memory} algorithms and data structures refer to those methods and structures which explicitly manage data placement and movement \cite{vitter2001external}. Various authors have created models to properly reflect the performance of such algorithms and data structures, and we consider the optimum BST problem under two such models.
+In the typical RAM model, we assume that all reads and writes from memory take a constant amount of time. While this is a valid assumption in many situations (both in the context of theory and programming) when dealing with very large data sets, this is simply not the case. A typical computer has a memory hierarchy with CPU registers, various levels of cache, RAM, SSD and/or hard drives. Each of these memory levels has increasing size but decreasing I/O speed. Typically, the difference between the levels is dramatic (reading from disk takes roughly a million times longer than accessing a CPU register) \cite{vitter2001external}. Moreover, many memory hierarchies allow blocks of memory to be moved quickly after a single key or cache line has been accessed. It is thus possible to take advantage of the locality of data during computations. Moreover, it is imperative to consider memory I/O speeds, especially when the dataset being worked on does not fit on internal memory. \textit{External memory} algorithms and data structures refer to those methods and structures which explicitly manage data placement and movement \cite{vitter2001external}. Various authors have created models to properly reflect the performance of such algorithms and data structures, and we consider the optimum binary search tree problem under such a model.
 
-In Chapter~\ref{Approximate Binary Search in the Hierarchical Memory Model}, we discuss the optimum binary search tree problem under the 1987 Hierarchical Memory Model of Aggarwal et al. \cite{aggarwal1987model}. The model is described thoroughly in section~\ref{The Hierarchical Memory Model}, but essentially provides an alternative to the classic RAM model. It simulates a memory hierarchy with various memory sizes and different access times for each type of memory. The model does have its shortcomings though as it does not provide us with the ability to move blocks of memory between these different memory types (as in a typical computer). The HMM model was later extended to the Hierarchical Memory with Block Transfer Model of Aggarwal, Chandra, and Snir \cite{aggarwal1987hierarchical}. This model provides a slightly less artificial setting by allowing for contiguous blocks of memory to be copied from one location to another for a cheaper price. The cost of this copy equal to the cost to access the most expensive location being copied (to or from), plus the size of the block.
+In Chapter~\ref{Approximate Binary Search in the Hierarchical Memory Model}, we discuss the optimum binary search tree problem under the 1987 Hierarchical Memory Model of Aggarwal et al. \cite{aggarwal1987model}. The model is described thoroughly in section~\ref{The Hierarchical Memory Model}, but essentially provides an alternative to the classic RAM model. It simulates a memory hierarchy with various memory sizes and different access times for each type of memory. The model does have its shortcomings though as it does not provide us with the ability to move blocks of memory between these different memory types (as in a typical computer). The HMM model was later extended to the Hierarchical Memory with Block Transfer Model of Aggarwal, Chandra, and Snir \cite{aggarwal1987hierarchical}. This model provides a less artificial setting by allowing for contiguous blocks of memory to be copied from one location to another for a cheaper price. The cost of this copy equal to the cost to access the most expensive location being copied (to or from), plus the size of the block.
 
 \iffalse
 In Chapter~\ref{Approximate Binary Search in the Hierarchical Memory with Block Transfer Model} we examine the same optimum binary search tree problem but under the extended Hierarchical Memory with Block Transfer Model of Aggarwal, Chandra, and Snir \cite{aggarwal1987hierarchical}. This model extends the previous model, proving a slightly less artificial setting by allowing for contiguous blocks of memory to be copied from one location to another for a cheaper price. The cost of this copy equal to the cost to access the most expensive location being copied, (to or from) plus the size of the block. \\
@@ -339,7 +340,7 @@ In Chapter~\ref{Approximate Binary Search in the Hierarchical Memory with Block 
 As explained in the survey of Vitter, several other models of external memory have followed \cite{vitter2001external}. Work has been done to consider models with parallelism. Vitter and Shriver built upon the HMM and HMBTM models of Aggarwal et al. \cite{aggarwal1987model, aggarwal1987hierarchical} in order to allow parallelism \cite{vitter1994algorithms}. This updated model connects $P$ parallel memory hierarchies at their base memory levels. In 1994, Alpern et al. introduced the Uniform Memory Hierarchy (UMH) \cite{alpern1994uniform}. The UMH considers block sizes and bandwidths between memory levels, and allows for simultaneous transfer between pairs of memory levels. The UMH was considered with additional parallelization by Vitter and Nodine \cite{vitter1993large}.
 
 
-Cache-oblivious algorithms were introduced by Frigo, Leiserson, Prokop and Ramachandran in 1999 \cite{frigo1999cache}. The model used is the ideal-cache model which has a two-level memory hierarchy. The internal memory (named cache) has $Z$ words and the main memory is arbitrarily large. The cache is divided into cache lines of size $L$ and it is assumed that $Z=\Omega(L^2)$ (the tall cache assumption). Frigo et. al examined the fast fourier transform and matrix multiplication under this model. Many others have since used this model and examined problems in a cache-oblivious setting such as the cache-oblivious b-trees of Bender et. al \cite{bender2000cache}, the funnel heap of Brodai et. al \cite{brodai2002funnel}, or the locality preserving cache-oblivious dynamic dictionary of Bender et. al \cite{bender2002locality}.
+Cache-oblivious algorithms were introduced by Frigo, Leiserson, Prokop and Ramachandran in 1999 \cite{frigo1999cache}. The model used is the ideal-cache model which has a two-level memory hierarchy. The internal memory (named cache) has $Z$ words and the main memory is arbitrarily large. The cache is divided into cache lines of size $L$ and it is assumed that $Z=\Omega(L^2)$ (the tall cache assumption). Frigo et. al examined the fast fourier transform and matrix multiplication under this model. Many others have since used this model and examined problems in a cache-oblivious setting such as the cache-oblivious b-trees of Bender et. al \cite{bender2000cache}, the funnel heap of Brodal et. al \cite{brodai2002funnel}, or the locality preserving cache-oblivious dynamic dictionary of Bender et. al \cite{bender2002locality}.
 
 A complete and thorough explanation of memory hierarchies (especially those considered before cache-oblivious settings) can be found in the survey of Vitter \cite{vitter2001external}.
 
@@ -354,7 +355,7 @@ In this Chapter we show that the Modified Minimum Entropy Heuristic of G{\"u}ttl
 Recall \ref{1.1}, $H = \sum_{i=1}^{n} p_i\cdot\lg(\frac{1}{p_i}) + \sum_{j=0}^{n} q_i\cdot\lg(\frac{1}{q_j})$. We also use
 \begin{align*}
 H(x_1,x_2,...,x_n) = \sum_{i=1}^{n} x_i\cdot\lg(\frac{1}{x_i})
-\end{align*} to describe the entropy of any probability distribution $(x_1, x_2, ...., x_n)$. For sub tree $t$, we let 
+\end{align*} to describe the entropy of any probability distribution $(x_1, x_2, ...., x_n)$. For subtree $t$, we let 
 \begin{align*}
 p_t=\sum_{i : B_i \in t} p_i + \sum_{i : (B_i, B_{i+1}) \in t} q_i
 \end{align*}
@@ -366,18 +367,57 @@ $P_{L_t}(B_i,B_{i+1})$ and $P_{R_t}(B_i,B_{i+1})$ have analogous definitions.
 We let  
 \begin{equation}
 E_t=H(P_{L_t}(B_i), \frac{p_i}{p_t}, P_{R_t}(B_i))
-\end{equation} be the local entropy of a sub tree $t$ rooted at key $B_i$.  
+\end{equation} be the local entropy of a subtree $t$ rooted at key $B_i$.  
 
 \section{The Modified Entropy Rule}\label{The Modified Entropy Rule}
 
-As described in \cite{guttler1980binary}, the modified entropy heuristic (ME) greedily chooses the key $B_i$ as the root in one of the following three ways:
+As described in \cite{guttler1980binary}, I first describe the entropy rule for greedy root selection then explain how it was modified. For a subtree $t$ with probability $p_t$, the entropy greedily chooses the key $B_i$ as the root such that $H(P_{L_t}(B_i), \frac{p_i}{p_t}, P_{R_t}(B_i))$ is maximized. While this rule behaves quite well in practice, certain cases cause it to have poor performance. 
+
+
+\begin{figure}[H]
+
+% Set the overall layout of the tree
+\tikzstyle{level 1}=[level distance=3cm, sibling distance=3cm]
+\tikzstyle{level 2}=[level distance=3cm, sibling distance=3cm]
+
+\begin{center}
+\scriptsize
+\begin{tikzpicture}[scale=0.5]
+
+\node [circle,draw] (z){$\frac{3}{10}$}
+  child {node [circle,draw] (a) {$\frac{2}{10}$}    
+  }  
+  child {node [circle,draw] (b) {$0$}
+	  child {node [circle,draw] (e) {$0$}}
+	  child {node [circle,draw] (f) {$\frac{5}{10}$}}
+  };
+
+\end{tikzpicture}
+
+\begin{tikzpicture}[scale=0.5]
+
+\node [circle,draw] (z){$0$}
+  child {node [circle,draw] (a) {$\frac{3}{10}$} 
+  	child {node [circle,draw] (e) {$\frac{2}{10}$}}
+	  child {node [circle,draw] (f) {$0$}}   
+  }  
+  child {node [circle,draw] (b) {$\frac{5}{10}$}
+  };
+
+\end{tikzpicture}
+\caption{Part 1. of ApproxMWPaging}
+\end{center}
+\end{figure}
+
+
+The modified entropy heuristic of is chooses the root in of the following three ways:
 
 \begin{enumerate}[label=\alph*)]
 \item If there exists key $B_i$ such that $\frac{p_i}{p_t} > \max(P_{L_t}(p_i), P_{R_t}(p_i))$ we always select $B_i$ as the root.
 
 \item If there exists a gap $(B_i, B_{i+1})$ such that $\frac{q_i}{p_t} > max(P_{L_t}(B_i, B_{i+1}), P_{R_t}(B_i, B_{i+1}))$ then we select the root from among $B_i$ and $B_{i+1}$. $B_i$ is chosen if $P_{L_t}(B_i, B_{i+1}) > P_{R_t}(B_i, B_{i+1})$ and $B_{i+1}$ is chosen otherwise.
 
-\item Otherwise, $B_i$ is selected such that $H(P_{L_t}(B_i), \frac{p_i}{p_t}, P_{R_t}(B_i))$ is maximized.
+\item Otherwise, $B_i$ is selected such that $H(P_{L_t}(B_i), \frac{p_i}{p_t}, P_{R_t}(B_i))$ is maximized (as in the original entropy rule).
 
 \end{enumerate}
 
@@ -519,7 +559,7 @@ We again apply Claim~\ref{Claim1} and get:
 E_t \geq 1- \frac{4}{5} (\frac{q_m}{p_t})^2
 \end{equation}
 
-As in \cite{bayer1975improved} we define a $b_t$ for each sub tree $t$ as follows. We want to have a value for $b_t$ such that $E_t \geq 1 - b_t$ in all cases. Using \textit{Cases 1,2}, and \textit{3} are their respective equations~\ref{EQC1},~\ref{EQC2}, and~\ref{EQC3} we do just that: \\
+As in \cite{bayer1975improved} we define a $b_t$ for each subtree $t$ as follows. We want to have a value for $b_t$ such that $E_t \geq 1 - b_t$ in all cases. Using \textit{Cases 1,2}, and \textit{3} are their respective equations~\ref{EQC1},~\ref{EQC2}, and~\ref{EQC3} we do just that: \\
 Let $b_t=2\cdot p_r$ when \textit{Case 1} occurs. $B_r$ is the root of $b_t$. \\
 Let $b_t=2\cdot q_m$ when \textit{Case 2} occurs. $(B_m, B_{m+1})$ is middle gap of $b_t$. \\
 Let $b_t=\frac{q_m^2}{p_t}$ when \textit{Case 3} occurs. $(B_m, B_{m+1})$ is middle gap of $b_t$. \\
@@ -533,7 +573,7 @@ and the entropy could be calculated by
 \begin{align*}
 H = \sum_{t \in S_T} p_t \cdot E_t
 \end{align*}  
-where $S_T$ is the set of all sub trees of our tree $T$. \\
+where $S_T$ is the set of all subtrees of our tree $T$. \\
 
 \noindent Thus, by subbing in $E_t \geq 1 - b_t$ and rearranging we get: 
 \begin{align*}
