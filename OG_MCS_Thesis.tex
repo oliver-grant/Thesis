@@ -348,7 +348,7 @@ A complete and thorough explanation of memory hierarchies (especially those cons
 
 \chapter{An Improved Bound for the Modified Minimum Entropy Heuristic}\label{An Improved Bound for the Modified Minimum Entropy Heuristic}
 
-In this Chapter we show that the Modified Minimum Entropy Heuristic of G{\"u}ttler, Mehlhorn and Schneider \cite{guttler1980binary} is within an additive factor of entropy: at worst $H+4$.
+In this chapter we show that the Modified Minimum Entropy Heuristic of G{\"u}ttler, Mehlhorn and Schneider \cite{guttler1980binary} is within an additive factor of entropy: at worst $H+4$.
 
 \section{Preliminaries}
 
@@ -662,7 +662,7 @@ Given a multiway tree $T'$ with page size $k$ and $n$ keys, where keys are assoc
 For each page $g$, we sort its keys by lexicographic order and create a complete BST $B$ over the keys. We create an ordering over all potential locations where keys could be added to the tree from left to right. All keys in all descendant pages of a page $g$ in a specific subtree rooted at a child of $g$ will lie in a specific range. There are at most $k+1$ of these ranges (since our page has at most $k$ keys). These ranges precisely correspond to the at most $k+1$ locations where a new child key can to $B$. We note that we cannot add new children to keys which correspond to unsuccessful searches. We order these locations from left to right and attach root keys from the newly created BST's of each of the ordered (left to right) children of $g$. These are all valid connections since each child of $g$ has keys in these correct ranges, and combining BST's in this fashion produces a valid BST. We perform a sort of $O(k)$ items (in time $O(k\lg(k))$) $O(\frac{n}{k})$ times, and make $O(n)$ new parent child connections, giving us total time $O(n \lg(k))$.
 \end{proof}
 
-In order to approximately solve the optimum BST problem under the HMM model, we do the following:
+In order to obtain a gooe approximate solution to the optimum BST problem under the HMM model, we do the following:
 
 \begin{enumerate}
 \item First, we create a multiway tree $T'$ using the algorithm of Bose and Dou\"{i}eb. This takes $O(n)$ time with our node size equal to $m_1$ (the smallest level of our memory hierarchy) \cite{bose2009efficient}.
