@@ -241,7 +241,7 @@ While modern computers typically only support two-way branching, the optimum BST
 \definecolor{lightgrey}{rgb}{0.95,0.92,0.92} % Defines the color used for content box headers
 \colorbox{lightgrey}{ \fontfamily{cmtt}\selectfont \uppercase{IF (expr) label1, label2, label3} } 
  
-\noindent Control is transferred to \uppercase{label1}, \uppercase{label2} or \uppercase{label3} if $expr < 0$, $expr=0$, or $expr > 0$ respectively using a single comparison command. While most modern computers do not support such commands using a single three-way branch, many machines in in the FORTRAN IV era did \cite{} TODO. The difference between a two-way branch model is significant and can be seen through a simple example of searching among 3 keys.
+\noindent Control is transferred to \uppercase{label1}, \uppercase{label2} or \uppercase{label3} if $expr < 0$, $expr=0$, or $expr > 0$ respectively using a single comparison command. While modern programming languages scarcely use this arithmetic if, and compilers may simply encode such expressions using multiple logical if statements, many machines in in the FORTRAN IV era did. For example, the ARM instruction set utilized would set condition codes based on comparison operations which could express negative, zero, or positive values. The condition codes would then be examined to determine control flow \cite{TODO ARM CITE}. The difference between a two-way branch model is significant and can be seen through a simple example of searching among 3 keys.
 
 \begin{figure}[!ht]
 \begin{center}
@@ -312,7 +312,7 @@ H+1+\sum_{i=1}^{n}q_i-q_0-q_n-\sum_{i=0}^m q_{\text{rank}[i]}.
 \section{Multiway Trees} \label{sec:MWT}
 
 
-Another related problem is the static k-ary or multiway search tree problem. It is similar to optimum binary search tree problem with the added constraint that up to $k$ keys can be placed into a single node, and the cost of search within a node is constant. Multiway search trees maintain an ordering property similar to that of traditional binary search trees. Each key in every page $g$ that isn't the root page must have its keys lie between some keys $l$ and $l'$, two keys located in $g's$ parent. Each internal node of the k-ary tree contains at least one and at most $k-1$ keys while a leaf node contains no keys and represents searching for an item a gap between keys. Successful searches end in an internal node while unsuccessful searches end in one of the $n+1$ leaves of the tree. The cost of search is the average path depth which is defined as:
+Another related problem is the static k-ary or multiway search tree problem. It is similar to optimum binary search tree problem with the added constraint that up to $k-1$ keys can be placed into a single node, and the cost of search within a node is constant. Multiway search trees maintain an ordering property similar to that of traditional binary search trees. Each key in every page $g$ that isn't the root page must have its keys lie between some keys $l$ and $l'$, two keys located in $g's$ parent. Each internal node of the k-ary tree contains at least one and at most $k-1$ keys while a leaf node contains no keys and represents searching for an item a gap between keys. Successful searches end in an internal node while unsuccessful searches end in one of the $n+1$ leaves of the tree. The cost of search is the average path depth which is defined as:
 
 \begin{align*}
 \sum_{i=1}^{n} p_i(d_T(B_i)+1) + \sum_{j=0}^{n} q_j(d_T(B_{i-1},B_i))
@@ -623,7 +623,7 @@ Thite's thesis provides solutions to several problems in the HMM and the related
 
 \noindent \textbf{Problem 5 [Optimum BST Under HMM].}  \cite{thite2008optimum} Suppose we are given a set of $n$ ordered keys $x_1, x_2, ..., x_n$ with associated probabilities of search $p_1, p_2, ..., p_n$, as well as $n+1$ ranges $(- \infty, x_1), (x_1, x_2), ..., (x_{n-1}, x_n), (x_n, \infty)$ with associated probabilities of search $q_0, q_1, ..., q_n$. The problem is to construct a binary search tree $T$ over the set of keys and compute a memory assignment function $\phi : V (T) \rightarrow {1, 2, ..., n}$ that assigns nodes of $T$ to memory locations such that the expected cost of a search is minimized under the HMM model. \\
 
-In order to remain consistent with the work in other chapters of this thesis, We will maintain the use of $B_1, B_2, ..., B_n$ to represent keys instead of Thite's $x_1, x_2, ..., x_n$ and ranges will be represented by $(B_0, B_1), (B_1, B_2), ..., (B_n, B_{n+1})$ where it is assumed that $B_0$ represents $- \infty$ and $B_{n+1}$ represents $\infty$.
+In order to remain consistent with the work in other chapters of this thesis, We will maintain the use of $B_1, B_2, ..., B_n$ to represent keys instead of Thite's $x_1, x_2, ..., x_n$ and gaps will be represented by $(B_0, B_1), (B_1, B_2), ..., (B_n, B_{n+1})$ where it is assumed that $B_0$ represents $- \infty$ and $B_{n+1}$ represents $\infty$.
 
 Thite provided three separate optimum solutions to the problem described; \textbf{Parts}, \textbf{Trunks}, and \textbf{Split}. These algorithms have various use cases and running of times of $O(\frac{2^{h-1}}{(h-1)!}\cdot n^{2h+1})$, $O(\frac{2^{n-m_h}\cdot (n-m_h+h)^{n-m_h}\cdot n^3}{(h-2)!})$ and $O(2^n)$ respectively. Here, $h$ is the minimum memory level such that all $n$ keys can fit on memories of height at most $h$. More specifically $h$ is defined as \\
 \begin{align*}
@@ -633,7 +633,13 @@ Thite provided three separate optimum solutions to the problem described; \textb
 
  In the following sections, we provide two approximate solutions to this problem that run in times $O(n \cdot \lg(m_1))$ and $O(n)$ and provide an upper bound on their expected search costs.  \\
 
-Thite also considered the same problem under the related HMM$_2$ model. This model assumes there are simply two levels of memory of size $m_1$ and $m_2$ with costs of access $c_1$ and $c_2$ where $c_1 < c_2$. Thite provides an optimal solution to this problem (named \textbf{TwoLevel}) which runs in time $O(n^5)$. It runs in $o(n^5)$, if $m_1 \in o(n)$, and in $O(n^4)$ if $m_1 \in O(1)$. He also gives an $O(n\lg n)$ time approximate solution with an upper bounded expected search cost of $c_2(H+1)$. The solution we provide under the HMM model also gives an improvement over Thite's approximate algorithm in both running time and expected cost under the HMM$_2$ model.
+Thite also considered the same problem under the related HMM$_2$ model. This model assumes there are simply two levels of memory of size $m_1$ and $m_2$ with costs of access $c_1$ and $c_2$ where $c_1 < c_2$. Thite provides an optimal solution to this problem (named \textbf{TwoLevel}) which runs in time $O(n^5)$.
+TL has two phases, in the first phase, it uses an algorithm similar to that of Knuth, solving for all subtrees that will fit on a single memory level (i.e. solves for all ranges [i,j] such that j-i+1 <= max(m_1, m_2)). Specifically, it creates arrays C[i,j] and R[i,j] where C and R are the optimal tree cost (using a uniform cost model), and root selection of optimal tree over [i,j].
+TL PH 2 implements algorithm parts and using DP to compute c(i,j,n_1,n_2) and r(i,j,n_1, n_2) which are the optimal tree and optimal tree root using the HMM_2 cost model using keys [i,j] with n_1 keys in M_1 and n_2 in M_2. c computed using DP as follows:
+c(i,j,n_1,n_2) = $\mu ( \theta ( B_k))* p_k + \min_{i \leq k \leq j, 0 < n_1^{(L)} < n} (c(i, k-1, n_1^{(L)}, n_2^{(L)}), (c(i, k-1, n_1^{(R)}, n_2^{(R)}))
+
+
+It runs in $o(n^5)$, if $m_1 \in o(n)$, and in $O(n^4)$ if $m_1 \in O(1)$. He also gives an $O(n\lg n)$ time approximate solution with an upper bounded expected search cost of $c_2(H+1)$. The solution we provide under the HMM model also gives an improvement over Thite's approximate algorithm in both running time and expected cost under the HMM$_2$ model.
 
 
 \section{Efficient Near-Optimal Multiway Trees of Bose and Dou\"{i}eb}\label{43}
@@ -643,21 +649,21 @@ In order to obtain a good approximate solution to the optimum BST problem under 
 \frac{H}{\lg(2k-1)} \leq P_{OPT} \leq P_T \leq \frac{H}{\lg k} + 1 + \sum_{i=0}^n q_i - q_0 - q_n - \sum_{i=0}^m q_{\text{rank}[i]}.
 \end{align*}
 
-Here, H is the entropy of the probability distribution, $P_{OPT}$ is the average path-length in the optimal tree, $P_T$ is the average path length of the tree built using their algorithm and $m=max({n-3P,P})-1 \geq \frac{n}{4} - 1$. $P$ is the number of increasing or decreasing sequences in a left-to-right read of the access probabilities of the leaves. Moreover, $q_{\text{rank}[i]}$ is the $i^{th}$ smallest access probability among all leaves (gaps) except $q_0$ and $q_n$. Finally, $k$ is the size of a node in the tree. \\
+Here, H is the entropy of the probability distribution, $P_{OPT}$ is the average path-length in the optimal tree, $P_T$ is the average path length of the tree built using their algorithm and $m=max({n-3P,P})-1 \geq \frac{n}{4} - 1$. $P$ is the number of increasing or decreasing sequences in a left-to-right read of the access probabilities of the gaps. Moreover, $q_{\text{rank}[i]}$ is the $i^{th}$ smallest access probability among all leaves (gaps) except $q_0$ and $q_n$. Finally, $k$ is the size of a node in the tree. \\
 
-As described in the section~\ref{sec:MWT}, in the multiway search tree problem we are given $n$ ordered keys with weights $p_0, ..., p_n$ as well as $n+1$ weights of unsuccessful searches $q_0,...,q_n$. We often refer to "keys" representing the gaps as $(B_{i},B_{i+1})$. Specifically, we mean the "key" associated with a search between keys $B_{i-1}$ and $B_i$. The goal is to build a minimum cost tree where $k$ keys fit inside a single node.\\
+As described in the section~\ref{sec:MWT}, in the multiway search tree problem we are given $n$ ordered keys with weights $p_0, ..., p_n$ as well as $n+1$ weights of unsuccessful searches $q_0,...,q_n$. The goal is to build a minimum cost tree where $k$ keys fit inside a single internal node. A single gap will fit in each leaf node. \\
  
 We refer readers to the paper \cite{bose2009efficient} for a more detailed explanation, but we give an overview here. The algorithm proceeds in three steps: 
  
 \begin{enumerate}
 \item An examination of the peaks and valleys of the probability distribution of the leaf weights is used to redistribute weights from leaves to internal nodes. 
 
-\item This new probability distribution is made into a k-ary tree using a greedy recursive algorithm. The algorithm recursively chooses the $l \leq k$ elements to go in the root node such that each child's subtree will have probability of access of at most $\frac{1}{k}$. This completed k-ary tree is called the \textit{internal key tree}. 
+\item This new probability distribution is made into a k-ary tree using a greedy recursive algorithm. The algorithm recursively chooses the $l \leq k-1$ elements to go in the root node such that each child's subtree will have probability of access of at most $\frac{1}{k-1}$. This completed k-ary tree is called the \textit{internal key tree}. 
 
 \item Leaf nodes are reattached to the \textit{internal key tree}.
 \end{enumerate}
 
- Their algorithm's design allows the authors to bound the depth of keys and leaves by their associated probabilities. This ultimately allows them to achieve the bounds they have described. 
+ Their algorithm's design allows the authors to bound the depth of keys and gaps by their associated probabilities. This ultimately allows them to achieve the bounds they have described. 
 
 \section{Algorithm ApproxMWPaging}\label{Algorithm ApproxMWPaging}
 
@@ -666,17 +672,17 @@ In this section We provide an algorithm for creating a BST and subsequently pack
 First, we describe how we convert a multiway search tree to a binary search tree. For the sake of clarity, we will call what are typically known as \textit{nodes} of the multiway tree \textit{pages}. This represents how various items of our search tree will fit onto pages of our memory hierarchy. We maintain the notion of calling individual items \textit{keys}.
 
 \begin{lem}\label{MWTBSTLem}
-Given a multiway tree $T'$ with page size $k$ and $n$ keys, where keys are associated with a probability distribution of successful and unsuccessful searches as in Knuth's original optimum binary search tree problem, we can create a BST $T$ where each key in a given page $g \in T'$ forms a connected component in $T$ in $O(n\lg(k))$ time.
+Given a multiway tree $T'$ with page size $k$ (a k$+1$-ary tree) and $n$ keys, where keys are associated with a probability distribution of successful and unsuccessful searches as in Knuth's original optimum binary search tree problem, we can create a BST $T$ where each key in a given page $g \in T'$ forms a connected component in $T$ in $O(n\lg(k))$ time.
 \end{lem}
 
 \begin{proof}
-For each page $g$, we sort its keys by lexicographic order and create a complete BST $B$ over the keys. We create an ordering over all potential locations where keys could be added to the tree from left to right. All keys in all descendant pages of a page $g$ in a specific subtree rooted at a child of $g$ will lie in a specific range. There are at most $k+1$ of these ranges (since our page has at most $k$ keys). These ranges precisely correspond to the at most $k+1$ locations where a new child key can to $B$. We note that we cannot add new children to keys which correspond to unsuccessful searches. We order these locations from left to right and attach root keys from the newly created BST's of each of the ordered (left to right) children of $g$. These are all valid connections since each child of $g$ has keys in these correct ranges, and combining BST's in this fashion produces a valid BST. We perform a sort of $O(k)$ items (in time $O(k\lg(k))$) $O(\frac{n}{k})$ times, and make $O(n)$ new parent child connections, giving us total time $O(n \lg(k))$.
+For each page $g$, we sort its keys by lexicographic order and create a complete BST $B$ over the keys. We create an ordering over all potential locations where \textit{additional} keys could be added to the tree from left to right. All keys in all descendant pages of a page $g$ in a specific subtree rooted at a child of $g$ will lie in a specific range. There are at most $k+1$ of these ranges (since our page has at most $k$ keys). These ranges precisely correspond to the at most $k+1$ locations where a new child key could be added. We order these locations from left to right and attach root keys from the newly created BST's of each of the ordered (left to right) child of $g$. Leaf pages with a single gap are attached in a similar fashion. These are all valid connections since each child of $g$ has keys in these correct ranges, and combining BST's in this fashion produces a valid BST. We perform a sort of $O(k)$ items (in time $O(k\lg(k))$) $O(\frac{n}{k})$ times, and make $O(n)$ new parent child connections, giving us total time $O(n \lg(k))$.
 \end{proof}
 
 In order to obtain a gooe approximate solution to the optimum BST problem under the HMM model, we do the following:
 
 \begin{enumerate}
-\item First, we create a multiway tree $T'$ using the algorithm of Bose and Dou\"{i}eb. This takes $O(n)$ time with our node size equal to $m_1$ (the smallest level of our memory hierarchy) \cite{bose2009efficient}.
+\item First, we create a multiway tree $T'$ using the algorithm of Bose and Dou\"{i}eb. This takes $O(n)$ time with our page size equal to $m_1$ (the smallest level of our memory hierarchy) \cite{bose2009efficient}.
 
 \item Inside each page (node of the multiway tree $T'$), we create a balanced binary search tree (ignoring weights). We use a simple greedy approach where we sort the keys, then recursively select the middle key as the root.  We call each of these $T'_k$ for $k \in {1,...,\lceil n/m_1 \rceil}$. This takes $O(n\cdot\lg(m_1))$ by Lemma~\ref{MWTBSTLem}.
 
@@ -891,7 +897,7 @@ In order to obtain a gooe approximate solution to the optimum BST problem under 
 
 \section{Expected Cost ApproxMWPaging} \label{45}
 
-First, we bound the depth of nodes in our BST $T$. The depth of a key $B_i$ (denoted $(B_{i-1}, B_i)$ for unsuccessful searches) is defined as $d_T(B_i)$ (resp. $d_T(B_{i-1},B_i)$). Note that depth is the number of edges between a node and the root (i.e. the depth of the root is $0$). As in the work of Bose and Dou\"{i}eb, let $m=\max({n-3P,P})-1 \geq \frac{n}{4} - 1$ where $P$ is the number of increasing or decreasing sequences in a left-to-right read of the access probabilities of the leaves \cite{bose2009efficient}.
+First, we bound the depth of nodes in our BST $T$. The depth of a key $B_i$ (or $(B_{i-1}, B_i)$ for gaps) is defined as $d_T(B_i)$ (resp. $d_T(B_{i-1},B_i)$). Note that depth is the number of edges between a node and the root (i.e. the depth of the root is $0$). As in the work of Bose and Dou\"{i}eb, let $m=\max({n-3P,P})-1 \geq \frac{n}{4} - 1$ where $P$ is the number of increasing or decreasing sequences in a left-to-right read of the access probabilities of the leaves \cite{bose2009efficient}.
 
 \begin{lem} \label{451}
 For a key $B_i$,
@@ -918,7 +924,7 @@ d_{T'}(B_{i-1},B_i) &\leq \lfloor log_{m_1}(\frac{1}{q_i}) \rfloor + 1 \text{ fo
  \end{align*}
 As explained in the paper, these follow from Lemmas 1 and 2 of Bose and Dou\"{i}eb \cite{bose2009efficient}.
 
-Inside a page, we make a balanced (ignoring weight) BST, so each key has a depth within a page of at most $\lfloor \lg(m_1) \rfloor$. Since our algorithm always connects the root of the BST made for a page to a key in the BST made for the page's parent, a key $B_i$ has a \textit{page depth} (the number of unique pages accessed in order to access the key) of at most the bounds on $d_{T'}(B_i)$ and $d_{T'}(B_{i-1},B_i)$ described. Since we examine at most $\lceil \lg(m_1) \rceil$ keys within any one page, (and only 1 key in a leaf page) a key's depth is at most
+Inside a page, we make a balanced (ignoring weight) BST, so each key has a depth within a page of at most $\lfloor \lg(m_1) \rfloor$. Since our algorithm always connects the root of the BST made for a page to a key in the BST made for the page's parent, a key $B_i$ has a \textit{page depth} (the number of unique pages accessed in order to access the key) of at most the bounds on $d_{T'}(B_i)$ and $d_{T'}(B_{i-1},B_i)$ described. Since we examine at most $\lceil \lg(m_1) \rceil$ keys within any one page, (and only 1 gap in a leaf page) a key's depth is at most
 \begin{align*}
 d_T(B_i) &\leq \lfloor \lg(m_1) \rfloor \lfloor log_{m_1}(\frac{1}{p_i}) \rfloor \\
 \implies d_T(B_i) &\leq \lg(m_1)\cdot log_{m_1}(\frac{1}{p_i}) \\
@@ -1011,7 +1017,7 @@ C(B_{i-1},B_i) &\leq (\lg(\frac{1}{q_i})+1)\cdot \frac{W}{D(T)} < (\lg(\frac{1}{
 \end{lem}
 
 \begin{proof}
-From Lemma~\ref{451} we have a bound on the depth of keys $B_i$ and $(B_{i-1},B_i)$. We must do $d_T(B_i) + 1$ accesses to find a key and $d_T(B_{i-1},B_i)$ accesses to find a leaf. Note that since our tree is stored in BFS order in memory, whenever we examine a key's child, it will be at a memory location of at least the same, if not higher cost (by being in the same or a deeper page). Thus, the cost of accessing the entire path from the root to a specific key can be upper bounded by multiplying the length of this path by the average cost per memory access of the most expensive (and deepest) key of the tree (this is exactly $\frac{W}{D(T)}$). Note that when searching for keys, we must search along the entire path from root to the key in question, while we need only examine the path from the root to the parent of a key for unsuccessful $(B_{i-1},B_i)$ searches. Combining~\ref{451}, ~\ref{452} and~\ref{W<HT} gives
+From Lemma~\ref{451} we have a bound on the depth of keys $B_i$ and $(B_{i-1},B_i)$. We must do $d_T(B_i) + 1$ accesses to find a key and $d_T(B_{i-1},B_i)$ accesses to find a gap. Note that since our tree is stored in BFS order in memory, whenever we examine a key's child, it will be at a memory location of at least the same, if not higher cost (by being in the same or a deeper page). Thus, the cost of accessing the entire path from the root to a specific key can be upper bounded by multiplying the length of this path by the average cost per memory access of the most expensive (and deepest) key of the tree (this is exactly $\frac{W}{D(T)}$). Note that when searching for keys, we must search along the entire path from root to the key in question, while we need only examine the path from the root to the parent of a key for unsuccessful $(B_{i-1},B_i)$ searches. Combining~\ref{451}, ~\ref{452} and~\ref{W<HT} gives
 \begin{align*}
 C(B_i) &\leq (\lg(\frac{1}{p_i})+1)\cdot\frac{W}{D(T)}\\
 \implies C(B_i) &< (\lg(\frac{1}{p_i})+1)\cdot\frac{D(T)\cdot c_h}{D(T)}   \\
@@ -1125,7 +1131,7 @@ C &<  (H + 1 - q_0 - q_n + q_{max} - \sum_{i=0}^{m'} pq_{\text{rank}[i]})\cdot c
 
 \begin{proof}
 
-Bose and Dou\"{i}eb show that after using their algorithm for Phase 1 of De Prisco and De Santis algorithm algorithm, every leaf of the \textit{starting tree} (all keys representing successful and unsuccessful searches) are at depth at most $\lfloor \lg(\frac{1}{p}) \rfloor + 1$  for at least $\max(2n-3P,P)-1$ of $p \in \left( \{p_1, p_2, ..., p_n \} \cup \{ q_0, q_1, ..., q_n \} \right)$ and $\lfloor \lg(\frac{1}{p}) \rfloor + 2$ for all others. Recall that $P$ is the number of peaks in the probability distribution $q_0, p_1, q_1, ..., p_n, q_n$. After phases 2 and 3 of the algorithm, each key has its depth decrease by 2, and all leaves (except one) move up the tree by one.
+Bose and Dou\"{i}eb show that after using their algorithm for Phase 1 of De Prisco and De Santis algorithm algorithm, every leaf of the \textit{starting tree} (all keys representing successful searches and gaps representing unsuccessful searhces) are at depth at most $\lfloor \lg(\frac{1}{p}) \rfloor + 1$  for at least $\max(2n-3P,P)-1$ of $p \in \left( \{p_1, p_2, ..., p_n \} \cup \{ q_0, q_1, ..., q_n \} \right)$ and $\lfloor \lg(\frac{1}{p}) \rfloor + 2$ for all others. Recall that $P$ is the number of peaks in the probability distribution $q_0, p_1, q_1, ..., p_n, q_n$. After phases 2 and 3 of the algorithm, each key has its depth decrease by 2, and all leaves (except one) move up the tree by one.
 \begin{align*}
 C &\leq \sum_{i=1}^{n} \left(p_i\cdot \frac{depth(p_i)+1}{D(T)}\cdot  W \right)+ \sum_{i=0}^{n} \left(q_i\cdot \frac{(depth(q_i))}{D(T)}\cdot  W \right) \\
 \implies C &\leq \frac{W}{D(T)} \left(\sum_{i=1}^{n}(p_i\cdot (depth(p_i)+1))+ \sum_{i=0}^{n}(q_i\cdot (depth(q_i))) \right) \\
@@ -1398,9 +1404,9 @@ similar arg to ApproxMWPaging
 \fi
 
 %=========================================
-\chapter{BST over Multisets}\label{BST over Multisets}
+\chapter{Optimal BSTs On Unordered Multisets}\label{BST over Multisets}
 
-In this chapter we examine a problem related to the initial optimal binary search tree problem of Knuth \cite{knuth1971optimum}. Our keys will no longer have a strict ordering and can be rearranged as we please before constructing our binary search tree.
+In this chapter we examine a problem related to the initial optimal binary search tree problem of Knuth \cite{knuth1971optimum}. Our keys will no longer have a strict ordering and can be rearranged as we please before constructing our binary search tree. This problem is very similar to constructing optimal prefix-free binary codes which is solved using a Huffman coding. This problem differs because, (as in previous chapters) when searhing, we charge 1 for each internal node we examine but do not charge for leaf nodes (since we do not need to "examine" them).
 
 \section{The Multiset Binary Search Tree Problem}\label{The Multiset Binary Search Tree Problem}
 
