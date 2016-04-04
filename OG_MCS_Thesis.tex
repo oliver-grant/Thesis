@@ -625,11 +625,24 @@ Thite's thesis provides solutions to several problems in the HMM and the related
 
 In order to remain consistent with the work in other chapters of this thesis, We will maintain the use of $B_1, B_2, ..., B_n$ to represent keys instead of Thite's $x_1, x_2, ..., x_n$ and ranges will be represented by $(B_0, B_1), (B_1, B_2), ..., (B_n, B_{n+1})$ where it is assumed that $B_0$ represents $- \infty$ and $B_{n+1}$ represents $\infty$.
 
-Thite provided three separate optimum solutions to the problem described; \textbf{Parts}, \textbf{Trunks}, and \textbf{Split}. These algorithms have various use cases and running of times of $O(\frac{2^{h-1}}{(h-1)!}\cdot n^{2h+1})$, $O(\frac{2^{n-m_h}\cdot (n-m_h+h)^{n-m_h}\cdot n^3}{(h-2)!})$ and $O(2^n)$ respectively. Here, $h$ is the minimum memory level such that all $n$ keys can fit on memories of height at most $h$. More specifically $h$ is defined as \\
+Thite provided three separate optimum solutions to the problem described; \textbf{Parts}, \textbf{Trunks}, and \textbf{Split}. Here, $h$ is the minimum memory level such that all $n$ keys can fit on memories of height at most $h$. More specifically $h$ is defined as \\
 \begin{align*}
 \min(h \in \{1,..,l\} ): n \leq \sum_{i = 1}^{h}m_i
 \end{align*}
 
+\textbf{Parts}
+bottom up DP alorithm
+constructs optimum subtree $T^{*}_{i,j}$ for each $i,j$, $1 \leq i leq j \leq n$ using the first $j-i+1$ memory locations.
+For each choice of root $B(k)$ where $k \in {i, ..., j}$ all possible memory assignments are examined (assigning to the $h$ levels of memory)
+$O(\frac{2^{h-1}}{(h-1)!}\cdot n^{2h+1})$ final time claimed.
+
+\textbf{Trunks}
+Like parts, building optimal trees over larger subsets of keys.
+For each range $i,j$, $1 \leq i leq j \leq n$, and for each possible root $B(k)$, they examine all $s$ such that $s \leq j-i+1$ and consider placing $s$ nodes in the first $h-1$ levels of memory, and the remaining $j-i-1-s$ nodes in memory level $h$.
+$O(\frac{2^{n-m_h}\cdot (n-m_h+h)^{n-m_h}\cdot n^3}{(h-2)!})$ final time claimed. Works well when $n-m_h$ and $h$ are small (i.e. a short memory hierarchy with a very large biggest memory size, typical to a modern computer)
+
+\textbf{Split}
+Split is a top-down algorithm for solving the problem when there are $n$ levels in the memory hierarchy. $O(2^n)$ time claimed. Result is dubious as the explanation simply states that a root is simply chosen by examining each of the $2^{n-1}$ ways of partitioning memory locations between the left and right subtrees and recursing on each side. It is unclear how the potential roots are compared, and I cannot think of a naive way to select the correct root in this fashion. A proof of correctness of algorithm was omitted.
 
  In the following sections, we provide two approximate solutions to this problem that run in times $O(n \cdot \lg(m_1))$ and $O(n)$ and provide an upper bound on their expected search costs.  \\
 
