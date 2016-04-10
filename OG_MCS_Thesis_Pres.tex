@@ -1,0 +1,201 @@
+\documentclass[]{beamer}
+
+\usepackage{beamerthemesplit} 
+\usepackage{tikz}
+
+\newcommand*\rfrac[2]{{#1}/{#2}}
+\makeatletter
+\newcommand{\rom}[1]{\romannumeral #1}
+
+\tikzset{
+    current/.style={
+		scale=0.8,
+		fill=blue,
+		minimum size=0.5pt,
+        draw,
+        circle,
+    }
+}
+\tikzset{
+    select/.style={
+		scale=0.8,
+		fill=red,
+		minimum size=0.5pt,
+        draw,
+        circle,
+    }
+}
+\tikzset{
+    max/.style={
+		scale=0.8,
+		minimum size=0.5pt,
+        draw,
+        circle,
+    }
+}
+
+\title{Approximately Optimum Search
+Trees in External Memory Models}
+\subtitle{Master of Mathematics Presentation}
+\author{Oliver Grant \\
+Supervisor: Ian Munro}
+
+
+
+\begin{document} \date{}
+\begin{frame}
+  \titlepage
+\end{frame}
+
+%\tableofcontents
+
+\section{What is Prismata?}
+
+%------------------------------------
+\begin{frame}
+\frametitle{What is Prismata?}
+
+  \begin{itemize}
+   \item A turn-based strategy game developed by Lunarch Studios.
+   \item Founders are smart (MIT PhDs in CS/Math)
+   \item Idea was to create a deep, challenging game that they would enjoy (started out as a hobby).
+  \end{itemize}
+  
+\end{frame}
+
+%------------------------------------
+
+\begin{frame}
+\frametitle{What Makes Prismata Interesting}
+  \begin{itemize}
+   \item Card set randomized each game. \textbf{Can't memorize openings!}
+   \item This gives roughly ${80 \choose 8} \approx$ \textit{30 billion} different games.
+   \item Card variety leads to interesting counters and combinations.
+   \item The game is totally deterministic (other than randomized set and turn order). \textbf{No luck!}
+   \item The game tree is massive. Complex turns could have several hundred possible moves.
+  	
+  \end{itemize}
+  
+\end{frame}
+
+%------------------------------------
+
+\begin{frame}
+\frametitle{Prismata's Current AI}
+\begin{center}
+\cite{dave}
+\end{center}
+  \begin{itemize}
+   \item Built by Dave Churchill, an AI PhD student from U of Alberta.
+   \item Uses Alpha-Beta pruning with a small ply.
+   \item Fast, reliable, beats beginners, but no match for good players. 	
+  \end{itemize}
+  
+\end{frame}
+
+%------------------------------------
+
+\section{A Literature Review}
+
+\begin{frame}
+\frametitle{Some literature}
+  \begin{itemize}
+   \item Temporal difference learning and TD-Gammon. \cite{tesauro1995temporal}
+   \item Reinforcement learning in board games.  \cite{ghory2004reinforcement}
+   \item Temporal difference learning of position evaluation in the game of Go. \cite{schraudolph1994temporal}
+   \item Several others...
+   \item Provincial: A kingdom-adaptive AI for Dominion \cite{Fisher2014} 
+  \end{itemize}
+  
+\end{frame}
+
+%------------------------------------
+
+
+\begin{frame}
+\frametitle{Provincial by Matthew Fisher}
+\begin{center}
+
+ \begin{small}\begin{small}\begin{small}
+ \url{http://graphics.stanford.edu/~mdfisher/DominionAI.html} \cite{Fisher2014}
+ \end{small}\end{small}\end{small}
+\end{center}
+
+  \begin{itemize}
+   \item Dominion AI built using Genetic Algorithms (GA).
+   \item The set of cards chosen for each game is randomized.
+   \item Players adapt purchase strategies based on card interactions.
+   \item GA learns \textbf{buy} strategy, another AI takes care of \textbf{play} strategy.
+   \item It takes a few minutes to learn a set, but is very strong.
+  \end{itemize}
+  
+\end{frame}
+
+%------------------------------------
+
+\section{GA in Prismata}
+
+\begin{frame}
+\frametitle{My Plan for Prismata}
+  \begin{itemize}
+   \item Implement generational co-evolution (GCE) for \textbf{buy} strategies.
+	\item Churchill's AI will take care of \textbf{play} strategies and end game. 
+   \item GCE: Select dominant strategies, create larger pool of strategies, run a tournament, select best, mutate and repeat.
+   \item A buy strategy will be an ordered-list of card-integer pairs: which unit and how many to buy.\\
+   
+\begin{center}
+ \url{play.prismata.net} \cite{lunarch}
+\end{center}
+
+
+
+   
+  \end{itemize}
+  
+\end{frame}
+
+%------------------------------------
+
+\section{Conclusion}
+
+\begin{frame}
+\frametitle{What I've done}
+  \begin{itemize}
+   \item Gone through several papers/other works.
+   \item Have explored the source code from Lunarch Studios.
+   \item Thoroughly examined the Provincial Dominion AI.
+   \item Played \textbf{\textit{a lot}} of Prismata. (That counts right?)
+  \end{itemize}
+
+\begin{center}
+ \url{play.prismata.net} \cite{lunarch}
+\end{center}
+  
+\end{frame}
+
+%------------------------------------
+
+
+\begin{frame}
+\frametitle{What's Next?}
+  \begin{itemize}
+   \item More reading! Grammatical Evolution [http://ncra.ucd.ie/Site/GEVA.html] 
+   \item Multiagent Systems: Algorithmic, Game-Theoretic,
+and Logical Foundations (Chapter 7.7 from this Book) \cite{shoham2008multiagent}
+	\item Write some code.
+	\item Testing: vs best AI and vs humans.
+	\item Extensions? Monte Carlo Tree Search, Reinforcement Learning (CS 686 Project)
+	\item Want a \textbf{Beta Key}? See me after class.
+
+  \end{itemize}
+  
+\end{frame}
+
+%------------------------------------
+
+
+\bibliographystyle{abbrv}
+\bibliography{ProjectPresentation}
+
+
+\end{document}
