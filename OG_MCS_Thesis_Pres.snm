@@ -1,0 +1,31 @@
+\beamer@slide {1.1}{5}
+\beamer@slide {Background and Related Work}{11}
+\beamer@slide {sec:MWT}{16}
+\beamer@slide {An Improved Bound for the Modified Minimum Entropy Heuristic}{22}
+\beamer@slide {The Modified Entropy Rule}{23}
+\beamer@slide {entr2x}{26}
+\beamer@slide {MECases}{26}
+\beamer@slide {Claim1}{28}
+\beamer@slide {EQC1}{30}
+\beamer@slide {EQC2}{30}
+\beamer@slide {EQC3}{30}
+\beamer@slide {Approximate Binary Search in the Hierarchical Memory Model}{32}
+\beamer@slide {The Hierarchical Memory Model}{32}
+\beamer@slide {43}{37}
+\beamer@slide {Algorithm ApproxMWPaging}{39}
+\beamer@slide {MWTBSTLem}{40}
+\beamer@slide {45}{47}
+\beamer@slide {451}{48}
+\beamer@slide {452}{51}
+\beamer@slide {W<HT}{53}
+\beamer@slide {ApproxMWPagingThm}{56}
+\beamer@slide {sec:deBST}{58}
+\beamer@slide {Algorithm ApproxBSTPaging}{60}
+\beamer@slide {48}{61}
+\beamer@slide {ApproxBSTThm}{62}
+\beamer@slide {BST over Multisets}{69}
+\beamer@slide {The Multiset Binary Search Tree Problem}{70}
+\beamer@slide {OPT-MSBST}{71}
+\beamer@slide {MS Swap Lemma}{72}
+\beamer@slide {MSSolvesOpt}{73}
+\beamer@slide {Conclusion and Open Problems}{75}

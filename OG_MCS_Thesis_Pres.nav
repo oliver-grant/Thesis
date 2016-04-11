@@ -1,4 +1,4 @@
-\beamer@endinputifotherversion {3.33pt}
+\beamer@endinputifotherversion {3.10pt}
 \headcommand {\slideentry {0}{0}{1}{1/1}{}{0}}
 \headcommand {\beamer@framepages {1}{1}}
 \headcommand {\sectionentry {1}{What is Prismata?}{2}{What is Prismata?}{0}}
@@ -6,31 +6,80 @@
 \headcommand {\beamer@subsectionpages {1}{1}}
 \headcommand {\slideentry {1}{0}{2}{2/2}{}{0}}
 \headcommand {\beamer@framepages {2}{2}}
-\headcommand {\slideentry {1}{0}{3}{3/3}{}{0}}
-\headcommand {\beamer@framepages {3}{3}}
-\headcommand {\slideentry {1}{0}{4}{4/4}{}{0}}
-\headcommand {\beamer@framepages {4}{4}}
-\headcommand {\sectionentry {2}{A Literature Review}{5}{A Literature Review}{0}}
-\headcommand {\beamer@sectionpages {2}{4}}
-\headcommand {\beamer@subsectionpages {2}{4}}
-\headcommand {\slideentry {2}{0}{5}{5/5}{}{0}}
-\headcommand {\beamer@framepages {5}{5}}
-\headcommand {\slideentry {2}{0}{6}{6/6}{}{0}}
-\headcommand {\beamer@framepages {6}{6}}
-\headcommand {\sectionentry {3}{GA in Prismata}{7}{GA in Prismata}{0}}
+\headcommand {\sectionentry {2}{Binary Search Trees}{3}{Binary Search Trees}{0}}
+\headcommand {\beamer@sectionpages {2}{2}}
+\headcommand {\beamer@subsectionpages {2}{2}}
+\headcommand {\sectionentry {3}{The Optimum Binary Search Tree Problem}{4}{The Optimum Binary Search Tree Problem}{0}}
+\headcommand {\beamer@sectionpages {3}{3}}
+\headcommand {\beamer@subsectionpages {3}{3}}
+\headcommand {\sectionentry {4}{Three-Way Branching}{5}{Three-Way Branching}{0}}
+\headcommand {\beamer@sectionpages {4}{4}}
+\headcommand {\beamer@subsectionpages {4}{4}}
+\headcommand {\sectionentry {5}{Why Study Binary Search Trees}{7}{Why Study Binary Search Trees}{0}}
 \headcommand {\beamer@sectionpages {5}{6}}
 \headcommand {\beamer@subsectionpages {5}{6}}
-\headcommand {\slideentry {3}{0}{7}{7/7}{}{0}}
-\headcommand {\beamer@framepages {7}{7}}
-\headcommand {\sectionentry {4}{Conclusion}{8}{Conclusion}{0}}
-\headcommand {\beamer@sectionpages {7}{7}}
-\headcommand {\beamer@subsectionpages {7}{7}}
-\headcommand {\slideentry {4}{0}{8}{8/8}{}{0}}
-\headcommand {\beamer@framepages {8}{8}}
-\headcommand {\slideentry {4}{0}{9}{9/9}{}{0}}
-\headcommand {\beamer@framepages {9}{9}}
-\headcommand {\beamer@partpages {1}{9}}
-\headcommand {\beamer@subsectionpages {8}{9}}
-\headcommand {\beamer@sectionpages {8}{9}}
-\headcommand {\beamer@documentpages {9}}
-\headcommand {\def \inserttotalframenumber {9}}
+\headcommand {\sectionentry {6}{Overview}{9}{Overview}{0}}
+\headcommand {\beamer@sectionpages {7}{8}}
+\headcommand {\beamer@subsectionpages {7}{8}}
+\headcommand {\sectionentry {7}{Binary Search Trees}{11}{Binary Search Trees}{0}}
+\headcommand {\beamer@sectionpages {9}{10}}
+\headcommand {\beamer@subsectionpages {9}{10}}
+\headcommand {\sectionentry {8}{Alphabetic Trees}{14}{Alphabetic Trees}{0}}
+\headcommand {\beamer@sectionpages {11}{13}}
+\headcommand {\beamer@subsectionpages {11}{13}}
+\headcommand {\sectionentry {9}{Multiway Trees}{16}{Multiway Trees}{0}}
+\headcommand {\beamer@sectionpages {14}{15}}
+\headcommand {\beamer@subsectionpages {14}{15}}
+\headcommand {\sectionentry {10}{Memory Models}{18}{Memory Models}{0}}
+\headcommand {\beamer@sectionpages {16}{17}}
+\headcommand {\beamer@subsectionpages {16}{17}}
+\headcommand {\sectionentry {11}{Preliminaries}{22}{Preliminaries}{0}}
+\headcommand {\beamer@sectionpages {18}{21}}
+\headcommand {\beamer@subsectionpages {18}{21}}
+\headcommand {\sectionentry {12}{The Modified Entropy Rule}{23}{The Modified Entropy Rule}{0}}
+\headcommand {\beamer@sectionpages {22}{22}}
+\headcommand {\beamer@subsectionpages {22}{22}}
+\headcommand {\sectionentry {13}{Modified Entropy is Within 4 of Entropy}{25}{Modified Entropy is Within 4 of Entropy}{0}}
+\headcommand {\beamer@sectionpages {23}{24}}
+\headcommand {\beamer@subsectionpages {23}{24}}
+\headcommand {\sectionentry {14}{The Hierarchical Memory Model}{32}{The Hierarchical Memory Model}{0}}
+\headcommand {\beamer@sectionpages {25}{31}}
+\headcommand {\beamer@subsectionpages {25}{31}}
+\headcommand {\sectionentry {15}{Thite's Optimum Binary Search Trees on the HMM Model}{33}{Thite's Optimum Binary Search Trees on the HMM Model}{0}}
+\headcommand {\beamer@sectionpages {32}{32}}
+\headcommand {\beamer@subsectionpages {32}{32}}
+\headcommand {\sectionentry {16}{Efficient Near-Optimal Multiway Trees of Bose and Dou\"{i}eb}{37}{Efficient Near-Optimal Multiway Trees of Bose and Dou\"{i}eb}{0}}
+\headcommand {\beamer@sectionpages {33}{36}}
+\headcommand {\beamer@subsectionpages {33}{36}}
+\headcommand {\sectionentry {17}{Algorithm ApproxMWPaging}{39}{Algorithm ApproxMWPaging}{0}}
+\headcommand {\beamer@sectionpages {37}{38}}
+\headcommand {\beamer@subsectionpages {37}{38}}
+\headcommand {\sectionentry {18}{Expected Cost ApproxMWPaging}{47}{Expected Cost ApproxMWPaging}{0}}
+\headcommand {\beamer@sectionpages {39}{46}}
+\headcommand {\beamer@subsectionpages {39}{46}}
+\headcommand {\sectionentry {19}{Approximate Binary Search Trees of De Prisco and De Santis with Extensions by Bose and Dou\"{i}eb}{58}{Approximate Binary Search Trees of De Prisco and De Santis with Extensions by Bose and Dou\"{i}eb}{0}}
+\headcommand {\beamer@sectionpages {47}{57}}
+\headcommand {\beamer@subsectionpages {47}{57}}
+\headcommand {\sectionentry {20}{Algorithm ApproxBSTPaging}{60}{Algorithm ApproxBSTPaging}{0}}
+\headcommand {\beamer@sectionpages {58}{59}}
+\headcommand {\beamer@subsectionpages {58}{59}}
+\headcommand {\sectionentry {21}{Expected Cost ApproxBSTPaging}{61}{Expected Cost ApproxBSTPaging}{0}}
+\headcommand {\beamer@sectionpages {60}{60}}
+\headcommand {\beamer@subsectionpages {60}{60}}
+\headcommand {\sectionentry {22}{Improvements over Thite in the HMM$_2$ Model}{65}{Improvements over Thite in the HMM$_2$ Model}{0}}
+\headcommand {\beamer@sectionpages {61}{64}}
+\headcommand {\beamer@subsectionpages {61}{64}}
+\headcommand {\sectionentry {23}{The Multiset Binary Search Tree Problem}{70}{The Multiset Binary Search Tree Problem}{0}}
+\headcommand {\beamer@sectionpages {65}{69}}
+\headcommand {\beamer@subsectionpages {65}{69}}
+\headcommand {\sectionentry {24}{The OPT-MSBST Algorithm}{71}{The OPT-MSBST Algorithm}{0}}
+\headcommand {\beamer@sectionpages {70}{70}}
+\headcommand {\beamer@subsectionpages {70}{70}}
+\headcommand {\sectionentry {25}{Conclusion}{75}{Conclusion}{0}}
+\headcommand {\beamer@sectionpages {71}{74}}
+\headcommand {\beamer@subsectionpages {71}{74}}
+\headcommand {\beamer@partpages {1}{79}}
+\headcommand {\beamer@subsectionpages {75}{79}}
+\headcommand {\beamer@sectionpages {75}{79}}
+\headcommand {\beamer@documentpages {79}}
+\headcommand {\def \inserttotalframenumber {2}}
