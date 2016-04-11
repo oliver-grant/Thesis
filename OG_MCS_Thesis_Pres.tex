@@ -10,7 +10,6 @@
 
 \usepackage{enumerate}
 \usepackage{amsfonts}
-\usepackage{enumitem}
 \usepackage{url}
 \usepackage{amsmath,amsfonts,amssymb,amsthm,epsfig,epstopdf,url,array}
 \usepackage[]{units}
@@ -288,14 +287,14 @@ As described in \cite{guttler1980binary}, I first describe the entropy rule for 
 
 Figure 3.1 demonstrates the shortcomings of the entropy rule heuristic. Given the probability set $\{q_0 = \frac{1}{5}, p_1 = \frac{1}{5}, q_1 = 0, p_2 = 0, q_3 = \frac{3}{5}\}$ the entropy rule will mistakenly choose key $B_1$ as the root while selecting $B_2$ as the root produces a better tree. This mistake is remedied in the modified entropy rule of G{\"u}ttler, Mehlhorn and Schneider \cite{guttler1980binary}. The modified entropy heuristic chooses the root in of the following three ways:
 
-\begin{enumerate}[label=\alph*)]
-\item If there exists key $B_i$ such that $\frac{p_i}{p_t} > \max(P_{L_t}(p_i), P_{R_t}(p_i))$ we always select $B_i$ as the root.
 
-\item If there exists a gap $(B_i, B_{i+1})$ such that $\frac{q_i}{p_t} > max(P_{L_t}(B_i, B_{i+1}), P_{R_t}(B_i, B_{i+1}))$ then we select the root from among $B_i$ and $B_{i+1}$. $B_i$ is chosen if $P_{L_t}(B_i, B_{i+1}) > P_{R_t}(B_i, B_{i+1})$ and $B_{i+1}$ is chosen otherwise.
+If there exists key $B_i$ such that $\frac{p_i}{p_t} > \max(P_{L_t}(p_i), P_{R_t}(p_i))$ we always select $B_i$ as the root.
 
-\item Otherwise, $B_i$ is selected such that $H(P_{L_t}(B_i), \frac{p_i}{p_t}, P_{R_t}(B_i))$ is maximized (as in the original entropy rule).
+If there exists a gap $(B_i, B_{i+1})$ such that $\frac{q_i}{p_t} > max(P_{L_t}(B_i, B_{i+1}), P_{R_t}(B_i, B_{i+1}))$ then we select the root from among $B_i$ and $B_{i+1}$. $B_i$ is chosen if $P_{L_t}(B_i, B_{i+1}) > P_{R_t}(B_i, B_{i+1})$ and $B_{i+1}$ is chosen otherwise.
 
-\end{enumerate}
+Otherwise, $B_i$ is selected such that $H(P_{L_t}(B_i), \frac{p_i}{p_t}, P_{R_t}(B_i))$ is maximized (as in the original entropy rule).
+
+
 
 The approach proposed by G{\"u}ttler, Mehlhorn and Schneider takes $O(n^2)$ time in the worst case and $O(n)$ space.
 \end{frame}
@@ -473,6 +472,7 @@ C &\leq H + 4
 \end{align*}
 
 \end{proof}
+\end{frame}
 
 \section{Approximate Binary Search in the Hierarchical Memory Model}\label{Approximate Binary Search in the Hierarchical Memory Model}
  \begin{frame}
@@ -1248,7 +1248,7 @@ We have tabulated these results with novel contributions in bold.
 Several interested and related problems still remain open. Firstly, is $H+4$ a tight bound for the Modified Entropy Rule? We conjecture that this is not the case, and we believe the bound could be lowered to $H+2$. Moreover, while the metric used to search for the root in this heuristic is good, it is definitely not perfect. The root chosen (up to the modifications of the rule) has the maximum 3-way entropy split. However, this is not necessarily the best root, as selecting larger probability keys as the root can decrease the cost of the tree. It would be interesting to consider what the correct metric would be for correctly selecting the root, possibly in a greedy manner. Chapter~\ref{BST over Multisets} is ultimately an introduction into considerations for this problem. 
 Finally, the work in Chapter~\ref{Approximate Binary Search in the Hierarchical Memory Model} can likely be extended to more recent models for external memory. 
 
-
+\end{frame}
 
 \bibliographystyle{abbrv}
 \bibliography{ProjectPresentation}
