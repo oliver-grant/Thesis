@@ -1,0 +1,206 @@
+\iffalse
+
+\chapter{Approximate Binary Search in the Hierarchical Memory with Block Transfer Model}\label{Approximate Binary Search in the Hierarchical Memory with Block Transfer Model}
+
+\section{Hierarchical Memory with Block Transfer Model}
+This model (HMBTM for short) was proposed by Aggarwal, Chandra, and Snir as an improvement over the HMM model discussed previously \cite{aggarwal1987hierarchical}. The model with block transfer still has a memory hierarchy with increasing costs of access, but allows for any contiguous block of memory to be copied from one location to another with constant unit time per element plus the cost of the initial access. This provides a better model for standard computers which can copy many words from one type of memory to another after accessing a single word. Like the HMM model, we have an unlimited number of registers (numbered 1, 2, , .. etc.) and we will still use the cost function as was explained in Thite's thesis \cite{thite2008optimum}. Here, $\mu (a)$ is the cost of accessing memory location $a$. We have a series of memory sizes $m_1, m_2, ..., m_h$ where $m_l$ has infinite size each with an associated cost $c_1, c_2, ..., c_h$. We assume that $c_1 < c_2 < ... < c_h$. 
+
+\begin{center}$\mu (a) = c_i$ if $\sum_{j = 1}^{i-1}m_j  < a \leq \sum_{j = 1}^{i}m_j$. \end{center}
+
+We explicitly assume that successive memory sizes divide one another evenly:
+\begin{center}
+$m_1 < m_2 < ... < m_h$ and
+\end{center}
+\begin{center}
+$\forall i \in  \{1,2,...,h\}$, $m_i \mid m_{i+1}$.
+\end{center}
+
+In this new model, we are given the additional operational opportunity to move a block from one location to another. Specifically, a block copy operation is defined as: \\
+ $[x-l, x] \rightarrow [y-l,y]$. \\
+The contents of $\mu(x-i)$ are copied to $\mu(y-i)$ for $i \in \{0,...,l\}$. This is valid if the two intervals are disjoint. This copy operation costs $max(\mu(x,y)) + l$.\\
+
+We provide fast but approximate solutions to the optimal BST problem under new model in the following sections.
+
+\section{ApproxMWPaging with BT}
+
+The first algorithm we provide is very similar to ApproxMWPaging. The first three steps of the algorithm are in fact identical. To review, we create a Multiway Tree $T'$ using the algorithm of Bose and Dou\"{i}eb, form balanced BST's within each page of $T'$, and then connect these balanced BSTs from $T'$ to form a valid BST $T$. This is done in $O(n \lg(m_1))$ time. \\
+
+To decide packing order, we will do a modified BFS of $T'$. We will always pack individual pages of $T'$ into memory in a BFS of the balanced BST formed from the page. \\
+
+We call BT\textendash Pack() in order to pack nodes into the tree. Essentially, this function attempts to pack each level of the memory hierarchy independently from $m_1$ to $m_l$. Within each memory level $i$, we attempt to pack it from a single source (the next available node in BFS order of our tree) in blocks of size  $m_{i-1}$ which are recursively packed in blocks of size $m_{i-2}$ (and so on). If we cannot fill a memory level, or a specific block within the packing of a memory level, we will pack whatever we can starting again from a new root (still in BFS order) passing into our BT\textendash Range-Pack function the biggest $i$ possible such that $m_i$ will still fit in the page we are trying to pack. \\
+
+BT\textendash Range-Pack packs the tree $T$ using $r\_q$ as roots from memory location $loc$. It packs recursively into pages of size $m_i$ (or smaller if necessary) until $m_{i+1}$ nodes have been packed or we run out of roots to pack from in $r\_q[]$. If $i=0$ then we only pack $amt$ nodes (so we can fill memory levels appropriately). Note that we only remove the top root from $r\_q$ if the root has been completely used i.e. it has been packed into a page of size $\leq m_1$. We always return a pair, the updated $r\_q$ which contains new roots to search packed from (added in BFS order from leaves of $m_1$ or smaller packed "pages") and the current location in memory where we should pack into next. \\
+
+
+
+\begin{algorithm}[H]
+\caption{ApproxPaging with BT Packing}
+\label{AMWBTPack}
+\begin{algorithmic}[1]
+\Procedure{BT\textendash Range-Pack}{$r\_q[], i, loc, amt$}
+\If{$i = 0$}
+	\State Create largest BFS tree $T$ possible from $r\_q[0]$ with at $min(m_1, amt)$ nodes
+	\State Push $T$ in BFS order into memory starting from memory location $loc$
+	\State $loc += size(T)$
+	\State $r\_q.pop()$
+	\For{each leaf $l$ in $T$ in BFS order}
+		\State Push all children of $l$ onto $r\_q$
+	\EndFor
+	\State \textbf{return} $(r\_q[], loc)$		
+\Else
+	\State $total = 0$
+	\While{$total < m_{i+1}$ and $\neg (empty?$ $r)$}
+		\State $old\_loc = loc$
+		\State $i = max_{0,...,j+1}(i : m_i + total < m_{j+1})$
+		\State $(loc, new\_r\_q) =$ AMWBT\textendash Range-Pack $(r\_q[0,...,0], i-1, loc, m_i)$
+		\For{each node $r$ in $new\_r\_q$}
+			\State $r\_q.push(r)$
+		\EndFor
+		\State $total += loc-old\_loc$
+	\EndWhile
+	\State \textbf{return} $(r\_q[], loc)$
+\EndIf
+\EndProcedure
+\end{algorithmic}
+\end{algorithm}
+
+\begin{algorithm}[H]
+\caption{ApproxPaging with BT Packing}
+\label{AMWBTPack}
+\begin{algorithmic}[1]
+\Procedure{BT\textendash Pack}{}
+\State $r\_q = empty$
+\State $r\_q.push\_back(root)$
+\State $loc = 0$
+\For{$ j = 0$ to $h-1$}
+	\While{$loc < m_{j+1}$ and $\neg(empty? r\_q)$}
+		\If{$loc + m_1 < m_{j+1}$}
+			\State $i = max_{0,...,j+1}(i : m_i + total < m_{j+1})$
+			\State $(loc, new\_r\_q) =$ AMWBT\textendash Range-Pack $([r\_q[0]], i-1, loc, m_i)$		
+		\Else
+			\State $(loc, new\_r\_q) =$ AMWBT\textendash Range-Pack $([r\_q[0]], 0, loc, m_i)$
+		\EndIf
+		\State $r\_q.pop()$
+		\For{each node $r$ in $new\_r\_q$}
+			\State $r\_q.push(r)$
+		\EndFor
+	\EndWhile
+\EndFor
+\EndProcedure
+\end{algorithmic}
+\end{algorithm}
+
+
+\section{ApproxMWPaging with BT Running Time }
+
+First, we examine the runtime of BT\textendash Range-Pack$(r\_q[], i, loc, amt)$.
+
+\begin{lem}
+BT\textendash Range-Pack$(r\_q[], i, loc, amt)$ returns an updated location, call it $new\_loc$ in time at most $O((i+1)\cdot (new\_loc - loc))$ time and packs $(new\_loc - loc)$ nodes into memory.
+\end{lem}
+
+\begin{proof}
+We will prove this by induction on $i$. In the base case ($i=0$) we simply do a BFS from the given root, packing as many of $min(m_1, amt)$ into memory as possible, we return an updated $loc$ which is exactly equal to the size of the BFS tree we have created. We also push all children of all leaves of this BFS tree onto our $r\_q$. This all takes time $(new\_loc - loc) \in O(1\cdot (new\_loc - loc))$ as required. \\
+
+Suppose BT\textendash Range-Pack$(r\_q[], i, loc, amt)$ returns $new\_loc$ in time at most $O(l\cdot (new\_loc - loc))$ time and packs $(new\_loc - loc)$ nodes into memory for all $i < k$. Consider BT\textendash Range-Pack$(r\_q[], k, loc, amt)$. Since $i \neq 0$ we enter the else case on line $11$. Now, we may call BT\textendash Range-Pack a number of times, but the sum of $loc$ updates will be at most $m_{i+1}$. By our induction hypothesis, we know each BT\textendash Range-Pack$(r\_q[], i, loc, amt)$ for $i < k$ packs sum number $(new\_loc - loc)$ of nodes into memory in time $O((i+1)\cdot (new\_loc - loc))$. Moreover, other than the recursive calls, all lines take $O(1)$ except line $15$ which takes $O(i)$ and lines 17-18 which take $(new\_loc - loc)$ time since only a linear amount of children can be pushed onto $r\_q$ for each item packed into memory (and each child can only be pushed to $r\_q$ once, by its single parent). Let $S$ be the set of all calls $q$ BT\textendash Range-Pack$(r\_q[], q_i, loc, amt)$ is called directly from our original BT\textendash Range-Pack$(r\_q[], k, loc, amt)$ call and packs $q\_amt$ items into memory. Let $T_{RP}(i, new\_loc - loc)$ be the cost of BT\textendash Range-Pack$(r\_q[], i, loc, amt)$ which packs $new\_loc - loc$ items into memory. The we have that: \\
+
+$T_{RP}(k, new\_loc - loc) = O(new\_loc - loc) + O(i) + \sum_{q \in S} T_{RP}(q_i, q\_amt)$ \\ 
+By our induction hypothesis we have that: \\
+$\implies T_{RP}(k, new\_loc - loc) \in O(new\_loc - loc) + O(i) + \sum_{q \in S} O(q_i\cdot q\_amt)$ \\
+Since $q_i$ is at most $i$ we have: \\
+$\implies T_{RP}(k, new\_loc - loc) \in O(new\_loc - loc) + O(i) + i\cdot  \sum_{q \in S} q\_amt$ \\
+Finally, since $new\_loc - loc = \sum_{q \in S} q\_amt$: \\
+$\implies T_{RP}(k, new\_loc - loc) \in O(new\_loc - loc) + O(i) + i\cdot (new\_loc - loc)$ \\
+$\implies T_{RP}(k, new\_loc - loc) \in O((new\_loc - loc)\cdot (i+1))$ as required.
+\end{proof}
+
+This leads us to our runtime for BT\textendash Pack(). 
+
+\begin{lem}
+BT\textendash Pack packs all nodes in our tree $T$ into memory in time $O(n\cdot l)$.
+\end{lem}
+
+\begin{proof}
+
+First note that, as in BT\textendash Range-Pack, we always update $loc$ to be the new location where should pack nodes into memory. Lines $5-18$ loop through each memory level. For a given level, we pack as much as can into it, using as large BT\textendash Range-Pack's as possible. Specifically, line $8$ takes $O(l)$ and lines $14-15$ take $(new\_loc - loc)$ time since only a linear amount of children can be pushed onto $r\_q$ for each item packed into memory (and each child can only be pushed to $r\_q$ once, by its single parent). Let $S_h$ be the set of all calls $q$ BT\textendash Range-Pack$(r\_q[], q_i, loc, amt)$ called from our BT\textendash Pack when $j = h$ (these each pack $q\_amt$ of nodes into memory). Let $packed\_amt$ be the amount packed by a call to BT\textendash Range-Pack in lines $9$ or $11$. By our previous proof, these take time $O((packed\_amt)\cdot (i))$. Since $i$ is at most $l$ and $sum packed\_amt = n$ (we never pack anything twice) we have that the time required for BT\textendash Pack $T_P$ is: \\
+$T_{P} \in \sum_{j=0}^{h-1})sum_{q \in S_j} O(q\_amt\cdot j)$ \\
+$\implies T_{P} \in o(l) \cdot  \sum_{j=0}^{h-1})sum_{q \in S_j} O(q\_amt)$ \\
+$\implies T_{P} \in O(n\cdot l)$ as required.
+
+\end{proof}
+
+
+\section{Search with ApproxMWPaging with BT}
+
+
+
+\begin{algorithm}[H]
+\caption{ApproxMWPaging with BT Search}
+\footnotesize
+\label{AMWBTPack}
+\begin{algorithmic}[1]
+\Procedure{AMWBT\textendash Search}{$mem, key, prev\_moved\_s, offset\_s$}
+\If{$(\neg (empty?$ $prev\_moved\_s)$ and $(mem >= prev\_moved\_s.top()))$ or $(mem \geq m_1)$}
+	\If{$(\neg (empty? prev\_moved\_s)$ and $(mem >= prev\_moved\_s.top()))$}
+		\State $mem += offset\_s.top()$
+		\State $offset\_s.pop()$
+		\State $prev\_moved\_s.pop()$
+		\If{$neq (empty? offset\_s)$}
+			\State $mem -= offset\_s.top()$
+		\EndIf
+	\EndIf
+	\State $offset\_s.push(mem)$
+	\State $i = min_{m'_i : m'_i > mem}$
+	\State $amt\_move = m'_i - mem$
+	\State $prev\_moved\_s.push(amt\_move)$
+	\State $[mem, mem + amt\_move - 1] \rightarrow [0, amt\_move - 1]$
+	\State AMWBT\textendash Search$(0, key, prev\_moved\_s, offset\_s)$
+
+\Else 
+	\State $offset = 0$
+	\If{$\neg (empty? prev\_s\_moved)$ and $(mem >= prev_moved_s.top())$}
+		\State $offset = offset\_s.top()$
+	\EndIf	
+	\If{$key = mem.key$}
+		\State \textbf{return} $mem.value$
+	\ElsIf{$key < mem.key$}
+		\If{$mem$ has no left child}
+			\State \textbf{return} $mem$
+		\Else
+			\State  AMWBT\textendash Search$(mem.left\_child - offset, key, prev\_moved\_s, offset\_s)$
+		\EndIf
+	\Else
+		\If{$mem$ has no right child}
+			\State \textbf{return} $mem$
+		\Else
+			\State  AMWBT\textendash Search$(mem.right\_child - offset, key, prev\_moved\_s, offset\_s)$
+		\EndIf
+	\EndIf	
+\EndIf
+\EndProcedure
+\end{algorithmic}
+\end{algorithm}
+
+To run we call AMWBT\textendash Search$(0, key, empty, empty)$ since the memory location of the root should be $0$.
+
+
+
+
+\section{Expected Cost ApproxMWPaging with BT}
+
+How a path has cost
+What cost is
+similar arg to ApproxMWPaging
+
+
+\section{ApproxBSTPaging with BT}
+
+Given what we have already shown, this algorithm is extremely simple to explain. We first create a BST $T$ using the algorithm of De Prisco and De Santis \cite{de1993binary} (as updated by Bose and Dou\"{i}eb \cite{bose2009efficient}) in $O(n)$ time (as was the first step in ApproxBSTPaging). We then simply call BT\textendash Pack() in order to pack the tree into memory as described in the ApproxMWPaging with BT sections.
+
+
+\section{Expected Cost ApproxBSTPaging with BT}
+How a path has cost
+What cost is
+similar arg to ApproxMWPaging
+
+\fi

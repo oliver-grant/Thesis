@@ -269,12 +269,12 @@ BST's and their extensions are integral to a large number of applications. For e
 
 \section{Overview}
 
-In Chapter~\ref{Background and Related Work}, we review previous work done in the areas of binary search trees, multiway trees, alphabetic trees and various models of external memory. In Chapter~\ref{An Improved Bound for the Modified Minimum Entropy Heuristic}, we re-examine the modified entropy rule of G{\"u}ttler, Mehlhorn and Schneider \cite{guttler1980binary}. This is an $\Theta(n^2)$ time, $\Theta(n)$ space, algorithm for approximating the optimum binary search tree problem in the RAM model. The method works very well in practice, and the group had great experimental results, but unfortunately they could not bound the worst case expected cost as well as they would have hoped. While simpler solutions like the \textit{Min-max} and \textit{Weight Balanced} techniques of P. Bayer have worst case costs of at most $H+2$, the trio's modified entropy technique was only shown to have a worst case expected search cost of at most $c\cdot H+2$ where $c \approx 1.08$ \cite{bayer1975improved, guttler1980binary}. We provide a new argument of the modified entropy rule's worst case expected search cost and show that it is within an additive factor of entropy: at worst $H+4$. In Chapter~\ref{Approximate Binary Search in the Hierarchical Memory Model}, we move on to external memory models, examining the optimum binary search tree problem under the Hierarchical Memory Model of Aggarwal et al. \cite{aggarwal1987model}. We provide two algorithms which run in times $O(n\cdot\lg(m_1))$ ($m_1$ is the size of the smallest memory level in the memory hierarchy) and bound their worst case expected costs. We show that the solutions provided both give a direct improvement over a solution of Thite provided under the related HMM$_2$ model \cite{thite2008optimum}. In Chapter~\ref{BST over Multisets}, we consider a variant of the optimum binary search tree problem (in the RAM model) where the set of probabilities given are from an unordered multiset. we show that a simple approach gives the optimum solution which is unique up to certain permutations. Finally, in Chapter~\ref{Conclusion and Open Problems}, we summarize our findings and discuss several problems which remain open.
+In Chapter~\ref{Background and Related Work}, we review previous work done in the areas of binary search trees, multiway trees, alphabetic codes and various models of external memory. In Chapter~\ref{An Improved Bound for the Modified Minimum Entropy Heuristic}, we re-examine the modified entropy rule of G{\"u}ttler, Mehlhorn and Schneider \cite{guttler1980binary}. This is an $\Theta(n^2)$ time, $\Theta(n)$ space, algorithm for approximating the optimum binary search tree problem in the RAM model. The method works very well in practice, and the group had great experimental results, but unfortunately they could not bound the worst case expected cost as well as they would have hoped. While simpler solutions like the \textit{Min-max} and \textit{Weight Balanced} techniques of P. Bayer have worst case costs of at most $H+2$, the trio's modified entropy technique was only shown to have a worst case expected search cost of at most $c\cdot H+2$ where $c \approx 1.08$ \cite{bayer1975improved, guttler1980binary}. We provide a new argument of the modified entropy rule's worst case expected search cost and show that it is within an additive factor of entropy: at worst $H+4$. In Chapter~\ref{Approximate Binary Search in the Hierarchical Memory Model}, we move on to external memory models, examining the optimum binary search tree problem under the Hierarchical Memory Model of Aggarwal et al. \cite{aggarwal1987model}. We provide two algorithms which run in time $O(n)$ respectively ($m_1$ is the size of the smallest memory level in the memory hierarchy) and bound their worst case expected costs. We show that the solutions provided both give a direct improvement over a solution of Thite provided under the related HMM$_2$ model \cite{thite2008optimum}. In Chapter~\ref{BST over Multisets}, we consider a variant of the optimum binary search tree problem (in the RAM model) where the set of probabilities given are from an unordered multiset. we show that a simple approach gives the optimum solution which is unique up to certain permutations. Finally, in Chapter~\ref{Conclusion and Open Problems}, we summarize our findings and discuss several problems which remain open.
 
 
 \chapter{Background and Related Work} \label{Background and Related Work}
 
-In this Chapter we provide an overview of relevant work on binary search trees, alphabetic trees, multiway search trees and models of external memory.
+In this Chapter we provide an overview of relevant work on binary search trees, alphabetic codes, multiway search trees and models of external memory.
 
 \section{Binary Search Trees}
 
@@ -291,20 +291,20 @@ where $C_{Opt}, C_{WB}$, and $C_{MM}$ are costs for the optimal solution, as wel
 \begin{align*}
 H + 1 - q_0 - q_n + q_{max} - \sum_{i=0}^{m'} pq_{\text{rank}[i]}.
 \end{align*}
-Here, $m'=\max({2n-3P,P})-1 \geq \frac{n}{2} - 1$ where $P$ is the number of increasing or decreasing sequences in a left-to-right read of the access probabilities of the leaves and.  $pq_{\text{rank}[i]}$ is the $i^{th}$ smallest access probability among all keys and leaves excluding $q_0$ and $q_n$.
+Here, $m'=\max({2n-3P,P})-1 \geq \frac{n}{2} - 1$ where $P$ is the number of increasing or decreasing sequences in a left-to-right read of the access probabilities of the leaves and.  $pq_{\text{rank}[i]}$ is the $i^{th}$ smallest access probability among all keys and leaves except $q_0$ and $q_n$.
 
  
-\section{Alphabetic Trees}
+\section{Alphabetic Codes}
 
-Determining the optimum alphabetic tree is an important related problem relevant later in this thesis. Given a set of $n$ keys (keys $B_1, ..., B_n$) with various probabilities, we wish to build a binary search tree where every internal node has two children, leaves have no children, and the $n$ keys described are the leaves. We wish to build the tree with the minimum expected search cost. The expected search cost is
+Determining the optimum alphabetic coding is an important related problem relevant later in this thesis. Given a set of $n$ keys (keys $B_1, ..., B_n$) with various probabilities, we wish to build a binary search tree where every internal node has two children, leaves have no children, and the $n$ keys described are the leaves. We wish to build the tree with the minimum expected search cost. The expected search cost is
 \begin{align*}
 \sum_{i=1}^{i=n} p_i \cdot d_T(B_i)
 \end{align*}
 where $p_i$ is the probability of searching for key $B_i$ and $d_T(B_i)$ is the depth of the leaf representing the key $B_i$ in the tree $T$. The alphabetic ordering of the leaves must be maintained. This is the same as the binary search tree problem with all internal node weights zero.
 
-In 1952, Huffman developed the well known Huffman tree, which solved the same problem without a lexicographic ordering constraint on leaves \cite{huffman1952method}. Gilbert and Moore examined the problem with the added alphabetic constraint and developed a $O(n^3)$ algorithm which solved the problem optimally \cite{gilbert1959variable}. Hu and Tucker gave a $O(n^2)$ time and space algorithm in 1971 \cite{hu1971optimal} which was improved by Knuth to take only $O(n \lg n)$ time and $O(n)$ space in 1973 \cite{knuth1973sorting}. The original proof of Hu and Tucker was extremely complicated, but was later simplified by Hu \cite{hu1973new} and Hu et al. \cite{hu1979binary}. Garsia and Wachs gave an independent $O(n \lg n)$ time, $O(n)$ space algorithm in 1977 \cite{garsia1977new}. This new algorithm by Garsia and Wachs was shown to be equivalent to the Hu and Tucker algorithm in 1982 by Hu \cite{Hu1982Book} and also went through a proof simplification \cite{kingston1988new} by Kingston in 1988.
+In 1952, Huffman developed the well known Huffman tree, which solved the same problem without a lexicographic ordering constraint on leaves \cite{huffman1952method}. Gilbert and Moore were the first to examine the problem with the added alphabetic constraint (alphabetical codes) and developed a $O(n^3)$ algorithm which solved the problem optimally \cite{gilbert1959variable}. Hu and Tucker gave a $O(n^2)$ time and space algorithm in 1971 \cite{hu1971optimal} which was improved by Knuth to take only $O(n \lg n)$ time and $O(n)$ space in 1973 \cite{knuth1973sorting}. The original proof of Hu and Tucker was extremely complicated, but was later simplified by Hu \cite{hu1973new} and Hu et al. \cite{hu1979binary}. Garsia and Wachs gave an independent $O(n \lg n)$ time, $O(n)$ space algorithm in 1977 \cite{garsia1977new}. This new algorithm by Garsia and Wachs was shown to be equivalent to the Hu and Tucker algorithm in 1982 by Hu \cite{Hu1982Book} and also went through a proof simplification \cite{kingston1988new} by Kingston in 1988.
 
-In 1991, Yeung proposed an approximate solution which solved the problem in $O(n)$ time and space \cite{yeung1991alphabetic}. The algorithm produced a tree with worst case cost $H + 2 - q_1-q_n$. This algorithm was later improved by De Prisco and De Santis who created an $O(n)$ time algorithm which has a worst case cost of $H+1-q_0-q_n+q_{max}$ \cite{de1993binary}. The method was improved one more time by Bose and Dou\"{i}eb who improved upon Yeung's method by decreasing the bound by $\sum_{i=0}^m q_{\text{rank}[i]}$ where $m=\max({n-3P,P})-1 \geq \frac{n}{4} - 1$, $P$ is the number of increasing or decreasing sequences in a left-to-right read of the access probabilities of the leaves and $q_{\text{rank}[i]}$ is the $i^{th}$ smallest access probability among all leaves excluding $q_0$ and $q_n$ \cite{bose2009efficient}. Replacing Yeung's method with the improved algorithm of Bose and Dou\"{i}eb in the De Prisco and De Santis algorithm gave the tightest bound seen so far of 
+In 1991, Yeung proposed an approximate solution which solved the problem in $O(n)$ time and space \cite{yeung1991alphabetic}. The algorithm produced a tree with worst case cost $H + 2 - q_1-q_n$. This algorithm was later improved by De Prisco and De Santis who created an $O(n)$ time algorithm which has a worst case cost of $H+1-q_0-q_n+q_{max}$ \cite{de1993binary}. The method was improved one more time by Bose and Dou\"{i}eb who improved upon Yeung's method by decreasing the bound by $\sum_{i=0}^m q_{\text{rank}[i]}$ where $m=\max({n-3P,P})-1 \geq \frac{n}{4} - 1$, $P$ is the number of increasing or decreasing sequences in a left-to-right read of the access probabilities of the leaves and $q_{\text{rank}[i]}$ is the $i^{th}$ smallest access probability among all leaves except $q_0$ and $q_n$ \cite{bose2009efficient}. Replacing Yeung's method with the improved algorithm of Bose and Dou\"{i}eb in the De Prisco and De Santis algorithm gave the tightest bound seen so far of 
 \begin{align*}
 H+1+\sum_{i=1}^{n}q_i-q_0-q_n-\sum_{i=0}^m q_{\text{rank}[i]}. 
 \end{align*}
@@ -595,9 +595,6 @@ C &\leq H + 4
 
 \end{proof}
 
-Despite providing an improved bound, it remains open as to whether or not this bound is tight. An example with expected cost strictly worse than $H+2$ has yet to be found.
-
-
 \chapter{Approximate Binary Search in the Hierarchical Memory Model}\label{Approximate Binary Search in the Hierarchical Memory Model}
  
 In this chapter we examine the optimum BST problem under the Hierarchical Memory Model (HMM) model. We provide two approximate solutions, bound their worst case expected costs via entropy, and show improvement over a previous solution in the related HMM$_2$ model. 
@@ -609,8 +606,9 @@ The HMM was proposed in 1987 by Aggarwal et al. as an alternative to the classic
 \mu (a) = c_i \text{ if } \sum_{j = 1}^{i-1}m_j  < a \leq \sum_{j = 1}^{i}m_j.
 \end{equation}
 
+\noindent More specifically, we can think of $c_i$ as the entire cost of moving a element in $m_i$ recursively up the memory hierarchy and finally accessing it. While there is interesting problems in more sophisticated models, it is beyond the scope of this work to examine locality optimizations under a more complex model in this recursive movement of items up the hierarchy.
 
-\noindent Thite notes that typical memory hierarchies have decreasing sizes for faster memory levels (moving \textit{up} the memory hierarchy). We make the same assumption:
+Thite notes that typical memory hierarchies have decreasing sizes for faster memory levels (moving \textit{up} the memory hierarchy). We make the same assumption:
 \begin{align*}
 m_1 < m_2 < ... < m_l.
 \end{align*}
@@ -628,7 +626,7 @@ Thite's thesis provides solutions to several problems in the HMM and the related
 
 In order to remain consistent with the work in other chapters of this thesis, We will maintain the use of $B_1, B_2, ..., B_n$ to represent keys instead of Thite's $x_1, x_2, ..., x_n$ and gaps will be represented by $(B_0, B_1), (B_1, B_2), ..., (B_n, B_{n+1})$ where it is assumed that $B_0$ represents $- \infty$ and $B_{n+1}$ represents $\infty$.
 
-Thite provided three separate optimum solutions to the problem described; \textbf{Parts}, \textbf{Trunks}, and \textbf{Split}. Here, $h$ is the minimum memory level such that all $n$ keys can fit on the first $h$ memories levels. More specifically $h$ is defined as \\
+Thite provided three separate optimum solutions to the problem described; \textbf{Parts}, \textbf{Trunks}, and \textbf{Split}. Here, $h$ is the minimum memory level such that all $n$ keys can fit on memories of height at most $h$. More specifically $h$ is defined as \\
 \begin{align*}
 \min(h \in \{1,..,l\} ): n \leq \sum_{i = 1}^{h}m_i
 \end{align*}
@@ -665,7 +663,7 @@ In order to obtain a good approximate solution to the optimum BST problem under 
 \frac{H}{\lg(2k-1)} \leq P_{OPT} \leq P_T \leq \frac{H}{\lg k} + 1 + \sum_{i=0}^n q_i - q_0 - q_n - \sum_{i=0}^m q_{\text{rank}[i]}.
 \end{align*}
 
-Here, H is the entropy of the probability distribution, $P_{OPT}$ is the average path-length in the optimal tree, $P_T$ is the average path length of the tree built using their algorithm and $m=max({n-3P,P})-1 \geq \frac{n}{4} - 1$. $P$ is the number of increasing or decreasing sequences in a left-to-right read of the access probabilities of the gaps. Moreover, $q_{\text{rank}[i]}$ is the $i^{th}$ smallest access probability among all leaves (gaps) excluding $q_0$ and $q_n$. Finally, $k$ is the size of a node in the tree. \\
+Here, H is the entropy of the probability distribution, $P_{OPT}$ is the average path-length in the optimal tree, $P_T$ is the average path length of the tree built using their algorithm and $m=max({n-3P,P})-1 \geq \frac{n}{4} - 1$. $P$ is the number of increasing or decreasing sequences in a left-to-right read of the access probabilities of the gaps. Moreover, $q_{\text{rank}[i]}$ is the $i^{th}$ smallest access probability among all leaves (gaps) except $q_0$ and $q_n$. Finally, $k$ is the size of a node in the tree (the number of keys that fit inside an internal node). Each node will have at most $k+1$ children. \\
 
 As described in the section~\ref{sec:MWT}, in the multiway search tree problem we are given $n$ ordered keys with weights $p_0, ..., p_n$ as well as $n+1$ weights of unsuccessful searches $q_0,...,q_n$. The goal is to build a minimum cost tree where $k$ keys fit inside a single internal node. A single gap will fit in each leaf node. \\
  
@@ -683,16 +681,16 @@ We refer readers to the paper \cite{bose2009efficient} for a more detailed expla
 
 \section{Algorithm ApproxMWPaging}\label{Algorithm ApproxMWPaging}
 
-In this section We provide an algorithm for creating a BST and subsequently packing it into memory. The algorithm first uses the multiway search tree construction algorithm of Bose and Dou\"{i}eb as a subroutine to be a mutliway search tree. This multiway search tree is converted into a BST, then packed into the memory hierarchy. \\
+In this section We provide an algorithm for creating a BST and subsequently packing it into memory. The algorithm first uses the multiway search tree construction algorithm of Bose and Dou\"{i}eb as a subroutine to be a mutliway search tree. This multiway search tree is converted into a BST, then packed into the memory hierarchy. Note that we make the explicit assumption that we are given the keys in sorted order as input. \\
 
 First, we describe how we convert a multiway search tree to a binary search tree. For the sake of clarity, we will call what are typically known as \textit{nodes} of the multiway tree \textit{pages}. This represents how various items of our search tree will fit onto pages of our memory hierarchy. We maintain the notion of calling individual items \textit{keys}.
 
 \begin{lem}\label{MWTBSTLem}
-Given a multiway tree $T'$ with page size $k$ (a k$+1$-ary tree) and $n$ keys, where keys are associated with a probability distribution of successful and unsuccessful searches as in Knuth's original optimum binary search tree problem, we can create a BST $T$ where each key in a given page $g \in T'$ forms a connected component in $T$ in $O(n\lg(k))$ time.
+Given a multiway tree $T'$ with page size $k$ (a k$+1$-ary tree) and $n$ keys, where keys are associated with a probability distribution of successful and unsuccessful searches as in Knuth's original optimum binary search tree problem, we can create a BST $T$ where each key in a given page $g \in T'$ forms a connected component in $T$ in $O(n)$ time.
 \end{lem}
 
 \begin{proof}
-For each page $g$, we sort its keys by lexicographic order and create a complete BST $B$ over the keys. We create an ordering over all potential locations where \textit{additional} keys could be added to the tree from left to right. All keys in all descendant pages of a page $g$ in a specific subtree rooted at a child of $g$ will lie in a specific range. There are at most $k+1$ of these ranges (since our page has at most $k$ keys). These ranges precisely correspond to the at most $k+1$ locations where a new child key could be added. We order these locations from left to right and attach root keys from the newly created BST's of each of the ordered (left to right) child of $g$. Leaf pages with a single gap are attached in a similar fashion. These are all valid connections since each child of $g$ has keys in these correct ranges, and combining BST's in this fashion produces a valid BST. We perform a sort of $O(k)$ items (in time $O(k\lg(k))$) $O(\frac{n}{k})$ times, and make $O(n)$ new parent child connections, giving us total time $O(n \lg(k))$.
+For each page $g$, we create a complete BST $B$ over its keys (using the sorted order of all $n$ keys). We create an ordering over all potential locations where \textit{additional} keys could be added to the tree from left to right. All keys in all descendant pages of a page $g$ in a specific subtree rooted at a child of $g$ will lie in a specific range. There are at most $k+1$ of these ranges (since our page has at most $k$ keys). These ranges precisely correspond to the at most $k+1$ locations where a new child key could be added. We order these locations from left to right and attach root keys from the newly created BST's of each of the ordered (left to right) child of $g$. Leaf pages with a single gap are attached in a similar fashion. These are all valid connections since each child of $g$ has keys in these correct ranges, and combining BST's in this fashion produces a valid BST. We create a complete BST in each page in $O(k)$ time (of which there are at most $O(\frac{n}{k})$ such pages), and make $O(n)$ new parent child connections, giving us total time $O(n)$.
 \end{proof}
 
 In order to obtain a gooe approximate solution to the optimum BST problem under the HMM model, we do the following:
@@ -700,15 +698,15 @@ In order to obtain a gooe approximate solution to the optimum BST problem under 
 \begin{enumerate}
 \item First, we create a multiway tree $T'$ using the algorithm of Bose and Dou\"{i}eb. This takes $O(n)$ time with our page size equal to $m_1$ (the smallest level of our memory hierarchy) \cite{bose2009efficient}.
 
-\item Inside each page (node of the multiway tree $T'$), we create a balanced binary search tree (ignoring weights). We use a simple greedy approach where we sort the keys, then recursively select the middle key as the root.  We call each of these $T'_k$ for $k \in {1,...,\lceil n/m_1 \rceil}$. This takes $O(n\cdot\lg(m_1))$ by Lemma~\ref{MWTBSTLem}.
+\item Inside each page (node of the multiway tree $T'$), we create a balanced binary search tree (ignoring weights). We use a simple greedy approach where we sort the keys, then recursively select the middle key as the root.  We call each of these $T'_k$ for $k \in {1,...,\lceil n/m_1 \rceil}$. This takes $O(n)$ by Lemma~\ref{MWTBSTLem}.
 
-\item In order to make this into a proper binary search tree, we must connect the $O(n/m_1)$ BST's we have made as described in Lemma~\ref{MWTBSTLem}. From $T'$, we create a BST $T$. This takes $O(n\cdot\lg(m_1))$ time.
+\item In order to make this into a proper binary search tree, we must connect the $O(n/m_1)$ BST's we have made as described in Lemma~\ref{MWTBSTLem}. From $T'$, we create a BST $T$. This takes $O(n)$ time.
 
 \item We pack keys into memory in a breadth first search order of $T$ starting from the root. This takes $O(n)$ time.
 
 \end{enumerate}
 
-\noindent We are left with a binary search tree which has been properly packed into our memory in total time $O(n\cdot\lg(m_1))$.
+\noindent We are left with a binary search tree which has been properly packed into our memory in total time $O(n)$.
 
 \pagebreak
 \begin{figure}[H]
@@ -938,7 +936,7 @@ First we note that in the tree $T'$ we build using Bose and Dou\"{i}eb's multiwa
 d_{T'}(B_{i-1},B_i) &\leq \lfloor log_{m_1}(\frac{2}{q_i}) \rfloor + 1 \text{ for all leaves, and}\\
 d_{T'}(B_{i-1},B_i) &\leq \lfloor log_{m_1}(\frac{1}{q_i}) \rfloor + 1 \text{ for at least $m$ of them (and the two extremal leaves)}
  \end{align*}
-As explained in the paper \cite{bose2009efficient}, these follow from Lemmas 1 and 2 of Bose and Dou\"{i}e.
+As explained in the paper, these follow from Lemmas 1 and 2 of Bose and Dou\"{i}eb \cite{bose2009efficient}.
 
 Inside a page, we make a balanced (ignoring weight) BST, so each key has a depth within a page of at most $\lfloor \lg(m_1) \rfloor$. Since our algorithm always connects the root of the BST made for a page to a key in the BST made for the page's parent, a key $B_i$ has a \textit{page depth} (the number of unique pages accessed in order to access the key) of at most the bounds on $d_{T'}(B_i)$ and $d_{T'}(B_{i-1},B_i)$ described. Since we examine at most $\lceil \lg(m_1) \rceil$ keys within any one page, (and only 1 gap in a leaf page) a key's depth is at most
 \begin{align*}
@@ -958,8 +956,58 @@ d_T(B_{i-1},B_i) &\leq \lfloor \lg(m_1) \rfloor \lfloor log_{m_1}(\frac{2}{q_i})
 
 \end{proof}
 
-We now describe $W$, the cost of searching for a key located at the deepest node of tree $T$. Let $m'_j = \sum_{k \leq j} m_j$. We define $m'_0 = 0$. As defined in Thite's work, we let $h$ be the smallest $j$ such that $m'_j \geq n$. Let $D(T)$ be the height of $T$ (the depth of the deepest node in the tree).
+\begin{lem} \label{AMWPExactLem}
+The cost of searching for keys $B_i$ or $(B_{i-1},B_i)$ $(C(B_i) \text{ and } C(B_{i-1},B_i)$ respectively) can be bounded as follows: 
+\begin{align*} 
+C(B_i) &\leq  \sum_{j=1}^{k} \left(\lfloor \lg(m'_j+1) \rfloor - \lfloor \lg(m'_{j-1}+1) \rfloor \right)\cdot c_k \mid \left( k=min_{l \in \{1, ..., h\}} \mid m'_l \geq \frac{2}{p_i} \right)\\
+C(B_{i-1},B_i) &\leq \sum_{j=1}^{k} \left(\lfloor \lg(m'_j+1) \rfloor - \lfloor \lg(m'_{j-1}+1) \rfloor \right)\cdot c_k \mid \left( k=min_{l \in \{1, ..., h\}} \mid m'_l \geq \frac{2}{p_i} \right) \\
+& \text{   for all leaves, and} \\
+C(B_{i-1},B_i) &\leq \sum_{j=1}^{k} \left(\lfloor \lg(m'_j+1) \rfloor - \lfloor \lg(m'_{j-1}+1) \rfloor \right)\cdot c_k \mid \left( k=min_{l \in \{1, ..., h\}} \mid m'_l \geq \frac{2}{p_i} \right) \\
+ & \text{ for at least $m$ (and the two extremal) leaves}.
+\end{align*}
 
+\end{lem}
+
+
+\begin{proof}
+Consider the accessing each key along the path from the root to key $B_i$. We will examine $d_T(B_i)$ keys. We access one key at depth $0$, one key at depth $1$, and so on. Because the tree is packed into memory in BFS order, a key a depth $i$ will be at memory index at most $2^i-1$. Now, consider how many levels of the binary search tree $T$ will fit in $m_1$. In order for all keys of depth $i$ (and higher) to be in $m_1$ we need:
+\begin{align*}
+2^i-1 \leq m_1 \implies i \leq \lg(m_1 + 1).
+\end{align*}
+Thus, at least $\lfloor \lg(m_1 + 1) \rfloor$ levels of $T$ will completely fit on $m_1$. Next we examine how many levels of $T$ on $m_j$ or higher memories. The last level to completely fit on $m_j$ or higher memories is the maximum $i$ such that:
+\begin{align*}
+2^{i+1}-1 \leq m'_j \implies i \leq \lg(m'_j + 1).
+\end{align*}
+Thus, at least $\lfloor \lg(m'_j + 1) \rfloor$ levels of $T$ fit on $m_j$ or higher levels of memory.
+On our search for $B_i$, we make at least $\lfloor \lg(m_1 + 1) \rfloor$ checks for elements located at memory $m_1$. This costs a total of
+\begin{align*}
+\lfloor \lg(m_1 + 1) \rfloor \cdot c_1.
+\end{align*}
+TODO
+Let $k$ be the 
+
+For each memory level $m_j$ for $1 < j < l$, we make at least $\lfloor \lg(m'_j + 1) \rfloor$ checks in $m_j$ or higher memories. Of these checks, at least $\lfloor \lg(m'_{j-1} + 1) \rfloor$ are in memory levels strictly higher up in the memory hierarchy than $j$. Since $c_j > c_i$ for $j > i$, an upper bound on the cost of searching for all elements in memory level $j$ on the path from the root to the deepest element of the tree is:
+\begin{align*}
+(\lfloor \lg(m'_j + 1) \rfloor - \lfloor \lg(m'_{j-1} + 1) \rfloor) \cdot c_j.
+\end{align*}
+Finally, we can upper bound the cost of search within $m_h$ by assuming that all remaining searches take place at memory level $h$. The searches at level $h$ will cost at most:
+
+\begin{align*}
+(\lg(D(T) - \lfloor \lg(m'_{h-1}+1) \rfloor)\cdot c_h.
+\end{align*}
+
+Combining the above three equations (and summing over every memory level) gives us the total cost of searching for a key in the deepest part of the tree:
+
+\begin{align*}
+W &\leq \lfloor \lg(m_1 + 1) \rfloor \cdot c_1 + \sum_{i=2}^{h-1} \left(\lfloor \lg(m'_i+1) \rfloor - \lfloor \lg(m'_{i-1}+1) \rfloor \right)\cdot c_i+ \left(D(T) - \lfloor \lg(m'_{h-1}+1) \rfloor \right)\cdot c_h \\
+W &\leq \sum_{i=1}^{h-1} \left(\lfloor \lg(m'_i+1) \rfloor - \lfloor \lg(m'_{i-1}+1) \rfloor \right)\cdot c_i+ \left(D(T) - \lfloor \lg(m'_{h-1}+1) \rfloor \right)\cdot c_h
+\end{align*}
+
+
+
+\end{proof}
+
+In order to get a more cleaner (albeit weaker) bound in terms of the entropy of the distribution, we now describe $W$, the cost of searching for a key located at the deepest node of tree $T$. Let $m'_j = \sum_{k \leq j} m_j$. We define $m'_0 = 0$. As defined in Thite's work, we let $h$ be the smallest $j$ such that $m'_j \geq n$. Let $D(T)$ be the height of $T$ (the depth of the deepest node in the tree).
 
 \begin{lem} \label{452}
 \begin{align*}
@@ -1056,7 +1104,7 @@ We can now bound the expected cost of search using the bounds for the cost each 
 C &\leq  \frac{W}{D(T)} \cdot  \left(H + 1 + \sum_{i=0}^n q_i - q_0 - q_n - \sum_{i=0}^m pq_{\text{rank}[i]} \right) \text{ and}\\
 C &< \left(H + 1 + \sum_{i=0}^n q_i - q_0 - q_n - \sum_{i=0}^m pq_{\text{rank}[i]} \right) \cdot  c_h
 \end{align*}
-where $pq_{\text{rank}[i]}$ is the $i^{th}$ smallest access probability among all keys and leaves excluding $q_0$ and $q_n$.
+where $pq_{\text{rank}[i]}$ is the $i^{th}$ smallest access probability among all keys and leaves except $q_0$ and $q_n$.
 \end{thm}
 
 \begin{proof}
@@ -1087,7 +1135,7 @@ H+1-q_0-q_n+q_{max}
 \begin{align*}
 H + 1 - q_0 - q_n + q_{max} - \sum_{i=0}^{m'} pq_{\text{rank}[i]}.
 \end{align*}
-Here, $P$ is the number of increasing or decreasing sequences in a left-to-right read of the access probabilities of the leaves and $m'=\max({2n-3P,P})-1 \geq \frac{n}{2} - 1$.  Moreover, $pq_{\text{rank}[i]}$ is the $i^{th}$ smallest access probability among all keys and leaves excluding $q_0$ and $q_n$.
+Here, $P$ is the number of increasing or decreasing sequences in a left-to-right read of the access probabilities of the leaves and $m'=\max({2n-3P,P})-1 \geq \frac{n}{2} - 1$.  Moreover, $pq_{\text{rank}[i]}$ is the $i^{th}$ smallest access probability among all keys and leaves except $q_0$ and $q_n$.
 
 First, we explain the algorithm of De Prisco and De Santis and then explain the extensions of Bose and Dou\"{i}eb. De Prisco and De Santis' algorithm occurs in three phases.
 
@@ -1193,7 +1241,7 @@ and ApproxBSTPaging has an expected cost of at most
 \begin{align*}
 C_{ApproxBSTPaging} <  (H + 1 - q_0 - q_n + q_{max} - \sum_{i=0}^{m'} pq_{\text{rank}[i]})\cdot c_2.
 \end{align*}
-ApproxMWPaging does so in $O(n\cdot \lg(m_1))$ while ApproxBSTPaging runs in $O(n)$.
+ApproxMWPaging and ApproxBSTPaging do so in $O(n)$ time.
 \end{thm}
 
 \begin{proof}
@@ -1208,216 +1256,7 @@ C_{ApproxMWPaging} &< (H + 1 + \sum_{i=0}^n q_i - q_0 - q_n - \sum_{i=0}^m q_{\t
  &< c_2(H+1+\sum_{i=0}^{n}q_i)
  \end{align*}
 
-both methods provide a strictly better approximation and run faster than the \textit{Algorithm Approx-BST} of Thite.
-
-
-
-\iffalse
-
-\chapter{Approximate Binary Search in the Hierarchical Memory with Block Transfer Model}\label{Approximate Binary Search in the Hierarchical Memory with Block Transfer Model}
-
-\section{Hierarchical Memory with Block Transfer Model}
-This model (HMBTM for short) was proposed by Aggarwal, Chandra, and Snir as an improvement over the HMM model discussed previously \cite{aggarwal1987hierarchical}. The model with block transfer still has a memory hierarchy with increasing costs of access, but allows for any contiguous block of memory to be copied from one location to another with constant unit time per element plus the cost of the initial access. This provides a better model for standard computers which can copy many words from one type of memory to another after accessing a single word. Like the HMM model, we have an unlimited number of registers (numbered 1, 2, , .. etc.) and we will still use the cost function as was explained in Thite's thesis \cite{thite2008optimum}. Here, $\mu (a)$ is the cost of accessing memory location $a$. We have a series of memory sizes $m_1, m_2, ..., m_h$ where $m_l$ has infinite size each with an associated cost $c_1, c_2, ..., c_h$. We assume that $c_1 < c_2 < ... < c_h$. 
-
-\begin{center}$\mu (a) = c_i$ if $\sum_{j = 1}^{i-1}m_j  < a \leq \sum_{j = 1}^{i}m_j$. \end{center}
-
-We explicitly assume that successive memory sizes divide one another evenly:
-\begin{center}
-$m_1 < m_2 < ... < m_h$ and
-\end{center}
-\begin{center}
-$\forall i \in  \{1,2,...,h\}$, $m_i \mid m_{i+1}$.
-\end{center}
-
-In this new model, we are given the additional operational opportunity to move a block from one location to another. Specifically, a block copy operation is defined as: \\
- $[x-l, x] \rightarrow [y-l,y]$. \\
-The contents of $\mu(x-i)$ are copied to $\mu(y-i)$ for $i \in \{0,...,l\}$. This is valid if the two intervals are disjoint. This copy operation costs $max(\mu(x,y)) + l$.\\
-
-We provide fast but approximate solutions to the optimal BST problem under new model in the following sections.
-
-\section{ApproxMWPaging with BT}
-
-The first algorithm we provide is very similar to ApproxMWPaging. The first three steps of the algorithm are in fact identical. To review, we create a Multiway Tree $T'$ using the algorithm of Bose and Dou\"{i}eb, form balanced BST's within each page of $T'$, and then connect these balanced BSTs from $T'$ to form a valid BST $T$. This is done in $O(n \lg(m_1))$ time. \\
-
-To decide packing order, we will do a modified BFS of $T'$. We will always pack individual pages of $T'$ into memory in a BFS of the balanced BST formed from the page. \\
-
-We call BT\textendash Pack() in order to pack nodes into the tree. Essentially, this function attempts to pack each level of the memory hierarchy independently from $m_1$ to $m_l$. Within each memory level $i$, we attempt to pack it from a single source (the next available node in BFS order of our tree) in blocks of size  $m_{i-1}$ which are recursively packed in blocks of size $m_{i-2}$ (and so on). If we cannot fill a memory level, or a specific block within the packing of a memory level, we will pack whatever we can starting again from a new root (still in BFS order) passing into our BT\textendash Range-Pack function the biggest $i$ possible such that $m_i$ will still fit in the page we are trying to pack. \\
-
-BT\textendash Range-Pack packs the tree $T$ using $r\_q$ as roots from memory location $loc$. It packs recursively into pages of size $m_i$ (or smaller if necessary) until $m_{i+1}$ nodes have been packed or we run out of roots to pack from in $r\_q[]$. If $i=0$ then we only pack $amt$ nodes (so we can fill memory levels appropriately). Note that we only remove the top root from $r\_q$ if the root has been completely used i.e. it has been packed into a page of size $\leq m_1$. We always return a pair, the updated $r\_q$ which contains new roots to search packed from (added in BFS order from leaves of $m_1$ or smaller packed "pages") and the current location in memory where we should pack into next. \\
-
-
-
-\begin{algorithm}[H]
-\caption{ApproxPaging with BT Packing}
-\label{AMWBTPack}
-\begin{algorithmic}[1]
-\Procedure{BT\textendash Range-Pack}{$r\_q[], i, loc, amt$}
-\If{$i = 0$}
-	\State Create largest BFS tree $T$ possible from $r\_q[0]$ with at $min(m_1, amt)$ nodes
-	\State Push $T$ in BFS order into memory starting from memory location $loc$
-	\State $loc += size(T)$
-	\State $r\_q.pop()$
-	\For{each leaf $l$ in $T$ in BFS order}
-		\State Push all children of $l$ onto $r\_q$
-	\EndFor
-	\State \textbf{return} $(r\_q[], loc)$		
-\Else
-	\State $total = 0$
-	\While{$total < m_{i+1}$ and $\neg (empty?$ $r)$}
-		\State $old\_loc = loc$
-		\State $i = max_{0,...,j+1}(i : m_i + total < m_{j+1})$
-		\State $(loc, new\_r\_q) =$ AMWBT\textendash Range-Pack $(r\_q[0,...,0], i-1, loc, m_i)$
-		\For{each node $r$ in $new\_r\_q$}
-			\State $r\_q.push(r)$
-		\EndFor
-		\State $total += loc-old\_loc$
-	\EndWhile
-	\State \textbf{return} $(r\_q[], loc)$
-\EndIf
-\EndProcedure
-\end{algorithmic}
-\end{algorithm}
-
-\begin{algorithm}[H]
-\caption{ApproxPaging with BT Packing}
-\label{AMWBTPack}
-\begin{algorithmic}[1]
-\Procedure{BT\textendash Pack}{}
-\State $r\_q = empty$
-\State $r\_q.push\_back(root)$
-\State $loc = 0$
-\For{$ j = 0$ to $h-1$}
-	\While{$loc < m_{j+1}$ and $\neg(empty? r\_q)$}
-		\If{$loc + m_1 < m_{j+1}$}
-			\State $i = max_{0,...,j+1}(i : m_i + total < m_{j+1})$
-			\State $(loc, new\_r\_q) =$ AMWBT\textendash Range-Pack $([r\_q[0]], i-1, loc, m_i)$		
-		\Else
-			\State $(loc, new\_r\_q) =$ AMWBT\textendash Range-Pack $([r\_q[0]], 0, loc, m_i)$
-		\EndIf
-		\State $r\_q.pop()$
-		\For{each node $r$ in $new\_r\_q$}
-			\State $r\_q.push(r)$
-		\EndFor
-	\EndWhile
-\EndFor
-\EndProcedure
-\end{algorithmic}
-\end{algorithm}
-
-
-\section{ApproxMWPaging with BT Running Time }
-
-First, we examine the runtime of BT\textendash Range-Pack$(r\_q[], i, loc, amt)$.
-
-\begin{lem}
-BT\textendash Range-Pack$(r\_q[], i, loc, amt)$ returns an updated location, call it $new\_loc$ in time at most $O((i+1)\cdot (new\_loc - loc))$ time and packs $(new\_loc - loc)$ nodes into memory.
-\end{lem}
-
-\begin{proof}
-We will prove this by induction on $i$. In the base case ($i=0$) we simply do a BFS from the given root, packing as many of $min(m_1, amt)$ into memory as possible, we return an updated $loc$ which is exactly equal to the size of the BFS tree we have created. We also push all children of all leaves of this BFS tree onto our $r\_q$. This all takes time $(new\_loc - loc) \in O(1\cdot (new\_loc - loc))$ as required. \\
-
-Suppose BT\textendash Range-Pack$(r\_q[], i, loc, amt)$ returns $new\_loc$ in time at most $O(l\cdot (new\_loc - loc))$ time and packs $(new\_loc - loc)$ nodes into memory for all $i < k$. Consider BT\textendash Range-Pack$(r\_q[], k, loc, amt)$. Since $i \neq 0$ we enter the else case on line $11$. Now, we may call BT\textendash Range-Pack a number of times, but the sum of $loc$ updates will be at most $m_{i+1}$. By our induction hypothesis, we know each BT\textendash Range-Pack$(r\_q[], i, loc, amt)$ for $i < k$ packs sum number $(new\_loc - loc)$ of nodes into memory in time $O((i+1)\cdot (new\_loc - loc))$. Moreover, other than the recursive calls, all lines take $O(1)$ except line $15$ which takes $O(i)$ and lines 17-18 which take $(new\_loc - loc)$ time since only a linear amount of children can be pushed onto $r\_q$ for each item packed into memory (and each child can only be pushed to $r\_q$ once, by its single parent). Let $S$ be the set of all calls $q$ BT\textendash Range-Pack$(r\_q[], q_i, loc, amt)$ is called directly from our original BT\textendash Range-Pack$(r\_q[], k, loc, amt)$ call and packs $q\_amt$ items into memory. Let $T_{RP}(i, new\_loc - loc)$ be the cost of BT\textendash Range-Pack$(r\_q[], i, loc, amt)$ which packs $new\_loc - loc$ items into memory. The we have that: \\
-
-$T_{RP}(k, new\_loc - loc) = O(new\_loc - loc) + O(i) + \sum_{q \in S} T_{RP}(q_i, q\_amt)$ \\ 
-By our induction hypothesis we have that: \\
-$\implies T_{RP}(k, new\_loc - loc) \in O(new\_loc - loc) + O(i) + \sum_{q \in S} O(q_i\cdot q\_amt)$ \\
-Since $q_i$ is at most $i$ we have: \\
-$\implies T_{RP}(k, new\_loc - loc) \in O(new\_loc - loc) + O(i) + i\cdot  \sum_{q \in S} q\_amt$ \\
-Finally, since $new\_loc - loc = \sum_{q \in S} q\_amt$: \\
-$\implies T_{RP}(k, new\_loc - loc) \in O(new\_loc - loc) + O(i) + i\cdot (new\_loc - loc)$ \\
-$\implies T_{RP}(k, new\_loc - loc) \in O((new\_loc - loc)\cdot (i+1))$ as required.
-\end{proof}
-
-This leads us to our runtime for BT\textendash Pack(). 
-
-\begin{lem}
-BT\textendash Pack packs all nodes in our tree $T$ into memory in time $O(n\cdot l)$.
-\end{lem}
-
-\begin{proof}
-
-First note that, as in BT\textendash Range-Pack, we always update $loc$ to be the new location where should pack nodes into memory. Lines $5-18$ loop through each memory level. For a given level, we pack as much as can into it, using as large BT\textendash Range-Pack's as possible. Specifically, line $8$ takes $O(l)$ and lines $14-15$ take $(new\_loc - loc)$ time since only a linear amount of children can be pushed onto $r\_q$ for each item packed into memory (and each child can only be pushed to $r\_q$ once, by its single parent). Let $S_h$ be the set of all calls $q$ BT\textendash Range-Pack$(r\_q[], q_i, loc, amt)$ called from our BT\textendash Pack when $j = h$ (these each pack $q\_amt$ of nodes into memory). Let $packed\_amt$ be the amount packed by a call to BT\textendash Range-Pack in lines $9$ or $11$. By our previous proof, these take time $O((packed\_amt)\cdot (i))$. Since $i$ is at most $l$ and $sum packed\_amt = n$ (we never pack anything twice) we have that the time required for BT\textendash Pack $T_P$ is: \\
-$T_{P} \in \sum_{j=0}^{h-1})sum_{q \in S_j} O(q\_amt\cdot j)$ \\
-$\implies T_{P} \in o(l) \cdot  \sum_{j=0}^{h-1})sum_{q \in S_j} O(q\_amt)$ \\
-$\implies T_{P} \in O(n\cdot l)$ as required.
-
-\end{proof}
-
-
-\section{Search with ApproxMWPaging with BT}
-
-
-
-\begin{algorithm}[H]
-\caption{ApproxMWPaging with BT Search}
-\footnotesize
-\label{AMWBTPack}
-\begin{algorithmic}[1]
-\Procedure{AMWBT\textendash Search}{$mem, key, prev\_moved\_s, offset\_s$}
-\If{$(\neg (empty?$ $prev\_moved\_s)$ and $(mem >= prev\_moved\_s.top()))$ or $(mem \geq m_1)$}
-	\If{$(\neg (empty? prev\_moved\_s)$ and $(mem >= prev\_moved\_s.top()))$}
-		\State $mem += offset\_s.top()$
-		\State $offset\_s.pop()$
-		\State $prev\_moved\_s.pop()$
-		\If{$neq (empty? offset\_s)$}
-			\State $mem -= offset\_s.top()$
-		\EndIf
-	\EndIf
-	\State $offset\_s.push(mem)$
-	\State $i = min_{m'_i : m'_i > mem}$
-	\State $amt\_move = m'_i - mem$
-	\State $prev\_moved\_s.push(amt\_move)$
-	\State $[mem, mem + amt\_move - 1] \rightarrow [0, amt\_move - 1]$
-	\State AMWBT\textendash Search$(0, key, prev\_moved\_s, offset\_s)$
-
-\Else 
-	\State $offset = 0$
-	\If{$\neg (empty? prev\_s\_moved)$ and $(mem >= prev_moved_s.top())$}
-		\State $offset = offset\_s.top()$
-	\EndIf	
-	\If{$key = mem.key$}
-		\State \textbf{return} $mem.value$
-	\ElsIf{$key < mem.key$}
-		\If{$mem$ has no left child}
-			\State \textbf{return} $mem$
-		\Else
-			\State  AMWBT\textendash Search$(mem.left\_child - offset, key, prev\_moved\_s, offset\_s)$
-		\EndIf
-	\Else
-		\If{$mem$ has no right child}
-			\State \textbf{return} $mem$
-		\Else
-			\State  AMWBT\textendash Search$(mem.right\_child - offset, key, prev\_moved\_s, offset\_s)$
-		\EndIf
-	\EndIf	
-\EndIf
-\EndProcedure
-\end{algorithmic}
-\end{algorithm}
-
-To run we call AMWBT\textendash Search$(0, key, empty, empty)$ since the memory location of the root should be $0$.
-
-
-
-
-\section{Expected Cost ApproxMWPaging with BT}
-
-How a path has cost
-What cost is
-similar arg to ApproxMWPaging
-
-
-\section{ApproxBSTPaging with BT}
-
-Given what we have already shown, this algorithm is extremely simple to explain. We first create a BST $T$ using the algorithm of De Prisco and De Santis \cite{de1993binary} (as updated by Bose and Dou\"{i}eb \cite{bose2009efficient}) in $O(n)$ time (as was the first step in ApproxBSTPaging). We then simply call BT\textendash Pack() in order to pack the tree into memory as described in the ApproxMWPaging with BT sections.
-
-
-\section{Expected Cost ApproxBSTPaging with BT}
-How a path has cost
-What cost is
-similar arg to ApproxMWPaging
-
-\fi
+Both methods provide a strictly better approximation and run faster than the \textit{Algorithm Approx-BST} of Thite.
 
 %=========================================
 \chapter{Optimal BSTs On Unordered Multisets}\label{BST over Multisets}
@@ -1557,7 +1396,7 @@ Since we already know that \textit{OPT-MSBST} provides an optimal solution, all 
 
 In this work, we examined several problems related to the optimum BST problem originally proposed (and solved) by Knuth in 1971 \cite{knuth1971optimum}. In Chapter~\ref{An Improved Bound for the Modified Minimum Entropy Heuristic} we showed that the Modified Entropy Rule first proposed by  G{\"u}ttler, Mehlhorn and Schneider in 1980 had a worst case expected cost of $H+4$. This improved upon the previous best bound of $c\cdot H+2$ where $c \approx 1.08$ \cite{guttler1980binary}.
 
- In the next two chapters, we examined the problem under different models for external memory. In Chapter~\ref{Approximate Binary Search in the Hierarchical Memory Model} we showed that under the Hierarchical Memory Model (HMM) by Aggarwal et al. Our two algorithms ApproxMWPaging and ApproxBSTPaging solved the problem in time $O(n\cdot \lg(m_1))$ and $O(n)$ respectively \cite{aggarwal1987model}. Moreover in sections~\ref{45} and~\ref{48}, we showed the two solutions had worst case expected costs strictly less than
+ In the next two chapters, we examined the problem under different models for external memory. In Chapter~\ref{Approximate Binary Search in the Hierarchical Memory Model} we showed that under the Hierarchical Memory Model (HMM) by Aggarwal et al. Our two algorithms ApproxMWPaging and ApproxBSTPaging solved the problem in time $O(n)$ \cite{aggarwal1987model}. Moreover in sections~\ref{45} and~\ref{48}, we showed the two solutions had worst case expected costs strictly less than
 \begin{align*}
 &(H + 1 + \sum_{i=0}^n q_i - q_0 - q_n - \sum_{i=0}^m q_{\text{rank}[i]}) \cdot  c_h \text{ and} \\
 &(H + 1 - q_0 - q_n + q_{max} - \sum_{i=0}^{m'} pq_{\text{rank}[i]})\cdot c_h \text{ respectively  (theorems~\ref{ApproxMWPagingThm} and~\ref{ApproxBSTThm})}.
@@ -1576,7 +1415,7 @@ We have tabulated these results with novel contributions in bold.
     \hline
     Algorithm & Model & Running Time & Worst case expected cost \\ \hline
     \scriptsize Modified Minimum Entropy & \scriptsize RAM  & \scriptsize $O(n^2)$    & \scriptsize $\mathbf{C \leq H+4}$    \\ \hline
-   \scriptsize \textbf{ApproxMWPaging}  & \scriptsize HMM  & \scriptsize $\mathbf{O(n\cdot lg(m_1))}$   & \scriptsize $\mathbf{C < (H + 1 + \sum_{i=0}^n q_i - q_0 - q_n - \sum_{i=0}^m q_{\text{rank}[i]}) \cdot  c_h}$    \\ \hline
+   \scriptsize \textbf{ApproxMWPaging}  & \scriptsize HMM  & \scriptsize $\mathbf{O(n)}$   & \scriptsize $\mathbf{C < (H + 1 + \sum_{i=0}^n q_i - q_0 - q_n - \sum_{i=0}^m q_{\text{rank}[i]}) \cdot  c_h}$    \\ \hline
     \scriptsize \textbf{ApproxBSTPaging}  & \scriptsize HMM & \scriptsize $\mathbf{O(n)}$    &  \scriptsize $\mathbf{C < (H + 1 - q_0 - q_n + q_{max} - \sum_{i=0}^{m'} pq_{\text{rank}[i]})\cdot c_h}$    \\ \hline
     \scriptsize \textbf{OPT-MSBST}  & \scriptsize RAM  & \scriptsize $\mathbf{O(n\cdot lg(n))}$    & \scriptsize ---    \\ \hline
     \end{tabular}
