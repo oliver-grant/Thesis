@@ -956,6 +956,23 @@ d_T(B_{i-1},B_i) &\leq \lfloor \lg(m_1) \rfloor \lfloor log_{m_1}(\frac{2}{q_i})
 
 \end{proof}
 
+Next, we bound the cost of search for each key and each gap. Let $m'_j = \sum_{k \leq j} m_j$. We define $m'_0 = 0$.
+
+\begin{lem}
+
+If $k=min_{l \in \{1, ..., h\}} \mid m'_l \geq location(B_i)$ then 
+$k=min_{l \in \{1, ..., h\}} \mid m'_l \geq location(B_i)$.
+Similarly, for at least blah gaps BLAH 
+AND BLAH OTHERWISE TODO
+
+
+\end{lem}
+
+\begin{proof}
+
+\end{proof}
+
+
 \begin{lem} \label{AMWPExactLem}
 The cost of searching for keys $B_i$ or $(B_{i-1},B_i)$ $(C(B_i) \text{ and } C(B_{i-1},B_i)$ respectively) can be bounded as follows: 
 \begin{align*} 
@@ -970,44 +987,42 @@ C(B_{i-1},B_i) &\leq \sum_{j=1}^{k} \left(\lfloor \lg(m'_j+1) \rfloor - \lfloor 
 
 
 \begin{proof}
-Consider the accessing each key along the path from the root to key $B_i$. We will examine $d_T(B_i)$ keys. We access one key at depth $0$, one key at depth $1$, and so on. Because the tree is packed into memory in BFS order, a key a depth $i$ will be at memory index at most $2^i-1$. Now, consider how many levels of the binary search tree $T$ will fit in $m_1$. In order for all keys of depth $i$ (and higher) to be in $m_1$ we need:
+Consider the accessing each key along the path from the root to key $B_i$. We will examine $d_T(B_i)$ keys. We access one key at depth $0$, one key at depth $1$, and so on. Because the tree is packed into memory in BFS order, a key a depth $j$ will be at memory index at most $2^j-1$. Now, consider how many levels of the binary search tree $T$ will fit in $m_1$. In order for all keys of depth $j$ (and higher) to be in $m_1$ we need:
 \begin{align*}
-2^i-1 \leq m_1 \implies i \leq \lg(m_1 + 1).
+2^j-1 \leq m_1 \implies i \leq \lg(m_1 + 1).
 \end{align*}
-Thus, at least $\lfloor \lg(m_1 + 1) \rfloor$ levels of $T$ will completely fit on $m_1$. Next we examine how many levels of $T$ on $m_j$ or higher memories. The last level to completely fit on $m_j$ or higher memories is the maximum $i$ such that:
+Thus, at least $\lfloor \lg(m_1 + 1) \rfloor$ levels of $T$ will completely fit on $m_1$. We expand this concept for arbitrary memory level $m_k$. The last level of $T$ to completely fit on $m_k$ or higher memories is the maximum $s$ such that:
 \begin{align*}
-2^{i+1}-1 \leq m'_j \implies i \leq \lg(m'_j + 1).
+2^{s+1}-1 \leq m'_k \implies s \leq \lg(m'_k + 1).
 \end{align*}
 Thus, at least $\lfloor \lg(m'_j + 1) \rfloor$ levels of $T$ fit on $m_j$ or higher levels of memory.
 On our search for $B_i$, we make at least $\lfloor \lg(m_1 + 1) \rfloor$ checks for elements located at memory $m_1$. This costs a total of
 \begin{align*}
 \lfloor \lg(m_1 + 1) \rfloor \cdot c_1.
 \end{align*}
-TODO
-Let $k$ be the 
 
-For each memory level $m_j$ for $1 < j < l$, we make at least $\lfloor \lg(m'_j + 1) \rfloor$ checks in $m_j$ or higher memories. Of these checks, at least $\lfloor \lg(m'_{j-1} + 1) \rfloor$ are in memory levels strictly higher up in the memory hierarchy than $j$. Since $c_j > c_i$ for $j > i$, an upper bound on the cost of searching for all elements in memory level $j$ on the path from the root to the deepest element of the tree is:
+Let $k$ be the minimum memory level such that $m'_k \geq location(B_i)$. For each memory level $m_k'$ for $0 < k' < k$, we make at least $\lfloor \lg(m'_{k'} + 1) \rfloor$ checks in $m'_{k'}$ or higher memories. Of these checks, at least $\lfloor \lg(m'_{k'-1} + 1) \rfloor$ are in memory levels strictly higher up in the memory hierarchy than $k'$. Since $c_\alpha > c_\beta$ for $\alpha > \beta$, an upper bound on the cost of searching for all elements in memory level $0 < k' < k$ on the path from the root to $B(i)$ is:
 \begin{align*}
-(\lfloor \lg(m'_j + 1) \rfloor - \lfloor \lg(m'_{j-1} + 1) \rfloor) \cdot c_j.
+(\lfloor \lg(m'_{k'} + 1) \rfloor - \lfloor \lg(m'_{k'-1} + 1) \rfloor) \cdot c_k'.
 \end{align*}
-Finally, we can upper bound the cost of search within $m_h$ by assuming that all remaining searches take place at memory level $h$. The searches at level $h$ will cost at most:
+Finally, we can upper bound the cost of search within $m_k$ by assuming that all remaining searches take place at memory level $k$. The searches at level $k$ will cost at most:
 
 \begin{align*}
-(\lg(D(T) - \lfloor \lg(m'_{h-1}+1) \rfloor)\cdot c_h.
+(\lg(d_T(B_i) - \lfloor \lg(m'_{k-1}+1) \rfloor)\cdot c_k.
 \end{align*}
 
 Combining the above three equations (and summing over every memory level) gives us the total cost of searching for a key in the deepest part of the tree:
 
 \begin{align*}
-W &\leq \lfloor \lg(m_1 + 1) \rfloor \cdot c_1 + \sum_{i=2}^{h-1} \left(\lfloor \lg(m'_i+1) \rfloor - \lfloor \lg(m'_{i-1}+1) \rfloor \right)\cdot c_i+ \left(D(T) - \lfloor \lg(m'_{h-1}+1) \rfloor \right)\cdot c_h \\
-W &\leq \sum_{i=1}^{h-1} \left(\lfloor \lg(m'_i+1) \rfloor - \lfloor \lg(m'_{i-1}+1) \rfloor \right)\cdot c_i+ \left(D(T) - \lfloor \lg(m'_{h-1}+1) \rfloor \right)\cdot c_h
+C(B_i) &\leq \sum_{k'=1}^{k-1} \left(\lfloor \lg(m'_{k'}+1) \rfloor - \lfloor \lg(m'_{k'-1}+1) \rfloor \right)\cdot c_{k'}+ \left(d_T(B_i) - \lfloor \lg(m'_{k'-1}+1) \rfloor \right)\cdot c_k \\
+&\text{such that } \left( k=min_{l \in \{1, ..., h\}} \mid m'_l \geq location(B_i) \right)
 \end{align*}
 
-
+TODO PLUG INTO LEM FROM BEFORE AND FINISH
 
 \end{proof}
 
-In order to get a more cleaner (albeit weaker) bound in terms of the entropy of the distribution, we now describe $W$, the cost of searching for a key located at the deepest node of tree $T$. Let $m'_j = \sum_{k \leq j} m_j$. We define $m'_0 = 0$. As defined in Thite's work, we let $h$ be the smallest $j$ such that $m'_j \geq n$. Let $D(T)$ be the height of $T$ (the depth of the deepest node in the tree).
+In order to get a more cleaner (albeit weaker) bound in terms of the entropy of the distribution, we now describe $W$, the cost of searching for a key located at the deepest node of tree $T$. As defined in Thite's work, we let $h$ be the smallest $j$ such that $m'_j \geq n$. Let $D(T)$ be the height of $T$ (the depth of the deepest node in the tree).
 
 \begin{lem} \label{452}
 \begin{align*}
