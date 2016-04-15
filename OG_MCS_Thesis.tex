@@ -958,28 +958,71 @@ d_T(B_{i-1},B_i) &\leq \lfloor \lg(m_1) \rfloor \lfloor log_{m_1}(\frac{2}{q_i})
 
 Next, we bound the cost of search for each key and each gap. Let $m'_j = \sum_{k \leq j} m_j$. We define $m'_0 = 0$.
 
-\begin{lem}
+\begin{lem} \label{locationLem}
 
-If $k=min_{l \in \{1, ..., h\}} \mid m'_l \geq location(B_i)$ then 
-$k=min_{l \in \{1, ..., h\}} \mid m'_l \geq location(B_i)$.
-Similarly, for at least blah gaps BLAH 
-AND BLAH OTHERWISE TODO
-
+For any key $B_i$, if
+\begin{align*}
+k=min_{l \in \{1, ..., h\}} \mid m'_l &\geq location(B_i) \text{ then} \\
+k=min_{l \in \{1, ..., h\}} \mid m'_l &\geq \frac{2}{p_i}-1.
+\end{align*}
+Let $par(B_{i-1}, B_i)$ represent the parent of the node for gap $(B_{i-1}, B_i)$ in $T$. If $n \geq 1$, then for any gap $(B_{i-1}, B_i)$, if 
+\begin{align*}
+k=min_{l \in \{1, ..., h\}} \mid m'_l &\geq location(par(B_{i-1}, B_i)) \text{ then} \\
+k=min_{l \in \{1, ..., h\}} \mid m'_l &\geq \lfloor \frac{4}{q_i}-\frac{1}{2} \rfloor \text{ and} \\
+k=min_{l \in \{1, ..., h\}} \mid m'_l &\geq \lfloor \frac{2}{q_i}-\frac{1}{2} \rfloor. \text{ for at least $m$ of them (and the two extremal leaves)}.
+\end{align*}
 
 \end{lem}
 
 \begin{proof}
+Knowing a key's depth, its location in $T$ can be bounded as follows:
+
+\begin{align*}
+location(B_i) \leq 2^{d_T(B_i)+1}-1.
+\end{align*}
+
+From \ref{451} we know that $d_T(B_i) \leq \lg(\frac{1}{p_i})$. Thus,
+
+\begin{align*}
+location(B_i) &\leq 2^{\lg(\frac{1}{p_i})+1}-1 \\
+location(B_i) &\leq 2^{\lg(\frac{2}{p_i})}-1 \\
+location(B_i) &\leq \frac{2}{p_i}-1.
+\end{align*}
+
+A gap's location can be bounded as follows:
+
+\begin{align*}
+location(B_{i-1}, B_i) \leq 2^{d_T(B_{i-1}, B_i)+1}-1.
+\end{align*}
+
+Because we placed our tree $T$ into memory in BFS order, we can also bound the depth of a gap's parent (we assume for the remainder of this proof that the tree is non-trivial, i.e. $n>0$).
+
+\begin{align*}
+location(par(B_{i-1}, B_i)) &\leq \lfloor \frac{location(B_{i-1}, B_i)}{2} \rfloor \\
+location(par(B_{i-1}, B_i)) &\leq \lfloor \frac{2^{d_T(B_{i-1}, B_i)+1}-1}{2} \rfloor \\
+location(par(B_{i-1}, B_i)) &\leq \lfloor 2^{d_T(B_{i-1}, B_i)}-\frac{1}{2} \rfloor
+\end{align*}
+
+Thus, for any gap $(B_{i-1},B_i)$,
+\begin{align*}
+location(par(B_{i-1},B_i)) &\leq \lfloor 2^{\lg(\frac{1}{q_i}) + 2}-\frac{1}{2} \rfloor \text{ using \ref{451}} \\
+location(par(B_{i-1},B_i)) &\leq \lfloor \frac{4}{q_i}-\frac{1}{2} \rfloor \text{ for all leaves.}
+\end{align*}
+Moreover, a similar explanation shows that 
+\begin{align*}
+location(par(B_{i-1},B_i)) &\leq \lfloor \frac{2}{q_i}-\frac{1}{2} \rfloor \text{ for at least $m$ (and the two extremal) gaps.}
+\end{align*}
 
 \end{proof}
 
 
 \begin{lem} \label{AMWPExactLem}
-The cost of searching for keys $B_i$ or $(B_{i-1},B_i)$ $(C(B_i) \text{ and } C(B_{i-1},B_i)$ respectively) can be bounded as follows: 
+The cost of searching for keys $B_i$ or $(B_{i-1},B_i)$, $(C(B_i) \text{ and } C(B_{i-1},B_i)$ respectively) can be bounded as follows: 
 \begin{align*} 
-C(B_i) &\leq  \sum_{j=1}^{k} \left(\lfloor \lg(m'_j+1) \rfloor - \lfloor \lg(m'_{j-1}+1) \rfloor \right)\cdot c_k \mid \left( k=min_{l \in \{1, ..., h\}} \mid m'_l \geq \frac{2}{p_i} \right)\\
-C(B_{i-1},B_i) &\leq \sum_{j=1}^{k} \left(\lfloor \lg(m'_j+1) \rfloor - \lfloor \lg(m'_{j-1}+1) \rfloor \right)\cdot c_k \mid \left( k=min_{l \in \{1, ..., h\}} \mid m'_l \geq \frac{2}{p_i} \right) \\
+C(B_i) &\leq  \sum_{j=1}^{k} \left(\lfloor \lg(m'_j+1) \rfloor - \lfloor \lg(m'_{j-1}+1) \rfloor \right)\cdot c_k \mid \left( k=min_{l \in \{1, ..., h\}} \mid m'_l \geq \frac{2}{p_i}-1 \right)\\
+C(B_{i-1},B_i) &\leq \sum_{j=1}^{k} \left(\lfloor \lg(m'_j+1) \rfloor - \lfloor \lg(m'_{j-1}+1) \rfloor \right)\cdot c_k \mid \left( k=min_{l \in \{1, ..., h\}} \mid m'_l \geq \lfloor \frac{4}{q_i}-\frac{1}{2} \rfloor \right) \\
 & \text{   for all leaves, and} \\
-C(B_{i-1},B_i) &\leq \sum_{j=1}^{k} \left(\lfloor \lg(m'_j+1) \rfloor - \lfloor \lg(m'_{j-1}+1) \rfloor \right)\cdot c_k \mid \left( k=min_{l \in \{1, ..., h\}} \mid m'_l \geq \frac{2}{p_i} \right) \\
+C(B_{i-1},B_i) &\leq \sum_{j=1}^{k} \left(\lfloor \lg(m'_j+1) \rfloor - \lfloor \lg(m'_{j-1}+1) \rfloor \right)\cdot c_k \mid \left( k=min_{l \in \{1, ..., h\}} \mid m'_l \geq \lfloor \frac{2}{q_i}-\frac{1}{2} \rfloor \right) \\
  & \text{ for at least $m$ (and the two extremal) leaves}.
 \end{align*}
 
@@ -1018,9 +1061,39 @@ C(B_i) &\leq \sum_{k'=1}^{k-1} \left(\lfloor \lg(m'_{k'}+1) \rfloor - \lfloor \l
 &\text{such that } \left( k=min_{l \in \{1, ..., h\}} \mid m'_l \geq location(B_i) \right)
 \end{align*}
 
-TODO PLUG INTO LEM FROM BEFORE AND FINISH
+Similarly, to search for a gap $(B_{i-1},B_i)$ we must access each of its descendants in turn (but not the leaf node representing that gap itself). Our search effectively ends at the parent of $(B_{i-1},B_i)$. Thus, 
+
+\begin{align*}
+C(B_{i-1},B_i) &\leq \sum_{k'=1}^{k-1} \left(\lfloor \lg(m'_{k'}+1) \rfloor - \lfloor \lg(m'_{k'-1}+1) \rfloor \right)\cdot c_{k'}+ \left(d_T(B_i) - \lfloor \lg(m'_{k'-1}+1) \rfloor \right)\cdot c_k \\
+&\text{such that } \left( k=min_{l \in \{1, ..., h\}} \mid m'_l \geq location(par(B_{i-1},B_i)) \right)
+\end{align*}
+
+Plugging in our upper bounds on $location(B_i)$ and $location(par(B_{i-1},B_i))$ from \ref{locationLem} immediately gives us the desired result.
 
 \end{proof}
+
+We can now bound the expected cost of search, $C$, in $T$ explicitly.
+
+\begin{thm} \label{ExactApproxMWPagingThm}
+\begin{align*}
+C \leq &\sum_{i=1}^{n} p_i\cdot  \sum_{j=1}^{k} \left(\lfloor \lg(m'_j+1) \rfloor - \lfloor \lg(m'_{j-1}+1) \rfloor \right)\cdot c_k \\
+&\mid \left( k=min_{l \in \{1, ..., h\}} \mid m'_l \geq \frac{2}{p_i}-1 \right) + \\
+&\sum_{j=1}^{n+1} q_j\cdot \sum_{j=1}^{k} \left(\lfloor \lg(m'_j+1) \rfloor - \lfloor \lg(m'_{j-1}+1) \rfloor \right)\cdot c_k \\
+&\mid \left( k=min_{l \in \{1, ..., h\}} \mid m'_l \geq \lfloor \frac{4}{q_i}-\frac{1}{2} \rfloor \right)
+\end{align*}
+
+TODO GOTTA FIX THAT SHIT TO SUBTR
+
+\end{thm}
+
+\begin{proof}
+The total expected cost of search is simply the sum of the weighted cost of search for all keys multiplied by the probability of searching for each key. Plugging in \ref{AMWPExactLem} we get:
+\begin{align*}
+C &\leq \sum_{i=1}^{n} p_i\cdot C(B_i) + \sum_{j=1}^{n+1} q_j\cdot C(B_{i-1},B_i) \\
+\end{align*}
+TODO FIX THAT SHIT
+\end{proof}
+
 
 In order to get a more cleaner (albeit weaker) bound in terms of the entropy of the distribution, we now describe $W$, the cost of searching for a key located at the deepest node of tree $T$. As defined in Thite's work, we let $h$ be the smallest $j$ such that $m'_j \geq n$. Let $D(T)$ be the height of $T$ (the depth of the deepest node in the tree).
 
@@ -1123,7 +1196,7 @@ where $pq_{\text{rank}[i]}$ is the $i^{th}$ smallest access probability among al
 \end{thm}
 
 \begin{proof}
-The total expected cost of search is simply the sum of the weighted cost of search for all keys multiplied by the probability of searching for each key. Given our last lemma, we have that:
+As in \ref{ExactApproxMWPagingThm}, the total expected cost of search is simply the sum of the weighted cost of search for all keys multiplied by the probability of searching for each key. Given our last lemma, we have that:
 \begin{align*}
 C &\leq \sum_{i=1}^{n} p_i\cdot C(B_i) + \sum_{j=1}^{n+1} q_j\cdot C(B_{i-1},B_i) \\
 \implies C &\leq \sum_{i=1}^{n} p_i\cdot (\lg(\frac{1}{p_i})+1)\cdot \frac{W}{D(T)} + \left(\sum_{i=0}^{n} q_i(\lg(\frac{1}{q_i})+2) - q_0 - q_n -  \sum_{i=0}^m q_{\text{rank}[i]} \right)\cdot \frac{W}{D(T)} \\
