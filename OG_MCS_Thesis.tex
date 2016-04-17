@@ -1437,34 +1437,28 @@ C_{ApproxMWPaging} &< (H + 1 + \sum_{i=0}^n q_i - q_0 - q_n - \sum_{i=0}^m q_{\t
 Both methods provide a strictly better approximation and run faster than the \textit{Algorithm Approx-BST} of Thite.
 
 %=========================================
-\chapter{Optimal BSTs On Unordered Multisets}\label{BST over Multisets}
+\chapter{Binary Trees On Unordered Multisets}\label{BST over Multisets}
 
-In this chapter we examine a problem related to the initial optimal binary search tree problem of Knuth \cite{knuth1971optimum}. Our keys will no longer have a strict ordering and can be rearranged as we please before constructing our binary search tree. This problem is very similar to constructing optimal prefix-free binary codes which is solved using a Huffman coding. This problem differs because, (as in previous chapters) when searhing, we charge 1 for each internal node we examine but do not charge for leaf nodes (since we do not need to "examine" them).
+In this chapter we examine a problem related to the initial optimal binary search tree problem of Knuth \cite{knuth1971optimum}. The $n$ keys (represented using simply their probabilities) provided will no longer have an ordering and can be rearranged as we please before constructing our binary tree. This problem is very similar to constructing optimal prefix-free binary codes which is solved using a Huffman coding. This problem differs because we must place the $n$ probabilities at internal and leaf node positions and cannot add extra nodes. Moreover, when searching, our cost model charges $1$ for each internal node we examine but does not charge for leaf nodes (since we do not need to "examine" them). Under this cost model, we show that our $O(n \lg(n))$ time algorithm \textit{GREEDY-MS} is within $1$ of optimal.
 
 \section{The Multiset Binary Search Tree Problem}\label{The Multiset Binary Search Tree Problem}
 
- Consider a multiset (a set with possible duplicate values) of $n$ probabilities: $M = \lbag p_1, p_2, ..., p_n \rbag$ such that $\sum\limits_{i=1}^n p_i = 1$. Our goal is to create a tree $T$ which minimizes the expected path length, $P_T$, of nodes (the expected cost of our search in comparisons):
+ Consider a multiset (a set with possible duplicate values) of $n$ probabilities: $M = \lbag p_1, p_2, ..., p_n \rbag$ such that $\sum\limits_{i=1}^n p_i = 1$. Our goal is to create a binary tree $T$ which minimizes the expected search cost, $P_{T_S}$, of nodes. We call this cost model the  the \textit{\textbf{S}tandard Model} since it is standard among other optimal BST problems.
 \begin{equation}
-P_T = \sum_{i=1}^{n} p_i(b_i+1) - \sum_{i \in L}p_i
+P_{T_S} = \sum_{i=1}^{n} p_i(b_i+1) - \sum_{i \in L_T}p_i
 \end{equation}
-Here, $b_i$ is the \emph{depth} of the $i$'th key of $M$ and $L$ is the set of gaps of the tree. We subtract the weight of the gaps of the tree since we need one less comparison to return a pointer a leaf node (as in the original optimal BST problem). In order to simplify our proof later we define $f_T$ (the working \emph{depth} of a node in tree $T$) as follows:
-\begin{center}
-\[
-    f_T(p_i)= 
-\begin{cases}
-    b_i+1,& \text{if the } i \text{'th key is an internal node}\\
-    b_i,              & \text{otherwise}.
-\end{cases}
-\]
-\end{center}
-Our expected path length can then be re-written as:
-\begin{align*}
-P_T = \sum_{i=1}^{n} p_i\cdot f_T(p_i).
-\end{align*}
+Here, $b_i$ is the \emph{depth} of the $i$'th key of $M$ and $L_T$ is the set of leaves of $T$. We subtract the weight of the leaves of the tree since we need one less comparison to return a pointer a leaf node (as in the original optimal BST problem).
 
-\section{The OPT-MSBST Algorithm}\label{OPT-MSBST}
+\section{The GREEDY-MS Algorithm is Within $1$ of Optimal}\label{OPT-MSBST}
 
-We propose the following simple algorithm entitled \textit{OPT-MSBST} for solving this multiset binary search tree problem and subsequently show that it is optimal.
+First, we consider a new cost model for this problem, the \textit{\textbf{E}xpected Path Length Model}, which has cost $P_{T_E}$ defined as follows:
+\begin{equation}
+P_{T_E} = \sum_{i=1}^{n} p_i(b_i+1)
+\end{equation}
+
+The model treats leaves and internal nodes the same, charging $1$ for each node that must be examined when searching through the tree from the root for a specific node.
+
+As described in \cite{golin2012huffman} there is a simple greedy $O(n \lg n)$ time algorithm which solves the problem optimally. We call this algorithm \textit{GREEDY-MS}:
 
 \begin{enumerate}
 \item First, we create a vector $R$ which is equal to the sorted (from largest to smallest) multiset $M$.
@@ -1472,94 +1466,62 @@ We propose the following simple algorithm entitled \textit{OPT-MSBST} for solvin
 \item We create a BST $T$ as follows. The root of our tree will be $R[0]$, its two children will be $R[1]$ and $R[2]$, and so on. Formally, $R[i]$ will be placed at location $i+1$ in the BFS order of $T$.
 \end{enumerate}
 
-The complete proof of the optimality of this algorithm follows a similar form to the proof that Huffman codes are optimal \cite{huffman1952method}. First, we introduce a useful lemma.
-
-\begin{lem}\label{MS Swap Lemma}
-Let $T$ be a BST created for a multiset of probabilities as described in the problem definition in~\ref{The Multiset Binary Search Tree Problem}. Let $T'$ be the tree created by swapping the node locations of $p_j$ and $p_k$ in $T$. Then,
-\begin{align*}
-P_{T'}-P_T = (p_j - p_k)\cdot (f_T(p_k)-f_T(p_j)).
-\end{align*}
-\end{lem}
-
-\begin{proof}
-We let $f_{T'}$ represent the working height of a node in $T'$.
-\begin{align*}
-P_{T'}-P_T &= \sum_{i=1}^{n} p_i\cdot f_{T'}(p_i) - \sum_{i=1}^{n} p_i\cdot f_T(p_i) \\
-&= p_j\cdot f_{T'}(p_j)+p_k\cdot f_{T'}(p_k) - p_j\cdot f_T(p_j) - p_k\cdot f_T(p_k)\\
-&= p_j\cdot f_T(p_k)+p_k\cdot f_T(p_j) - p_j\cdot f_T(p_j) - p_k\cdot f_T(p_k)\\
-&= p_j\cdot (f_T(p_k)-f_T(p_j)) + p_k \cdot (f_T(p_j) - f_T(p_k))\\
-&= p_j\cdot (f_T(p_k)-f_T(p_j)) - p_k \cdot (f_T(p_k)-f_T(p_j))\\
-&= (p_j - p_k)\cdot (f_T(p_k)-f_T(p_j))
-\end{align*}
-
-\end{proof}
-
-Next, we prove the optimality of this algorithm. 
+For completeness we formally prove its optimality under the \textit{Expected Path Length Model}. Note that email correspondence with Mordecai Golin significantly helped in the simplification of this proof \cite{golin2016}:
 
 \begin{lem}\label{MSSolvesOpt}
-The tree $T$ created by \textit{OPT-MSBST} for the multiset of probabilities $p$ solves the multiset binary search tree problem optimally.
+The tree $T$ created by \textit{GREEDY-MS} for the multiset of probabilities $M$ solves the multiset binary tree problem under the \textit{Expected Path Length Model} optimally.
 \end{lem}
 
 \begin{proof}
-We prove this by inducting on $n = |M|$, the size of our multiset of probabilities. Consider the case where $n = 1$. In this case, we create the only tree possible which is obviously optimal. Suppose all trees created by \textit{OPT-MSBST} with $k-1$ nodes are optimal. Consider the case where $n=k$. Let $p_{min} \in M$ be the probability of the node placed in the final position in BFS order in $T$. By the definition of \textit{OPT-MSBST}, $p_{min}=\min_{p_i \in M}$.
+Let $T'$ be an optimal tree under the \textit{Expected Path Length Model}. \\\\
+\noindent \textbf{Claim 1.}\label{Claim-EPL}
+For a given depth $d$, the probabilities of all nodes on level $d+1$ are greater than or equal to the probabilities of all nodes on level $d$.
+\begin{proof}
+If Claim 1 were not true, suppose $p_i$ and $p_j$ were the two probabilities which contradicted the statement. Swap their positions. The cost of the resulting tree is strictly less, which contradicts the optimality of $T'$.
+\end{proof}
 
-\noindent We define $M'$, a multiset of probabilities of size $k-1$ with probabilities $\lbag p'_1, p'_2, ..., p'_{k-1} \rbag$ such that
-\begin{align*}
-p'_i=\frac{p_i}{1-p_{min}} \implies p_i = p'_i\cdot (1-p_{min}).
-\end{align*}
+\noindent \textbf{Claim 2.}\label{Claim-EPL2}
+For a given depth $d$ strictly less than the height of $T'$, $T'$ must be full.
+\begin{proof}
+If Claim 2 were not true consider $d'$; the smallest depth where it is not true. Take a leaf node with depth strictly greater than $d'$ and place it at depth $d$ in $T'$. The resulting tree costs strictly less than $T'$, another contradiction.
+\end{proof}
 
-\noindent Note that
-\begin{align*}
-\sum\limits_{p'_i \in M'} &= \sum_{i : p_i \in (M - \{p_{min}\})}p'_i\\
- &= \sum_{i : p_i \in (M - \{p_{min}\})}\frac{p_i}{1-p_{min}}\\
- &= \frac{1}{1-p_{min}}\cdot \sum_{i : p_i \in (M - \{p_{min}\})}p_i\\
- &= \frac{1}{1-p_{min}}\cdot (1-p_{min})\\
-&= 1.
-\end{align*}
-
-Thus, let $T'$ be the tree created for $M'$ using \textit{OPT-MSBST}. By our induction hypothesis, it is optimal. Consider using \textit{OPT-MSBST} to create $T$ for $M$. During the running of the algorithm, we assume  we use an arbitrary but fixed tie-breaking rule during sorting. Because of this rule, and by the definition of \textit{OPT-MSBST}, for all $p'_i \in M'$, $f_{T'}(p'_i)=f_T(p_i)$. Now, we consider the cost of our tree $T$:
-\begin{align*}
-P_T &= \sum_{i:p_i \in (M - \{p_{min}\})} p_i\cdot f_T(p_i) + p_{min}\cdot f_T(p_{min}) \\
-&= \sum_{i:p_i \in (M - \{p_{min}\})} p'_i\cdot (1-p_{min})\cdot f_{T'}(p_i) + p_{min}\cdot f_T(p_{min}) \\
-&= (1-p_{min})\cdot \sum_{p'_i \in M'} p'_i\cdot f_{T'}(p_i) + p_{min}\cdot f_T(p_{min}) \\
-&= (1-p_{min})\cdot P_{T'} + p_{min}\cdot f_T(p_{min})
-\end{align*}
-
-
-
-Suppose for contradiction that $T$ is not optimal, and there exists a better tree $Z$ (which is optimal). We let $f_Z$ represent the working depth of a node in $Z$. Note that there must exist an optimal tree $Z$ with a $p_i \in M$ such that $f_Z(p_i)$ is maximized over all $p_i \in M$, and $p_i = min_{p_j \in M}$. Otherwise, by Lemma~\ref{MS Swap Lemma}, we can swap the locations of the nodes $p_i$ (the smallest probability) and $p_j$ (the deepest node in the tree) and get a tree at least as good (if not better). We consider such a tree $Z$ and let $p_{min}$ be its minimum probability (which has maximum $f_Z$ value).
-
-We let $Z'$ be tree made from $Z$ by removing $p_{min}$ from the tree over the probability distribution $M'$ as in the proof of Lemma~\ref{MSSolvesOpt}. As before,
-\begin{align*}
-p'_i=\frac{p_i}{1-p_{min}} \implies p_i = p'_i\cdot (1-p_{min}).
-\end{align*}
-We now describe how we remove $p_{min}$ to make $Z'$. If $p_{min}$ is a leaf, we simply take out the leaf. If it is an internal node (it must be the parent of a leaf since it has maximum $f$ value) we simply move one of its children (call it $l$), put it in $p_{min}$'s place, and make its possible other child (call it $r$) the child of $l$. Consider the cost of $Z$:
-\begin{align*}
-P_Z &= \sum_{p_i \in M} p_i\cdot f_Z(p_i) \\
-&= \sum_{i:p_i \in (M - \{p_{min}\})} p_i\cdot f_Z(p_i) + p_{min}\cdot f_z(p_{min}) \text{ as in~\ref{MSSolvesOpt}, we have that:} \\
-&= \sum_{p_i \in M'} (1-p_{min})\cdot p'_i\cdot f_Z(p_i) + p_{min}\cdot f_Z(p_{min}) \\
-&= (1-p_{min})\cdot P_{Z'} + p_{min}\cdot f_Z(p_{min}) \\
-\end{align*}
-
-Note that our algorithm creates a balanced binary search tree, so the maximum value of $f_T$ over $M$ for $T$ cannot be greater than the maximum value of $f_Z$ for $Z$. Since we know that $p_{min}$ has has the maximum value for $f_T$ and for $f_Z$,  we have that $f_T(p_{min}) \leq f_Z(p_{min})$. Thus, we have
-\begin{align*}
-P_Z &< P_T \\
-\implies (1-p_{min})\cdot P_{Z'} + p_{min}\cdot f_Z(p_{min}) &< (1-p_{min})\cdot P_{T'} + p_{min}\cdot f_T(p_{min}) \\
-\implies P_{Z'} &< P_{T'} \\
-\end{align*}
-Which is a contradiction to the optimality of $T'$ over $k+1$ nodes. Thus, $T$ must be optimal as desired.
-
+Taking claims 1 and 2 together means that all optimal trees are full (except at the greatest depth) and always have higher probabilities above lower probabilities. All such trees are identical to $T$ created by \textit{GREEDY-MS} up to permutations among probabilities at a given depth $d$, and amongst identical probabilities. This completes the proof.
 
 \end{proof}
 
 We are now ready to prove our main theorem.
 
 \begin{thm}
-The tree $T$ created by \textit{OPT-MSBST} for the multiset of probabilities $p$ solves the multiset binary search tree problem optimally and is unique up to permutation of the assignment of nodes which have the same $f_T$ value and permutation of the assignment of nodes which correspond to the same probability.
+The GREEDY-MS Algorithm is within $1$ of optimal under the \textit{Standard Model}\ for cost.
 \end{thm}
 
 \begin{proof}
-Since we already know that \textit{OPT-MSBST} provides an optimal solution, all that remains is to show that the tree $T$ (created for probability multiset $M$ with working node level function $f_T$) is unique up to the permutations described. Consider any optimal tree $Z$ for probability multiset $M$. Suppose their exists $p_i \in M$ and $p_j \in M$ such that $p_i < p_j$ and $f_Z(p_i) < f_Z(p_j)$. By Lemma~\ref{MS Swap Lemma} swapping $p_i$ and $p_j$ gives a strictly better tree, a contradiction. Thus, no such $p_i$ and $p_j$ must exist. This exactly means that $Z$ is identical to $T$ up to permutations between identical probabilities and within the same values of $f_T$ as required.
+Let $T$ be our tree created by GREEDY-MS. By \ref{MSSolvesOpt} we know that it solves the problem under the \textit{Expected Path Length Model} optimally. Let $L_T$ be the set of leaves of $T$. Consider the cost of $T$ under the \textit{Standard Model}:
+\begin{align*}
+P_{T_S} = P_{T_E} - \sum_{i \in L_T}p_i
+\end{align*}
+Since the sum of the probabilities of the leaves of the tree is at most $1$ and at least $0$ we get:
+\begin{align*}
+P_{T_E} \leq P_{T_S} \leq P_{T_E} + 1
+\end{align*}
+
+Suppose for contraction of our theorem that there exists $T'$ has a cost strictly less than the cost of $T-1$ under the \textit{Standard Model}:
+\begin{align*}
+P_{T'_S} < P_{T_S} - 1
+\end{align*}
+
+Consider $T'$ under the \textit{Expected Path Length Model}:
+\begin{align*}
+P_{T'_E} = P_{T'_S} + \sum_{i \in L_T'}p_i \leq P_{T'_S} + 1 < P_{T_S} \leq P_{T_E}
+\end{align*}
+
+Thus, we get that
+\begin{align*}
+P_{T'_E} < P_{T_E}
+\end{align*} 
+a contradiction to the optimality of $T$ under the \textit{Expected Path Length Model}. Thus, our theorem must hold.
+
 \end{proof}
 
 
