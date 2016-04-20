@@ -219,7 +219,7 @@
 
 \chapter{Introduction}
 
-In this chapter we provide an introduction to binary search trees and the optimum binary search tree problem. We also give motivation for studying binary search trees and give an overview of the work presented in this thesis.
+In this chapter we provide an introduction to binary search trees and the optimum binary search tree problem. We also give motivation for studying binary search trees and give an overview of the work presented in this thesis. We note that for the entirety of this work, we will use $\lg$ to represent $log_2$.
 
 \section{Binary Search Trees}
 
@@ -363,11 +363,7 @@ H(x_1,x_2,...,x_n) = \sum_{i=1}^{n} x_i\cdot\lg(\frac{1}{x_i})
 \begin{align*}
 p_t=\sum_{i : B_i \in t} p_i + \sum_{i : (B_i, B_{i+1}) \in t} q_i
 \end{align*}
- be its total probability (the sum of the probability of all nodes within the subtree). $P_{L}(B_i)$ and $P_{R}(B_i)$ are probabilities of searching for a key lexicographically before or after (respectively) key $B_i$. $P_{L}(B_i, B_{i+1})$ and $P_{R}(B_i, B_{i+1})$ are probabilities of searching for a key lexicographically before (or equal to) $B_i$ and after (or equal to) $B_{i+1}$ respectively. For a subtree  $t$ $P_{L_t}(B_i)$ and $P_{R_t}(B_i)$ describe the normalized probabilities of searching for a key to the left or right of the root respectively. Formally,
-\begin{align*}
-P_{L_t}(B_i) = \frac{\sum_{i : B_i \in t} p_i + \sum_{i : (B_i, B_{i+1}) \in t} q_i}{p_t}.
-\end{align*}
-$P_{L_t}(B_i,B_{i+1})$ and $P_{R_t}(B_i,B_{i+1})$ have analogous definitions. 
+ be its total probability (the sum of the probability of all nodes within the subtree). $P_{L}(B_i)$ and $P_{R}(B_i)$ are probabilities of searching lexicographically before or after (respectively) key $B_i$. $P_{L}(B_i, B_{i+1})$ and $P_{R}(B_i, B_{i+1})$ are probabilities of searching lexicographically before (or equal to) $B_i$ and after (or equal to) $B_{i+1}$ respectively. For a subtree $t$, $P_{L_t}(B_i)$ and $P_{R_t}(B_i)$ describe the normalized probabilities of searching for a key to the left or right of $B_i$ within $t$, and $P_{L_t}(B_i,B_{i+1})$ and $P_{R_t}(B_i,B_{i+1})$ have analogous definitions. 
 We let  
 \begin{equation}
 E_t=H(P_{L_t}(B_i), \frac{p_i}{p_t}, P_{R_t}(B_i))
@@ -375,7 +371,7 @@ E_t=H(P_{L_t}(B_i), \frac{p_i}{p_t}, P_{R_t}(B_i))
 
 \section{The Modified Entropy Rule}\label{The Modified Entropy Rule}
 
-As described in \cite{guttler1980binary}, I first describe the entropy rule for greedy root selection then explain how it was modified. For a subtree $t$ with probability $p_t$, the entropy rule greedily chooses the key $B_i$ as the root such that $H(P_{L_t}(B_i), \frac{p_i}{p_t}, P_{R_t}(B_i))$ is maximized. While this rule behaves quite well in practice, certain cases cause it to have poor performance (refer to Figure 3.1). 
+We first describe the entropy rule for greedy root selection then explain how it was modified in \cite{guttler1980binary}. For a subtree $t$ with probability $p_t$, the entropy rule greedily chooses the key $B_i$ as the root such that $H(P_{L_t}(B_i), \frac{p_i}{p_t}, P_{R_t}(B_i))$ is maximized. While this rule behaves quite well in practice, certain cases cause it to have poor performance (refer to Figure 3.1). 
 
 
 \begin{figure}[H]
@@ -416,7 +412,7 @@ As described in \cite{guttler1980binary}, I first describe the entropy rule for 
 Figure 3.1 demonstrates the shortcomings of the entropy rule heuristic. Given the probability set $\{q_0 = \frac{1}{5}, p_1 = \frac{1}{5}, q_1 = 0, p_2 = 0, q_3 = \frac{3}{5}\}$ the entropy rule will mistakenly choose key $B_1$ as the root while selecting $B_2$ as the root produces a better tree. This mistake is remedied in the modified entropy rule of G{\"u}ttler, Mehlhorn and Schneider \cite{guttler1980binary}. The modified entropy heuristic chooses the root in of the following three ways:
 
 \begin{enumerate}[label=\alph*)]
-\item If there exists key $B_i$ such that $\frac{p_i}{p_t} > \max(P_{L_t}(p_i), P_{R_t}(p_i))$ we always select $B_i$ as the root.
+\item If there exists key $B_i$ such that $\frac{p_i}{p_t} > \max(P_{L_t}(B_i), P_{R_t}(B_i))$ we always select $B_i$ as the root.
 
 \item If there exists a gap $(B_i, B_{i+1})$ such that $\frac{q_i}{p_t} > max(P_{L_t}(B_i, B_{i+1}), P_{R_t}(B_i, B_{i+1}))$ then we select the root from among $B_i$ and $B_{i+1}$. $B_i$ is chosen if $P_{L_t}(B_i, B_{i+1}) > P_{R_t}(B_i, B_{i+1})$ and $B_{i+1}$ is chosen otherwise.
 
@@ -440,10 +436,13 @@ We refer the reader to Gallager's 1968 work \cite{gallager1968information}.
 Next, we describe a Lemma which breaks our choice of root in the greedy modified entropy heuristic into one of three cases (not to be confused with the three \textit{rules} used in~\ref{The Modified Entropy Rule}). 
 
 \begin{lem}\label{MECases}
-When using the ME Rule to choose the root $B_r$ of a binary search tree $t$ with total probability $p_t$, one of the following three cases must occur: \\
-\textit{Case 1)} $E_t \geq 1-2 \frac{p_r}{p_t}$ \\
-\textit{Case 2)} There exists gap $(B_i, B_{i+1})$ such that $\frac{q_i}{p_t} > max(P_{L_t}(B_i, B_{i+1}), P_{R_t}(B_i, B_{i+1}))$\\
-\textit{Case 3)}  $\max(P_{L_t}(B_r), P_{R_t}(B_r)) < \frac{4}{5}$\\
+When using the modified entropy rule chooses the root $B_r$ of a subtree $t$ with total probability $p_t$, one of the following three cases must occur: 
+\begin{align*}
+&\text{Case 1) } E_t \geq 1-2 \frac{p_r}{p_t} \\
+&\text{Case 2) There exists gap}  (B_i, B_{i+1}) \text{ such that } \frac{q_i}{p_t} > max(P_{L_t}(B_i, B_{i+1}), P_{R_t}(B_i, B_{i+1}))\\
+&\text{Case 3) }  \max(P_{L_t}(B_r), P_{R_t}(B_r)) < \frac{4}{5}
+\end{align*}
+
 \end{lem}
 \begin{proof} At a high level, we first show that \textit{Rule a} from~\ref{The Modified Entropy Rule} implies \textit{Case 1}. We also show that if there exists $p_i$ such that $\frac{p_i}{p_t} > \max(P_{L_t}(B_i), P_{R_t}(B_i))$, but cannot apply \textit{Rule a}, then we still have \textit{Case 1}. Assuming that neither of the two aforementioned conditions occur, we must have that there exists some gap $(B_i, B_{i+1})$ spanning the middle of the data set. Given this condition, we show that if \textit{Case 2} does not occur (i.e. we cannot use \textit{Rule b}~\ref{The Modified Entropy Rule}) then \textit{Case 3} must occur, completing the proof. 
 
@@ -453,16 +452,16 @@ When using the ME Rule to choose the root $B_r$ of a binary search tree $t$ with
 \begin{align*}
 E_t &\geq H( max(P_{L_t}(p_i), P_{R_t}(p_i)), 1-max(P_{L_t}(p_i), P_{R_t}(p_i)) \\
  &\geq 2\cdot \max(P_{L_t}(p_i), P_{R_t}(p_i)) \\  &\geq 1-\frac{p_i}{p_t} \\ 
- &\geq 1-2 \frac{p_i}{p_t} \geq 1-2 \frac{p_r}{p_t} 
+ &\geq 1-2 \frac{p_i}{p_t} = 1-2 \frac{p_r}{p_t} 
 \end{align*}
  as required. \\
  
 \noindent\textbf{\textit{$B_i$ spans middle $\implies$ Case 1}} \\
-If we do not have some $p_i$ such that $\frac{p_i}{p_t} > \max(P_{L_t}(B_i), P_{R_t}(B_i))$ but do have some $B_i$ such that $P_{L_t}(B_i) \leq \frac{1}{2}$ and $P_{R_t}(B_i) \leq \frac{1}{2}$) then we must use \textit{Rule c}~\ref{The Modified Entropy Rule} and we get:
+If we do not have some $p_i$ such that $\frac{p_i}{p_t} > \max(P_{L_t}(B_i), P_{R_t}(B_i))$ but do have some $B_i$ such that $P_{L_t}(B_i) \leq \frac{1}{2}$ and $P_{R_t}(B_i) \leq \frac{1}{2}$) then we must use \textit{Rule c}~\ref{The Modified Entropy Rule}. We then must have that:
 \begin{align*}
- E_t &\geq H(P_{L_t}(B_i), \frac{B_i}{p_t} , P_{R_t}(B_i) \\
- 0 &\leq P_{L_t}(B_i) \leq 0.5 \\
- 0 &\leq \frac{p_i}{p_t} \leq 0.5 \\
+ E_t &\geq H(P_{L_t}(B_i), \frac{B_i}{p_t} , P_{R_t}(B_i)) \text{ and} \\
+ 0 &\leq P_{L_t}(B_i) \leq 0.5 \text{ and}\\
+ 0 &\leq \frac{p_i}{p_t} \leq 0.5 \text{ and}\\
  0 &\leq P_{R_t}(B_i) \leq 0.5
 \end{align*} 
    then we know that \\
@@ -472,13 +471,13 @@ H(P_{L_t}(p_i), \frac{p_i}{p_t} , P_{R_t}(p_i)) \geq H(1/2, 1/2) = 1
 in this case.
  Thus, combining the above two cases, if have some $B_i$ such that $P_{L_t}(B_i) \leq \frac{1}{2}$ and $P_{R_t}(B_i) \leq \frac{1}{2}$ then $E_t \geq 1-2p_r$ as required. \\
 
-\noindent\textbf{\textit{$\big($NOT($B_i$ spans middle) AND NOT(Case 2)$\big)$ $\implies$ Case 3}} \\
+\noindent\textbf{\textit{$\big($NOT($B_i$ spans mid) AND NOT(Case 1) AND NOT(Case 2)$\big)$ $\implies$ Case 3}} \\
 Otherwise, we must have some gap $(B_i, B_{i+1})$ spanning the middle of the data set (i.e. $P_{L_t}(B_i, B_{i+1}) < \frac{1}{2}$ and $P_{R_t}(B_i, B_{i+1}) < \frac{1}{2}$). Suppose that \textit{Case 2} does not occur (i.e. we cannot use \textit{Rule b}): there does not exist a $(B_i, B_{i+1})$ such that $\frac{q_i}{p_t} > max(P_{L_t}(B_i, B_{i+1}), P_{R_t}(B_i, B_{i+1}))$. Then, for any root $r$ of $t$ we have that \\
 \begin{align*}
 \max(P_{L_t}(B_r), P_{R_t}(B_r)) &\geq \min(P_{L_t}(B_r), P_{R_t}(B_r))\\ 
 \max(P_{L_t}(B_r), P_{R_t}(B_r)) &\geq q_i
 \end{align*}
-Thus,
+Thus, for any root $r$:
 \begin{align*}
 \max(P_{L_t}(p_r), P_{R_t}(p_r)) \geq 1/3
 \end{align*}
@@ -490,10 +489,10 @@ Thus,
 \begin{align*}
 E_t \geq H(1/3, 2/3) \approx 0.92.
 \end{align*}
- Since \textit{Case 1} does not occur, we have that:
+Either \textit{Case 1} occurs, or we have that:
 \begin{align*}
-E_t &< 1-2\frac{p_r}{q_t} \\
-\implies \frac{p_r}{q_t} &< \frac{1-H(\frac{1}{3}, \frac{2}{3})}{2} \approx 0.04.
+E_t &< 1-2\frac{p_r}{p_t} \\
+\implies \frac{p_r}{p_t} &< \frac{1-H(\frac{1}{3}, \frac{2}{3})}{2} \approx 0.04.
 \end{align*}
 
 Suppose for contradiction that $\max(P_{L_t}(p_r), P_{R_t}(p_r)) \geq \frac{4}{5} p_t$ then we have:
@@ -511,30 +510,35 @@ Before we examine the main theorem we show a small claim.
 
 \newtheorem{claim}{Claim}
 \begin{claim}\label{Claim1}
-$H(\frac{1}{2}-\frac{1}{2} x, \frac{1}{2} + \frac{1}{2} x) \geq 1- \frac{4}{5} (x)^2$ when $0 < x < \frac{1}{2}$
+$H(\frac{1}{2}-\frac{1}{2} x, \frac{1}{2} + \frac{1}{2} x) \geq 1- \frac{4}{5} x^2$ when $0 < x < \frac{1}{2}$
 \end{claim}
 
 \begin{proof}
 In order to prove the claim, we find the minimum of
 \begin{align*}
-H(\frac{1}{2}-\frac{1}{2} x, \frac{1}{2} + \frac{1}{2} x) - (1 - \frac{4}{5} (x)^2) 
+H(\frac{1}{2}-\frac{1}{2} x, \frac{1}{2} + \frac{1}{2} x) - (1 - \frac{4}{5} x^2) 
 \end{align*}
 when $0 < x < \frac{1}{2}$. To do this, we define $F(x)$ and take the derivative with respect to $x$.
 \begin{align*}
 F(x) &= H(\frac{1}{2}-\frac{1}{2} x, \frac{1}{2} + \frac{1}{2} x) - (1 - \frac{4}{5} (x)^2) \\
-F(x) &= - (\frac{1}{2}-\frac{1}{2} x)\cdot \lg(\frac{1}{2}-\frac{1}{2} x) - (\frac{1}{2} + \frac{1}{2} x)\cdot\lg(\frac{1}{2} + \frac{1}{2} x) - (1 - \frac{4}{5} (x)^2) \\
+F(x) &= - (\frac{1}{2}-\frac{1}{2} x)\cdot \lg(\frac{1}{2}-\frac{1}{2} x) - (\frac{1}{2} + \frac{1}{2} x)\cdot\lg(\frac{1}{2} + \frac{1}{2} x) - (1 - \frac{4}{5} x^2) \\
 \implies F'(x) &= \lg(\frac{1}{2}-\frac{1}{2} x) - \lg(\frac{1}{2} + \frac{1}{2} x) + \frac{8}{5}x \text{ (with some careful manipulation)}
 \end{align*}
 
 The only root occurs when $x = 0$. Thus, we check when $x \rightarrow 0$ and $x \rightarrow \frac{1}{2}$. We note that: \\
-$F'(x) \xrightarrow{x \to 0} 0^{+}$ and \\
-$F'(x) \xrightarrow{x \to \frac{1}{2}} 0.0112781 > 0$. \\
+\begin{align*}
+&F'(x) \xrightarrow{x \to 0} 0^{+}  \text{ and} \\
+&F'(x) \xrightarrow{x \to \frac{1}{2}} 0.0112781 > 0
+\end{align*}
 Thus, $H(\frac{1}{2}-\frac{1}{2} x, \frac{1}{2} + \frac{1}{2} x) - (1 - \frac{4}{5} (x)^2) > 0$ for $ 0 < x < \frac{1}{2}$ which proves the claim.
 \end{proof} 
 
 
 \begin{thm}
-$C_{ME} \leq H + 4$
+Let $C_{ME}$ be the expected cost of search for a tree made by the modified entropy rule.
+\begin{align*}
+C_{ME} \leq H + 4
+\end{align*}
 \end{thm}
 
 \begin{proof}
@@ -548,13 +552,13 @@ Note that this can only happen once for each key (a key can only be root once). 
 
 As mentioned in Lemma~\ref{MECases} if some $B_i$ spans in the middle of the data set, $P_{L_t}(B_i) \leq \frac{1}{2}$ and $P_{R_t}(B_i) \leq \frac{1}{2}$, we can still show that \textit{Case 1} occurs. Suppose for the remainder of the proof that there is no such middle-spanning $B_i$.
 
-Let $(B_m, B_{m+1})$ be the unique middle gap (i.e. $P_{L_t}(B_m, B_{m+1}) < \frac{1}{2}$ and $P_{R_t}(B_m, B_{m+1}) < \frac{1}{2}$) when \textit{Case 2} or \textit{Case 3} occurs. When \textit{Case 2} occurs we have that (using Lemma~\ref{entr2x}):
+Let $(B_m, B_{m+1})$ be the unique middle gap (i.e. $P_{L_t}(B_m, B_{m+1}) < \frac{1}{2}$ and $P_{R_t}(B_m, B_{m+1}) < \frac{1}{2}$) when \textit{Case 2} or \textit{Case 3} occurs. When \textit{Case 2} occurs, we know that we could select a root from among the two keys outside of our middle spanning gap, and choose the one which is closer to the middle. Thus, we have that (using Lemma~\ref{entr2x}):
 \begin{equation}\label{EQC2} 
 E_t \geq H(\frac{1}{2}-\frac{1}{2} \frac{q_m}{p_t}, \frac{1}{2} + \frac{1}{2} \frac{q_m}{p_t}) \geq 2(\frac{1}{2}-\frac{1}{2} \frac{q_m}{p_t})=1-\frac{q_m}{p_t}.
 \end{equation}
 Note that by the definition of the \textit{Rule c}~\ref{The Modified Entropy Rule}, when this occurs, $(B_m, B_{m+1})$ must be a leaf of depth at most 2. Thus, this condition can only happen twice for each $(B_m, B_{m+1})$ gap. \\
 
-When \textit{Case 2} does not occur (and we have a $(B_m, B_{m+1})$ spanning the middle) we must have \textit{Case 3} (since we are still assuming that \textit{Case 1} does not occur). This gives us:
+When neither \textit{Case 1} nor \textit{Case 2} occur (and we have a $(B_m, B_{m+1})$ spanning the middle) we must have \textit{Case 3}. This gives us:
 \begin{align*}
 E_t \geq H(\frac{1}{2}-\frac{1}{2} \frac{q_m}{p_t}, \frac{1}{2} + \frac{1}{2} \frac{q_m}{p_t})
 \end{align*}
@@ -563,7 +567,7 @@ We again apply Claim~\ref{Claim1} and get:
 E_t \geq 1- \frac{4}{5} (\frac{q_m}{p_t})^2
 \end{equation}
 
-As in \cite{bayer1975improved} we define a $b_t$ for each subtree $t$ as follows. We want to have a value for $b_t$ such that $E_t \geq 1 - b_t$ in all cases. Using \textit{Cases 1,2}, and \textit{3} are their respective equations~\ref{EQC1},~\ref{EQC2}, and~\ref{EQC3} we do just that: \\
+As in \cite{bayer1975improved} we define a $b_t$ for each subtree $t$ as follows. We want to have a value for $b_t$ such that $E_t \geq 1 - \frac{b_t}{p_t}$ in all cases. Using \textit{Cases 1,2}, and \textit{3} are their respective equations~\ref{EQC1},~\ref{EQC2}, and~\ref{EQC3} we do just that: \\
 Let $b_t=2\cdot p_r$ when \textit{Case 1} occurs. $B_r$ is the root of $b_t$. \\
 Let $b_t=2\cdot q_m$ when \textit{Case 2} occurs. $(B_m, B_{m+1})$ is middle gap of $b_t$. \\
 Let $b_t=\frac{q_m^2}{p_t}$ when \textit{Case 3} occurs. $(B_m, B_{m+1})$ is middle gap of $b_t$. \\
@@ -581,10 +585,10 @@ where $S_T$ is the set of all subtrees of our tree $T$. \\
 
 \noindent Thus, by subbing in $E_t \geq 1 - b_t$ and rearranging we get: 
 \begin{align*}
-&H = \sum_{t \in S_T} p_t E_t \geq \sum_{t \in S_T} P_t - \sum_{t \in S_T} b_t = C - \sum_{t \in S_T} b_t \\
+&H = \sum_{t \in S_T} p_t \cdot E_t \geq \sum_{t \in S_T} p_t - \sum_{t \in S_T} b_t = C - \sum_{t \in S_T} b_t \\
  \implies &C \leq H + \sum_{t \in S_T} b_t
 \end{align*}
-As mentioned above, \textit{Case 1} and \textit{Case 2} can only occur once and twice respectively for any potential root $B_r$ or gap $(B_m, B_{m+1})$. \textit{Case 3} however, can occur many times for a gap $(B_m, B_{m+1})$. Each time it occurs though, $\frac{q_m}{p_t}$ must decrease by a factor of $\frac{5}{4}$ since $\max(P_{L_t}(B_r), P_{R_t}(p_r)) < \frac{4}{5}$ for the root $B_r$ of the subtree by \textit{Case 3)} of Lemma~\ref{MECases}. Moreover, if $\frac{q_m}{p_t} > \frac{1}{2}$ then we will have \textit{Case 2}. Let $S_m$ be the set of all subtrees $t$ for which $(B_m, B_{m+1})$ is the middle gap and \textit{Case 3} only applies. We have that
+As mentioned above, \textit{Case 1} and \textit{Case 2} can only occur once and twice respectively for any potential root $B_r$ or gap $(B_m, B_{m+1})$. \textit{Case 3} however, can occur many times for a gap $(B_m, B_{m+1})$. Each time it occurs though, $\frac{q_m}{p_t}$ must increase by a factor of at least $\frac{5}{4}$ since $\max(P_{L_t}(B_r), P_{R_t}(p_r)) < \frac{4}{5}$ for the root $B_r$ of the subtree by \textit{Case 3)} of Lemma~\ref{MECases}. Moreover, if $\frac{q_m}{p_t} > \frac{1}{2}$ then we will have \textit{Case 2}. Let $S_m$ be the set of all subtrees $t$ for which $(B_m, B_{m+1})$ is the middle gap and \textit{Case 3} only applies. We have that
 \begin{align*}
 C \leq H + \sum_{t \in S_T} b_t = H + 2 \sum\limits_{r = 1}^n p_r + 2 \sum\limits_{m = 0}^n q_m + \sum\limits_{m = 0}^n \sum\limits_{t \in S_m} \frac{4}{5}\frac{q_m^2}{p_t}
 \end{align*}
@@ -593,7 +597,7 @@ By factoring out $q_m$ and examining only cases up to $\frac{q_m}{p_t} = \frac{1
 \begin{align*}
 C &\leq H + 2 + \sum\limits_{m = 0}^n (\frac{4}{5} \cdot q_m) \sum\limits_{x=0}^{\infty} \frac{1}{2} \cdot (\frac{4}{5}) ^ x \\
 C &\leq H + 2 + \sum\limits_{m = 0}^n \frac{4}{5} \cdot q_m \cdot \frac{1}{2} \cdot (\frac{1}{1-\frac{4}{5}}) \text{    (geometric series)} \\
-C &\leq H + 2 + \sum\limits_{m = 0}^n q_m \\
+C &\leq H + 2 + 2\cdot \sum\limits_{m = 0}^n q_m \\
 C &\leq H + 4
 \end{align*}
 
@@ -607,7 +611,7 @@ In this chapter we examine the optimum BST problem under the Hierarchical Memory
  
 \section{The Hierarchical Memory Model}\label{The Hierarchical Memory Model}
 
-The HMM was proposed in 1987 by Aggarwal et al. as an alternative to the classic RAM model \cite{aggarwal1987model}. It was intended to better model the multiple levels of the memory hierarchy. The model has an unlimited number of registers, $R_1, R_2, ...$ each with its own location in memory (a positive integer). In the first version of the model, accessing a register at memory location $x_i$ takes $\lceil \lg(x_i) \rceil$ time. Thus, computing $f(a_1, a_2, ..., a_n)$ takes $\sum_{i=1}^{n} \lceil \lg(location(a_i)) \rceil$ time. The original paper also considered arbitrary cost functions $f(x)$. We will use the cost function as was explained in Thite's thesis \cite{thite2008optimum}. Here, $\mu (a)$ is the cost of accessing memory location $a$, an integer. We have a set of memory sizes $m_1, m_2, ..., m_l$ which are monotonically increasing. Each memory level has a finite size except $m_l$ which we assume has infinite size. Each memory level has an associated cost of access $c_1, c_2, ..., c_l$. We assume that $c_1 < c_2 < ... < c_l$. The cost of accessing a memory location $a$ is given by
+The HMM was proposed in 1987 by Aggarwal et al. as an alternative to the classic RAM model \cite{aggarwal1987model}. It was intended to better model the multiple levels of the memory hierarchy. The model has an unlimited number of registers, $R_1, R_2, ...$ each with its own location in memory (a positive integer). In the first version of the model, accessing a register at memory location $x_i$ takes $\lceil \lg(x_i) \rceil$ time. Thus, computing $f(a_1, a_2, ..., a_n)$ takes $\sum_{i=1}^{n} \lceil \lg(location(a_i)) \rceil$ time. The original paper also considered arbitrary cost functions $f(x)$. We will use the cost function as was explained in Thite's thesis \cite{thite2008optimum}. Here, $\mu (a)$ is the cost of accessing memory location $a$. We have a set of memory sizes $m_1, m_2, ..., m_l$ which are monotonically increasing. Each memory level has a finite size except $m_l$ which we assume has infinite size. Each memory level has an associated cost of access $c_1, c_2, ..., c_l$. We assume that $c_1 < c_2 < ... < c_l$. The cost of accessing a memory location $a$ is given by
 \begin{equation}
 \mu (a) = c_i \text{ if } \sum_{j = 1}^{i-1}m_j  < a \leq \sum_{j = 1}^{i}m_j.
 \end{equation}
