@@ -629,12 +629,13 @@ Unlike Thite, we also explicitly assume that successive memory level sizes divid
 
 \section{Thite's Optimum Binary Search Trees on the HMM Model}
 
-Thite's thesis provides solutions to several problems in the HMM and the related HMM$_2$ models \cite{thite2008optimum}. He first provides an optimal solution to the following problem (known as \textbf{Problem 5} in the work):\\
+Thite's thesis provides solutions to several problems in the HMM and the related HMM$_2$ models \cite{thite2008optimum}. He first provides an optimal solution to the following problem (known as \textbf{Problem 5} in the work). Note that we have made slight modifications in order to maintain correct notation throughout this work:
 
+\begin{quote}
+\noindent \textit{\textbf{Problem 1 [Optimum BST Under HMM].} Suppose we are given a set of $n$ ordered keys $B_1, B_2, ..., B_n$ with associated probabilities of search $p_1, p_2, ..., p_n$, as well as $n+1$ ranges or gaps $(B_0, B_1), (B_1, B_2), ..., (B_{n-1}, B_n), (B_n, B_{n+1})$ with associated probabilities of search $q_0, q_1, ..., q_n$. The problem is to construct a binary search tree $T$ over the set of keys and gaps (keys must be internal nodes, and gaps must be leaves) and compute a memory assignment function $\phi : V (T) \rightarrow {1, 2, ..., n}$ that assigns nodes of $T$ to memory locations such that the expected cost of a search is minimized under the HMM model} \cite{thite2008optimum}.
+\end{quote}
 
-\noindent \textbf{Problem 5 [Optimum BST Under HMM].}  \cite{thite2008optimum} Suppose we are given a set of $n$ ordered keys $x_1, x_2, ..., x_n$ with associated probabilities of search $p_1, p_2, ..., p_n$, as well as $n+1$ ranges $(- \infty, x_1), (x_1, x_2), ..., (x_{n-1}, x_n), (x_n, \infty)$ with associated probabilities of search $q_0, q_1, ..., q_n$. The problem is to construct a binary search tree $T$ over the set of keys and compute a memory assignment function $\phi : V (T) \rightarrow {1, 2, ..., n}$ that assigns nodes of $T$ to memory locations such that the expected cost of a search is minimized under the HMM model. \\
-
-In order to remain consistent with the work in other chapters of this thesis, We will maintain the use of $B_1, B_2, ..., B_n$ to represent keys instead of Thite's $x_1, x_2, ..., x_n$ and gaps will be represented by $(B_0, B_1), (B_1, B_2), ..., (B_n, B_{n+1})$ where it is assumed that $B_0$ represents $- \infty$ and $B_{n+1}$ represents $\infty$.
+\noindent Note that we assume that $B_0$ represents $- \infty$ and $B_{n+1}$ represents $\infty$.
 
 Thite provided three separate optimum solutions to the problem described; \textbf{Parts}, \textbf{Trunks}, and \textbf{Split}. Here, $h$ is the minimum memory level such that all $n$ keys can fit on memories of height at most $h$. More specifically $h$ is defined as \\
 \begin{align*}
@@ -643,21 +644,17 @@ Thite provided three separate optimum solutions to the problem described; \textb
 
 \noindent We now give a high-level overview the the three solutions of Thite. For a more detailed explanation, please refer to his thesis \cite{thite2008optimum}.
 
-\textbf{Parts} is a bottom up dynamic programming algorithm which constructs optimum subtrees $T^{*}_{i,j}$ for each $i,j$, $1 \leq i leq j \leq n$ using only the first $j-i+1$ memory locations. For each choice of root $B(k)$ where $k \in {i, ..., j}$ all possible memory assignments are examined. Thite claims a running time of $O(\frac{2^{h-1}}{(h-1)!}\cdot n^{2h+1})$ for the algorithm.
+\textbf{Parts} is a bottom up dynamic programming algorithm which constructs optimum subtrees $T^{*}_{i,j}$ for each $i,j$, $1 \leq i \leq j \leq n$ using only the first $j-i+1$ memory locations. For each choice of root $B(k)$ where $k \in \{i, ..., j\}$ all possible memory assignments are examined. Thite claims a running time of $O(\frac{2^{h-1}}{(h-1)!}\cdot n^{2h+1})$ for the algorithm.
 
-\textbf{Trunks} is an algorithm that, like parts, using dynamic programming to build optimal subtrees over larger and larger sets of keys. For each range $i,j$, $1 \leq i leq j \leq n$, and for each possible root $B(k)$, they examine all $s$ such that $s \leq j-i+1$ and consider placing $s$ nodes in the first $h-1$ levels of memory, and the remaining $j-i-1-s$ nodes in memory level $h$. Thite claims that the algorithm takes $O(\frac{2^{n-m_h}\cdot (n-m_h+h)^{n-m_h}\cdot n^3}{(h-2)!})$ time. Moreover, the algorithm should work well in practice when $n-m_h$ and $h$ are small (i.e. a short memory hierarchy with a very large biggest memory size, typical in a modern computer).
+\textbf{Trunks} is an algorithm that, like parts, using dynamic programming to build optimal subtrees over larger and larger sets of keys. For each range $i,j$, $1 \leq i \leq j \leq n$, and for each possible root $B(k)$, they examine all $s$ such that $s \leq j-i+1$ and consider placing $s$ nodes in the first $h-1$ levels of memory, and the remaining $j-i-1-s$ nodes in memory level $h$. Thite claims that the algorithm takes $O(\frac{2^{n-m_h}\cdot (n-m_h+h)^{n-m_h}\cdot n^3}{(h-2)!})$ time. Moreover, the algorithm should work well in practice when $n-m_h$ and $h$ are small (i.e. a short memory hierarchy with a very large biggest memory size, typical in a modern computer).
 
-\textbf{Split} is a top-down algorithm for solving the problem when there are $n$ levels in the memory hierarchy. Thite claims a running time of $O(2^n)$. We note that this running time result is dubious as Thite's explanation simply states that a root is chosen by examining each of the $2^{n-1}$ ways of partitioning memory locations between the left and right subtrees and recursing on each side. It is unclear how the potential roots are compared, and we cannot think of a way to select the correct root in this fashion without an exponential running time. A proof of correctness of algorithm was unfortunately omitted.
+\textbf{Split} is a top-down algorithm for solving the problem when there are $n$ levels in the memory hierarchy. Thite claims a running time of $O(2^n)$. We note that this running time result is dubious as Thite's explanation simply states that a root is chosen by examining each of the $2^{n-1}$ ways of partitioning memory locations between the left and right subtrees and recursing on each side. It is unclear how the potential roots are compared, and we cannot think of a way to select the correct root in this fashion without an exponential running time. A proof of correctness of algorithm was unfortunately omitted from Thite's work.
 
- In the following sections, we provide two approximate solutions to this problem that run in times $O(n \cdot \lg(m_1))$ and $O(n)$ and provide an upper bound on their expected search costs.  \\
-
-Thite also considered the same problem under the related HMM$_2$ model. This model assumes there are simply two levels of memory of size $m_1$ and $m_2$ with costs of access $c_1$ and $c_2$ where $c_1 < c_2$. Thite provides an optimal solution to this problem (named \textbf{TwoLevel}) which runs Thite claims runs in time $O(n^5)$.
-TL has two phases, in the first phase, it uses an algorithm similar to that of Knuth, solving for all subtrees that will fit on a single memory level (i.e. solves for all ranges $[i,j]$ such that $j-i+1 \leq \max(m_1, m_2))$. Specifically, it creates arrays $C[i,j]$ and $R[i,j]$ where C and R are the optimal tree cost (using a uniform cost model), and root selection of optimal tree over $[i,j]$.
-TL PH 2 implements algorithm parts and using DP to compute $c(i,j,n_1,n_2)$ and $r(i,j,n_1, n_2)$ which are the optimal tree and optimal tree root using the HMM$_2$ cost model using keys $[i,j]$ with $n_1$ keys in $M_1$ and $n_2$ in $M_2$. c computed using DP as follows:
-$c(i,j,n_1,n_2) = \mu ( \theta ( B_k))* p_k + \min_{i \leq k \leq j, 0 < n_1^{(L)} < n} (c(i, k-1, n_1^{(L)}, n_2^{(L)}), (c(i, k-1, n_1^{(R)}, n_2^{(R)}))$
-
-
-It runs in $o(n^5)$, if $m_1 \in o(n)$, and in $O(n^4)$ if $m_1 \in O(1)$. He also gives an $O(n\lg n)$ time approximate solution with an upper bounded expected search cost of $c_2(H+1)$. The solution we provide under the HMM model also gives an improvement over Thite's approximate algorithm in both running time and expected cost under the HMM$_2$ model.
+ In the following sections, we provide two approximate solutions to this problem that run in time $O(n)$ and provide an upper bound on their expected search costs. 
+ 
+Thite also considered the same problem under the related HMM$_2$ model. This model assumes there are simply two levels of memory of size $m_1$ and $m_2$ with costs of access $c_1$ and $c_2$ where $c_1 < c_2$. Thite provides an optimal solution to this problem (named \textbf{TwoLevel}) he claims runs in time $O(n^5)$.
+TwoLevel has two phases and in the first phase, it uses an algorithm similar to that of Knuth, solving for all subtrees that will fit on a single memory level (i.e. solves for all ranges $[i,j]$ such that $j-i+1 \leq \max(m_1, m_2))$. Specifically, it creates arrays $C[i,j]$ and $R[i,j]$ where C and R are the optimal tree cost (using a uniform cost model), and root selection of optimal tree over $[i,j]$.
+TwoLevel phase two utilizes algorithm parts and uses dynamic programming to compute $c(i,j,n_1,n_2)$ and $r(i,j,n_1, n_2)$ which are the optimal tree and optimal tree root choices using the HMM$_2$ cost model using keys $[i,j]$ with $n_1$ keys in memory $M_1$ and $n_2$ in memory $M_2$. $c$ and $r$ are computed using dynamic programming. Thite claims the algorithm runs in $o(n^5)$, if $m_1 \in o(n)$, and in $O(n^4)$ if $m_1 \in O(1)$. He also gives an $O(n\lg n)$ time approximate solution with an upper bounded expected search cost of $c_2(H+1)$. This algorithm utilizes a $O(n)$ BST approximation algorithm of Mehlhorn \cite{mehlhorn1984sorting} and an $O(n \lg n)$ greedy scheme for placing the BST tree into memory. The solution we provide under the HMM model also gives an improvement over Thite's approximate algorithm in both running time and expected cost under the HMM$_2$ model.
 
 
 \section{Efficient Near-Optimal Multiway Trees of Bose and Dou\"{i}eb}\label{43}
@@ -667,7 +664,7 @@ In order to obtain a good approximate solution to the optimum BST problem under 
 \frac{H}{\lg(2k-1)} \leq P_{OPT} \leq P_T \leq \frac{H}{\lg k} + 1 + \sum_{i=0}^n q_i - q_0 - q_n - \sum_{i=0}^m q_{\text{rank}[i]}.
 \end{align*}
 
-Here, H is the entropy of the probability distribution, $P_{OPT}$ is the average path-length in the optimal tree, $P_T$ is the average path length of the tree built using their algorithm and $m=max({n-3P,P})-1 \geq \frac{n}{4} - 1$. $P$ is the number of increasing or decreasing sequences in a left-to-right read of the access probabilities of the gaps. Moreover, $q_{\text{rank}[i]}$ is the $i^{th}$ smallest access probability among all leaves (gaps) except $q_0$ and $q_n$. Finally, $k$ is the size of a node in the tree (the number of keys that fit inside an internal node). Each node will have at most $k+1$ children. \\
+Here, H is the entropy of the probability distribution, $P_{OPT}$ is the average path-length (expected cost of search) in the optimal tree, $P_T$ is the average path length of the tree built using their algorithm and $m=max({n-3P,P})-1 \geq \frac{n}{4} - 1$. $P$ is the number of increasing or decreasing sequences in a left-to-right read of the access probabilities of the gaps. Moreover, $q_{\text{rank}[i]}$ is the $i^{th}$ smallest access probability among all leaves (gaps) except $q_0$ and $q_n$. Finally, $k$ is the size of a node in the tree (the number of keys that fit inside an internal node). Each node will have at most $k+1$ children. \\
 
 As described in the section~\ref{sec:MWT}, in the multiway search tree problem we are given $n$ ordered keys with weights $p_0, ..., p_n$ as well as $n+1$ weights of unsuccessful searches $q_0,...,q_n$. The goal is to build a minimum cost tree where $k$ keys fit inside a single internal node. A single gap will fit in each leaf node. \\
  
@@ -681,23 +678,23 @@ We refer readers to the paper \cite{bose2009efficient} for a more detailed expla
 \item Leaf nodes are reattached to the \textit{internal key tree}.
 \end{enumerate}
 
- Their algorithm's design allows the authors to bound the depth of keys and gaps by their associated probabilities. This ultimately allows them to achieve the bounds they have described. 
+ Their algorithm's design allows the authors to bound the depth of keys and gaps by their associated probabilities. This ultimately allows them to achieve the bounds on expected cost of search that they have described. 
 
 \section{Algorithm ApproxMWPaging}\label{Algorithm ApproxMWPaging}
 
-In this section We provide an algorithm for creating a BST and subsequently packing it into memory. The algorithm first uses the multiway search tree construction algorithm of Bose and Dou\"{i}eb as a subroutine to be a mutliway search tree. This multiway search tree is converted into a BST, then packed into the memory hierarchy. Note that we make the explicit assumption that we are given the keys in sorted order as input. \\
+In this section We provide an algorithm for creating a BST and subsequently packing it into memory. The algorithm first uses the multiway search tree construction algorithm of Bose and Dou\"{i}eb as a subroutine. This multiway search tree is converted into a BST, then packed into the memory hierarchy. Note that we make the explicit assumption that we are given the keys in sorted order as input. \\
 
 First, we describe how we convert a multiway search tree to a binary search tree. For the sake of clarity, we will call what are typically known as \textit{nodes} of the multiway tree \textit{pages}. This represents how various items of our search tree will fit onto pages of our memory hierarchy. We maintain the notion of calling individual items \textit{keys}.
 
 \begin{lem}\label{MWTBSTLem}
-Given a multiway tree $T'$ with page size $k$ (a k$+1$-ary tree) and $n$ keys, where keys are associated with a probability distribution of successful and unsuccessful searches as in Knuth's original optimum binary search tree problem, we can create a BST $T$ where each key in a given page $g \in T'$ forms a connected component in $T$ in $O(n)$ time.
+Given a multiway tree $T'$ with page size $k$ (a k$+1$-ary tree) and $n$ keys, and $n+1$ gaps and an associated probability distribution as in Knuth's original optimum binary search tree problem, we can create a BST $T$ where each key in a given page $g \in T'$ forms a connected component in $T$ in $O(n)$ time.
 \end{lem}
 
 \begin{proof}
-For each page $g$, we create a complete BST $B$ over its keys (using the sorted order of all $n$ keys). We create an ordering over all potential locations where \textit{additional} keys could be added to the tree from left to right. All keys in all descendant pages of a page $g$ in a specific subtree rooted at a child of $g$ will lie in a specific range. There are at most $k+1$ of these ranges (since our page has at most $k$ keys). These ranges precisely correspond to the at most $k+1$ locations where a new child key could be added. We order these locations from left to right and attach root keys from the newly created BST's of each of the ordered (left to right) child of $g$. Leaf pages with a single gap are attached in a similar fashion. These are all valid connections since each child of $g$ has keys in these correct ranges, and combining BST's in this fashion produces a valid BST. We create a complete BST in each page in $O(k)$ time (of which there are at most $O(\frac{n}{k})$ such pages), and make $O(n)$ new parent child connections, giving us total time $O(n)$.
+For each page $g$, we create a complete BST $B$ over its keys (using the sorted order of all $2n+1$ keys and gaps). We create an ordering over all potential locations where \textit{additional} keys could be added to this small BST from left to right. All keys in all descendant pages of a page $g$ in a specific subtree rooted at a child of $g$ will lie in a specific range. There are at most $k+1$ of these ranges (since our page has at most $k$ keys). These ranges precisely correspond to the at most $k+1$ locations where a new child key could be added. We order these locations from left to right and attach root keys from the newly created BST's of each of the ordered (left to right) child of $g$. Leaf pages with a single gap are attached in a similar fashion. These are all valid connections since each child of $g$ has keys in these correct ranges, and combining BST's in this fashion produces a valid BST. We create a complete BST in each page in $O(k)$ time (of which there are at most $O(\frac{n}{k})$ such pages), and make $O(n)$ new parent child connections, giving us total time $O(n)$.
 \end{proof}
 
-In order to obtain a gooe approximate solution to the optimum BST problem under the HMM model, we do the following:
+In order to obtain a good approximate solution to the optimum BST problem under the HMM model, we do the following:
 
 \begin{enumerate}
 \item First, we create a multiway tree $T'$ using the algorithm of Bose and Dou\"{i}eb. This takes $O(n)$ time with our page size equal to $m_1$ (the smallest level of our memory hierarchy) \cite{bose2009efficient}.
@@ -966,20 +963,20 @@ Next, we bound the cost of search for each key and each gap. Let $m'_j = \sum_{k
 
 For any key $B_i$, if
 \begin{align*}
-k=min_{l \in \{1, ..., h\}} \mid m'_l &\geq location(B_i) \text{ then} \\
-k=min_{l \in \{1, ..., h\}} \mid m'_l &\geq \frac{2}{p_i}-1.
+k=&min_{j \in \{1, ..., h\}} \mid m'_j \geq location(B_i) \text{ then} \\
+&k=min_{j \in \{1, ..., h\}} \mid m'_j \geq \frac{2}{p_i}-1.
 \end{align*}
 Let $par(B_{i-1}, B_i)$ represent the parent of the node for gap $(B_{i-1}, B_i)$ in $T$. If $n \geq 1$, then for any gap $(B_{i-1}, B_i)$, if 
 \begin{align*}
-k=min_{l \in \{1, ..., h\}} \mid m'_l &\geq location(par(B_{i-1}, B_i)) \text{ then} \\
-k=min_{l \in \{1, ..., h\}} \mid m'_l &\geq \lfloor \frac{4}{q_i}-\frac{1}{2} \rfloor \text{ and} \\
-k=min_{l \in \{1, ..., h\}} \mid m'_l &\geq \lfloor \frac{2}{q_i}-\frac{1}{2} \rfloor. \text{ for at least $m$ of them (and the two extremal gaps)}.
+k=&min_{j \in \{1, ..., h\}} \mid m'_j \geq location(par(B_{i-1}, B_i)) \text{ then} \\
+&k=min_{j \in \{1, ..., h\}} \mid m'_j \geq \lfloor \frac{4}{q_i}-\frac{1}{2} \rfloor \text{ and} \\
+&k=min_{j \in \{1, ..., h\}} \mid m'_j \geq \lfloor \frac{2}{q_i}-\frac{1}{2} \rfloor \text{ for at least $m$ of them (and the two extremal gaps)}.
 \end{align*}
 
 \end{lem}
 
 \begin{proof}
-Knowing a key's depth, its location in $T$ can be bounded as follows:
+Knowing a key's depth, its location in $T$ (since we use a BFS to place nodes into memory) can be bounded as follows:
 
 \begin{align*}
 location(B_i) \leq 2^{d_T(B_i)+1}-1.
@@ -1021,22 +1018,22 @@ location(par(B_{i-1},B_i)) &\leq \lfloor \frac{2}{q_i}-\frac{1}{2} \rfloor \text
 
 
 \begin{lem} \label{AMWPExactLem}
-The cost of searching for keys $B_i$ or $(B_{i-1},B_i)$, $(C(B_i) \text{ and } C(B_{i-1},B_i)$ respectively) can be bounded as follows: 
+The cost of searching for key $B_i$ or gap $(B_{i-1},B_i)$, $(C(B_i) \text{ and } C(B_{i-1},B_i)$ respectively) can be bounded as follows: 
 \begin{align*} 
 C(B_i) \leq  \sum_{k'=1}^{k-1} &\left(\lfloor \lg(m'_{k'}+1) \rfloor - \lfloor \lg(m'_{k'-1}+1) \rfloor \right)\cdot c_{k'}+ 
- \left(\lg(\frac{1}{p_i}) + 1 - \lfloor \lg(m'_{k'-1}+1) \rfloor \right)\cdot c_k\\
-&\text{such that } \left( k=min_{l \in \{1, ..., h\}} \mid m'_l \geq \frac{2}{p_i}-1 \right) 
+ \left(\lg(\frac{1}{p_i}) + 1 - \lfloor \lg(m'_{k-1}+1) \rfloor \right)\cdot c_k\\
+&\text{such that } \left( k=min_{j \in \{1, ..., h\}} \mid m'_j \geq \frac{2}{p_i}-1 \right) 
 \end{align*}
 \begin{align*}
 C(B_{i-1},B_i) \leq \sum_{k'=1}^{k-1} &\left(\lfloor \lg(m'_{k'}+1) \rfloor - \lfloor \lg(m'_{k'-1}+1) \rfloor \right)\cdot c_{k'}+ 
-\left(lg(\frac{1}{q_i}) + 2 - \lfloor \lg(m'_{k'-1}+1) \rfloor \right)\cdot c_k \\
-&\text{such that } \left( k=min_{l \in \{1, ..., h\}} \mid m'_l \geq \lfloor \frac{4}{q_i}-\frac{1}{2} \rfloor \right) \\
+\left(lg(\frac{1}{q_i}) + 2 - \lfloor \lg(m'_{k-1}+1) \rfloor \right)\cdot c_k \\
+&\text{such that } \left( k=min_{j \in \{1, ..., h\}} \mid m'_j \geq \lfloor \frac{4}{q_i}-\frac{1}{2} \rfloor \right) \\
 & \text{for all gaps, and}
 \end{align*}
 \begin{align*}
 C(B_{i-1},B_i) \leq \sum_{k'=1}^{k-1} &\left(\lfloor \lg(m'_{k'}+1) \rfloor - \lfloor \lg(m'_{k'-1}+1) \rfloor \right)\cdot c_{k'}+ 
-\left(lg(\frac{1}{q_i}) + 1 - \lfloor \lg(m'_{k'-1}+1) \rfloor \right)\cdot c_k \\
-&\text{such that } \left( k=min_{l \in \{1, ..., h\}} \mid m'_l \geq \lfloor \frac{2}{q_i}-\frac{1}{2} \rfloor \right) \\
+\left(lg(\frac{1}{q_i}) + 1 - \lfloor \lg(m'_{k-1}+1) \rfloor \right)\cdot c_k \\
+&\text{such that } \left( k=min_{j \in \{1, ..., h\}} \mid m'_j \geq \lfloor \frac{2}{q_i}-\frac{1}{2} \rfloor \right) \\
  & \text{ for at least $m$ (and the two extremal) gaps}.
 \end{align*}
 
@@ -1044,13 +1041,13 @@ C(B_{i-1},B_i) \leq \sum_{k'=1}^{k-1} &\left(\lfloor \lg(m'_{k'}+1) \rfloor - \l
 
 
 \begin{proof}
-Consider the accessing each key along the path from the root to key $B_i$. We will examine $d_T(B_i)$ keys. We access one key at depth $0$, one key at depth $1$, and so on. Because the tree is packed into memory in BFS order, a key a depth $j$ will be at memory index at most $2^j-1$. Now, consider how many levels of the binary search tree $T$ will fit in $m_1$. In order for all keys of depth $j$ (and higher) to be in $m_1$ we need:
+Consider accessing each key along the path from the root to key $B_i$. We will examine $d_T(B_i)$ keys. We access one key at depth $0$, one key at depth $1$, and so on. Because the tree is packed into memory in BFS order, a key a depth $j$ will be at memory index at most $2^j-1$. Now, consider how many levels of the binary search tree $T$ will fit in $m_1$. In order for all keys of depth $j$ (and higher) to be in $m_1$ we need:
 \begin{align*}
-2^j-1 \leq m_1 \implies i \leq \lg(m_1 + 1).
+2^{j+1}-1 \leq m_1 \implies j \leq \lg(m_1 + 1)-1.
 \end{align*}
-Thus, at least $\lfloor \lg(m_1 + 1) \rfloor$ levels of $T$ will completely fit on $m_1$. We expand this concept for arbitrary memory level $m_k$. The last level of $T$ to completely fit on $m_k$ or higher memories is the maximum $s$ such that:
+Thus, at least $\lfloor \lg(m_1 + 1) \rfloor$ levels of $T$ (since the root node has depth $0$) will completely fit on $m_1$. We expand this concept for arbitrary memory level $m_k$. The last level of $T$ to completely fit on $m_k$ or higher memories is the maximum $s$ such that:
 \begin{align*}
-2^{s+1}-1 \leq m'_k \implies s \leq \lg(m'_k + 1).
+2^s-1 \leq m'_k \implies s \leq \lg(m'_k + 1).
 \end{align*}
 Thus, at least $\lfloor \lg(m'_j + 1) \rfloor$ levels of $T$ fit on $m_j$ or higher levels of memory.
 On our search for $B_i$, we make at least $\lfloor \lg(m_1 + 1) \rfloor$ checks for elements located at memory $m_1$. This costs a total of
@@ -1072,24 +1069,24 @@ Combining the above three equations (and summing over every memory level) gives 
 
 \begin{align*}
 C(B_i) \leq &\sum_{k'=1}^{k-1} \left(\lfloor \lg(m'_{k'}+1) \rfloor - \lfloor \lg(m'_{k'-1}+1) \rfloor \right)\cdot c_{k'}+ \\
- &\left(\lg(\frac{1}{p_i}) + 1 - \lfloor \lg(m'_{k'-1}+1) \rfloor \right)\cdot c_k \\
-&\text{such that } \left( k=min_{l \in \{1, ..., h\}} \mid m'_l \geq location(B_i) \right)
+ &\left(\lg(\frac{1}{p_i}) + 1 - \lfloor \lg(m'_{k-1}+1) \rfloor \right)\cdot c_k \\
+&\text{such that } \left( k=min_{j \in \{1, ..., h\}} \mid m'_j \geq location(B_i) \right)
 \end{align*}
 
 Similarly, to search for a gap $(B_{i-1},B_i)$ we must access each of its descendants in turn (but not the leaf node representing that gap itself). Our search effectively ends at the parent of $(B_{i-1},B_i)$. Thus, 
 
 \begin{align*}
-C(B_{i-1},B_i) \leq \sum_{k'=1}^{k-1} &\left(\lfloor \lg(m'_{k'}+1) \rfloor - \lfloor \lg(m'_{k'-1}+1) \rfloor \right)\cdot c_{k'}+ \\
- &\left(lg(\frac{1}{q_i}) + 2 - \lfloor \lg(m'_{k'-1}+1) \rfloor \right)\cdot c_k \\
-&\text{such that } \left( k=min_{l \in \{1, ..., h\}} \mid m'_l \geq location(par(B_{i-1},B_i)) \right)
+C(B_{i-1},B_i) \leq \sum_{k'=1}^{k-1} &\left(\lfloor \lg(m'_{k'}+1) \rfloor - \lfloor \lg(m'_{k-1}+1) \rfloor \right)\cdot c_{k'}+ \\
+ &\left(lg(\frac{1}{q_i}) + 2 - \lfloor \lg(m'_{k-1}+1) \rfloor \right)\cdot c_k \\
+&\text{such that } \left( k=min_{j \in \{1, ..., h\}} \mid m'_j \geq location(par(B_{i-1},B_i)) \right)
 \end{align*}
 
 For all gaps, and,  
 
 \begin{align*}
-C(B_{i-1},B_i) \leq \sum_{k'=1}^{k-1} &\left(\lfloor \lg(m'_{k'}+1) \rfloor - \lfloor \lg(m'_{k'-1}+1) \rfloor \right)\cdot c_{k'}+ \\
-&\left(lg(\frac{1}{q_i}) + 1 - \lfloor \lg(m'_{k'-1}+1) \rfloor \right)\cdot c_k \\
-&\text{such that } \left( k=min_{l \in \{1, ..., h\}} \mid m'_l \geq location(par(B_{i-1},B_i)) \right)
+C(B_{i-1},B_i) \leq \sum_{k'=1}^{k-1} &\left(\lfloor \lg(m'_{k'}+1) \rfloor - \lfloor \lg(m'_{k-1}+1) \rfloor \right)\cdot c_{k'}+ \\
+&\left(lg(\frac{1}{q_i}) + 1 - \lfloor \lg(m'_{k-1}+1) \rfloor \right)\cdot c_k \\
+&\text{such that } \left( k=min_{j \in \{1, ..., h\}} \mid m'_j \geq location(par(B_{i-1},B_i)) \right)
 \end{align*}
 
 for at least $m$ (and the two most extremal) gaps.
@@ -1101,8 +1098,8 @@ Plugging in our upper bounds on $location(B_i)$ and $location(par(B_{i-1},B_i))$
 In order to use \ref{AMWPExactLem}, we define a function $C'$, which consumes a key $B_i$ as follows:
 \begin{align*}
 C'(B_i) :=  \sum_{k'=1}^{k-1} &\left(\lfloor \lg(m'_{k'}+1) \rfloor - \lfloor \lg(m'_{k'-1}+1) \rfloor \right)\cdot c_{k'}+ \\
- &\left(\lg(\frac{1}{p_i}) + 1 - \lfloor \lg(m'_{k'-1}+1) \rfloor \right)\cdot c_k\\
-&\text{such that } \left( k=min_{l \in \{1, ..., h\}} \mid m'_l \geq \frac{2}{p_i}-1 \right) 
+ &\left(\lg(\frac{1}{p_i}) + 1 - \lfloor \lg(m'_{k-1}+1) \rfloor \right)\cdot c_k\\
+&\text{such that } \left( k=min_{j \in \{1, ..., h\}} \mid m'_j \geq \frac{2}{p_i}-1 \right) 
 \end{align*}
 
 We also define a function $C''$, which consumes a gap $(B_{i-1},B_i)$. First, we define:
@@ -1114,11 +1111,11 @@ Q = \{q_i : q_i \text{ among smallest }m \text{ gaps excluding the extremal gaps
 C''((B_{i-1},B_i)) :=
 \begin{cases}
 \sum_{k'=1}^{k-1} &\left(\lfloor \lg(m'_{k'}+1) \rfloor - \lfloor \lg(m'_{k'-1}+1) \rfloor \right)\cdot c_{k'} + \\
- &\left(lg(\frac{1}{q_i}) + 2 - \lfloor \lg(m'_{k'-1}+1) \rfloor \right)\cdot c_k \hspace{70pt} \text{ if } q_i \not\in Q \\
-&\text{such that } \left( k=min_{l \in \{1, ..., h\}} \mid m'_l \geq \lfloor \frac{4}{q_i}-\frac{1}{2} \rfloor \right) \\ \\
+ &\left(lg(\frac{1}{q_i}) + 2 - \lfloor \lg(m'_{k-1}+1) \rfloor \right)\cdot c_k \hspace{70pt} \text{ if } q_i \not\in Q \\
+&\text{such that } \left( k=min_{j \in \{1, ..., h\}} \mid m'_j \geq \lfloor \frac{4}{q_i}-\frac{1}{2} \rfloor \right) \\ \\
 \sum_{k'=1}^{k-1} &\left(\lfloor \lg(m'_{k'}+1) \rfloor - \lfloor \lg(m'_{k'-1}+1) \rfloor \right)\cdot c_{k'}+ \\
-&\left(lg(\frac{1}{q_i}) + 1 - \lfloor \lg(m'_{k'-1}+1) \rfloor \right)\cdot c_k \hspace{70pt} \text{ otherwise}\\
-&\text{such that } \left( k=min_{l \in \{1, ..., h\}} \mid m'_l \geq \lfloor \frac{2}{q_i}-\frac{1}{2} \rfloor \right)
+&\left(lg(\frac{1}{q_i}) + 1 - \lfloor \lg(m'_{k-1}+1) \rfloor \right)\cdot c_k \hspace{70pt} \text{ otherwise}\\
+&\text{such that } \left( k=min_{j \in \{1, ..., h\}} \mid m'_j \geq \lfloor \frac{2}{q_i}-\frac{1}{2} \rfloor \right)
 \end{cases}
 \end{align*}
 
@@ -1150,43 +1147,13 @@ In order to get a more cleaner (albeit weaker) bound in terms of the entropy of 
 
 \begin{lem} \label{452}
 \begin{align*}
-W \leq \sum_{i=1}^{h-1} \left(\lfloor \lg(m'_i+1) \rfloor - \lfloor \lg(m'_{i-1}+1 \rfloor  \right)\cdot c_i+ \left(D(T) - \lfloor \lg(m'_{h-1}+1) \rfloor \right)\cdot c_h
+W \leq \sum_{k=1}^{h-1} \left(\lfloor \lg(m'_k+1) \rfloor - \lfloor \lg(m'_{i-1}+1 \rfloor  \right)\cdot c_k+ \left(D(T) - \lfloor \lg(m'_{h-1}+1) \rfloor \right)\cdot c_h
 \end{align*}
 \end{lem}
 
 
 \begin{proof}
-Consider the accessing each key along the path from the root to the deepest key in $T$. We will examine $D(T)$ keys. We access one key at depth $0$, one key at depth $1$, and so on. Because the tree is packed into memory in BFS order, a key a depth $i$ will be at memory index at most $2^i-1$. Now, consider how many levels of the binary search tree $T$ will fit in $m_1$. In order for all keys of depth $i$ (and higher) to be in $m_1$ we need:
-\begin{align*}
-2^i-1 \leq m_1 \implies i \leq \lg(m_1 + 1).
-\end{align*}
-Thus, at least $\lfloor \lg(m_1 + 1) \rfloor$ levels of $T$ will completely fit on $m_1$. Next we examine how many levels of $T$ fit on $m_j$ for $1 < j < l$. The last level to completely fit on $m_j$ or higher memories is the maximum $i$ such that:
-\begin{align*}
-2^{i+1}-1 \leq m'_j \implies i \leq \lg(m'_j + 1).
-\end{align*}
-Thus, at least $\lfloor \lg(m'_j + 1) \rfloor$ levels of $T$ fit on $m_j$ or higher levels of memory.
-On our search for the deepest key in the tree, we make at least $\lfloor \lg(m_1 + 1) \rfloor$ checks for elements located at memory $m_1$. This costs a total of
-\begin{align*}
-\lfloor \lg(m_1 + 1) \rfloor \cdot c_1.
-\end{align*}
-For each memory level $m_j$ for $1 < j < l$, we make at least $\lfloor \lg(m'_j + 1) \rfloor$ checks in $m_j$ or higher memories. Of these checks, at least $\lfloor \lg(m'_{j-1} + 1) \rfloor$ are in memory levels strictly higher up in the memory hierarchy than $j$. Since $c_j > c_i$ for $j > i$, an upper bound on the cost of searching for all elements in memory level $j$ on the path from the root to the deepest element of the tree is:
-\begin{align*}
-(\lfloor \lg(m'_j + 1) \rfloor - \lfloor \lg(m'_{j-1} + 1) \rfloor) \cdot c_j.
-\end{align*}
-Finally, we can upper bound the cost of search within $m_h$ by assuming that all remaining searches take place at memory level $h$. The searches at level $h$ will cost at most:
-
-\begin{align*}
-(\lg(D(T) - \lfloor \lg(m'_{h-1}+1) \rfloor)\cdot c_h.
-\end{align*}
-
-Combining the above three equations (and summing over every memory level) gives us the total cost of searching for a key in the deepest part of the tree:
-
-\begin{align*}
-W &\leq \lfloor \lg(m_1 + 1) \rfloor \cdot c_1 + \sum_{i=2}^{h-1} \left(\lfloor \lg(m'_i+1) \rfloor - \lfloor \lg(m'_{i-1}+1) \rfloor \right)\cdot c_i+ \left(D(T) - \lfloor \lg(m'_{h-1}+1) \rfloor \right)\cdot c_h \\
-W &\leq \sum_{i=1}^{h-1} \left(\lfloor \lg(m'_i+1) \rfloor - \lfloor \lg(m'_{i-1}+1) \rfloor \right)\cdot c_i+ \left(D(T) - \lfloor \lg(m'_{h-1}+1) \rfloor \right)\cdot c_h
-\end{align*}
-
-
+We can follow the exact same logic as in \ref{AMWPExactLem} with the depth of our node as $D(T)$, and its memory level $h$. This immediately gives us the desired result.
 
 \end{proof}
 
@@ -1202,9 +1169,9 @@ W<D(T)\cdot c_h
 \begin{proof}
 We can rearrange Lemma~\ref{452} as follows:
 \begin{align*}
-W \leq D(T)\cdot c_h - \sum_{i=1}^{h-1} \lfloor \lg(m'_i+1) \rfloor \cdot(c_{i+1} - c_i) 
+W \leq D(T)\cdot c_h - \sum_{k=1}^{h-1} \lfloor \lg(m'_k+1) \rfloor \cdot(c_{k+1} - c_k) 
 \end{align*}
-Since we have that $c_i > c_{i-1}$ for all $i$, $\sum_{i=1}^{h-1} \lfloor \lg(m'_i+1) \rfloor \cdot(c_{i+1} - c_i)$ is strictly positive. This instantly gives the result desired.
+Since we have that $c_k > c_{k-1}$ for all $k$, $\sum_{k=1}^{h-1} \lfloor \lg(m'_k+1) \rfloor \cdot(c_{k+1} - c_k)$ is strictly positive. This instantly gives the result desired.
 \end{proof}
 
 Note that $\frac{W}{D(T)}$ represents the average cost per memory access when accessing the deepest (and most costly) element of our tree. Since our costs of access are monotonically increasing as we move deeper in the tree, we will see that $\frac{W}{D(T)}$ can be used as an upper bound for the average cost per memory access when searching for any element of $T$.
@@ -1276,7 +1243,7 @@ H + 1 - q_0 - q_n + q_{max} - \sum_{i=0}^{m'} pq_{\text{rank}[i]}.
 \end{align*}
 Here, $P$ is the number of increasing or decreasing sequences in a left-to-right read of the access probabilities of the gaps and $m'=\max({2n-3P,P})-1 \geq \frac{n}{2} - 1$.  Moreover, $pq_{\text{rank}[i]}$ is the $i^{th}$ smallest access probability among all keys and gaps except $q_0$ and $q_n$.
 
-First, we explain the algorithm of De Prisco and De Santis and then explain the extensions of Bose and Dou\"{i}eb. De Prisco and De Santis' algorithm occurs in three phases.
+First, we a high level explanation of the algorithm of De Prisco and De Santis and then explain the extensions of Bose and Dou\"{i}eb. De Prisco and De Santis' algorithm occurs in three phases.
 
 \begin{itemize}
 \item[\textbf{Phase 1}] An auxiliary probability distribution is created using $2n$ zero probabilities, along with the $2n+1$ successful and unsuccessful search probabilities. Yeung's linear time alphabetic search tree algorithm is used with the $2n+1$ successful and unsuccessful search probabilities used as gaps of the new tree created \cite{yeung1991alphabetic}. This is referred to as the \textit{starting tree}.
@@ -1339,7 +1306,7 @@ Our second solution to create an approximately optimal BST under the HMM model w
 \begin{enumerate}
 \item First, we create a BST $T$ using the algorithm of De Prisco and De Santis \cite{de1993binary} (as updated by Bose and Dou\"{i}eb \cite{bose2009efficient}). This takes $O(n)$ time. \\
 
-\item In a similar fashion to step 4) of \textit{ApproxMWPaging}, we pack keys from $T$ into memory in a breadth-first search order starting from the root. This relatively simple traversal also takes $O(n)$ time.
+\item In a similar fashion to step 4) of \ref{Algorithm ApproxMWPaging}, we pack keys from $T$ into memory in a breadth-first search order starting from the root. This relatively simple traversal also takes $O(n)$ time.
 \end{enumerate}
 
 We are left with a binary search tree which is properly packed into memory in total time $O(n)$.
@@ -1358,16 +1325,16 @@ R = \{\alpha : \alpha &\text{ among the }m' \text{ smallest access probabilities
 
 For any key $B_i$, if
 \begin{align*}
-k=&min_{l \in \{1, ..., h\}} \mid m'_l \geq location(B_i) \text{ then} \\
-&k=min_{l \in \{1, ..., h\}} \mid m'_l \geq \frac{1}{p_i}-1 \text{ if } p_i \in R \\
-&k=min_{l \in \{1, ..., h\}} \mid m'_l \geq \frac{2}{p_i}-1 \text{ otherwise.}
+k=&min_{j \in \{1, ..., h\}} \mid m'_j \geq location(B_i) \text{ then} \\
+&k=min_{j \in \{1, ..., h\}} \mid m'_j \geq \frac{1}{p_i}-1 \text{ if } p_i \in R \\
+&k=min_{j \in \{1, ..., h\}} \mid m'_j \geq \frac{2}{p_i}-1 \text{ otherwise.}
 \end{align*}
 Let $par(B_{i-1}, B_i)$ represent the parent of the node for gap $(B_{i-1}, B_i)$ in $T$. If $n \geq 1$, then for any gap $(B_{i-1}, B_i)$, if 
 \begin{align*}
-k=&min_{l \in \{1, ..., h\}} \mid m'_l \geq location(par(B_{i-1}, B_i)) \text{ then} \\
-&k=min_{l \in \{1, ..., h\}} \mid m'_l \geq \lfloor \frac{1}{q_i}-\frac{1}{2} \rfloor \text{ if } q_i \in R \\
-&k=min_{l \in \{1, ..., h\}} \mid m'_l \geq \lfloor \frac{4}{q_i}-\frac{1}{2} \rfloor \text{ else if } p_i \neq q_{max} \\
-&k=min_{l \in \{1, ..., h\}} \mid m'_l \geq \lfloor \frac{2}{q_i}-\frac{1}{2} \rfloor. \text{ otherwise}.
+k=&min_{j \in \{1, ..., h\}} \mid m'_j \geq location(par(B_{i-1}, B_i)) \text{ then} \\
+&k=min_{j \in \{1, ..., h\}} \mid m'_j \geq \lfloor \frac{1}{q_i}-\frac{1}{2} \rfloor \text{ if } q_i \in R \\
+&k=min_{j \in \{1, ..., h\}} \mid m'_j \geq \lfloor \frac{4}{q_i}-\frac{1}{2} \rfloor \text{ else if } q_i = q_{max} \\
+&k=min_{j \in \{1, ..., h\}} \mid m'_j \geq \lfloor \frac{2}{q_i}-\frac{1}{2} \rfloor \text{ otherwise}.
 \end{align*}
 
 \end{lem}
@@ -1397,7 +1364,7 @@ location(B_i) &\leq \frac{2}{p_i}-1 \text{ otherwise.}
 Recall a gap's location and its parent's location can be bounded as follows:
 
 \begin{align*}
-location(B_{i-1}, B_i) \leq 2^{d_T((B_{i-1},B_i))+1}-1
+location(B_{i-1}, B_i) &\leq 2^{d_T((B_{i-1},B_i))+1}-1 \\
 location(par(B_{i-1}, B_i)) &\leq \lfloor 2^{d_T((B_{i-1},B_i))}-\frac{1}{2} \rfloor
 \end{align*}
 
@@ -1426,25 +1393,25 @@ The cost of searching for key $B_i$ or gap $(B_{i-1},B_i)$, $(C(B_i) \text{ and 
 C(B_i) \leq 
 \begin{cases}
  \sum_{k'=1}^{k-1} &\left(\lfloor \lg(m'_{k'}+1) \rfloor - \lfloor \lg(m'_{k'-1}+1) \rfloor \right)\cdot c_{k'}+ \\
- &\left(\lg(\frac{1}{p_i}) - \lfloor \lg(m'_{k'-1}+1) \rfloor \right)\cdot c_k\\
-&\text{such that } k=min_{l \in \{1, ..., h\}} \mid m'_l \geq \frac{1}{p_i}-1 \text{ if } p_i \in R \\\\
+ &\left(\lg(\frac{1}{p_i}) - \lfloor \lg(m'_{k-1}+1) \rfloor \right)\cdot c_k\\
+&\text{such that } k=min_{j \in \{1, ..., h\}} \mid m'_j \geq \frac{1}{p_i}-1 \text{ if } p_i \in R \\\\
  \sum_{k'=1}^{k-1} &\left(\lfloor \lg(m'_{k'}+1) \rfloor - \lfloor \lg(m'_{k'-1}+1) \rfloor \right)\cdot c_{k'}+ \\
- &\left(\lg(\frac{1}{p_i}) + 1 - \lfloor \lg(m'_{k'-1}+1) \rfloor \right)\cdot c_k\\
-&\text{such that } k=min_{l \in \{1, ..., h\}} \mid m'_l \geq \frac{2}{p_i}-1 \text{ otherwise.}  
+ &\left(\lg(\frac{1}{p_i}) + 1 - \lfloor \lg(m'_{k-1}+1) \rfloor \right)\cdot c_k\\
+&\text{such that } k=min_{j \in \{1, ..., h\}} \mid m'_j \geq \frac{2}{p_i}-1 \text{ otherwise.}  
 \end{cases}
 \end{align*}
 \begin{align*}
 C((B_{i-1},B_i)) \leq
 \begin{cases}
  \sum_{k'=1}^{k-1} &\left(\lfloor \lg(m'_{k'}+1) \rfloor - \lfloor \lg(m'_{k'-1}+1) \rfloor \right)\cdot c_{k'}+ \\
- &\left(\lg(\frac{1}{q_i}) - \lfloor \lg(m'_{k'-1}+1) \rfloor \right)\cdot c_k\\
-&\text{such that } k=min_{l \in \{1, ..., h\}} \mid m'_l \geq \lfloor \frac{1}{q_i}-\frac{1}{2} \rfloor \text{ if } q_i \in R  \\\\
+ &\left(\lg(\frac{1}{q_i}) - \lfloor \lg(m'_{k-1}+1) \rfloor \right)\cdot c_k\\
+&\text{such that } k=min_{j \in \{1, ..., h\}} \mid m'_j \geq \lfloor \frac{1}{q_i}-\frac{1}{2} \rfloor \text{ if } q_i \in R  \\\\
   \sum_{k'=1}^{k-1} &\left(\lfloor \lg(m'_{k'}+1) \rfloor - \lfloor \lg(m'_{k'-1}+1) \rfloor \right)\cdot c_{k'}+ \\
- &\left(\lg(\frac{1}{q_i}) + 2 - \lfloor \lg(m'_{k'-1}+1) \rfloor \right)\cdot c_k\\
-&\text{such that } k=min_{l \in \{1, ..., h\}} \mid m'_l \geq \lfloor \frac{4}{q_i}-\frac{1}{2} \rfloor \text{ else if } q_i \neq q_{max}  \\\\
+ &\left(\lg(\frac{1}{q_i}) + 2 - \lfloor \lg(m'_{k-1}+1) \rfloor \right)\cdot c_k\\
+&\text{such that } k=min_{j \in \{1, ..., h\}} \mid m'_j \geq \lfloor \frac{4}{q_i}-\frac{1}{2} \rfloor \text{ else if } q_i = q_{max}  \\\\
  \sum_{k'=1}^{k-1} &\left(\lfloor \lg(m'_{k'}+1) \rfloor - \lfloor \lg(m'_{k'-1}+1) \rfloor \right)\cdot c_{k'}+ \\
- &\left(\lg(\frac{1}{q_i})+1 - \lfloor \lg(m'_{k'-1}+1) \rfloor \right)\cdot c_k\\
-&\text{such that } k=min_{l \in \{1, ..., h\}} \mid m'_l \geq \lfloor \frac{2}{q_i}-\frac{1}{2} \rfloor \text{ otherwise.}
+ &\left(\lg(\frac{1}{q_i})+1 - \lfloor \lg(m'_{k-1}+1) \rfloor \right)\cdot c_k\\
+&\text{such that } k=min_{j \in \{1, ..., h\}} \mid m'_j \geq \lfloor \frac{2}{q_i}-\frac{1}{2} \rfloor \text{ otherwise.}
 \end{cases}
 \end{align*}
 \end{lem}
@@ -1460,11 +1427,11 @@ In order to use \ref{ABSTExactLem}, we define a function $C'$, which consumes a 
 C'(B_i) := 
 \begin{cases}
  \sum_{k'=1}^{k-1} &\left(\lfloor \lg(m'_{k'}+1) \rfloor - \lfloor \lg(m'_{k'-1}+1) \rfloor \right)\cdot c_{k'}+ \\
- &\left(\lg(\frac{1}{p_i}) - \lfloor \lg(m'_{k'-1}+1) \rfloor \right)\cdot c_k\\
-&\text{such that } k=min_{l \in \{1, ..., h\}} \mid m'_l \geq \frac{1}{p_i}-1 \text{ if } p_i \in R \\\\
+ &\left(\lg(\frac{1}{p_i}) - \lfloor \lg(m'_{k-1}+1) \rfloor \right)\cdot c_k\\
+&\text{such that } k=min_{j \in \{1, ..., h\}} \mid m'_j \geq \frac{1}{p_i}-1 \text{ if } p_i \in R \\\\
  \sum_{k'=1}^{k-1} &\left(\lfloor \lg(m'_{k'}+1) \rfloor - \lfloor \lg(m'_{k'-1}+1) \rfloor \right)\cdot c_{k'}+ \\
- &\left(\lg(\frac{1}{p_i}) + 1 - \lfloor \lg(m'_{k'-1}+1) \rfloor \right)\cdot c_k\\
-&\text{such that } k=min_{l \in \{1, ..., h\}} \mid m'_l \geq \frac{2}{p_i}-1 \text{ otherwise.}  
+ &\left(\lg(\frac{1}{p_i}) + 1 - \lfloor \lg(m'_{k-1}+1) \rfloor \right)\cdot c_k\\
+&\text{such that } k=min_{j \in \{1, ..., h\}} \mid m'_j \geq \frac{2}{p_i}-1 \text{ otherwise.}  
 \end{cases}
 \end{align*}
 
@@ -1474,14 +1441,14 @@ We also define a function $C''$, which consumes a gap $(B_{i-1},B_i)$:
 C''((B_{i-1},B_i)) :=
 \begin{cases}
  \sum_{k'=1}^{k-1} &\left(\lfloor \lg(m'_{k'}+1) \rfloor - \lfloor \lg(m'_{k'-1}+1) \rfloor \right)\cdot c_{k'}+ \\
- &\left(\lg(\frac{1}{q_i}) - \lfloor \lg(m'_{k'-1}+1) \rfloor \right)\cdot c_k\\
-&\text{such that } k=min_{l \in \{1, ..., h\}} \mid m'_l \geq \lfloor \frac{1}{q_i}-\frac{1}{2} \rfloor \text{ if } q_i \in R  \\\\
+ &\left(\lg(\frac{1}{q_i}) - \lfloor \lg(m'_{k-1}+1) \rfloor \right)\cdot c_k\\
+&\text{such that } k=min_{j \in \{1, ..., h\}} \mid m'_j \geq \lfloor \frac{1}{q_i}-\frac{1}{2} \rfloor \text{ if } q_i \in R  \\\\
   \sum_{k'=1}^{k-1} &\left(\lfloor \lg(m'_{k'}+1) \rfloor - \lfloor \lg(m'_{k'-1}+1) \rfloor \right)\cdot c_{k'}+ \\
- &\left(\lg(\frac{1}{q_i}) + 2 - \lfloor \lg(m'_{k'-1}+1) \rfloor \right)\cdot c_k\\
-&\text{such that } k=min_{l \in \{1, ..., h\}} \mid m'_l \geq \lfloor \frac{4}{q_i}-\frac{1}{2} \rfloor \text{ else if } q_i \neq q_{max}  \\\\
+ &\left(\lg(\frac{1}{q_i}) + 2 - \lfloor \lg(m'_{k-1}+1) \rfloor \right)\cdot c_k\\
+&\text{such that } k=min_{j \in \{1, ..., h\}} \mid m'_j \geq \lfloor \frac{4}{q_i}-\frac{1}{2} \rfloor \text{ else if } q_i = q_{max}  \\\\
  \sum_{k'=1}^{k-1} &\left(\lfloor \lg(m'_{k'}+1) \rfloor - \lfloor \lg(m'_{k'-1}+1) \rfloor \right)\cdot c_{k'}+ \\
- &\left(\lg(\frac{1}{q_i})+1 - \lfloor \lg(m'_{k'-1}+1) \rfloor \right)\cdot c_k\\
-&\text{such that } k=min_{l \in \{1, ..., h\}} \mid m'_l \geq \lfloor \frac{2}{q_i}-\frac{1}{2} \rfloor \text{ otherwise.}
+ &\left(\lg(\frac{1}{q_i})+1 - \lfloor \lg(m'_{k-1}+1) \rfloor \right)\cdot c_k\\
+&\text{such that } k=min_{j \in \{1, ..., h\}} \mid m'_j \geq \lfloor \frac{2}{q_i}-\frac{1}{2} \rfloor \text{ otherwise.}
 \end{cases}
 \end{align*}
 
@@ -1520,7 +1487,7 @@ We call this value $P_T$ (the average search cost of tree $T$). Similar to the p
 \begin{lem} 
 When using the ApproxBSTPaging, the cost of searching for a node deepest in the tree is at most:
 \begin{align*}
-W \leq \sum_{k=1}^{h-1} \left(\lfloor \lg(m'_i+1) \rfloor - \lfloor \lg(m'_{i-1}+1) \rfloor)\cdot c_i+ (D(T) - \lfloor \lg(m'_{h-1}+1) \rfloor \right)\cdot c_h
+W \leq \sum_{k=1}^{h-1} \left(\lfloor \lg(m'_k+1) \rfloor - \lfloor \lg(m'_{i-1}+1) \rfloor)\cdot c_k+ (D(T) - \lfloor \lg(m'_{h-1}+1) \rfloor \right)\cdot c_h
 \end{align*}
 \end{lem}
 
@@ -1528,7 +1495,7 @@ W \leq \sum_{k=1}^{h-1} \left(\lfloor \lg(m'_i+1) \rfloor - \lfloor \lg(m'_{i-1}
 Since we are simply putting keys into memory in BFS order, and all we use is the height of the tree and the memory hierarchy, the proof is identical to that of Lemma~\ref{452}.
 \end{proof}
 
-Since we have the same result as Lemma~\ref{452}, this immediately implies Lemma~\ref{W<HT} is true as well. Assuming that $l \neq 1$, we have that $W<D(T)\cdot c_h$. As in the proof of the expected cost ApproxMWPaging, $\frac{W}{D(T)}$ represents the average cost per memory access when accessing the deepest (and most costly) element of our tree. Thus, $\frac{W}{D(T)}$ upper bounds the average cost per memory access when searching for any element of $T$.
+Since we have the same result as Lemma~\ref{452}, this immediately implies Lemma~\ref{W<HT} is true as well. Assuming that $l \neq 1$, we have that $W<D(T)\cdot c_h$. As in \ref{ExactApproxMWPagingThm}, $\frac{W}{D(T)}$ represents the average cost per memory access when accessing the deepest (and most costly) element of our tree. Thus, $\frac{W}{D(T)}$ upper bounds the average cost per memory access when searching for any element of $T$.
 \\
 
 \begin{thm} \label{ApproxBSTThm}
@@ -1567,8 +1534,8 @@ The proof of quality of approximation of Thite's approximate algorithm has a sma
 Specifically, in Lemma 14 in 3.4.2.3 Quality of approximation in Thite's thesis, he proves that $\delta(z_k) = l+2$. Here, $\delta(z_k)$ represents the depth of a leaf node $z_k$. Note that Thite considers the depth of the root to be $1$ instead of $0$ which updates how the cost of search is calculated accordingly. $l$ represents the depth of recursion of the \textit{Approx-BST} algorithm. In Lemma 15, Thite goes on to prove that $q_k \leq 2^{-\delta(z_k)+2}$. In this proof, Thite shows that $q_k \leq 2^{-l+1}$, but makes a mistake when substituting in $l=\delta(z_k)-2$ and gets $q_k \leq 2^{-\delta(z_k)+2}$ while the correct bound is $q_k \leq 2^{-\delta(z_k)+3}$. This updated bound would change his depth bound in Lemma 16 from $\delta(z_k) \leq \lfloor \lg(\frac{1}{q_k}) \rfloor + 2$ to $\delta(z_k) \leq \lfloor \lg(\frac{1}{q_k}) \rfloor + 3$. Finally, substituting into his final equation for the upper bound on the expected cost of search for the tree would give:
 
 \begin{align*}
-&\sum_{i=1}^{n} \left(c_2 p_i \delta(B_i )+ \sum_{i=0}^{n} c_2 q_i (\delta(q_i)-1 \right)\\
-\leq &\sum_{i=1}^{n} \left(c_2 p_i (\lg(\frac{1}{p_i})+1)+ \sum_{i=0}^{n} c_2 q_i (\frac{1}{q_i}-1+3 \right) \\
+&\sum_{i=1}^{n} \left(c_2 p_i \delta(B_i )+ \sum_{i=0}^{n} c_2 q_i (\delta(q_i)-1) \right)\\
+\leq &\sum_{i=1}^{n} \left(c_2 p_i (\lg(\frac{1}{p_i})+1)+ \sum_{i=0}^{n} c_2 q_i (\lg(\frac{1}{q_i})+3-1) \right) \\
 \leq &c_2 \cdot \left(H+1+\sum_{i=0}^{n}q_i \right)
 \end{align*}
 \end{proof}
@@ -1604,26 +1571,26 @@ C_{ApproxMWPaging} &< (H + 1 + \sum_{i=0}^n q_i - q_0 - q_n - \sum_{i=0}^m q_{\t
 Both methods provide a strictly better approximation and run faster than the \textit{Algorithm Approx-BST} of Thite.
 
 %=========================================
-\chapter{Binary Trees On Unordered Multisets}\label{BST over Multisets}
+\chapter{Binary Trees On Unordered Sequences of Probabilities}\label{BST over Multisets}
 
-In this chapter we examine a problem related to the initial optimal binary search tree problem of Knuth \cite{knuth1971optimum}. The $n$ keys (represented using simply their probabilities) provided will no longer have an ordering and can be rearranged as we please before constructing our binary tree. This problem is very similar to constructing optimal prefix-free binary codes which is solved using a Huffman coding. This problem differs because we must place the $n$ probabilities at internal and leaf node positions and cannot add extra nodes. Moreover, when searching, our cost model charges $1$ for each internal node we examine but does not charge for leaf nodes (since we do not need to "examine" them). Under this cost model, we show that our $O(n \lg(n))$ time algorithm \textit{GREEDY-MS} is within$\frac{n+1}{2n}$ of optimal.
+In this chapter we examine a problem related to the initial optimal binary search tree problem of Knuth \cite{knuth1971optimum}. The $n$ keys (represented using simply their probabilities) provided will no longer have an ordering and can be rearranged as we please before constructing our binary tree. We also do not have any restrictions on which keys can be internal nodes and which keys can be leaves. This problem is very similar to constructing optimal prefix-free binary codes which is solved using a Huffman coding. The problem differs however because we must place the $n$ probabilities at internal \textit{and} leaf node positions and cannot add extra nodes. Moreover, when searching, our cost model charges $1$ for each internal node we examine but does not charge for leaf nodes (since we do not need to "examine" them). Under this cost model, we show that our $O(n \lg(n))$ time algorithm \textit{GREEDY-MS} is within$\frac{n+1}{2n}$ of optimal.
 
-\section{The Multiset Binary Tree Problem}\label{The Multiset Binary Search Tree Problem}
+\section{The Binary Tree On Unordered Sequences of Probabilities Problem}\label{The Multiset Binary Search Tree Problem}
 
- Consider a multiset (a set with possible duplicate values) of $n$ probabilities: $M = \lbag p_1, p_2, ..., p_n \rbag$ such that $\sum\limits_{i=1}^n p_i = 1$. Our goal is to create a binary tree $T$ which minimizes the expected search cost, $C_{T_S}$, of nodes. We call this cost model the  the \textit{\textbf{S}tandard Model} since it is standard among other optimal BST problems.
+ Consider a multiset (a set with possible duplicate values) of $n$ probabilities: $M = \lbag p_1, p_2, ..., p_n \rbag$ such that $\sum\limits_{i=1}^n p_i = 1$. We assume $n$ is odd. Our goal is to create a binary tree $T$ which minimizes the expected search cost, $C_{T_S}$, of nodes. We call this cost model the  the \textit{\textbf{S}tandard Model} since it is standard among other optimal BST problems.
 \begin{equation}
 C_{T_S} = \sum_{i=1}^{n} p_i(b_i+1) - \sum_{i \in L_T}p_i
 \end{equation}
-Here, $b_i$ is the \emph{depth} of the $i$'th key of $M$ and $L_T$ is the set of leaves of $T$. We subtract the weight of the leaves of the tree since we need one less comparison to return a pointer a leaf node (as in the original optimal BST problem).
+Here, $b_i$ is the \emph{depth} of the $i$'th key of $M$ and $L_T$ is the set of leaves of $T$. We subtract the weight of the leaves of the tree since we need one less comparison to return a pointer a leaf node (as in the original optimal BST problem). Note that this is analogous to our previous cost model \ref{1.1} but with a simple modification of how we describe the set of leaves ($L_T$ instead of $\{q_i\}$ for appropriate $i$).
 
-\section{The GREEDY-MS Algorithm is Within $1$ of Optimal}\label{GREEDY-MS}
+\section{The GREEDY-MS Algorithm is Within $\frac{n+1}{2n}$ of Optimal}\label{GREEDY-MS}
 
 First, we consider a new cost model for this problem, the \textit{\textbf{E}xpected Path Length Model}, which has cost $C_{T_E}$ defined as follows:
 \begin{equation}
 C_{T_E} = \sum_{i=1}^{n} p_i(b_i+1)
 \end{equation}
 
-The model treats leaves and internal nodes the same, charging $1$ for each node that must be examined when searching through the tree from the root for a specific node.
+The model treats leaves and internal nodes the same, charging $1$ for each node that must be examined when searching through the tree from the root for a specific node. This model corresponds to the a problem under the \textit{Standard Model}, but with the addition of $n+1$ probabilities with value $0$, which should obviously be placed at $n+1$ leaf locations.
 
 As described in \cite{golin2012huffman} there is a simple greedy $O(n \lg n)$ time algorithm which solves the problem optimally. We call this algorithm \textit{GREEDY-MS}:
 
@@ -1633,10 +1600,10 @@ As described in \cite{golin2012huffman} there is a simple greedy $O(n \lg n)$ ti
 \item We create a BST $T$ as follows. The root of our tree will be $R[0]$, its two children will be $R[1]$ and $R[2]$, and so on. Formally, $R[i]$ will be placed at location $i+1$ in the BFS order of $T$.
 \end{enumerate}
 
-For completeness we formally prove its optimality under the \textit{Expected Path Length Model}. Note that email correspondence with Mordecai Golin significantly helped in the simplification of this proof \cite{golin2016}:
+For completeness we formally prove its optimality under the \textit{Expected Path Length Model}. 
 
 \begin{lem}\label{MSSolvesOpt}
-The tree $T$ created by \textit{GREEDY-MS} for the multiset of probabilities $M$ solves the multiset binary tree problem under the \textit{Expected Path Length Model} optimally.
+The tree $T$ created by \textit{GREEDY-MS} for the multiset of probabilities $M$ solves the problem under the \textit{Expected Path Length Model} optimally.
 \end{lem}
 
 \begin{proof}
@@ -1657,7 +1624,30 @@ Taking claims 1 and 2 together means that all optimal trees are full (except at 
 
 \end{proof}
 
-First, we must prove a lemma for optimal trees under the \textit{Standard Model}.
+In order to prove that \textit{GREEDY-MS} is within $\frac{n+1}{2n}$ of optimal under the \textit{Standard Model}  we first we must prove a lemma for optimal trees under the \textit{Standard Model}. We show that for an optimal tree where, for each parent child relationship, the parent has probability at least as large as the child, each leaf node (except one, the minimum) has a unique corresponding internal node with probability at least as big.
+
+We say a leaf $p_i$ is \textit{covered} by a unique internal node $p_i'$ if $p_i'$ is an internal node, $p_i$ is a leaf node and $p_i' \geq p_i$.
+
+\begin{lem}\label{leavesCovered}
+Let $T$ be an optimal tree under the \textit{Standard Model} such that, for all child parent pairs, the probability of the parent is greater than that of the child. Let $l_{min}$ be the smallest leaf node by probability.
+\begin{align*}
+\forall_{p_i \in L_T-\{l_{min}\}} \exists \text{ unique } p_i' \notin \{L_T \cup \{l_{min}\}\} \text{ such that } p_i' \text{ covers } p_i
+\end{align*}
+\end{lem}
+\begin{proof}
+The proof follows by induction on the height of $T$. When $T$ has height $1$, it trivially holds since we only have a single leaf, which does not need a an internal node. \\~\\ 
+Suppose for all $T$ (as in the lemma description) with heights strictly less than $l$, the claim holds. Consider any valid $T$ with height equal to $l$. One of two cases arise:
+
+\begin{enumerate}
+\item If our tree root has two leaf children, then the probability of the root must be at least $\frac{1}{3}$ (since it must be bigger than its children) and $n=3$. The root node is an internal node which we choose to \textit{cover} its larger child. The remaining leaf is minimum so we get the desired result.
+
+\item If our tree root has at least one non-leaf child, the by our induction hypothesis, our non-leaf subtrees have internal nodes to cover all but their smallest leaves. Since our root node must have greater probability than any other node in the tree (otherwise our parent child relationship assumption will be contradicted), the root node can \textit{cover} the larger of these two smallest leaves. We maintain all other \textit{covers} from solution to the subtrees with heights at most $l-1$ (solutions must exist from our induction hypothesis). We get a \textit{cover}ing as required.
+
+
+Combining the above two cases, we get that there exists a \textit{cover}ing of all leaf nodes (except the smallest leaf node) by internal nodes by induction. This gives the desired result, completing the proof.
+\end{enumerate}
+\end{proof}
+
 
 \begin{lem}\label{leavesHalf}
 Let $T$ be an optimal tree under the \textit{Standard Model} such that, for all child parent pairs, the probability of the parent is greater than that of the child. Then:
@@ -1666,41 +1656,15 @@ Let $T$ be an optimal tree under the \textit{Standard Model} such that, for all 
 \end{align*}
 \end{lem}
 \begin{proof}
-The proof follows by induction on the height of $T$. When $T$ has height $1$, it trivally has a single leaf node with $p_1=1$, and thus,  $\sum_{i \in L_T}p_i =1 \leq \frac{1+1}{2\cdot1}=1$ as required.
-Suppose for all $T$ with heights strictly less than $l$, the claim holds. Consider any $T$ with height equal to $l$. One of three cases arise:
-
-\begin{enumerate}
-\item If our tree has two leaf children, then the probability of the root must be at least $\frac{1}{3}$ (since it must be bigger than its children) and $n=3$. Thus, 
+By \ref{leavesCovered} we know that the sum of the probabilities of all internal nodes is at least as large as the sum of the probabilities of all leaf nodes minus the probability of the smallest leaf node. We also know the sum of all probabilities except the smallest leaf node is $1-l_{min}$. Thus, 
 \begin{align*}
-\sum_{i \in L_T}p_i \leq \frac{2}{3} \leq \frac{2}{3}=\frac{n+1}{2n}
+\sum_{i \in L_T}p_i \leq \frac{1}{2} \cdot (1-l_{min}) + l_{min}
 \end{align*}
-
-\item If our tree has one leaf child, and one non-leaf child, let $p$ be the total probability of the sum of the weights of all nodes in the non-leaf subtree. We know our leaf (call it $l$) has probability at most $\frac{1-p}{2}$ since the probability of the root is greater. Thus, using our induction hypothesis we get that:
+\noindent Note that this is maximized when $l_{min}$ is maximized. The maximum value for $l_{min}$ is exactly $\frac{1}{n}$, otherwise we contradict our parent-child relationship assumption. Thus,
 \begin{align*}
-\sum_{i \in L_T}p_i &\leq \frac{n-2+1}{2\cdot(n-2)}\cdot p + \frac{1-p}{2} \\
-&\leq \frac{n-1}{2\cdot(n-2)}\cdot p + \frac{1-p}{2} \\
-&\leq \frac{1}{2} \cdot \left( \frac{n-1}{n-2}\cdot p + 1-p \right)\\
-&\leq \frac{1}{2} \cdot \left( \frac{n\cdot p - p  + n - 2 -n\cdot p + 2p}{n-2}\right)\\
-&\leq \frac{1}{2} \cdot \left( \frac{n-2+p}{n-2}\right)\\
-&\leq \frac{1}{2} \cdot \left( \frac{n-1}{n-2}\right) \text{ since } p \leq 1\\
-&\leq \frac{n+1}{2n} \text{ as required}
+\sum_{i \in L_T}p_i &\leq \frac{1}{2} \cdot (1-\frac{1}{n}) + \frac{1}{n} \\
+\sum_{i \in L_T}p_i &\leq \frac{n+1}{2n} \text{ as required.}
 \end{align*}
-
-
-
-\item If our tree has two non-leaf children, then let $p$ be the total probability of the left child subtree, and $q$ the probability of the right child subtree. Let $n_p$ be the number of nodes in the left subtree, and $n_q$ the number of nodes in the right subtree. By our note earlier, our root node must have probability at least as large as the larger of its two children, so it must be at least $\frac{1}{3}$. Thus, by our induction hypothesis, the maximum weight of the leaves is:
-\begin{align*}
-\sum_{i \in L_T}p_i &\leq \frac{n_p+1}{2n_p}\cdot p + \frac{n_q+1}{2n_q}\cdot q \\
-&\leq \frac{n_p+1}{2n_p}\cdot \frac{1}{3} + \frac{n_q+1}{2n_q}\cdot \frac{1}{3} \text{ since } p \text{ and } q \text{ are smaller than the root} \\
-&\leq \frac{1}{6} + \frac{1}{6\cdot n_p} + \frac{1}{6} + \frac{1}{6\cdot n_q} \\
-&\leq \frac{1}{6} + \frac{1}{12} + \frac{1}{6} + \frac{1}{12} \text{ since } n_q \text{ and } n_p \text{ are both at least } 2 \\
-&\leq \frac{1}{2} \leq \frac{n+1}{2n} \forall n > 0 
-\end{align*}
-
-\end{enumerate}
-
-Combining the above three cases, we get that $\sum_{i \in L_T}p_i \leq \frac{n+1}{2n}$ by induction.
-
 \end{proof}
 
 
