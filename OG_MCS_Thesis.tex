@@ -102,6 +102,14 @@
 \newtheorem*{cor}{Corollary}
 
 
+\usepackage{afterpage}
+
+\newcommand\blankpage{%
+    \null
+    \thispagestyle{empty}%
+    \addtocounter{page}{-1}%
+    \newpage}
+
 % This package allows if-then-else control structures.
 \usepackage{ifthen}
 \newboolean{PrintVersion}
@@ -216,6 +224,8 @@
 % documents as suggested above, but you get the idea. If they were
 % separate documents, they would each start with the \chapter command, i.e, 
 % do not contain \documentclass or \begin{document} and \end{document} commands.
+
+\afterpage{\blankpage}
 
 \chapter{Introduction}
 
@@ -1579,7 +1589,7 @@ In this chapter we examine a problem related to the initial optimal binary searc
 
  Consider a multiset (a set with possible duplicate values) of $n$ probabilities: $M = \lbag p_1, p_2, ..., p_n \rbag$ such that $\sum\limits_{i=1}^n p_i = 1$. We assume $n$ is odd. Our goal is to create a binary tree $T$ which minimizes the expected search cost, $C_{T_S}$, of nodes. We call this cost model the  the \textit{\textbf{S}tandard Model} since it is standard among other optimal BST problems.
 \begin{equation}
-C_{T_S} = \sum_{i=1}^{n} p_i(b_i+1) - \sum_{i \in L_T}p_i
+C_{T_S} = \sum_{i=1}^{n} p_i(b_i+1) - \sum_{p_i \in L_T} p_i
 \end{equation}
 Here, $b_i$ is the \emph{depth} of the $i$'th key of $M$ and $L_T$ is the set of leaves of $T$. We subtract the weight of the leaves of the tree since we need one less comparison to return a pointer a leaf node (as in the original optimal BST problem). Note that this is analogous to our previous cost model \ref{1.1} but with a simple modification of how we describe the set of leaves ($L_T$ instead of $\{q_i\}$ for appropriate $i$).
 
@@ -1590,7 +1600,7 @@ First, we consider a new cost model for this problem, the \textit{\textbf{E}xpec
 C_{T_E} = \sum_{i=1}^{n} p_i(b_i+1)
 \end{equation}
 
-The model treats leaves and internal nodes the same, charging $1$ for each node that must be examined when searching through the tree from the root for a specific node. This model corresponds to the a problem under the \textit{Standard Model}, but with the addition of $n+1$ probabilities with value $0$, which should obviously be placed at $n+1$ leaf locations.
+The model treats leaves and internal nodes the same, charging $1$ for each node that must be examined when searching through the tree from the root for a specific node. This model corresponds to a problem instance under the \textit{Standard Model}, but with the addition of $n+1$ probabilities with value $0$ (which should obviously be placed at the $n+1$ leaf locations).
 
 As described in \cite{golin2012huffman} there is a simple greedy $O(n \lg n)$ time algorithm which solves the problem optimally. We call this algorithm \textit{GREEDY-MS}:
 
@@ -1620,7 +1630,7 @@ For a given depth $d$ strictly less than the height of $T'$, $T'$ must be full.
 If Claim 2 were not true consider $d'$; the smallest depth where it is not true. Take a leaf node with depth strictly greater than $d'$ and place it at depth $d$ in $T'$. The resulting tree costs strictly less than $T'$, another contradiction.
 \end{proof}
 
-Taking claims 1 and 2 together means that all optimal trees are full (except at the greatest depth) and always have higher probabilities above lower probabilities. All such trees are identical to $T$ created by \textit{GREEDY-MS} up to permutations among probabilities at a given depth $d$, and amongst identical probabilities. This completes the proof.
+Taking claims 1 and 2 together means that all optimal trees are full (except at the greatest depth) and always have higher probabilities above lower probabilities. All such trees are identical to $T$ created by \textit{GREEDY-MS} up to permutations among probabilities at a given depth $d$, and amongst identical probabilities, but still have the same cost. This completes the proof.
 
 \end{proof}
 
@@ -1629,14 +1639,14 @@ In order to prove that \textit{GREEDY-MS} is within $\frac{n+1}{2n}$ of optimal 
 We say a leaf $p_i$ is \textit{covered} by a unique internal node $p_i'$ if $p_i'$ is an internal node, $p_i$ is a leaf node and $p_i' \geq p_i$.
 
 \begin{lem}\label{leavesCovered}
-Let $T$ be an optimal tree under the \textit{Standard Model} such that, for all child parent pairs, the probability of the parent is greater than that of the child. Let $l_{min}$ be the smallest leaf node by probability.
+Let $T$ be an optimal tree under the \textit{Standard Model} such that, for all child parent pairs, the probability of the parent is greater than that of the child. Let $l_{min}$ be the smallest leaf node by probability. Then
 \begin{align*}
 \forall_{p_i \in L_T-\{l_{min}\}} \exists \text{ unique } p_i' \notin \{L_T \cup \{l_{min}\}\} \text{ such that } p_i' \text{ covers } p_i
 \end{align*}
 \end{lem}
 \begin{proof}
-The proof follows by induction on the height of $T$. When $T$ has height $1$, it trivially holds since we only have a single leaf, which does not need a an internal node. \\~\\ 
-Suppose for all $T$ (as in the lemma description) with heights strictly less than $l$, the claim holds. Consider any valid $T$ with height equal to $l$. One of two cases arise:
+The proof follows by induction on the height of $T$. When $T$ has height $1$, it trivially holds since we only have a single leaf, which does not need a an internal node to \textit{cover} it since it is $l_{min}$. \\~\\ 
+Suppose for all $T$ (as in the lemma description) with heights strictly less than $l$, the claim holds. Consider any $T$(as in the lemma description) with height equal to $l$. One of two cases arise:
 
 \begin{enumerate}
 \item If our tree root has two leaf children, then the probability of the root must be at least $\frac{1}{3}$ (since it must be bigger than its children) and $n=3$. The root node is an internal node which we choose to \textit{cover} its larger child. The remaining leaf is minimum so we get the desired result.
@@ -1652,18 +1662,18 @@ Combining the above two cases, we get that there exists a \textit{cover}ing of a
 \begin{lem}\label{leavesHalf}
 Let $T$ be an optimal tree under the \textit{Standard Model} such that, for all child parent pairs, the probability of the parent is greater than that of the child. Then:
 \begin{align*}
-\sum_{i \in L_T}p_i \leq \frac{n+1}{2n}
+\sum_{p_i \in L_T} p_i \leq \frac{n+1}{2n}
 \end{align*}
 \end{lem}
 \begin{proof}
 By \ref{leavesCovered} we know that the sum of the probabilities of all internal nodes is at least as large as the sum of the probabilities of all leaf nodes minus the probability of the smallest leaf node. We also know the sum of all probabilities except the smallest leaf node is $1-l_{min}$. Thus, 
 \begin{align*}
-\sum_{i \in L_T}p_i \leq \frac{1}{2} \cdot (1-l_{min}) + l_{min}
+\sum_{p_i \in L_T} p_i \leq \frac{1}{2} \cdot (1-l_{min}) + l_{min}
 \end{align*}
 \noindent Note that this is maximized when $l_{min}$ is maximized. The maximum value for $l_{min}$ is exactly $\frac{1}{n}$, otherwise we contradict our parent-child relationship assumption. Thus,
 \begin{align*}
-\sum_{i \in L_T}p_i &\leq \frac{1}{2} \cdot (1-\frac{1}{n}) + \frac{1}{n} \\
-\sum_{i \in L_T}p_i &\leq \frac{n+1}{2n} \text{ as required.}
+\sum_{p_i \in L_T} p_i &\leq \frac{1}{2} \cdot (1-\frac{1}{n}) + \frac{1}{n} \\
+\sum_{p_i \in L_T} p_i &\leq \frac{n+1}{2n} \text{ as required.}
 \end{align*}
 \end{proof}
 
@@ -1677,11 +1687,11 @@ The \textit{GREEDY-MS} Algorithm is within $\frac{n+1}{2n}$ of optimal under the
 \begin{proof}
 Let $T$ be our tree created by \textit{GREEDY-MS}. By \ref{MSSolvesOpt} we know that it solves the problem under the \textit{Expected Path Length Model} optimally. Let $L_T$ be the set of leaves of $T$. Consider the cost of $T$ under the \textit{Standard Model}:
 \begin{align*}
-C_{T_S} = C_{T_E} - \sum_{i \in L_T}p_i
+C_{T_S} = C_{T_E} - \sum_{p_i \in L_T} p_i
 \end{align*}
-Since the sum of the probabilities of the leaves of the tree is at most $1$ and at least $0$ we get:
+Since the sum of the probabilities of the leaves of the tree is at most $\frac{n+1}{2n}$ by \ref{leavesHalf} (since $T$ was made using \textit{GREEDY-MS}) and at least $0$ we get:
 \begin{align*}
-C_{T_E} \leq C_{T_S} \leq C_{T_E} + 1
+C_{T_E} \leq C_{T_S} \leq C_{T_E} + \frac{n+1}{2n}
 \end{align*}
 
 Suppose for contraction of our theorem that there exists an optimal $T'$ under the \textit{Standard Model} which has a cost strictly less than the cost of $T-\frac{n+1}{2n}$:
@@ -1689,12 +1699,12 @@ Suppose for contraction of our theorem that there exists an optimal $T'$ under t
 C_{T'_S} < C_{T_S} - \frac{n+1}{2n}
 \end{align*}
 
-Consider $T''$ which is identical to $T'$ except that for any leaf,child pair in $T'$ where the child has higher probability than the parent, we swap their positions (and repeat the process if necessary). By the \textit{Standard Model}, $P_{T''_S} = P_{T'_S}$ so:
+Consider $T''$ which is identical to $T'$ except that for any parent child pair where the child is a leaf in $T'$ and where this leaf has higher probability than its parent, we swap their positions (and repeat the process if necessary). By the \textit{Standard Model}, $P_{T''_S} = P_{T'_S}$ so:
 \begin{align*}
 C_{T''_S} < C_{T_S} - \frac{n+1}{2n}
 \end{align*} 
 
-We also note that for any internal nodes $p_i$ and $p_j$, similar to Claim 1 from \ref{MSSolvesOpt}, if $d_T''(p_i) > d_T''(p_j)$ then $p_i \geq p_j$. Otherwise, we could swap the locations of $p_i$ and $p_j$ getting a strictly better tree and contradicting our optimality assumption for $T'$. Consider $T''$ under the \textit{Expected Path Length Model}. Using \ref{leavesHalf} we get that:
+We also note that for any internal nodes $p_i$ and $p_j$, similar to Claim 1 from \ref{MSSolvesOpt}, if $d_{T''}(p_i) > d_{T''}(p_j)$ then $p_i \leq p_j$. Otherwise, we could swap the locations of $p_i$ and $p_j$ getting a strictly better tree and contradicting our optimality assumption for $T'$. Consider $T''$ under the \textit{Expected Path Length Model}. By the above logic, we can now use \ref{leavesHalf} and we get that:
 \begin{align*}
 C_{T''_E} = C_{T''_S} + \sum_{i \in L_T'}p_i \leq C_{T''_S} + \frac{n+1}{2n} < C_{T_S} \leq C_{T_E}
 \end{align*}
@@ -1703,7 +1713,7 @@ C_{T''_E} = C_{T''_S} + \sum_{i \in L_T'}p_i \leq C_{T''_S} + \frac{n+1}{2n} < C
 \begin{align*}
 C_{T'_E} < C_{T_E}
 \end{align*} 
-a contradiction to the optimality of $T$ under the \textit{Expected Path Length Model}. Thus, our theorem must hold.
+a contradiction to the optimality of $T_E$ under the \textit{Expected Path Length Model}. Thus, our theorem must hold.
 
 \end{proof}
 
@@ -1719,14 +1729,14 @@ a contradiction to the optimality of $T$ under the \textit{Expected Path Length 
 
 In this work, we examined several problems related to the optimum BST problem originally proposed (and solved) by Knuth in 1971 \cite{knuth1971optimum}. In Chapter~\ref{An Improved Bound for the Modified Minimum Entropy Heuristic} we showed that the Modified Entropy Rule first proposed by  G{\"u}ttler, Mehlhorn and Schneider in 1980 had a worst case expected cost of $H+4$. This improved upon the previous best bound of $c\cdot H+2$ where $c \approx 1.08$ \cite{guttler1980binary}.
 
- In the next two chapters, we examined the problem under different models for external memory. In Chapter~\ref{Approximate Binary Search in the Hierarchical Memory Model} we showed that under the Hierarchical Memory Model (HMM) by Aggarwal et al. Our two algorithms ApproxMWPaging and ApproxBSTPaging solved the problem in time $O(n)$ \cite{aggarwal1987model}. Moreover in sections~\ref{45} and~\ref{48}, we showed the two solutions had worst case expected costs strictly less than
+In Chapter~\ref{Approximate Binary Search in the Hierarchical Memory Model} we examined the problem under a model for external memory. We showed that under the Hierarchical Memory Model (HMM) by Aggarwal et al. Our two algorithms ApproxMWPaging and ApproxBSTPaging solved the problem approximately in time $O(n)$ \cite{aggarwal1987model}. Moreover in sections~\ref{45} and~\ref{48}, we showed the two solutions had worst case expected costs strictly less than
 \begin{align*}
 &(H + 1 + \sum_{i=0}^n q_i - q_0 - q_n - \sum_{i=0}^m q_{\text{rank}[i]}) \cdot  c_h \text{ and} \\
 &(H + 1 - q_0 - q_n + q_{max} - \sum_{i=0}^{m'} pq_{\text{rank}[i]})\cdot c_h \text{ respectively  (theorems~\ref{ApproxMWPagingThm} and~\ref{ApproxBSTThm})}.
 \end{align*}
    We concluded by showing a mistake in the Master's thesis of Thite, and subsequently proving our solutions provided an improvement over Thite's in the related HMM$_2$ model.
 
-In Chapter~\ref{BST over Multisets}, we considered the optimum BST problem without explicit ordering on the keys. This essentially left us with a multiset of probabilities over which we attempted to build an optimum BST. In section~\ref{GREEDY-MS}, we described an algorithm, \textit{GREEDY-MS} and proved that it was within$\frac{n+1}{2n}$ of optimal under the \textit{Standard Model} of cost for a multiset with $n$ keys.
+In Chapter~\ref{BST over Multisets}, we considered the optimum BST problem without explicit ordering on the keys. This essentially left us with a multiset of probabilities over which we attempted to build an optimum BST. In section~\ref{GREEDY-MS}, we described an algorithm, \textit{GREEDY-MS} and proved that it was within $\frac{n+1}{2n}$ of optimal under the \textit{Standard Model} of cost for a multiset with $n$ keys.
 
 We have tabulated these results with novel contributions in bold.
 
@@ -1747,8 +1757,11 @@ We have tabulated these results with novel contributions in bold.
 \caption{Models, running rimes, and worst case expected costs for algorithms discussed in this thesis.}
 \end{table}
  
-Several interested and related problems still remain open. Firstly, is $H+4$ a tight bound for the Modified Entropy Rule? We conjecture that this is not the case, and we believe the bound could be lowered to $H+2$. Moreover, while the metric used to search for the root in this heuristic is good, it is definitely not perfect. The root chosen (up to the modifications of the rule) has the maximum 3-way entropy split. However, this is not necessarily the best root, as selecting larger probability keys as the root can decrease the cost of the tree. It would be interesting to consider what the correct metric would be for correctly selecting the root, possibly in a greedy manner. Chapter~\ref{BST over Multisets} is ultimately an introduction into considerations for this problem. 
-Finally, the work in Chapter~\ref{Approximate Binary Search in the Hierarchical Memory Model} can likely be extended to more recent models for external memory. 
+Several interesting and related problems still remain open. Firstly, is $H+4$ a tight bound for the Modified Entropy Rule? We conjecture that this is not the case, and we believe the bound could be lowered to $H+2$. Moreover, while the metric used to search for the root in this heuristic is good, it is definitely not perfect. The root chosen (up to the modifications of the rule) has the maximum 3-way entropy split. However, this is not necessarily the best root, as selecting larger probability keys as the root can decrease the cost of the tree. It would be interesting to consider what the correct metric would be for correctly selecting the root, possibly in a greedy manner.
+
+The work in Chapter~\ref{Approximate Binary Search in the Hierarchical Memory Model} can likely be extended to more recent models for external memory. We made attempts at extending these results to the Hierarchical Memory with Block Transfer Model of Aggarwal, Chandra, and Snir \cite{aggarwal1987hierarchical} which allows blocks of memory to be transferred from one location to another for a fixed cost. It would also be interesting to examine the problem under parallel memory models like those described in \cite{vitter1994algorithms} or the Uniform Memory Hierarchy \cite{alpern1994uniform}.
+
+Chapter~\ref{BST over Multisets} introduces an interesting problem and a relatively simple greedy algorithm which solves the problem within $\frac{n+1}{2n}$ of optimal under the \textit{Standard Model}. We have discussed several ideas for improvements to this \textit{GREEDY-MS} algorithm. For example, when should a large probability be chosen as a leaf in our greedy top down algorithm? Would this significantly effect our expected search cost? It would also be very interesting to find any polynomial time optimal solution under the \textit{Standard Model}.
 
 
 % The \appendix statement indicates the beginning of the appendices.
