@@ -1,31 +1,30 @@
-\beamer@slide {1.1}{4}
-\beamer@slide {Background and Related Work}{8}
-\beamer@slide {sec:MWT}{11}
-\beamer@slide {An Improved Bound for the Modified Minimum Entropy Heuristic}{13}
-\beamer@slide {The Modified Entropy Rule}{15}
-\beamer@slide {entr2x}{16}
-\beamer@slide {MECases}{16}
-\beamer@slide {Claim1}{16}
-\beamer@slide {EQC1}{16}
-\beamer@slide {EQC2}{16}
-\beamer@slide {EQC3}{16}
-\beamer@slide {Approximate Binary Search in the Hierarchical Memory Model}{17}
-\beamer@slide {The Hierarchical Memory Model}{18}
-\beamer@slide {43}{20}
-\beamer@slide {Algorithm ApproxMWPaging}{21}
-\beamer@slide {MWTBSTLem}{21}
-\beamer@slide {45}{22}
-\beamer@slide {451}{22}
-\beamer@slide {452}{22}
-\beamer@slide {W<HT}{22}
-\beamer@slide {ApproxMWPagingThm}{22}
-\beamer@slide {sec:deBST}{23}
-\beamer@slide {Algorithm ApproxBSTPaging}{24}
-\beamer@slide {48}{25}
-\beamer@slide {ApproxBSTThm}{25}
-\beamer@slide {BST over Multisets}{27}
-\beamer@slide {The Multiset Binary Search Tree Problem}{28}
-\beamer@slide {OPT-MSBST}{29}
-\beamer@slide {MS Swap Lemma}{29}
-\beamer@slide {MSSolvesOpt}{29}
-\beamer@slide {Conclusion and Open Problems}{30}
+\beamer@slide {Background and Related Work}{9}
+\beamer@slide {sec:MWT}{12}
+\beamer@slide {An Improved Bound for the Modified Minimum Entropy Heuristic}{14}
+\beamer@slide {The Modified Entropy Rule}{16}
+\beamer@slide {entr2x}{17}
+\beamer@slide {MECases}{17}
+\beamer@slide {Claim1}{17}
+\beamer@slide {EQC1}{17}
+\beamer@slide {EQC2}{17}
+\beamer@slide {EQC3}{17}
+\beamer@slide {Approximate Binary Search in the Hierarchical Memory Model}{18}
+\beamer@slide {The Hierarchical Memory Model}{19}
+\beamer@slide {43}{21}
+\beamer@slide {Algorithm ApproxMWPaging}{22}
+\beamer@slide {MWTBSTLem}{22}
+\beamer@slide {45}{23}
+\beamer@slide {451}{23}
+\beamer@slide {452}{23}
+\beamer@slide {W<HT}{23}
+\beamer@slide {ApproxMWPagingThm}{23}
+\beamer@slide {sec:deBST}{24}
+\beamer@slide {Algorithm ApproxBSTPaging}{25}
+\beamer@slide {48}{26}
+\beamer@slide {ApproxBSTThm}{26}
+\beamer@slide {BST over Multisets}{28}
+\beamer@slide {The Multiset Binary Search Tree Problem}{29}
+\beamer@slide {OPT-MSBST}{30}
+\beamer@slide {MS Swap Lemma}{30}
+\beamer@slide {MSSolvesOpt}{30}
+\beamer@slide {Conclusion and Open Problems}{31}
