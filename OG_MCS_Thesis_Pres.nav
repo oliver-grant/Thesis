@@ -46,13 +46,13 @@
 \headcommand {\beamer@framepages {18}{18}}
 \headcommand {\slideentry {3}{0}{19}{19/19}{}{0}}
 \headcommand {\beamer@framepages {19}{19}}
-\headcommand {\sectionentry {4}{Approximate Binary Search in the Hierarchical Memory Model}{20}{Approximate Binary Search in the Hierarchical Memory Model}{0}}
-\headcommand {\beamer@sectionpages {16}{19}}
-\headcommand {\beamer@subsectionpages {16}{19}}
-\headcommand {\slideentry {4}{0}{20}{20/20}{}{0}}
+\headcommand {\slideentry {3}{0}{20}{20/20}{}{0}}
 \headcommand {\beamer@framepages {20}{20}}
-\headcommand {\slideentry {4}{0}{21}{21/21}{}{0}}
+\headcommand {\slideentry {3}{0}{21}{21/21}{}{0}}
 \headcommand {\beamer@framepages {21}{21}}
+\headcommand {\sectionentry {4}{Approximate Binary Search in the Hierarchical Memory Model}{22}{Approximate Binary Search in the Hierarchical Memory Model}{0}}
+\headcommand {\beamer@sectionpages {16}{21}}
+\headcommand {\beamer@subsectionpages {16}{21}}
 \headcommand {\slideentry {4}{0}{22}{22/22}{}{0}}
 \headcommand {\beamer@framepages {22}{22}}
 \headcommand {\slideentry {4}{0}{23}{23/23}{}{0}}
@@ -75,22 +75,26 @@
 \headcommand {\beamer@framepages {31}{31}}
 \headcommand {\slideentry {4}{0}{32}{32/32}{}{0}}
 \headcommand {\beamer@framepages {32}{32}}
-\headcommand {\sectionentry {5}{Optimal BSTs On Unordered Multisets}{33}{Optimal BSTs On Unordered Multisets}{0}}
-\headcommand {\beamer@sectionpages {20}{32}}
-\headcommand {\beamer@subsectionpages {20}{32}}
-\headcommand {\slideentry {5}{0}{33}{33/33}{}{0}}
+\headcommand {\slideentry {4}{0}{33}{33/33}{}{0}}
 \headcommand {\beamer@framepages {33}{33}}
-\headcommand {\slideentry {5}{0}{34}{34/34}{}{0}}
+\headcommand {\slideentry {4}{0}{34}{34/34}{}{0}}
 \headcommand {\beamer@framepages {34}{34}}
+\headcommand {\sectionentry {5}{Optimal BSTs On Unordered Multisets}{35}{Optimal BSTs On Unordered Multisets}{0}}
+\headcommand {\beamer@sectionpages {22}{34}}
+\headcommand {\beamer@subsectionpages {22}{34}}
 \headcommand {\slideentry {5}{0}{35}{35/35}{}{0}}
 \headcommand {\beamer@framepages {35}{35}}
-\headcommand {\sectionentry {6}{Conclusion and Open Problems}{36}{Conclusion and Open Problems}{0}}
-\headcommand {\beamer@sectionpages {33}{35}}
-\headcommand {\beamer@subsectionpages {33}{35}}
-\headcommand {\slideentry {6}{0}{36}{36/36}{}{0}}
+\headcommand {\slideentry {5}{0}{36}{36/36}{}{0}}
 \headcommand {\beamer@framepages {36}{36}}
-\headcommand {\beamer@partpages {1}{36}}
-\headcommand {\beamer@subsectionpages {36}{36}}
-\headcommand {\beamer@sectionpages {36}{36}}
-\headcommand {\beamer@documentpages {36}}
-\headcommand {\def \inserttotalframenumber {36}}
+\headcommand {\slideentry {5}{0}{37}{37/37}{}{0}}
+\headcommand {\beamer@framepages {37}{37}}
+\headcommand {\sectionentry {6}{Conclusion and Open Problems}{38}{Conclusion and Open Problems}{0}}
+\headcommand {\beamer@sectionpages {35}{37}}
+\headcommand {\beamer@subsectionpages {35}{37}}
+\headcommand {\slideentry {6}{0}{38}{38/38}{}{0}}
+\headcommand {\beamer@framepages {38}{38}}
+\headcommand {\beamer@partpages {1}{38}}
+\headcommand {\beamer@subsectionpages {38}{38}}
+\headcommand {\beamer@sectionpages {38}{38}}
+\headcommand {\beamer@documentpages {38}}
+\headcommand {\def \inserttotalframenumber {38}}
