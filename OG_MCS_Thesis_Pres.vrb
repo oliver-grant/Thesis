@@ -1,4 +1,4 @@
-\frametitle {Algorithm ApproxMWPaging}\label{Algorithm ApproxMWPaging}
+\frametitle{Algorithm ApproxMWPaging}\label{Algorithm ApproxMWPaging}
 
 \begin{enumerate}
 \item Create MWT using algorithm of Bose and Dou\"{i}eb with $m_1$ page size

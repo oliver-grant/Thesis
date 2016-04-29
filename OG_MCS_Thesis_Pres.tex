@@ -576,239 +576,131 @@ The approach proposed by G{\"u}ttler, Mehlhorn and Schneider takes $O(n^2)$ time
 
 \begin{frame} \frametitle{Modified Entropy is Within 4 of Entropy}
 
-First, we review a quick Lemma about entropy (nearly identical to Lemma 2.3 in \cite{bayer1975improved}).
-
-\begin{lem}\label{entr2x}
-If $x \leq \frac{1}{2}$ then $H(x, 1-x) \geq 2x$.
-\end{lem}
-\begin{proof}
-We refer the reader to Gallager's 1968 work \cite{gallager1968information}.
-\end{proof}
-
-Next, we describe a Lemma which breaks our choice of root in the greedy modified entropy heuristic into one of three cases (not to be confused with the three \textit{rules} used in~\ref{The Modified Entropy Rule}). 
-
-\begin{lem}\label{MECases}
-When using the ME Rule to choose the root $B_r$ of a binary search tree $t$ with total probability $p_t$, one of the following three cases must occur: \\
-\textit{Case 1)} $E_t \geq 1-2 \frac{p_r}{p_t}$ \\
-\textit{Case 2)} There exists gap $(B_i, B_{i+1})$ such that $\frac{q_i}{p_t} > max(P_{L_t}(B_i, B_{i+1}), P_{R_t}(B_i, B_{i+1}))$\\
-\textit{Case 3)}  $\max(P_{L_t}(B_r), P_{R_t}(B_r)) < \frac{4}{5}$\\
-\end{lem}
-\begin{proof} At a high level, we first show that \textit{Rule a} from~\ref{The Modified Entropy Rule} implies \textit{Case 1}. We also show that if there exists $p_i$ such that $\frac{p_i}{p_t} > \max(P_{L_t}(B_i), P_{R_t}(B_i))$, but cannot apply \textit{Rule a}, then we still have \textit{Case 1}. Assuming that neither of the two aforementioned conditions occur, we must have that there exists some gap $(B_i, B_{i+1})$ spanning the middle of the data set. Given this condition, we show that if \textit{Case 2} does not occur (i.e. we cannot use \textit{Rule b}~\ref{The Modified Entropy Rule}) then \textit{Case 3} must occur, completing the proof. 
-
-
-\noindent\textbf{\textit{Rule a) $\implies$ Case 1}} \\
- First, suppose there exists some $p_i$ such that $\frac{p_i}{p_t} > \max(P_{L_t}(B_i), P_{R_t}(B_i))$. By the \textit{Rule c)}~\ref{The Modified Entropy Rule}, it must be selected as the root and thus $r=i$. Moreover, both $P_{L_t}(B_i)$ and $P_{R_t}(B_i))$ must be less than one half. Thus, using \ref{entr2x} we have: 
+\begin{itemize}
+\item We start with two important equations:
+\end{itemize}
 \begin{align*}
-E_t &\geq H( max(P_{L_t}(p_i), P_{R_t}(p_i)), 1-max(P_{L_t}(p_i), P_{R_t}(p_i)) \\
- &\geq 2\cdot \max(P_{L_t}(p_i), P_{R_t}(p_i)) \\  &\geq 1-\frac{p_i}{p_t} \\ 
- &\geq 1-2 \frac{p_i}{p_t} \geq 1-2 \frac{p_r}{p_t} 
-\end{align*}
- as required. \\
- 
-\noindent\textbf{\textit{$B_i$ spans middle $\implies$ Case 1}} \\
-If we do not have some $p_i$ such that $\frac{p_i}{p_t} > \max(P_{L_t}(B_i), P_{R_t}(B_i))$ but do have some $B_i$ such that $P_{L_t}(B_i) \leq \frac{1}{2}$ and $P_{R_t}(B_i) \leq \frac{1}{2}$) then we must use \textit{Rule c}~\ref{The Modified Entropy Rule} and we get:
-\begin{align*}
- E_t &\geq H(P_{L_t}(B_i), \frac{B_i}{p_t} , P_{R_t}(B_i) \\
- 0 &\leq P_{L_t}(B_i) \leq 0.5 \\
- 0 &\leq \frac{p_i}{p_t} \leq 0.5 \\
- 0 &\leq P_{R_t}(B_i) \leq 0.5
-\end{align*} 
-   then we know that \\
-\begin{align*}
-H(P_{L_t}(p_i), \frac{p_i}{p_t} , P_{R_t}(p_i)) \geq H(1/2, 1/2) = 1
-\end{align*}
-in this case.
- Thus, combining the above two cases, if have some $B_i$ such that $P_{L_t}(B_i) \leq \frac{1}{2}$ and $P_{R_t}(B_i) \leq \frac{1}{2}$ then $E_t \geq 1-2p_r$ as required. \\
-
-\noindent\textbf{\textit{$\big($NOT($B_i$ spans middle) AND NOT(Case 2)$\big)$ $\implies$ Case 3}} \\
-Otherwise, we must have some gap $(B_i, B_{i+1})$ spanning the middle of the data set (i.e. $P_{L_t}(B_i, B_{i+1}) < \frac{1}{2}$ and $P_{R_t}(B_i, B_{i+1}) < \frac{1}{2}$). Suppose that \textit{Case 2} does not occur (i.e. we cannot use \textit{Rule b}): there does not exist a $(B_i, B_{i+1})$ such that $\frac{q_i}{p_t} > max(P_{L_t}(B_i, B_{i+1}), P_{R_t}(B_i, B_{i+1}))$. Then, for any root $r$ of $t$ we have that \\
-\begin{align*}
-\max(P_{L_t}(B_r), P_{R_t}(B_r)) &\geq \min(P_{L_t}(B_r), P_{R_t}(B_r))\\ 
-\max(P_{L_t}(B_r), P_{R_t}(B_r)) &\geq q_i
-\end{align*}
-Thus,
-\begin{align*}
-\max(P_{L_t}(p_r), P_{R_t}(p_r)) \geq 1/3
-\end{align*}
- and by our assumption 
-\begin{align*}
-\max(P_{L_t}(p_r), P_{R_t}(p_r)) < \frac{1}{2}.
-\end{align*}
- So, as in the proof of table 3 (5.3) in \cite{guttler1980binary}\\
-\begin{align*}
-E_t \geq H(1/3, 2/3) \approx 0.92.
-\end{align*}
- Since \textit{Case 1} does not occur, we have that:
-\begin{align*}
-E_t &< 1-2\frac{p_r}{q_t} \\
-\implies \frac{p_r}{q_t} &< \frac{1-H(\frac{1}{3}, \frac{2}{3})}{2} \approx 0.04.
-\end{align*}
-
-Suppose for contradiction that $\max(P_{L_t}(p_r), P_{R_t}(p_r)) \geq \frac{4}{5} p_t$ then we have:
-\begin{align*}
-E_t \leq H(\frac{4}{5}, \frac{1-H(\frac{1}{3}, \frac{2}{3})}{2}, \frac{1}{5}-\frac{1-H(\frac{1}{3}, \frac{2}{3})}{2}) \approx 0.87 < 0.92 \approx H(\frac{1}{3}, \frac{2}{3}) \leq E_t
-\end{align*}
-which is a contradiction.
-Thus, if we do not have \textit{Case 1} or \textit{Case 2} we must have \textit{Case 3} which completes the proof.
-
-
-
-\end{proof}
-
-Before we examine the main theorem we show a small claim.
-
-\newtheorem{claim}{Claim}
-\begin{claim}\label{Claim1}
-$H(\frac{1}{2}-\frac{1}{2} x, \frac{1}{2} + \frac{1}{2} x) \geq 1- \frac{4}{5} (x)^2$ when $0 < x < \frac{1}{2}$
-\end{claim}
-
-\begin{proof}
-In order to prove the claim, we find the minimum of
-\begin{align*}
-H(\frac{1}{2}-\frac{1}{2} x, \frac{1}{2} + \frac{1}{2} x) - (1 - \frac{4}{5} (x)^2) 
-\end{align*}
-when $0 < x < \frac{1}{2}$. To do this, we define $F(x)$ and take the derivative with respect to $x$.
-\begin{align*}
-F(x) &= H(\frac{1}{2}-\frac{1}{2} x, \frac{1}{2} + \frac{1}{2} x) - (1 - \frac{4}{5} (x)^2) \\
-F(x) &= - (\frac{1}{2}-\frac{1}{2} x)\cdot \lg(\frac{1}{2}-\frac{1}{2} x) - (\frac{1}{2} + \frac{1}{2} x)\cdot\lg(\frac{1}{2} + \frac{1}{2} x) - (1 - \frac{4}{5} (x)^2) \\
-\implies F'(x) &= \lg(\frac{1}{2}-\frac{1}{2} x) - \lg(\frac{1}{2} + \frac{1}{2} x) + \frac{8}{5}x \text{ (with some careful manipulation)}
-\end{align*}
-
-The only root occurs when $x = 0$. Thus, we check when $x \rightarrow 0$ and $x \rightarrow \frac{1}{2}$. We note that: \\
-$F'(x) \xrightarrow{x \to 0} 0^{+}$ and \\
-$F'(x) \xrightarrow{x \to \frac{1}{2}} 0.0112781 > 0$. \\
-Thus, $H(\frac{1}{2}-\frac{1}{2} x, \frac{1}{2} + \frac{1}{2} x) - (1 - \frac{4}{5} (x)^2) > 0$ for $ 0 < x < \frac{1}{2}$ which proves the claim.
-\end{proof} 
-
-
-\begin{thm}
-$C_{ME} \leq H + 4$
-\end{thm}
-
-\begin{proof}
-This uses a similar style to the proof of theorem 4.4 in \cite{bayer1975improved}.
-We bind each $E_t$ for each subtree of our BST on a case by case basis using the cases of Lemma~\ref{MECases}.\\
-If \textit{Case 1} occurs, we obviously have that
-\begin{equation}\label{EQC1}
-E_t \geq 1-2 \frac{p_r}{p_t}
-\end{equation}
-Note that this can only happen once for each key (a key can only be root once). \\
-
-As mentioned in Lemma~\ref{MECases} if some $B_i$ spans in the middle of the data set, $P_{L_t}(B_i) \leq \frac{1}{2}$ and $P_{R_t}(B_i) \leq \frac{1}{2}$, we can still show that \textit{Case 1} occurs. Suppose for the remainder of the proof that there is no such middle-spanning $B_i$.
-
-Let $(B_m, B_{m+1})$ be the unique middle gap (i.e. $P_{L_t}(B_m, B_{m+1}) < \frac{1}{2}$ and $P_{R_t}(B_m, B_{m+1}) < \frac{1}{2}$) when \textit{Case 2} or \textit{Case 3} occurs. When \textit{Case 2} occurs we have that (using Lemma~\ref{entr2x}):
-\begin{equation}\label{EQC2} 
-E_t \geq H(\frac{1}{2}-\frac{1}{2} \frac{q_m}{p_t}, \frac{1}{2} + \frac{1}{2} \frac{q_m}{p_t}) \geq 2(\frac{1}{2}-\frac{1}{2} \frac{q_m}{p_t})=1-\frac{q_m}{p_t}.
-\end{equation}
-Note that by the definition of the \textit{Rule c}~\ref{The Modified Entropy Rule}, when this occurs, $(B_m, B_{m+1})$ must be a leaf of depth at most 2. Thus, this condition can only happen twice for each $(B_m, B_{m+1})$ gap. \\
-
-When \textit{Case 2} does not occur (and we have a $(B_m, B_{m+1})$ spanning the middle) we must have \textit{Case 3} (since we are still assuming that \textit{Case 1} does not occur). This gives us:
-\begin{align*}
-E_t \geq H(\frac{1}{2}-\frac{1}{2} \frac{q_m}{p_t}, \frac{1}{2} + \frac{1}{2} \frac{q_m}{p_t})
-\end{align*}
-We again apply Claim~\ref{Claim1} and get:
-\begin{equation}\label{EQC3}
-E_t \geq 1- \frac{4}{5} (\frac{q_m}{p_t})^2
-\end{equation}
-
-As in \cite{bayer1975improved} we define a $b_t$ for each subtree $t$ as follows. We want to have a value for $b_t$ such that $E_t \geq 1 - b_t$ in all cases. Using \textit{Cases 1,2}, and \textit{3} are their respective equations~\ref{EQC1},~\ref{EQC2}, and~\ref{EQC3} we do just that: \\
-Let $b_t=2\cdot p_r$ when \textit{Case 1} occurs. $B_r$ is the root of $b_t$. \\
-Let $b_t=2\cdot q_m$ when \textit{Case 2} occurs. $(B_m, B_{m+1})$ is middle gap of $b_t$. \\
-Let $b_t=\frac{q_m^2}{p_t}$ when \textit{Case 3} occurs. $(B_m, B_{m+1})$ is middle gap of $b_t$. \\
-
-
-Note that, in 1975 P. Bayer showed that the cost $C$ of our tree could be defined as (\textbf{Lemma 2.3} \cite{bayer1975improved}): \\
-\begin{align*}
-C = \sum_{t \in S_T} p_t
-\end{align*}
-and the entropy could be calculated by
-\begin{align*}
-H = \sum_{t \in S_T} p_t \cdot E_t
+C_{ME} &= \sum_{t \in S_T} p_t
+ &H = \sum_{t \in S_T} p_t \cdot E_t
 \end{align*}  
 where $S_T$ is the set of all subtrees of our tree $T$. \\
 
-\noindent Thus, by subbing in $E_t \geq 1 - b_t$ and rearranging we get: 
+\noindent For each subtree, we bind $E_t \geq 1 - \frac{b_t}{p_t}$ (we define $b_t$ later): 
 \begin{align*}
-&H = \sum_{t \in S_T} p_t E_t \geq \sum_{t \in S_T} P_t - \sum_{t \in S_T} b_t = C - \sum_{t \in S_T} b_t \\
+&H = \sum_{t \in S_T} p_t E_t \geq \sum_{t \in S_T} p_t \cdot (1 - \frac{b_t}{p_t}) = C - \sum_{t \in S_T} b_t \\
  \implies &C \leq H + \sum_{t \in S_T} b_t
 \end{align*}
-As mentioned above, \textit{Case 1} and \textit{Case 2} can only occur once and twice respectively for any potential root $B_r$ or gap $(B_m, B_{m+1})$. \textit{Case 3} however, can occur many times for a gap $(B_m, B_{m+1})$. Each time it occurs though, $\frac{q_m}{p_t}$ must decrease by a factor of $\frac{5}{4}$ since $\max(P_{L_t}(B_r), P_{R_t}(p_r)) < \frac{4}{5}$ for the root $B_r$ of the subtree by \textit{Case 3)} of Lemma~\ref{MECases}. Moreover, if $\frac{q_m}{p_t} > \frac{1}{2}$ then we will have \textit{Case 2}. Let $S_m$ be the set of all subtrees $t$ for which $(B_m, B_{m+1})$ is the middle gap and \textit{Case 3} only applies. We have that
-\begin{align*}
-C \leq H + \sum_{t \in S_T} b_t = H + 2 \sum\limits_{r = 1}^n p_r + 2 \sum\limits_{m = 0}^n q_m + \sum\limits_{m = 0}^n \sum\limits_{t \in S_m} \frac{4}{5}\frac{q_m^2}{p_t}
-\end{align*}
- \\ 
-By factoring out $q_m$ and examining only cases up to $\frac{q_m}{p_t} = \frac{1}{2}$ (since otherwise \textit{Case 2} will occur) we get:
-\begin{align*}
-C &\leq H + 2 + \sum\limits_{m = 0}^n (\frac{4}{5} \cdot q_m) \sum\limits_{x=0}^{\infty} \frac{1}{2} \cdot (\frac{4}{5}) ^ x \\
-C &\leq H + 2 + \sum\limits_{m = 0}^n \frac{4}{5} \cdot q_m \cdot \frac{1}{2} \cdot (\frac{1}{1-\frac{4}{5}}) \text{    (geometric series)} \\
-C &\leq H + 2 + \sum\limits_{m = 0}^n q_m \\
-C &\leq H + 4
-\end{align*}
 
-\end{proof}
 \end{frame}
 
-\section{Approximate Binary Search in the Hierarchical Memory Model}\label{Approximate Binary Search in the Hierarchical Memory Model}
- \begin{frame}
-In this chapter we examine the optimum BST problem under the Hierarchical Memory Model (HMM) model. We provide two approximate solutions, bound their worst case expected costs via entropy, and show improvement over a previous solution in the related HMM$_2$ model. 
-\end{frame} 
- 
+\begin{frame}
+
+\begin{itemize}
+\item For each root, we show that one of three cases must occur:
+
+\item[\textit{Case 1)}] $E_t \geq 1-2 \frac{p_r}{p_t}$. \textbf{We set $b_t = 2p_r$.}
+
+\item[\textit{Case 2)}] There exists gap $(B_i, B_{i+1})$ such that $\frac{q_i}{p_t} > max(P_{L_t}(B_i, B_{i+1}), P_{R_t}(B_i, B_{i+1}))$. \textbf{We set $b_t = q_i$.}
+
+\item[\textit{Case 3)}]  $\max(P_{L_t}(B_r), P_{R_t}(B_r)) < \frac{4}{5}$. \textbf{We set $b_t = q_m$ where $q_m$ is the middle gap.}
+
+\end{itemize}
+
+
+\end{frame}
+
+\begin{frame}
+
+\textit{Case 1)} $E_t \geq 1-2 \frac{p_r}{p_t}$. \textbf{We set $b_t = 2p_r$.}
+
+
+\begin{itemize}
+\item "The easy case"
+\item If we have a key in the middle this will follow.
+\item Happens at most once per key.
+\end{itemize}
+
+\end{frame}
+\begin{frame}
+\textit{Case 2)} There exists gap $(B_i, B_{i+1})$ such that $\frac{q_i}{p_t} > max(P_{L_t}(B_i, B_{i+1}), P_{R_t}(B_i, B_{i+1}))$. \textbf{We set $b_t = q_i$.}
+\begin{itemize}
+\item Still fairly easy
+\item If we have a big gap in the middle of our dataset, we use rule b).
+\item Can happen at most twice for a gap.
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\textit{Case 3)} $\max(P_{L_t}(B_r), P_{R_t}(B_r)) < \frac{4}{5}$. \textbf{We set $b_t = q_m$ where $q_m$ is the middle gap.}
+
+\begin{itemize}
+\item The hard case
+\item When this happens, since $\max(P_{L_t}(B_r), P_{R_t}(B_r)) < \frac{4}{5}$, our middle gap must get bigger relative to the remaining probability.
+\item once it is big enough ($\geq \frac{1}{2}$), case 2 occurs.
+\item We can show that $E_t \geq 1 - \frac{4}{5}\frac{q_m}{p_t}^2$ so we set $b_t = \frac{4}{5}\frac{q_m^2}{p_t}$ 
+\item Each gap can contribute at most:
+\begin{align*}
+q_m \cdot \sum\limits_{x=0}^{\infty} \frac{1}{2} \cdot (\frac{4}{5}) ^ x = \mathbf{q_m \cdot 2}
+\end{align*}
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}
+
+\begin{itemize}
+\item Combining these three cases we get a total of:
+\end{itemize}
+
+\begin{align*}
+C \leq H + \sum_{t \in S_T} b_t = H + 2 \sum\limits_{r = 1}^n p_r + 2 \sum\limits_{m = 0}^n q_m + \sum\limits_{m = 0}^n \sum\limits_{t \in S_m} \frac{4}{5}\frac{q_m^2}{p_t}
+C &\leq H + 2 + \sum\limits_{m = 0}^n (\frac{4}{5} \cdot q_m) \sum\limits_{x=0}^{\infty} \frac{1}{2} \cdot (\frac{4}{5}) ^ x \\
+C &\leq H + 2 + 2
+C &\leq H + 4
+\end{align*}
+\end{frame}
+
+\section{Approximate Binary Search in the Hierarchical Memory Model}\label{Approximate Binary Search in the Hierarchical Memory Model} 
  
 \begin{frame} \frametitle{The Hierarchical Memory Model}\label{The Hierarchical Memory Model}
 
-The HMM was proposed in 1987 by Aggarwal et al. as an alternative to the classic RAM model \cite{aggarwal1987model}. It was intended to better model the multiple levels of the memory hierarchy. The model has an unlimited number of registers, $R_1, R_2, ...$ each with its own location in memory (a positive integer). In the first version of the model, accessing a register at memory location $x_i$ takes $\lceil \lg(x_i) \rceil$ time. Thus, computing $f(a_1, a_2, ..., a_n)$ takes $\sum_{i=1}^{n} \lceil \lg(location(a_i)) \rceil$ time. The original paper also considered arbitrary cost functions $f(x)$. We will use the cost function as was explained in Thite's thesis \cite{thite2008optimum}. Here, $\mu (a)$ is the cost of accessing memory location $a$, an integer. We have a set of memory sizes $m_1, m_2, ..., m_l$ which are monotonically increasing. Each memory level has a finite size except $m_l$ which we assume has infinite size. Each memory level has an associated cost of access $c_1, c_2, ..., c_l$. We assume that $c_1 < c_2 < ... < c_l$. The cost of accessing a memory location $a$ is given by
-\begin{equation}
+\begin{itemize}
+
+\item HMM by Aggarwal et al. in 1987
+\item While not perfect, improvement over the RAM model
+\item Hierarchy of different memories, increasing in size and decreasing in access cost
+\item INSERT PICTURE
+
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\begin{itemize}
+\item Formally, $R_1, R_2, ...$ unlimited number of registers each with location in memory.
+\item Set of memories $M_1, M_2, ...M_l$
+\item With memory sizes $m_1, m_2, ..., m_l$
+\item Cost of accessing an item in $M_i$ is $c_i$
+\item We assume $c_1 < c_2 < ... < c_l$
+\item Cost of accessing item at location $a$:
+\begin{align*}
 \mu (a) = c_i \text{ if } \sum_{j = 1}^{i-1}m_j  < a \leq \sum_{j = 1}^{i}m_j.
-\end{equation}
-
-
-\noindent Thite notes that typical memory hierarchies have decreasing sizes for faster memory levels (moving \textit{up} the memory hierarchy). We make the same assumption:
-\begin{align*}
-m_1 < m_2 < ... < m_l.
 \end{align*}
-Unlike Thite, we also explicitly assume that successive memory level sizes divide one another evenly:
-\begin{align*}
-\forall i \in  \{1,2,...,l-1\} m_i \mid m_{i+1}.
-\end{align*}
+\end{itemize}
 \end{frame}
 
 \begin{frame} \frametitle{Optimum Binary Search Trees on the HMM Model}
+\begin{itemize}
+\item Given $n$ keys and $n+1$ gaps with associated probabilities as before.  
+\item Construct binary tree $T$ (as before).
+\item Put assign the nodes in $T$ to memory locations
+\item Minimize the expected cost of search:
+\end{itemize}
+\end{frame}
 
-Thite's thesis provides solutions to several problems in the HMM and the related HMM$_2$ models \cite{thite2008optimum}. He first provides an optimal solution to the following problem (known as \textbf{Problem 5} in the work):\\
-
-
-\noindent \textbf{Problem 5 [Optimum BST Under HMM].}  \cite{thite2008optimum} Suppose we are given a set of $n$ ordered keys $x_1, x_2, ..., x_n$ with associated probabilities of search $p_1, p_2, ..., p_n$, as well as $n+1$ ranges $(- \infty, x_1), (x_1, x_2), ..., (x_{n-1}, x_n), (x_n, \infty)$ with associated probabilities of search $q_0, q_1, ..., q_n$. The problem is to construct a binary search tree $T$ over the set of keys and compute a memory assignment function $\phi : V (T) \rightarrow {1, 2, ..., n}$ that assigns nodes of $T$ to memory locations such that the expected cost of a search is minimized under the HMM model. \\
-
-In order to remain consistent with the work in other chapters of this thesis, We will maintain the use of $B_1, B_2, ..., B_n$ to represent keys instead of Thite's $x_1, x_2, ..., x_n$ and gaps will be represented by $(B_0, B_1), (B_1, B_2), ..., (B_n, B_{n+1})$ where it is assumed that $B_0$ represents $- \infty$ and $B_{n+1}$ represents $\infty$.
-
-Thite provided three separate optimum solutions to the problem described; \textbf{Parts}, \textbf{Trunks}, and \textbf{Split}. Here, $h$ is the minimum memory level such that all $n$ keys can fit on memories of height at most $h$. More specifically $h$ is defined as \\
-\begin{align*}
-\min(h \in \{1,..,l\} ): n \leq \sum_{i = 1}^{h}m_i
-\end{align*}
-
-\textbf{Parts}
-bottom up DP alorithm
-constructs optimum subtree $T^{*}_{i,j}$ for each $i,j$, $1 \leq i leq j \leq n$ using the first $j-i+1$ memory locations.
-For each choice of root $B(k)$ where $k \in {i, ..., j}$ all possible memory assignments are examined (assigning to the $h$ levels of memory)
-$O(\frac{2^{h-1}}{(h-1)!}\cdot n^{2h+1})$ final time claimed.
-
-\textbf{Trunks}
-Like parts, building optimal trees over larger subsets of keys.
-For each range $i,j$, $1 \leq i leq j \leq n$, and for each possible root $B(k)$, they examine all $s$ such that $s \leq j-i+1$ and consider placing $s$ nodes in the first $h-1$ levels of memory, and the remaining $j-i-1-s$ nodes in memory level $h$.
-$O(\frac{2^{n-m_h}\cdot (n-m_h+h)^{n-m_h}\cdot n^3}{(h-2)!})$ final time claimed. Works well when $n-m_h$ and $h$ are small (i.e. a short memory hierarchy with a very large biggest memory size, typical to a modern computer)
-
-\textbf{Split}
-Split is a top-down algorithm for solving the problem when there are $n$ levels in the memory hierarchy. $O(2^n)$ time claimed. Result is dubious as the explanation simply states that a root is simply chosen by examining each of the $2^{n-1}$ ways of partitioning memory locations between the left and right subtrees and recursing on each side. It is unclear how the potential roots are compared, and I cannot think of a naive way to select the correct root in this fashion. A proof of correctness of algorithm was omitted.
-
- In the following sections, we provide two approximate solutions to this problem that run in times $O(n \cdot \lg(m_1))$ and $O(n)$ and provide an upper bound on their expected search costs.  \\
-
-Thite also considered the same problem under the related HMM$_2$ model. This model assumes there are simply two levels of memory of size $m_1$ and $m_2$ with costs of access $c_1$ and $c_2$ where $c_1 < c_2$. Thite provides an optimal solution to this problem (named \textbf{TwoLevel}) which runs in time $O(n^5)$.
-TL has two phases, in the first phase, it uses an algorithm similar to that of Knuth, solving for all subtrees that will fit on a single memory level (i.e. solves for all ranges $[i,j]$ such that $j-i+1 \leq \max(m_1, m_2))$. Specifically, it creates arrays $C[i,j]$ and $R[i,j]$ where C and R are the optimal tree cost (using a uniform cost model), and root selection of optimal tree over $[i,j]$.
-TL PH 2 implements algorithm parts and using DP to compute $c(i,j,n_1,n_2)$ and $r(i,j,n_1, n_2)$ which are the optimal tree and optimal tree root using the HMM$_2$ cost model using keys $[i,j]$ with $n_1$ keys in $M_1$ and $n_2$ in $M_2$. c computed using DP as follows:
-$c(i,j,n_1,n_2) = \mu ( \theta ( B_k))* p_k + \min_{i \leq k \leq j, 0 < n_1^{(L)} < n} (c(i, k-1, n_1^{(L)}, n_2^{(L)}), (c(i, k-1, n_1^{(R)}, n_2^{(R)}))$
+\begin{frame}
+TODO INSERT COST OF ACCESS PICTURE WHICH IS SUPER NEEDED
 
 
-It runs in $o(n^5)$, if $m_1 \in o(n)$, and in $O(n^4)$ if $m_1 \in O(1)$. He also gives an $O(n\lg n)$ time approximate solution with an upper bounded expected search cost of $c_2(H+1)$. The solution we provide under the HMM model also gives an improvement over Thite's approximate algorithm in both running time and expected cost under the HMM$_2$ model.
 \end{frame}
 
 \begin{frame}[fragile] \frametitle{Algorithm ApproxMWPaging}\label{Algorithm ApproxMWPaging}
@@ -978,169 +870,29 @@ It runs in $o(n^5)$, if $m_1 \in o(n)$, and in $O(n^4)$ if $m_1 \in O(1)$. He al
 
 
 \begin{frame} \frametitle{Expected Cost ApproxMWPaging} \label{45}
-
-First, we bound the depth of nodes in our BST $T$. The depth of a key $B_i$ (or $(B_{i-1}, B_i)$ for gaps) is defined as $d_T(B_i)$ (resp. $d_T(B_{i-1},B_i)$). Note that depth is the number of edges between a node and the root (i.e. the depth of the root is $0$). As in the work of Bose and Dou\"{i}eb, let $m=\max({n-3P,P})-1 \geq \frac{n}{4} - 1$ where $P$ is the number of increasing or decreasing sequences in a left-to-right read of the access probabilities of the leaves \cite{bose2009efficient}.
-
-\begin{lem} \label{451}
-For a key $B_i$,
-\begin{align*} 
-d_T(B_i) \leq \lg(\frac{1}{p_i}).
-\end{align*}
-For a key $(B_{i-1},B_i)$,
-\begin{align*} 
-d_T(B_{i-1},B_i) \leq \lg(\frac{1}{q_i}) + 2
-\end{align*}
-for all leaves, and
-\begin{align*} 
-d_T(B_{i-1},B_i) \leq \lg(\frac{1}{q_i}) + 1
-\end{align*}
-for at least $m$ of them (and the two extremal leaves, $(B_0, B_1)$ and $(B_n, B_{n+1})$). 
-  
-\end{lem}
-
-\begin{proof}
-First we note that in the tree $T'$ we build using Bose and Dou\"{i}eb's multiway tree algorithm, the maximum depth of keys (call this $d_{T'}(B_i), d_{T'}(B_{i-1},B_i)$) for a page size $m_1$ is \cite{bose2009efficient}:
-\begin{align*} d_{T'}(B_i) &\leq \lfloor log_{m_1}(\frac{1}{p_i}) \rfloor \\
-d_{T'}(B_{i-1},B_i) &\leq \lfloor log_{m_1}(\frac{2}{q_i}) \rfloor + 1 \text{ for all leaves, and}\\
-d_{T'}(B_{i-1},B_i) &\leq \lfloor log_{m_1}(\frac{1}{q_i}) \rfloor + 1 \text{ for at least $m$ of them (and the two extremal leaves)}
- \end{align*}
-As explained in the paper, these follow from Lemmas 1 and 2 of Bose and Dou\"{i}eb \cite{bose2009efficient}.
-
-Inside a page, we make a balanced (ignoring weight) BST, so each key has a depth within a page of at most $\lfloor \lg(m_1) \rfloor$. Since our algorithm always connects the root of the BST made for a page to a key in the BST made for the page's parent, a key $B_i$ has a \textit{page depth} (the number of unique pages accessed in order to access the key) of at most the bounds on $d_{T'}(B_i)$ and $d_{T'}(B_{i-1},B_i)$ described. Since we examine at most $\lceil \lg(m_1) \rceil$ keys within any one page, (and only 1 gap in a leaf page) a key's depth is at most
-\begin{align*}
-d_T(B_i) &\leq \lfloor \lg(m_1) \rfloor \lfloor log_{m_1}(\frac{1}{p_i}) \rfloor \\
-\implies d_T(B_i) &\leq \lg(m_1)\cdot log_{m_1}(\frac{1}{p_i}) \\
-\implies d_T(B_i) &\leq \lg(\frac{1}{p_i}). \\
-\end{align*}
-
-\noindent For an unsuccessful search
-\begin{align*}
-d_T(B_{i-1},B_i) &\leq \lfloor \lg(m_1) \rfloor \lfloor log_{m_1}(\frac{2}{q_i}) \rfloor + 1 \\
-\implies d_T(B_{i-1},B_i) &\leq \lg(m_1)\cdot log_{m_1}(\frac{2}{q_i}) + 1 \\
-\implies d_T(B_{i-1},B_i) &\leq \lg(\frac{1}{q_i}) + 2 \text{ for all leaves, and} \\
-\implies d_T(B_{i-1},B_i) &\leq \lg(\frac{1}{q_i}) + 1 \text{ for at least $m$ of them (and the two extremal leaves)}.
-\end{align*}
-
-
-\end{proof}
-
-We now describe $W$, the cost of searching for a key located at the deepest node of tree $T$. Let $m'_j = \sum_{k \leq j} m_j$. We define $m'_0 = 0$. As defined in Thite's work, we let $h$ be the smallest $j$ such that $m'_j \geq n$. Let $D(T)$ be the height of $T$ (the depth of the deepest node in the tree).
-
-
-\begin{lem} \label{452}
-\begin{align*}
-W \leq \sum_{i=1}^{h-1} \left(\lfloor \lg(m'_i+1) \rfloor - \lfloor \lg(m'_{i-1}+1 \rfloor  \right)\cdot c_i+ \left(D(T) - \lfloor \lg(m'_{h-1}+1) \rfloor \right)\cdot c_h
-\end{align*}
-\end{lem}
-
-
-\begin{proof}
-Consider the accessing each key along the path from the root to the deepest key in $T$. We will examine $D(T)$ keys. We access one key at depth $0$, one key at depth $1$, and so on. Because the tree is packed into memory in BFS order, a key a depth $i$ will be at memory index at most $2^i-1$. Now, consider how many levels of the binary search tree $T$ will fit in $m_1$. In order for all keys of depth $i$ (and higher) to be in $m_1$ we need:
-\begin{align*}
-2^i-1 \leq m_1 \implies i \leq \lg(m_1 + 1).
-\end{align*}
-Thus, at least $\lfloor \lg(m_1 + 1) \rfloor$ levels of $T$ will completely fit on $m_1$. Next we examine how many levels of $T$ fit on $m_j$ for $1 < j < l$. The last level to completely fit on $m_j$ or higher memories is the maximum $i$ such that:
-\begin{align*}
-2^{i+1}-1 \leq m'_j \implies i \leq \lg(m'_j + 1).
-\end{align*}
-Thus, at least $\lfloor \lg(m'_j + 1) \rfloor$ levels of $T$ fit on $m_j$ or higher levels of memory.
-On our search for the deepest key in the tree, we make at least $\lfloor \lg(m_1 + 1) \rfloor$ checks for elements located at memory $m_1$. This costs a total of
-\begin{align*}
-\lfloor \lg(m_1 + 1) \rfloor \cdot c_1.
-\end{align*}
-For each memory level $m_j$ for $1 < j < l$, we make at least $\lfloor \lg(m'_j + 1) \rfloor$ checks in $m_j$ or higher memories. Of these checks, at least $\lfloor \lg(m'_{j-1} + 1) \rfloor$ are in memory levels strictly higher up in the memory hierarchy than $j$. Since $c_j > c_i$ for $j > i$, an upper bound on the cost of searching for all elements in memory level $j$ on the path from the root to the deepest element of the tree is:
-\begin{align*}
-(\lfloor \lg(m'_j + 1) \rfloor - \lfloor \lg(m'_{j-1} + 1) \rfloor) \cdot c_j.
-\end{align*}
-Finally, we can upper bound the cost of search within $m_h$ by assuming that all remaining searches take place at memory level $h$. The searches at level $h$ will cost at most:
-
-\begin{align*}
-(\lg(D(T) - \lfloor \lg(m'_{h-1}+1) \rfloor)\cdot c_h.
-\end{align*}
-
-Combining the above three equations (and summing over every memory level) gives us the total cost of searching for a key in the deepest part of the tree:
-
-\begin{align*}
-W &\leq \lfloor \lg(m_1 + 1) \rfloor \cdot c_1 + \sum_{i=2}^{h-1} \left(\lfloor \lg(m'_i+1) \rfloor - \lfloor \lg(m'_{i-1}+1) \rfloor \right)\cdot c_i+ \left(D(T) - \lfloor \lg(m'_{h-1}+1) \rfloor \right)\cdot c_h \\
-W &\leq \sum_{i=1}^{h-1} \left(\lfloor \lg(m'_i+1) \rfloor - \lfloor \lg(m'_{i-1}+1) \rfloor \right)\cdot c_i+ \left(D(T) - \lfloor \lg(m'_{h-1}+1) \rfloor \right)\cdot c_h
-\end{align*}
-
-
-
-\end{proof}
-
-This leads us to the following upper bound for $W$.
-
-\begin{lem} \label{W<HT}
-Assuming that $l \neq 1$:
-\begin{align*}
-W<D(T)\cdot c_h
-\end{align*}
-\end{lem}
-
-\begin{proof}
-We can rearrange Lemma~\ref{452} as follows:
-\begin{align*}
-W \leq D(T)\cdot c_h - \sum_{i=1}^{h-1} \lfloor \lg(m'_i+1) \rfloor \cdot(c_{i+1} - c_i) 
-\end{align*}
-Since we have that $c_i > c_{i-1}$ for all $i$, $\sum_{i=1}^{h-1} \lfloor \lg(m'_i+1) \rfloor \cdot(c_{i+1} - c_i)$ is strictly positive. This instantly gives the result desired.
-\end{proof}
-
-Note that $\frac{W}{D(T)}$ represents the average cost per memory access when accessing the deepest (and most costly) element of our tree. Since our costs of access are monotonically increasing as we move deeper in the tree, we will see that $\frac{W}{D(T)}$ can be used as an upper bound for the average cost per memory access when searching for any element of $T$.
-
-\begin{lem}
-The cost of searching for a keys $B_i$ and $(B_{i-1},B_i)$ ($C(B_i)$ and $C(B_{i-1},B_i)$ respectively) can be bounded as follows: 
-\begin{align*} 
-C(B_i) &\leq (\lg(\frac{1}{p_i})+1)\cdot \frac{W}{D(T)} < (\lg(\frac{1}{p_i})+1)\cdot c_h \\
-C(B_{i-1},B_i) &\leq (\lg(\frac{1}{q_i})+2)\cdot \frac{W}{D(T)} < (\lg(\frac{1}{q_i})+2)\cdot c_h \text{ for all leaves, and} \\
-C(B_{i-1},B_i) &\leq (\lg(\frac{1}{q_i})+1)\cdot \frac{W}{D(T)} < (\lg(\frac{1}{q_i})+1)\cdot c_h \text{ for at least $m$ (and the two extremal) leaves}.
-\end{align*}
-
-\end{lem}
-
-\begin{proof}
-From Lemma~\ref{451} we have a bound on the depth of keys $B_i$ and $(B_{i-1},B_i)$. We must do $d_T(B_i) + 1$ accesses to find a key and $d_T(B_{i-1},B_i)$ accesses to find a gap. Note that since our tree is stored in BFS order in memory, whenever we examine a key's child, it will be at a memory location of at least the same, if not higher cost (by being in the same or a deeper page). Thus, the cost of accessing the entire path from the root to a specific key can be upper bounded by multiplying the length of this path by the average cost per memory access of the most expensive (and deepest) key of the tree (this is exactly $\frac{W}{D(T)}$). Note that when searching for keys, we must search along the entire path from root to the key in question, while we need only examine the path from the root to the parent of a key for unsuccessful $(B_{i-1},B_i)$ searches. Combining~\ref{451}, ~\ref{452} and~\ref{W<HT} gives
-\begin{align*}
-C(B_i) &\leq (\lg(\frac{1}{p_i})+1)\cdot\frac{W}{D(T)}\\
-\implies C(B_i) &< (\lg(\frac{1}{p_i})+1)\cdot\frac{D(T)\cdot c_h}{D(T)}   \\
-\implies C(B_i) &< (\lg(\frac{1}{p_i})+1)\cdot c_h
-\end{align*}
-
-For leaves we have that
-\begin{align*}
-C(B_{i-1},B_i) &\leq (\lg(\frac{1}{q_i})+2)\cdot \frac{W}{D(T)}   \\
-\implies C(B_{i-1},B_i) &\leq (\lg(\frac{1}{q_i})+2)\cdot \frac{D(T)\cdot c_h}{D(T)}   \\
-\implies C(B_{i-1},B_i) &< (\lg(\frac{1}{q_i})+2)\cdot c_h \text{ for all leaves, and} \\
-\implies C(B_{i-1},B_i) &< (\lg(\frac{1}{q_i})+1)\cdot c_h \text{ for at least $m$ (and the two extremal) leaves}.
-\end{align*}
-\end{proof}
-
-We can now bound the expected cost of search using the bounds for the cost each key.
-
-\begin{thm} \label{ApproxMWPagingThm}
-\begin{align*}
-C &\leq  \frac{W}{D(T)} \cdot  \left(H + 1 + \sum_{i=0}^n q_i - q_0 - q_n - \sum_{i=0}^m pq_{\text{rank}[i]} \right) \text{ and}\\
-C &< \left(H + 1 + \sum_{i=0}^n q_i - q_0 - q_n - \sum_{i=0}^m pq_{\text{rank}[i]} \right) \cdot  c_h
-\end{align*}
-where $pq_{\text{rank}[i]}$ is the $i^{th}$ smallest access probability among all keys and leaves except $q_0$ and $q_n$.
-\end{thm}
-
-\begin{proof}
-The total expected cost of search is simply the sum of the weighted cost of search for all keys multiplied by the probability of searching for each key. Given our last lemma, we have that:
-\begin{align*}
-C &\leq \sum_{i=1}^{n} p_i\cdot C(B_i) + \sum_{j=1}^{n+1} q_j\cdot C(B_{i-1},B_i) \\
-\implies C &\leq \sum_{i=1}^{n} p_i\cdot (\lg(\frac{1}{p_i})+1)\cdot \frac{W}{D(T)} + \left(\sum_{i=0}^{n} q_i(\lg(\frac{1}{q_i})+2) - q_0 - q_n -  \sum_{i=0}^m q_{\text{rank}[i]} \right)\cdot \frac{W}{D(T)} \\
-\implies C &\leq \frac{W}{D(T)} \left(\sum_{i=1}^{n} p_i\lg(\frac{1}{p_i}) + \sum_{i=0}^{n} q_i\lg(\frac{1}{q_i}) + \sum_{i=1}^{n} p_i + 2\sum_{i=0}^{n} q_i - q_0 - q_n - \sum_{i=0}^m q_{\text{rank}[i]} \right) \\
-\implies C &\leq  \frac{W}{D(T)} \left(H + 1 + \sum_{i=0}^n q_i - q_0 - q_n - \sum_{i=0}^m q_{\text{rank}[i]} \right)
-\end{align*}
-By Lemma~\ref{W<HT} this gives:
-\begin{align*}
-C < \left(H + 1 + \sum_{i=0}^n q_i - q_0 - q_n - \sum_{i=0}^m q_{\text{rank}[i]} \right) \cdot  c_h
-\end{align*}
-
-\end{proof}
+\begin{itemize}
+\item[1.] We bind the depth of each key/gap based on its probability in the MWT 
+\item[2.] We bind the depth of each key/gap based on its probability in BST
+\item[3.] We bind the location in the memory of each key/gap (since we pack via BFS)
+\item[4.] We can then explicitly bound the expected cost of search of our tree.
+\end{itemize}
 \end{frame}
 
+\begin{frame}
+BIND THE DEPTH IN THE MWT
+\end{frame}
+
+\begin{frame}
+BIND THE DEPTH IN THE BST
+\end{frame}
+
+\begin{frame}
+eXPLICIT UGLY COST
+\end{frame}
+
+\begin{frame}
+nEAT TRICK, MUST BE LESS THAN $C_H*DEPTH$
+\end{frame}
 
 \begin{frame} \frametitle{Approximate Binary Search Trees of De Prisco and De Santis with Extensions by Bose and Dou\"{i}eb} \label{sec:deBST}
 
