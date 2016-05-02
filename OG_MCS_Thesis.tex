@@ -324,7 +324,7 @@ In 1952, Huffman developed the well known Huffman tree, which solved the same pr
 
 In 1991, Yeung proposed an approximate solution which solved the problem in $O(n)$ time and space \cite{yeung1991alphabetic}. The algorithm produced a tree with worst case cost $H + 2 - p_1-p_n$. This algorithm was later improved by De Prisco and De Santis who created an $O(n)$ time algorithm which has a worst case cost of $H+1-p_1-p_n+p_{max}$ \cite{de1993binary}. The method was improved one more time by Bose and Dou\"{i}eb who improved upon Yeung's method by decreasing the bound by $\sum_{i=0}^m p_{\text{rank}[i]}$ where $m=\max({n-3P,P})-1 \geq \frac{n}{4} - 1$, $P$ is the number of increasing or decreasing sequences in a left-to-right read of the access probabilities of the leaves and $p_{\text{rank}[i]}$ is the $i^{th}$ smallest access probability among all leaves except $p_1$ and $p_n$ \cite{bose2009efficient}. Replacing Yeung's method with the improved algorithm of Bose and Dou\"{i}eb in the De Prisco and De Santis algorithm gave the tightest bound seen so far of 
 \begin{align*}
-H+1+\sum_{i=1}^{n}p_i-p_1-p_n-\sum_{i=0}^m p_{\text{rank}[i]}. 
+H+2-p_1-p_n-\sum_{i=0}^m p_{\text{rank}[i]}. 
 \end{align*}
 
 \section{Multiway Trees} \label{sec:MWT}
@@ -454,11 +454,11 @@ When using the modified entropy rule chooses the root $B_r$ of a subtree $t$ wit
 \end{align*}
 
 \end{lem}
-\begin{proof} At a high level, we first show that \textit{Rule a} from~\ref{The Modified Entropy Rule} implies \textit{Case 1}. We also show that if there exists $p_i$ such that $\frac{p_i}{p_t} > \max(P_{L_t}(B_i), P_{R_t}(B_i))$, but cannot apply \textit{Rule a}, then we still have \textit{Case 1}. Assuming that neither of the two aforementioned conditions occur, we must have that there exists some gap $(B_i, B_{i+1})$ spanning the middle of the data set. Given this condition, we show that if \textit{Case 2} does not occur (i.e. we cannot use \textit{Rule b}~\ref{The Modified Entropy Rule}) then \textit{Case 3} must occur, completing the proof. 
+\begin{proof} At a high level, we first show that \textit{Rule a} from~\ref{The Modified Entropy Rule} implies \textit{Case 1}. We also show that if there exists $B_i$ such that $P_{L_t}(B_i) \leq \frac{1}{2}$ and $P_{R_t}(B_i) \leq \frac{1}{2}$, but cannot apply \textit{Rule a}, then we still have \textit{Case 1}. Assuming that neither of the two aforementioned conditions occur, we must have that there exists some gap $(B_i, B_{i+1})$ spanning the middle of the data set. Given this condition, we show that if \textit{Case 2} does not occur (i.e. we cannot use \textit{Rule b}~\ref{The Modified Entropy Rule}) then \textit{Case 3} must occur, completing the proof. 
 
 
 \noindent\textbf{\textit{Rule a) $\implies$ Case 1}} \\
- First, suppose there exists some $p_i$ such that $\frac{p_i}{p_t} > \max(P_{L_t}(B_i), P_{R_t}(B_i))$. By the \textit{Rule c)}~\ref{The Modified Entropy Rule}, it must be selected as the root and thus $r=i$. Moreover, both $P_{L_t}(B_i)$ and $P_{R_t}(B_i))$ must be less than one half. Thus, using \ref{entr2x} we have: 
+ First, suppose there exists some $p_i$ such that $\frac{p_i}{p_t} > \max(P_{L_t}(B_i), P_{R_t}(B_i))$. By the \textit{Rule a)}~\ref{The Modified Entropy Rule}, it must be selected as the root and thus $r=i$. Moreover, both $P_{L_t}(B_i)$ and $P_{R_t}(B_i))$ must be less than one half. Thus, using \ref{entr2x} we have: 
 \begin{align*}
 E_t &\geq H( max(P_{L_t}(p_i), P_{R_t}(p_i)), 1-max(P_{L_t}(p_i), P_{R_t}(p_i)) \\
  &\geq 2\cdot \max(P_{L_t}(p_i), P_{R_t}(p_i)) \\  &\geq 1-\frac{p_i}{p_t} \\ 
@@ -467,7 +467,7 @@ E_t &\geq H( max(P_{L_t}(p_i), P_{R_t}(p_i)), 1-max(P_{L_t}(p_i), P_{R_t}(p_i)) 
  as required. \\
  
 \noindent\textbf{\textit{$B_i$ spans middle $\implies$ Case 1}} \\
-If we do not have some $p_i$ such that $\frac{p_i}{p_t} > \max(P_{L_t}(B_i), P_{R_t}(B_i))$ but do have some $B_i$ such that $P_{L_t}(B_i) \leq \frac{1}{2}$ and $P_{R_t}(B_i) \leq \frac{1}{2}$) then we must use \textit{Rule c}~\ref{The Modified Entropy Rule}. We then must have that:
+If we do not have some $p_i$ such that $\frac{p_i}{p_t} > \max(P_{L_t}(B_i), P_{R_t}(B_i))$ but do have some $B_i$ such that $P_{L_t}(B_i) \leq \frac{1}{2}$ and $P_{R_t}(B_i) \leq \frac{1}{2}$ then we must use \textit{Rule c}~\ref{The Modified Entropy Rule}. We then must have that:
 \begin{align*}
  E_t &\geq H(P_{L_t}(B_i), \frac{B_i}{p_t} , P_{R_t}(B_i)) \text{ and} \\
  0 &\leq P_{L_t}(B_i) \leq 0.5 \text{ and}\\
@@ -593,7 +593,7 @@ H = \sum_{t \in S_T} p_t \cdot E_t
 \end{align*}  
 where $S_T$ is the set of all subtrees of our tree $T$. \\
 
-\noindent Thus, by subbing in $E_t \geq 1 - b_t$ and rearranging we get: 
+\noindent Thus, by subbing in $E_t \geq 1 - \frac{b_t}{p_t}$ and rearranging we get: 
 \begin{align*}
 &H = \sum_{t \in S_T} p_t \cdot E_t \geq \sum_{t \in S_T} p_t - \sum_{t \in S_T} b_t = C - \sum_{t \in S_T} b_t \\
  \implies &C \leq H + \sum_{t \in S_T} b_t
@@ -1699,14 +1699,14 @@ Suppose for contraction of our theorem that there exists an optimal $T'$ under t
 C_{T'_S} < C_{T_S} - \frac{n+1}{2n}
 \end{align*}
 
-Consider $T''$ which is identical to $T'$ except that for any parent child pair where the child is a leaf in $T'$ and where this leaf has higher probability than its parent, we swap their positions (and repeat the process if necessary). By the \textit{Standard Model}, $P_{T''_S} = P_{T'_S}$ so:
+Consider $T''$ which is identical to $T'$ except that for any parent child pair where the child is a leaf in $T'$ and where this leaf has higher probability than its parent, we swap their positions (and repeat the process if necessary). By the \textit{Standard Model}, $C_{T''_S} = C_{T'_S}$ so:
 \begin{align*}
 C_{T''_S} < C_{T_S} - \frac{n+1}{2n}
 \end{align*} 
 
 We also note that for any internal nodes $p_i$ and $p_j$, similar to Claim 1 from \ref{MSSolvesOpt}, if $d_{T''}(p_i) > d_{T''}(p_j)$ then $p_i \leq p_j$. Otherwise, we could swap the locations of $p_i$ and $p_j$ getting a strictly better tree and contradicting our optimality assumption for $T'$. Consider $T''$ under the \textit{Expected Path Length Model}. By the above logic, we can now use \ref{leavesHalf} and we get that:
 \begin{align*}
-C_{T''_E} = C_{T''_S} + \sum_{i \in L_T'}p_i \leq C_{T''_S} + \frac{n+1}{2n} < C_{T_S} \leq C_{T_E}
+C_{T''_E} = C_{T''_S} + \sum_{i \in L_{T''}}p_i \leq C_{T''_S} + \frac{n+1}{2n} < C_{T_S} \leq C_{T_E}
 \end{align*}
 
 \noindent Thus, we get that
