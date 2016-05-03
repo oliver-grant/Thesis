@@ -19,17 +19,21 @@
 \usepackage{stmaryrd}
 \usepackage{caption}
 \usepackage{subcaption}
+\usepackage{multirow}
 \theoremstyle{plain}
 \newtheorem{thm}{Theorem}[section]
 \newtheorem{lem}[thm]{Lemma}
 \newtheorem{prop}[thm]{Proposition}
 \newtheorem*{cor}{Corollary}
+\usepackage{color}
 
 \newcommand*\rfrac[2]{{#1}/{#2}}
 \makeatletter
 \newcommand{\rom}[1]{\romannumeral #1}
 
 \definecolor{RazerGreen}{RGB}{71,225,12}
+\definecolor{ForestGreen}{RGB}{0,100,0}
+\definecolor{BloodRed}{RGB}{150,0,0}
 \definecolor{AlexBlue}{RGB}{30, 144, 255}
 \setbeamercolor{title}{fg=black}
 \setbeamercolor{frametitle}{fg=black}
@@ -117,25 +121,27 @@ Supervisor: Ian Munro}
 
 \item Knuth proposed optimum BST problem in 1971 \cite{knuth1971optimum}
 
-\item $n$ ordered keys, $B_1, B_2, ..., B_n$
-
-\item $2n+1$ frequencies, ${p_1, p_2, ..., p_n}$, ${q_0, q_1, ..., q_n}$
-
-\item $p_i$, probability of searching for $B_1$
-
-\item $q_i$, probability of searching for key in gap $(B_i, B_{i+1})$
-
-\item We assume $\sum\limits_{i=1}^n p_i + \sum\limits_{i=0}^n q_i = 1$
-
-\item Also assume w.l.o.g. $q_{i-1}+p_i+q_i \neq 0$
+\item $n$ ordered keys, {\color{blue}$B_1, B_2, ..., B_n$}
 
 \item Keys must be internal nodes, gaps leaves
 
-\item $C = \sum_{i=1}^{n} p_i \cdot (d_T(B_i)+1) + \sum_{i=0}^{n} q_i \cdot(d_T((B_i, B_{i+1})))$
-
-
 \end{itemize}
-TODO PICTURE?
+
+\begin{center}
+\begin{tabular}{ |c|c|c }\cline{1-2}
+\cline{1-2}
+ \textbf{Word or Gap} & \textbf{Probability} \\
+ \cline{1-2}
+ $(-\infty, {\color{blue}BE})$ & {\color{ForestGreen}$0.15$} & $\leftarrow$ {\color{ForestGreen} $ q_0$}\\ \cline{1-2}
+ {\color{blue}$BE$} & {\color{BloodRed}$0.10$} & $\leftarrow$ {\color{BloodRed} $ p_1$}\\ \cline{1-2}
+ $({\color{blue}BE}, {\color{blue}THE})$ & {\color{ForestGreen}$0.15$} & $\leftarrow$ {\color{ForestGreen} $ q_1$}\\ \cline{1-2}
+ {\color{blue}$THE$} & {\color{BloodRed}$0.10$} & $\leftarrow$ {\color{BloodRed} $ p_2$}\\ \cline{1-2}
+ $({\color{blue}THE}, {\color{blue}TO})$& {\color{ForestGreen}$0.01$} & $\leftarrow$ {\color{ForestGreen} $ q_2$}\\ \cline{1-2}
+ {\color{blue}$TO$} & {\color{BloodRed}$0.10$} & $\leftarrow$ {\color{BloodRed} $ p_3$}\\ \cline{1-2}
+ $({\color{blue}TO}, \infty)$ & {\color{ForestGreen}0.14} & $\leftarrow$ {\color{ForestGreen} $ q_3$}\\ \cline{1-2}
+  & $\mathbf{1.0}$ \\ \cline{1-2}
+\end{tabular}
+\end{center}
 \end{frame}
 
 
@@ -144,7 +150,7 @@ TODO PICTURE?
 \begin{tikzpicture}[level/.style={sibling distance = 6cm/####1,
   level distance = 1.5cm}] 
 \node [arn_n] {0.15 THE}
-    child{ node [arn_n] {0.10 BE} 
+    child{ node [arn_n] {0.10  {\color{blue}$BE$}} 
             child{ node [arn_x] {0.10 \\ $x < BE$}} 
             	child{ node [arn_x] {0.40 \\  $BE < x < THE$}}
             }
