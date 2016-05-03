@@ -1639,7 +1639,7 @@ In order to prove that \textit{GREEDY-MS} is within $\frac{n+1}{2n}$ of optimal 
 We say a leaf $p_i$ is \textit{covered} by a unique internal node $p_i'$ if $p_i'$ is an internal node, $p_i$ is a leaf node and $p_i' \geq p_i$.
 
 \begin{lem}\label{leavesCovered}
-Let $T$ be an optimal tree under the \textit{Standard Model} such that, for all child parent pairs, the probability of the parent is greater than that of the child. Let $l_{min}$ be the smallest leaf node by probability. Then
+Let $T$ be a tree such that, for all child parent pairs, the probability of the parent is greater than that of the child. Let $l_{min}$ be the smallest leaf node by probability. Then
 \begin{align*}
 \forall_{p_i \in L_T-\{l_{min}\}} \exists \text{ unique } p_i' \notin \{L_T \cup \{l_{min}\}\} \text{ such that } p_i' \text{ covers } p_i
 \end{align*}
@@ -1660,7 +1660,7 @@ Combining the above two cases, we get that there exists a \textit{cover}ing of a
 
 
 \begin{lem}\label{leavesHalf}
-Let $T$ be an optimal tree under the \textit{Standard Model} such that, for all child parent pairs, the probability of the parent is greater than that of the child. Then:
+Let $T$ be a tree such that, for all child parent pairs, the probability of the parent is greater than that of the child. Then:
 \begin{align*}
 \sum_{p_i \in L_T} p_i \leq \frac{n+1}{2n}
 \end{align*}
@@ -1691,7 +1691,7 @@ C_{T_S} = C_{T_E} - \sum_{p_i \in L_T} p_i
 \end{align*}
 Since the sum of the probabilities of the leaves of the tree is at most $\frac{n+1}{2n}$ by \ref{leavesHalf} (since $T$ was made using \textit{GREEDY-MS}) and at least $0$ we get:
 \begin{align*}
-C_{T_E} \leq C_{T_S} \leq C_{T_E} + \frac{n+1}{2n}
+C_{T_E} \leq C_{T_S} + \frac{n+1}{2n}
 \end{align*}
 
 Suppose for contraction of our theorem that there exists an optimal $T'$ under the \textit{Standard Model} which has a cost strictly less than the cost of $T-\frac{n+1}{2n}$:
@@ -1711,7 +1711,7 @@ C_{T''_E} = C_{T''_S} + \sum_{i \in L_{T''}}p_i \leq C_{T''_S} + \frac{n+1}{2n} 
 
 \noindent Thus, we get that
 \begin{align*}
-C_{T'_E} < C_{T_E}
+C_{T''_E} = C_{T'_E} < C_{T_E}
 \end{align*} 
 a contradiction to the optimality of $T_E$ under the \textit{Expected Path Length Model}. Thus, our theorem must hold.
 
