@@ -1,4 +1,5 @@
-\documentclass[]{beamer}
+\documentclass{beamer}
+
 
 \usepackage{beamerthemesplit} 
 \usepackage{tikz}
@@ -29,10 +30,11 @@
 \newcommand{\rom}[1]{\romannumeral #1}
 
 \definecolor{RazerGreen}{RGB}{71,225,12}
-\definecolor{RazerGreen}{RGB}{71,225,12}
+\definecolor{AlexBlue}{RGB}{30, 144, 255}
 \setbeamercolor{title}{fg=black}
 \setbeamercolor{frametitle}{fg=black}
-\setbeamercolor{structure}{fg=RazerGreen}
+\setbeamercolor{structure}{fg=AlexBlue}
+\setbeamertemplate{footline}[frame number]
 
 \tikzset{
     current/.style={
@@ -91,7 +93,7 @@ Supervisor: Ian Munro}
 
 %\tableofcontents
 
-\section{Introduction}
+\section{Introduction and Background}
 
 \begin{frame} \frametitle{Binary Search Trees}
 
@@ -106,6 +108,7 @@ Supervisor: Ian Munro}
 \item Ordering property over keys allows for quick searches
 
 \end{itemize}
+
 \end{frame}
 
 \begin{frame} \frametitle{The Optimum Binary Search Tree Problem}
@@ -114,7 +117,7 @@ Supervisor: Ian Munro}
 
 \item Knuth proposed optimum BST problem in 1971 \cite{knuth1971optimum}
 
-\item $n$ keys, $B_1, B_2, ..., B_n$
+\item $n$ ordered keys, $B_1, B_2, ..., B_n$
 
 \item $2n+1$ frequencies, ${p_1, p_2, ..., p_n}$, ${q_0, q_1, ..., q_n}$
 
@@ -128,10 +131,11 @@ Supervisor: Ian Munro}
 
 \item Keys must be internal nodes, gaps leaves
 
-\item $P = \sum_{i=1}^{n} p_i \cdot (d_T(B_i)+1) + \sum_{i=0}^{n} q_i \cdot(d_T((B_i, B_{i+1})))$
+\item $C = \sum_{i=1}^{n} p_i \cdot (d_T(B_i)+1) + \sum_{i=0}^{n} q_i \cdot(d_T((B_i, B_{i+1})))$
 
 
 \end{itemize}
+TODO PICTURE?
 \end{frame}
 
 
@@ -156,7 +160,7 @@ Supervisor: Ian Munro}
 
 {\scriptsize
 \begin{align*}
-P = &\sum_{i=1}^{n} p_i \cdot (d_T(B_i)+1) + \sum_{i=0}^{n} q_i \cdot(d_T((B_i, B_{i+1}))) \\
+C = &\sum_{i=1}^{n} p_i \cdot (d_T(B_i)+1) + \sum_{i=0}^{n} q_i \cdot(d_T((B_i, B_{i+1}))) \\
 = &0.15 \cdot 1 + 0.10 \cdot 2 + 0.10 \cdot 2 + 0.10 \cdot 2 + 0.10 \cdot 2 + 0.40 \cdot 2 + 0.01 \cdot 2 + 0.14 \cdot 2 \\
 = &1.85
 \end{align*}
@@ -256,8 +260,6 @@ P = &\sum_{i=1}^{n} p_i \cdot (d_T(B_i)+1) + \sum_{i=0}^{n} q_i \cdot(d_T((B_i, 
 
 \end{frame}
 
-\section{Background and Related Work} \label{Background and Related Work}
-
 \begin{frame} \frametitle{Optimum Binary Search Trees}
 
 \begin{itemize}
@@ -265,7 +267,7 @@ P = &\sum_{i=1}^{n} p_i \cdot (d_T(B_i)+1) + \sum_{i=0}^{n} q_i \cdot(d_T((B_i, 
 
 \item Knuth $O(n^2)$ time and space solution \cite{knuth1971optimum}
 
-\item Approximate solutions followed
+\item Approximate solutions followed (using less space)
 
 \item Interestingly, it is hard to bound the cost of approximation algorithms to the optimal
 
@@ -308,7 +310,7 @@ Select $B_i$ as root with minimum $\max(P_L(B_i), P_R(B_i))$
 
 \begin{itemize}
 
-\item In addition to using $H$ to represent the entropy of our whole distribution:
+\item In addition to using $H$ to representing the entropy of our whole distribution:
 \begin{center}
 $H(x_1,x_2,...,x_n) = \sum_{i=1}^{n} x_i\cdot\lg(\frac{1}{x_i})$
 \end{center}
@@ -469,13 +471,13 @@ $\sum_{i=1}^{n} p_i \cdot (d_T(B_i)+1) + \sum_{j=0}^{n} q_j \cdot d_T((B_{i-1},B
 \end{frame}
 
 
-\section{An Improved Bound for the Modified Minimum Entropy Heuristic}\label{An Improved Bound for the Modified Minimum Entropy Heuristic}
+\section{An Improved Bound for the MME Heuristic}\label{An Improved Bound for the Modified Minimum Entropy Heuristic}
 
 \begin{frame} \frametitle{An Improved Bound for the Modified Minimum Entropy Heuristic}
 
 \begin{itemize}
 
-\item Modified Minimum Entropy (ME) Heuristic of G{\"u}ttler, Mehlhorn and Schneider \cite{guttler1980binary}
+\item Modified Minimum Entropy (MME) Heuristic of G{\"u}ttler, Mehlhorn and Schneider \cite{guttler1980binary}
 
 \item Previous bound: $C_{ME} \leq c_1\cdot H+2$ \\ where $c_1=\frac{1}{H(\frac{1}{3}, \frac{2}{3})} \approx 1.08$ 
 
@@ -508,14 +510,14 @@ E_t=H(P_{L_t}(B_i), \frac{p_i}{p_t}, P_{R_t}(B_i))
 \end{frame}
 
 
-\begin{frame} \frametitle{The Modified Entropy Rule}\label{The Entropy Rule}
+\begin{frame} \frametitle{The Entropy Rule}\label{The Entropy Rule}
 
 \begin{itemize}
-\item The basic version of the hueristic greedily chooses root in a top-down manner:
-\item \begin{center}
-\textit{$B_i$ is selected such that $H(P_{L_t}(B_i), \frac{p_i}{p_t}, P_{R_t}(B_i))$ is maximized (as in the original entropy rule).}
-\end{center}
+\item The basic version of the heuristic greedily chooses root in a top-down manner:
 \end{itemize}
+\begin{center}
+\textit{$B_i$ is selected such that $H(P_{L_t}(B_i), \frac{p_i}{p_t}, P_{R_t}(B_i))$ is maximized.}
+\end{center}
 
 \end{frame}
 
@@ -551,9 +553,8 @@ E_t=H(P_{L_t}(B_i), \frac{p_i}{p_t}, P_{R_t}(B_i))
   child {node [circle,draw] (b) {$\frac{3}{5}$}
   };
 \end{tikzpicture}
-\caption{Modified entropy rule tree: $C=\frac{7}{5}$}
+\caption{MME rule tree: $C=\frac{7}{5}$}
 \end{subfigure}
-\caption{Comparison of entropy and modified entropy rule heuristics}
 \end{figure}
 
 Given the probability set $\{q_0 = \frac{1}{5}, p_1 = \frac{1}{5}, q_1 = 0, p_2 = 0, q_3 = \frac{3}{5}\}$ the entropy rule will mistakenly choose key $B_1$ as the root while selecting $B_2$ as the root produces a better tree.
@@ -574,7 +575,7 @@ The approach proposed by G{\"u}ttler, Mehlhorn and Schneider takes $O(n^2)$ time
 \end{frame}
 
 
-\begin{frame} \frametitle{Modified Entropy is Within 4 of Entropy}
+\begin{frame} \frametitle{MME is Within 4 of Entropy}
 
 \begin{itemize}
 \item We start with two important equations:
@@ -602,7 +603,7 @@ where $S_T$ is the set of all subtrees of our tree $T$. \\
 
 \item[\textit{Case 2)}] There exists gap $(B_i, B_{i+1})$ such that $\frac{q_i}{p_t} > max(P_{L_t}(B_i, B_{i+1}), P_{R_t}(B_i, B_{i+1}))$. \textbf{We set $b_t = q_i$.}
 
-\item[\textit{Case 3)}]  $\max(P_{L_t}(B_r), P_{R_t}(B_r)) < \frac{4}{5}$. \textbf{We set $b_t = q_m$ where $q_m$ is the middle gap.}
+\item[\textit{Case 3)}]  $\max(P_{L_t}(B_r), P_{R_t}(B_r)) < \frac{4}{5}$. \textbf{We set $b_t = \frac{4}{5} \cdot \frac{q_m^2}{p_t}$ where $q_m$ is the middle gap.}
 
 \end{itemize}
 
@@ -619,7 +620,7 @@ where $S_T$ is the set of all subtrees of our tree $T$. \\
 \item If we have a key in the middle this will follow.
 \item Happens at most once per key.
 \end{itemize}
-
+TODO PICTURE?
 \end{frame}
 \begin{frame}
 \textit{Case 2)} There exists gap $(B_i, B_{i+1})$ such that $\frac{q_i}{p_t} > max(P_{L_t}(B_i, B_{i+1}), P_{R_t}(B_i, B_{i+1}))$. \textbf{We set $b_t = q_i$.}
@@ -628,6 +629,7 @@ where $S_T$ is the set of all subtrees of our tree $T$. \\
 \item If we have a big gap in the middle of our dataset, we use rule b).
 \item Can happen at most twice for a gap.
 \end{itemize}
+TODO PICTURE?
 \end{frame}
 
 \begin{frame}
@@ -637,13 +639,13 @@ where $S_T$ is the set of all subtrees of our tree $T$. \\
 \item The hard case
 \item When this happens, since $\max(P_{L_t}(B_r), P_{R_t}(B_r)) < \frac{4}{5}$, our middle gap must get bigger relative to the remaining probability.
 \item once it is big enough ($\geq \frac{1}{2}$), case 2 occurs.
-\item We can show that $E_t \geq 1 - \frac{4}{5}\frac{q_m}{p_t}^2$ so we set $b_t = \frac{4}{5}\frac{q_m^2}{p_t}$ 
+\item We can show that $E_t \geq 1 - \frac{4}{5}(\frac{q_m}{p_t})^2$ so we set $b_t = \frac{4}{5}\frac{q_m^2}{p_t}$ 
 \item Each gap can contribute at most:
 \begin{align*}
-q_m \cdot \sum\limits_{x=0}^{\infty} \frac{1}{2} \cdot (\frac{4}{5}) ^ x = \mathbf{q_m \cdot 2}
+q_m \cdot \sum\limits_{x=0}^{\infty} \frac{1}{2} \cdot (\frac{4}{5}) ^ x = \mathbf{2 \cdot q_m}
 \end{align*}
 \end{itemize}
-
+TODO PICTURE?
 \end{frame}
 
 \begin{frame}
@@ -653,9 +655,9 @@ q_m \cdot \sum\limits_{x=0}^{\infty} \frac{1}{2} \cdot (\frac{4}{5}) ^ x = \math
 \end{itemize}
 
 \begin{align*}
-C \leq H + \sum_{t \in S_T} b_t = H + 2 \sum\limits_{r = 1}^n p_r + 2 \sum\limits_{m = 0}^n q_m + \sum\limits_{m = 0}^n \sum\limits_{t \in S_m} \frac{4}{5}\frac{q_m^2}{p_t}
+C &\leq H + \sum_{t \in S_T} b_t = H + 2 \sum\limits_{r = 1}^n p_r + 2 \sum\limits_{m = 0}^n q_m + \sum\limits_{m = 0}^n \sum\limits_{t \in S_m} \frac{4}{5}\frac{q_m^2}{p_t}\\
 C &\leq H + 2 + \sum\limits_{m = 0}^n (\frac{4}{5} \cdot q_m) \sum\limits_{x=0}^{\infty} \frac{1}{2} \cdot (\frac{4}{5}) ^ x \\
-C &\leq H + 2 + 2
+C &\leq H + 2 + 2 \\
 C &\leq H + 4
 \end{align*}
 \end{frame}
@@ -692,7 +694,7 @@ C &\leq H + 4
 \begin{itemize}
 \item Given $n$ keys and $n+1$ gaps with associated probabilities as before.  
 \item Construct binary tree $T$ (as before).
-\item Put assign the nodes in $T$ to memory locations
+\item Assign the nodes in $T$ to memory locations
 \item Minimize the expected cost of search:
 \end{itemize}
 \end{frame}
@@ -708,7 +710,7 @@ TODO INSERT COST OF ACCESS PICTURE WHICH IS SUPER NEEDED
 \begin{enumerate}
 \item Create MWT using algorithm of Bose and Dou\"{i}eb with $m_1$ page size
 
-\item Create balanced BST inside each node.
+\item Create balanced BST inside each node (page).
 
 \item Connect the balanced BSTs to form a single BST
 
@@ -964,9 +966,9 @@ Total time: $\mathbf{O(n)}$
 
 \begin{frame} \frametitle{Expected Cost ApproxBSTPaging}\label{48}
 \begin{itemize}
-\item[1.] We bind the depth of each key/gap based on its probability in BST
-\item[3.] We bind the location in the memory of each key/gap (since we pack via BFS)
-\item[4.] We can then explicitly bound the expected cost of search of our tree.
+\item[1.] We bind the depth of each key/gap based on its probability in the BST.
+\item[2.] We bind the location in the memory of each key/gap (since we pack via BFS).
+\item[3.] We can then explicitly bound the expected cost of search of our tree.
 \end{itemize}
 \end{frame}
 
@@ -991,7 +993,7 @@ d_T((B_{i-1},B_i)) \leq
 
 
 \begin{proof}
-Result comes immediately from explanations within the work of Bose and Douou\"{i}eb \cite{bose2009efficient}.
+Result comes immediately from explanations within the work of Bose and Dou\"{i}eb \cite{bose2009efficient}.
 \end{proof}
 
 \end{frame}
@@ -1071,13 +1073,14 @@ This model treats internal and external nodes the same.
 \end{frame}
 
 \begin{frame} \frametitle{GREEDY-MS}
-There is a simple, greedy, $O(n \lg n)$ that is optimal under EPL \cite{golin2012huffman}. We call this algorithm \textit{GREEDY-MS}:
+There is a simple, greedy, $O(n \lg n)$ time algorithm that is optimal under EPL \cite{golin2012huffman}. We call this algorithm \textit{GREEDY-MS}:
 
 \begin{itemize}
 \item[1.] Sort the multiset $M$ to create $R$.
 
 \item[2.] The root of our tree will be $R[0]$, its two children will be $R[1]$ and $R[2]$, and so on. $R[i]$ will be placed at location $i+1$ in BFS order.
 \end{itemize}
+TODO PICTURE?
 \end{frame}
 
 \begin{frame}\frametitle{GREEDY-MS optimal under EPL (Lemma 5.2.1)}

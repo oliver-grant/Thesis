@@ -3,7 +3,7 @@
 \begin{enumerate}
 \item Create MWT using algorithm of Bose and Dou\"{i}eb with $m_1$ page size
 
-\item Create balanced BST inside each node.
+\item Create balanced BST inside each node (page).
 
 \item Connect the balanced BSTs to form a single BST
 
