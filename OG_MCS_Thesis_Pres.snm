@@ -3,11 +3,11 @@
 \beamer@slide {Approximate Binary Search in the Hierarchical Memory Model}{42}
 \beamer@slide {The Hierarchical Memory Model}{43}
 \beamer@slide {sec:MWT}{45}
-\beamer@slide {Algorithm ApproxMWPaging}{49}
-\beamer@slide {45}{54}
-\beamer@slide {48}{57}
-\beamer@slide {BST over Multisets}{59}
-\beamer@slide {Claim-EPL}{63}
-\beamer@slide {Claim-EPL2}{63}
-\beamer@slide {Conclusion and Open Problems}{68}
-\beamer@slide {sec:deBST}{90}
+\beamer@slide {Algorithm ApproxMWPaging}{50}
+\beamer@slide {45}{59}
+\beamer@slide {48}{62}
+\beamer@slide {BST over Multisets}{64}
+\beamer@slide {Claim-EPL}{68}
+\beamer@slide {Claim-EPL2}{68}
+\beamer@slide {Conclusion and Open Problems}{80}
+\beamer@slide {sec:deBST}{99}
