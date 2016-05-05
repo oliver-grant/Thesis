@@ -18,6 +18,8 @@
 \usepackage{tikz}
 \usepackage{stmaryrd}
 \usepackage{caption}
+\usepackage{multicol}
+\usepackage{hhline}
 \usepackage{subcaption}
 \usepackage{multirow}
 \theoremstyle{plain}
@@ -437,15 +439,49 @@ We note that $H(0.2, 0.2, 0.6) > H(0.4, 0.0, 0.6)$ so, naively we would choose t
 \end{itemize}}
 \only<7>{The approach proposed by G{\"u}ttler, Mehlhorn and Schneider takes $O(n^2)$ time in the worst case and $O(n)$ space.}
 
+\only<2>{
 \begin{figure}
 \begin{tikzpicture}
   \only<2>{
-  \draw (0,0) ellipse (1cm and 0.5cm) node[align=center] {$0.2$};
-  \draw (3,-0.5) rectangle (0.5cm, 0.5cm) node[align=center] {$0.1$};
-  \draw (4,0) ellipse (2cm and 0.5cm) node[align=center] {$0.4$};
+  \draw[color=TruePurple] (0,-0.5) rectangle (1,0.5) node[pos=.5] {$0.1$};
+  \draw[color=ForestGreen] (1.5,0) ellipse (0.5cm and 0.5cm) node[align=center] {$0.1$};
+  \draw[color=TruePurple] (2,-0.5) rectangle (3,0.5) node[pos=.5] {$0.1$};
+  \draw[color=ForestGreen,thick] (5,0) ellipse (2cm and 0.5cm) node[align=center] {$0.4$};
+  \draw[color=TruePurple] (7,-0.5) rectangle (8,0.5) node[pos=.5] {$0.1$};
+  \draw[color=ForestGreen] (8.5,0) ellipse (0.5cm and 0.5cm) node[align=center] {$0.1$};
+  \draw[color=TruePurple] (9,-0.5) rectangle (10,0.5) node[pos=.5] {$0.1$};
+}
+\end{tikzpicture}
+\end{figure}}
+
+\only<4>{
+\begin{figure}
+\begin{tikzpicture}
+  \only<4>{
+  \draw[color=TruePurple] (0,-0.5) rectangle (1,0.5) node[pos=.5] {$0.11$};
+  \draw[color=ForestGreen, thick] (1.5,0) ellipse (0.5cm and 0.5cm) node[align=center] {$0.1$};
+  \draw[color=TruePurple] (2,-0.5) rectangle (8,0.5) node[pos=.5] {$0.6$};
+  \draw[color=ForestGreen] (8.5,0) ellipse (0.5cm and 0.5cm) node[align=center] {$0.1$};
+  \draw[color=TruePurple] (9,-0.5) rectangle (10,0.5) node[pos=.5] {$0.09$};
+}
+\end{tikzpicture}
+\end{figure}}
+
+
+\begin{figure}
+\begin{tikzpicture}
+  \only<6>{
+  \draw[color=TruePurple] (0,-0.5) rectangle (1,0.5) node[pos=.5] {$0.1$};
+  \draw[color=ForestGreen,thick] (3,0) ellipse (2cm and 0.5cm) node[align=center] {$0.4$};
+  \draw[color=TruePurple] (5,-0.5) rectangle (6,0.5) node[pos=.5] {$0.1$};
+  \draw[color=ForestGreen] (6.5,0) ellipse (0.5cm and 0.5cm) node[align=center] {$0.1$};
+  \draw[color=TruePurple] (7,-0.5) rectangle (8,0.5) node[pos=.5] {$0.1$};
+  \draw[color=ForestGreen] (8.5,0) ellipse (0.5cm and 0.5cm) node[align=center] {$0.1$};
+  \draw[color=TruePurple] (9,-0.5) rectangle (10,0.5) node[pos=.5] {$0.1$};
 }
 \end{tikzpicture}
 \end{figure}
+
 
 \end{frame}
 
@@ -463,17 +499,61 @@ where $S_T$ is the set of all subtrees of our tree $T$. \\
 
 \noindent For each subtree, we bind $E_t \geq 1 - \frac{b_t}{p_t}$ (we define $b_t$ later): 
 \begin{align*}
-&H = \sum_{t \in S_T} p_t E_t \geq \sum_{t \in S_T} p_t \cdot (1 - \frac{b_t}{p_t}) = C - \sum_{t \in S_T} b_t \\
- \implies &C \leq H + \sum_{t \in S_T} b_t
+H &= \sum_{t \in S_T} p_t E_t \scriptsize{\text{ (sub in } E_t \text{ bound)}} \\
+&\geq \sum_{t \in S_T} p_t \cdot \left(1 - \frac{b_t}{p_t} \right) = C - \sum_{t \in S_T} b_t \\
+ \implies C &\leq H + \sum_{t \in S_T} b_t
 \end{align*}
 
+\end{frame}
+
+\begin{frame}
+
+\begin{itemize}
+\item<1-> For each root, we show that one of three cases must occur:
+
+\item<2->[\textit{Case 1)}] If there is a big key spanning the middle OR we select the key using the entropy rule: $E_t \geq 1-2 \frac{p_r}{p_t}$. 
+\begin{itemize}
+\item \textbf{We set $b_t = 2p_r$.} ($p_r$ is the middle root)
+\item This can only happen \textbf{once for each root}.
+\end{itemize}
+
+\item<3->[\textit{Case 2)}] If there is a big gap with prob $q_i$ we get: $E_t \geq 1-\frac{q_i}{p_t}$ 
+\begin{itemize}
+\item \textbf{We set $b_t = q_i$.}
+\item This can happen at most \textbf{twice for each gap}.
+\end{itemize}
+
+\item<4->[\textit{Case 3)}] Otherwise we do manipulations and show our root choice cannot be "too far" from the centre and get $E_t \geq 1 - \frac{4}{5} \cdot \left( \frac{q_m}{p_t}\right)^2$
+\begin{itemize}
+\item $q_m$ is the middle-spanning gap
+\item \textbf{We set $b_t = \frac{q_m^2}{p_t}$.}
+\item Through careful manipulations we show that summing over all cases for a single \textbf{$q_m$ can sum to at most $2\cdot q_m$}.
+\end{itemize} 
+\end{itemize}
+\end{frame}
+
+\begin{frame}{}
+\begin{itemize}
+\item[\textit{Case 1)}] $b_t = 2p_r$, \textbf{once for each root}.
+
+\item[\textit{Case 2)}]$b_t = q_i$, \textbf{twice for each gap}.
+
+\item[\textit{Case 3)}] $b_t = \frac{q_m^2}{p_t}$, \textbf{all of these cases summed for $q_m$: at most $2\cdot q_m$}.
+\end{itemize}
+
+Combining the above we get that our cost is at most:
+\begin{align*}
+C &\leq H + \sum_{t \in S_T} b_t \\
+ &\leq H + 2 \cdot \sum_{i=1}^{n} p_i + 4 \cdot \sum_{j=0}^{n} q_i \\
+ &\leq H + 4
+\end{align*}
 \end{frame}
 
 \section{Approximate Binary Search in the Hierarchical Memory Model}\label{Approximate Binary Search in the Hierarchical Memory Model} 
 
 \begin{frame} \frametitle{Optimum Binary Search Trees on the HMM Model}
 \begin{itemize}
-\item Given $n$ keys and $n+1$ gaps with associated probabilities as before.  
+\item Given $n$ keys and $n+1$ gaps with associated probabilities.  
 \item Construct binary tree $T$ (as before).
 \item Assign the nodes in $T$ to memory locations
 \item Minimize the expected cost of search.
@@ -482,14 +562,45 @@ where $S_T$ is the set of all subtrees of our tree $T$. \\
  
 \begin{frame} \frametitle{The Hierarchical Memory Model}\label{The Hierarchical Memory Model}
 
+\begin{multicols}{2}
 \begin{itemize}
 
-\item HMM by Aggarwal et al. in 1987
-\item While not perfect, improvement over the RAM model
-\item Hierarchy of different memories, increasing in size and decreasing in access cost
-\item INSERT PICTURE
+\item HMM, Aggarwal et al. 1987
+\item Not perfect, improvement over the RAM model
+\item Hierarchy of different memories: increasing size and increasing access cost
 
 \end{itemize}
+\columnbreak
+
+\begin{tiny}
+\begin{center}
+\begin{tabular}{ |c|c|c}
+\cline{1-2}
+ \textbf{Register} & \textbf{Data} \\\cline{1-2}
+ $1$ & & $\leftarrow c_1$ \\\cline{1-2}
+ $2$ & & $\leftarrow c_1$ \\\cline{1-2}
+ $...$ & &  \\\cline{1-2}
+ $m_1$ & & $\leftarrow c_1$ \\ \hhline{==~}
+ 
+ $m_1 + 1$ & & $\leftarrow c_2$ \\\cline{1-2}
+ $m_1 + 2$ & & $\leftarrow c_2$ \\\cline{1-2}
+ . & &  \\\cline{1-2}
+ . & &  \\\cline{1-2}
+ . & &  \\\cline{1-2}
+ $m_1+m_2=m_2'$ & & $\leftarrow c_2$ \\ \hhline{==~}
+ $m_1+m_2 + 1$ & & $\leftarrow c_3$ \\\cline{1-2}
+ $m_1+m_2 + 2$ & & $\leftarrow c_3$ \\\cline{1-2}
+ . & &  \\\cline{1-2}
+ . & &  \\\cline{1-2}
+ . & &  \\\cline{1-2}
+ . & &  \\\cline{1-2}
+ . & &  \\\cline{1-2}
+ $m_1+m_2+m_3=m_3'$ & & $\leftarrow c_3$ \\ \hhline{==~}
+ ... & 
+\end{tabular}
+\end{center}
+\end{tiny}
+\end{multicols}
 \end{frame}
 
 \begin{frame}
@@ -554,8 +665,9 @@ $\sum_{i=1}^{n} p_i \cdot (d_T(B_i)+1) + \sum_{j=0}^{n} q_j \cdot d_T((B_{i-1},B
 \item Vishnavi et al. \cite{vaishnavi1980optimum}, and Gotlieb  \cite{gotlieb1981optimal} independently solved optimally in $O(k\cdot n^3)$ time
 
 \item In 1997, Becker propsed an $O(Dkn)$ time solution where D is the height of the tree \cite{becker1997construction}
-
+\begin{itemize}
 \item Thought, but not proven, to be close to optimal
+\end{itemize}
 
 \item Bose and Dou\"{i}eb's 2009 work also solved this problem with an $O(n)$ solution with worst case expected cost:
 \begin{scriptsize}
@@ -569,9 +681,60 @@ $\sum_{i=1}^{n} p_i \cdot (d_T(B_i)+1) + \sum_{j=0}^{n} q_j \cdot d_T((B_{i-1},B
 
 \end{frame}
 
+\begin{frame} \frametitle{Back to: Optimum Binary Search Trees on the HMM Model}
+\begin{itemize}
+\item Given $n$ keys and $n+1$ gaps with associated probabilities.  
+\item Construct binary tree $T$ (as before).
+\item Assign the nodes in $T$ to memory locations
+\item Minimize the expected cost of search:
+\end{itemize}
+\end{frame}
+
 \begin{frame}{The Expected Cost of Search}
+\begin{multicols}{2}
+ \begin{tikzpicture}[scale=0.75,level/.style={sibling distance = 4cm/####1,
+  level distance = 1cm}]
+\node (Root) [arn_n] {\tiny {\color{TruePurple}$0.15$} {\color{blue}THE}}
+    child{ node [arn_n] {\tiny {\color{TruePurple}$0.10$}  {\color{blue}$BE$}} 
+            child{ node [arn_x] {\tiny {\color{ForestGreen}$0.10$} \\ $(-\infty, {\color{blue}BE})$}} 
+            	child{ node [arn_x] {\tiny {\color{ForestGreen}$0.40$} \\  $({\color{blue}BE}, {\color{blue}THE})$}}
+            }
+    child{ node [arn_n] {\tiny {\color{TruePurple}$0.10$} {\color{blue}$TO$}}
+            child{ node [arn_x] {\tiny {\color{ForestGreen}$0.01$} \\ $({\color{blue}THE}, {\color{blue}TO})$}}
+            child{ node [arn_x] {\tiny {\color{ForestGreen}0.14} \\ $({\color{blue}TO}, \infty)$}}
+		};
+\end{tikzpicture}
+\columnbreak
 
-
+\begin{tiny}
+\begin{center}
+\begin{tabular}{ |c|c|c}
+\cline{1-2}
+ \textbf{Register} & \textbf{Data} \\\cline{1-2}
+ $1$ & & \\\cline{1-2}
+ $2$ & & \\\cline{1-2}
+ $...$ & &  \\\cline{1-2}
+ $m_1$ & &  \\ \hhline{==~}
+ 
+ $m_1 + 1$ & & \\\cline{1-2}
+ $m_1 + 2$ & & \\\cline{1-2}
+ . & &  \\\cline{1-2}
+ . & &  \\\cline{1-2}
+ . & &  \\\cline{1-2}
+ $m_1+m_2=m_2'$ & & \\ \hhline{==~}
+ $m_1+m_2 + 1$ & & \\\cline{1-2}
+ $m_1+m_2 + 2$ & & \\\cline{1-2}
+ . & &  \\\cline{1-2}
+ . & &  \\\cline{1-2}
+ . & &  \\\cline{1-2}
+ . & &  \\\cline{1-2}
+ . & &  \\\cline{1-2}
+ $m_1+m_2+m_3=m_3'$ & & \\ \hhline{==~}
+ ... & 
+\end{tabular}
+\end{center}
+\end{tiny}
+\end{multicols}
 
 \end{frame}
 
@@ -970,7 +1133,7 @@ Using the previous Lemma, we would contradict the optimality of $T$ under the EP
 \end{frame}
 
 
-\end{document}
+
 
 \begin{frame} \frametitle{Alphabetic Trees}
 \begin{scriptsize}
@@ -1198,3 +1361,5 @@ C(B_i) \leq
 \end{align*}
 This, along with the bound for gaps is summed over all nodes to give a complete equation (Theorem 4.8.3).
 \end{frame}
+
+\end{document}

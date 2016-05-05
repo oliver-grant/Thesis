@@ -1,12 +1,13 @@
 \beamer@slide {An Improved Bound for the Modified Minimum Entropy Heuristic}{15}
 \beamer@slide {The Entropy Rule}{27}
-\beamer@slide {Approximate Binary Search in the Hierarchical Memory Model}{37}
-\beamer@slide {The Hierarchical Memory Model}{38}
-\beamer@slide {sec:MWT}{40}
-\beamer@slide {Algorithm ApproxMWPaging}{43}
-\beamer@slide {45}{48}
-\beamer@slide {48}{51}
-\beamer@slide {BST over Multisets}{53}
-\beamer@slide {Claim-EPL}{57}
-\beamer@slide {Claim-EPL2}{57}
-\beamer@slide {Conclusion and Open Problems}{62}
+\beamer@slide {Approximate Binary Search in the Hierarchical Memory Model}{42}
+\beamer@slide {The Hierarchical Memory Model}{43}
+\beamer@slide {sec:MWT}{45}
+\beamer@slide {Algorithm ApproxMWPaging}{49}
+\beamer@slide {45}{54}
+\beamer@slide {48}{57}
+\beamer@slide {BST over Multisets}{59}
+\beamer@slide {Claim-EPL}{63}
+\beamer@slide {Claim-EPL2}{63}
+\beamer@slide {Conclusion and Open Problems}{68}
+\beamer@slide {sec:deBST}{90}
