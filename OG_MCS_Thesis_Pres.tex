@@ -29,6 +29,15 @@
 \newtheorem*{cor}{Corollary}
 \usepackage{color}
 
+\newcommand{\backupbegin}{
+   \newcounter{framenumberappendix}
+   \setcounter{framenumberappendix}{\value{framenumber}}
+}
+\newcommand{\backupend}{
+   \addtocounter{framenumberappendix}{-\value{framenumber}}
+   \addtocounter{framenumber}{\value{framenumberappendix}} 
+}
+
 \newcommand*\rfrac[2]{{#1}/{#2}}
 \makeatletter
 \newcommand{\rom}[1]{\romannumeral #1}
@@ -42,6 +51,7 @@
 \setbeamercolor{structure}{fg=AlexBlue}
 \setbeamertemplate{footline}[frame number]
 \beamertemplatenavigationsymbolsempty
+\AtBeginSection{\frame{\sectionpage}}
 
 \tikzset{
     current/.style={
@@ -89,7 +99,7 @@
 Trees in External Memory Models}
 \subtitle{Master of Mathematics Presentation \\ University of Waterloo}
 \author{Oliver Grant \\
-Supervisor: Ian Munro}
+Supervisor: J. Ian Munro}
 
 
 
@@ -173,7 +183,7 @@ Supervisor: Ian Munro}
 
 
 \begin{equation}
-C = \sum_{i=1}^{n} p_i \cdot (d_T(B_i)+1) + \sum_{i=0}^{n} q_i \cdot d_T \big( (B_i, B_{i+1}) \big)
+C = \sum_{i=1}^{n} {\color{TruePurple}p_i} \cdot (d_T({\color{blue}B_i})+1) + \sum_{i=0}^{n} {\color{ForestGreen}q_i} \cdot d_T \big( ({\color{blue}B_i}, {\color{blue}B_{i+1}}) \big)
 \end{equation}
 \end{center}
 \end{frame}
@@ -210,8 +220,6 @@ C = \sum_{i=1}^{n} p_i \cdot (d_T(B_i)+1) + \sum_{i=0}^{n} q_i \cdot d_T \big( (
 \begin{itemize}
 
 \item We have three separate results:
-\end{itemize}
-
 \begin{enumerate}
 \item In the standard problem, we improve bound on MME Heuristic of G{\"u}ttler, Mehlhorn and Schneider \cite{guttler1980binary}
 
@@ -219,10 +227,7 @@ C = \sum_{i=1}^{n} p_i \cdot (d_T(B_i)+1) + \sum_{i=0}^{n} q_i \cdot d_T \big( (
 
 \item With unordered probabilities, \textit{GREEDY-MS} within $\frac{n+1}{2n}$ of OPT
 \end{enumerate}
-
-
-
-
+\end{itemize}
 \end{frame}
 
 \begin{frame} \frametitle{Optimum Binary Search Trees}
@@ -262,7 +267,7 @@ H-\lg H-(\lg e-1) \leq C_{Opt} \leq C_{WB}, C_{MM} \leq H + 2
 
 \item $C_{WB}$: Root $B_i$ with minimum $|P_L(B_i)-P_R(B_i)|$
 
-\item $C_{MM}$ Root $B_i$ with minimum $\max(P_L(B_i), P_R(B_i))$
+\item $C_{MM}$: Root $B_i$ with minimum $\max(P_L(B_i), P_R(B_i))$
 
 \end{scriptsize}
 \end{itemize}
@@ -271,13 +276,15 @@ H-\lg H-(\lg e-1) \leq C_{Opt} \leq C_{WB}, C_{MM} \leq H + 2
 \begin{frame} \frametitle{Approximately Optimum Binary Search Trees}
 
 \begin{itemize}
+\uncover<1->{
 \item In 1993 De Prisco and De Santis gave a new heuristic \cite{de1993binary}:
 \begin{align*}
 C \leq H+1-q_0-q_n+q_{max}
 \end{align*}
  \begin{scriptsize}
  {\setlength\itemindent{25pt} \item $q_{max}$ is the maximum} weight leaf node
- \end{scriptsize}
+ \end{scriptsize}}
+ \uncover<2->{
 \item Updated in 2009 by Bose and Dou\"{i}eb to \cite{bose2009efficient}:
 \begin{align*}
 C \leq H + 1 - q_0 - q_n + q_{max} - \sum_{i=0}^{m'} pq_{\text{rank}[i]}
@@ -286,7 +293,7 @@ C \leq H + 1 - q_0 - q_n + q_{max} - \sum_{i=0}^{m'} pq_{\text{rank}[i]}
 {\setlength\itemindent{25pt} \item $m'=\max({2n-3P,P})-1 \geq \frac{n}{2} - 1$}
 {\setlength\itemindent{25pt} \item $P$: number of incr. or decr. sequences in the probabilities of the leaves}
 {\setlength\itemindent{25pt} \item $pq_{\text{rank}[i]}$ is the $i^{th}$ smallest probability among all except $q_0$ and $q_n$.}
-\end{scriptsize}
+\end{scriptsize}}
 
 \end{itemize}
 \end{frame}
@@ -364,7 +371,7 @@ E_t=H \left(P_{L_t}(B_i), \frac{p_i}{p_t}, P_{R_t}(B_i) \right)
 \end{tikzpicture}
 \end{figure}
 
-\only<8->{
+\uncover<8->{
 \begin{align*}
 E_{BE} = H \left( \frac{1}{6}, \frac{1}{6}, \frac{4}{6} \right)
 \end{align*}}
@@ -488,6 +495,7 @@ We note that $H(0.2, 0.2, 0.6) > H(0.4, 0.0, 0.6)$ so, naively we would choose t
 
 \begin{frame} \frametitle{MME is Within 4 of Entropy}
 
+\uncover<1->{
 \begin{itemize}
 \item We start with two important equations:
 \end{itemize}
@@ -496,12 +504,16 @@ C_{MME} &= \sum_{t \in S_T} p_t
  &H = \sum_{t \in S_T} p_t \cdot E_t
 \end{align*}  
 where $S_T$ is the set of all subtrees of our tree $T$. \\
+}
+\uncover<2->{
+\noindent For each subtree, we bind $E_t \geq 1 - \frac{b_t}{p_t}$ (we define $b_t$ later): }
 
-\noindent For each subtree, we bind $E_t \geq 1 - \frac{b_t}{p_t}$ (we define $b_t$ later): 
 \begin{align*}
-H &= \sum_{t \in S_T} p_t E_t \scriptsize{\text{ (sub in } E_t \text{ bound)}} \\
-&\geq \sum_{t \in S_T} p_t \cdot \left(1 - \frac{b_t}{p_t} \right) = C - \sum_{t \in S_T} b_t \\
- \implies C &\leq H + \sum_{t \in S_T} b_t
+\uncover<3->{H &= \sum_{t \in S_T} p_t E_t \scriptsize{\text{ (sub in } E_t \text{ bound)}} \\}
+\uncover<4->{
+&\geq \sum_{t \in S_T} p_t \cdot \left(1 - \frac{b_t}{p_t} \right) = C_{MME} - \sum_{t \in S_T} b_t \\}
+\uncover<5->{
+ \implies C_{MME} &\leq H + \sum_{t \in S_T} b_t}
 \end{align*}
 
 \end{frame}
@@ -511,23 +523,23 @@ H &= \sum_{t \in S_T} p_t E_t \scriptsize{\text{ (sub in } E_t \text{ bound)}} \
 \begin{itemize}
 \item<1-> For each root, we show that one of three cases must occur:
 
-\item<2->[\textit{Case 1)}] If there is a big key spanning the middle OR we select the key using the entropy rule: $E_t \geq 1-2 \frac{p_r}{p_t}$. 
+\item<2->[\textit{Case 1)}] If there is a "big key" OR there is a key spanning the middle: $E_t \geq 1-2 \frac{p_r}{p_t}$. 
 \begin{itemize}
 \item \textbf{We set $b_t = 2p_r$.} ($p_r$ is the middle root)
 \item This can only happen \textbf{once for each root}.
 \end{itemize}
 
-\item<3->[\textit{Case 2)}] If there is a big gap with prob $q_i$ we get: $E_t \geq 1-\frac{q_i}{p_t}$ 
+\item<3->[\textit{Case 2)}] If there is a "big gap" with prob $q_i$ we get: $E_t \geq 1-\frac{q_i}{p_t}$ 
 \begin{itemize}
 \item \textbf{We set $b_t = q_i$.}
 \item This can happen at most \textbf{twice for each gap}.
 \end{itemize}
 
-\item<4->[\textit{Case 3)}] Otherwise we do manipulations and show our root choice cannot be "too far" from the centre and get $E_t \geq 1 - \frac{4}{5} \cdot \left( \frac{q_m}{p_t}\right)^2$
+\item<4->[\textit{Case 3)}] Otherwise we do manipulations and show our root choice cannot be "too far" from the centre and get $E_t \geq 1 - \frac{4}{5} \cdot \left( \frac{q_i}{p_t}\right)^2$
 \begin{itemize}
-\item $q_m$ is the middle-spanning gap
-\item \textbf{We set $b_t = \frac{q_m^2}{p_t}$.}
-\item Through careful manipulations we show that summing over all cases for a single \textbf{$q_m$ can sum to at most $2\cdot q_m$}.
+\item $q_i$ is the middle-spanning gap
+\item \textbf{We set $b_t = \frac{4}{5} \cdot \frac{q_i^2}{p_t}$.}
+\item Through careful manipulations we show that summing over all cases for a single \textbf{$q_i$ can sum to at most $2\cdot q_i$}.
 \end{itemize} 
 \end{itemize}
 \end{frame}
@@ -538,7 +550,7 @@ H &= \sum_{t \in S_T} p_t E_t \scriptsize{\text{ (sub in } E_t \text{ bound)}} \
 
 \item[\textit{Case 2)}]$b_t = q_i$, \textbf{twice for each gap}.
 
-\item[\textit{Case 3)}] $b_t = \frac{q_m^2}{p_t}$, \textbf{all of these cases summed for $q_m$: at most $2\cdot q_m$}.
+\item[\textit{Case 3)}] $b_t = \frac{q_m^2}{p_t}$, \textbf{all of these cases summed for $q_i$: at most $2\cdot q_i$}.
 \end{itemize}
 
 Combining the above we get that our cost is at most:
@@ -603,20 +615,6 @@ C &\leq H + \sum_{t \in S_T} b_t \\
 \end{multicols}
 \end{frame}
 
-\begin{frame}
-\begin{itemize}
-\item Formally, $R_1, R_2, ...$ unlimited number of registers each with location in memory.
-\item Set of memories $M_1, M_2, ...M_l$
-\item With memory sizes $m_1, m_2, ..., m_l$
-\item Cost of accessing an item in $M_i$ is $c_i$
-\item We assume $c_1 < c_2 < ... < c_l$
-\item Cost of accessing item at location $a$:
-\begin{align*}
-\mu (a) = c_i \text{ if } \sum_{j = 1}^{i-1}m_j  < a \leq \sum_{j = 1}^{i}m_j.
-\end{align*}
-\end{itemize}
-\end{frame}
-
 \begin{frame} \frametitle{Multiway/K-ary trees} \label{sec:MWT}
 \begin{tiny}
 \begin{center}
@@ -653,47 +651,24 @@ C &\leq H + \sum_{t \in S_T} b_t \\
 \item Up to $k-1$ keys in internal node, single gap in a leaf node
 
 \item Cost of search within an internal node is constant
-
-\item Expected cost of search is still: \\
-$C =\sum_{i=1}^{n} p_i \cdot (d_T(B_i)+1) + \sum_{j=0}^{n} q_j \cdot d_T((B_{i-1},B_i))$
-
-
-\end{itemize}
-
-\end{frame}
-
-\begin{frame}
-
-\begin{itemize}
-
-\item Vishnavi et al. \cite{vaishnavi1980optimum}, and Gotlieb  \cite{gotlieb1981optimal} independently solved optimally in $O(k\cdot n^3)$ time
-
-\item In 1997, Becker propsed an $O(Dkn)$ time solution where D is the height of the tree \cite{becker1997construction}
-\begin{itemize}
-\item Thought, but not proven, to be close to optimal
-\end{itemize}
-
-\item Bose and Dou\"{i}eb's 2009 work also solved this problem with an $O(n)$ solution with worst case expected cost:
-\begin{scriptsize}
 \begin{align*}
-\frac{H}{\lg(2k-1)} \leq C_{OPT} \leq \mathbf{C_{B \& D}} \leq \frac{H}{\lg k} + 1 + \sum_{i=0}^n q_i - q_0 - q_n - \sum_{i=0}^m q_{\text{rank}[i]}
+C =\sum_{i=1}^{n} p_i \cdot (d_T(B_i)+1) + \sum_{j=0}^{n} q_j \cdot d_T \big((B_{i-1},B_i) \big)
 \end{align*}
-\end{scriptsize}
+
 
 \end{itemize}
-
 
 \end{frame}
 
 \begin{frame} \frametitle{Back to: Optimum Binary Search Trees on the HMM Model}
 \begin{itemize}
-\item Given $n$ keys and $n+1$ gaps with associated probabilities.  
-\item Construct binary tree $T$ (as before).
+\item Given $n$ keys and $n+1$ gaps with associated probabilities
+\item Construct binary tree $T$ (as before)
 \item Assign the nodes in $T$ to memory locations
 \item Minimize the expected cost of search:
-\only<2->{
+\uncover<2->{
 \begin{align*}
-C =\sum_{i=1}^{n} p_i \cdot C(B_i) + \sum_{i=0}^{n} q_i \cdot C\left( (B_{i-1}, B_i) \right)
+C =\sum_{i=1}^{n} p_i \cdot C(B_i) + \sum_{i=0}^{n} q_i \cdot C\big( (B_{i-1}, B_i) \big)
 \end{align*}}
 \end{itemize}
 \end{frame}
@@ -740,11 +715,11 @@ C =\sum_{i=1}^{n} p_i \cdot C(B_i) + \sum_{i=0}^{n} q_i \cdot C\left( (B_{i-1}, 
 \begin{itemize}
 \item<1,3,5,7,9>[1.] Create MWT using work of Bose and Dou\"{i}eb, $m_1$ page size
 
-\item<3,5,7,9>[2.] Create balanced BST inside each node (page).
+\item<3,5,7,9>[2.] Create balanced BST inside each node (page)
 
 \item<5,7,9>[3.] Connect the balanced BSTs to form a single BST
 
-\item<7,9>[4.] Pack into memory in BFS order.
+\item<7,9>[4.] Pack into memory in BFS order
 
 \end{itemize}}
 
@@ -894,7 +869,7 @@ C =\sum_{i=1}^{n} p_i \cdot C(B_i) + \sum_{i=0}^{n} q_i \cdot C\left( (B_{i-1}, 
 \begin{itemize}
 \item[1.] Bind depth of each key/gap in MWT from its probability
 \begin{itemize}
-\item Directly from work of Bose and DouDou\"{i}eb \cite{bose2009efficient}
+\item Directly from work of Bose and Dou\"{i}eb \cite{bose2009efficient}
 \end{itemize}
 \item[2.] Bind depth of each key/gap based on its probability in BST
 \begin{itemize}
@@ -980,10 +955,10 @@ $b_i$ is the depth of the node representing probability $p_i$.
 
 \begin{frame} \frametitle{Binary Trees on Unordered Sequences of Probabilities}
 \begin{itemize}
-\item Similar to Huffman code problem but we can place probabilities and internal \textit{and} external node locations.
+\item Similar to Huffman code problem but we can place probabilities and internal \textbf{and} external node locations.
 \item As in previous models, we don't charge to "examine" the leaves.
 \item The above constraint makes finding the optimal solution much more difficult.
-\item We show our GREEDY-MS Algorithm is Within $\frac{n+1}{2n}$ of Optimal.
+\item We show our GREEDY-MS Algorithm is within $\frac{n+1}{2n}$ of Optimal.
 \end{itemize}
 \end{frame}
 
@@ -1010,7 +985,7 @@ There is a simple, greedy, $O(n \lg n)$ time algorithm that is optimal under EPL
 \begin{frame}\frametitle{GREEDY-MS optimal under EPL (Lemma 5.2.1)}
 \uncover<1->{
 \textbf{Claim 1.}\label{Claim-EPL}
-For a given depth $d$, the probabilities of all nodes on level $d+1$ are greater than or equal to the probabilities of all nodes on level $d$.}
+For a given depth $d$, the probabilities of all nodes on level $d+1$ are \textbf{less than or equal to} the probabilities of all nodes on level $d$.}
 \uncover<2->{
 \begin{proof}
 Otherwise we could swap contradicting probabilities and get a better tree.
@@ -1037,12 +1012,12 @@ Taking claims 1 and 2 together gives the result.}
 \begin{frame}{Covering Lemma (5.2.2)}
 
 \textbf{Definition} \\
-An internal node with probability $p_i$ \textit{covers} a node $p_j$ if $p_i > p_j$.\\
+An internal node with probability $p_i$ \textit{covers} a node $p_j$ if $p_i \geq p_j$.\\
 
 \begin{lem}
-For a BST $T$ with all parent probabilities greater than their children's:
+For a BST $T$ with all parent probabilities $\geq$ than their children's:
 \begin{align*}
-\forall_{p_i \in L_T-\{l_{min}\}} \exists \text{ unique } p_i' \notin \{L_T \cup \{l_{min}\}\} \text{ such that } p_i' \text{ covers } p_i
+\forall_{p_i \in (L_T-\{l_{min}\})} \exists \text{ unique } p_i' \notin (L_T \cup \{l_{min}\}) \text{ such that } p_i' \text{ covers } p_i
 \end{align*}
 \end{lem}
 
@@ -1055,8 +1030,8 @@ In the base case we can always cover the bigger leaf since our parent is bigger.
 \begin{center}
 \begin{tikzpicture}[level/.style={sibling distance = 6cm/####1,
   level distance = 1.5cm}] 
-\node (Root) [arn_n, fill=red] {$0.40$ \\ THE}
-    child{ node [arn_x, fill=red] {$0.35$ \\ $(-\infty, THE)$}
+\node (Root) [arn_n, fill=red!50] {$0.40$ \\ THE}
+    child{ node [arn_x, fill=red!50] {$0.35$ \\ $(-\infty, THE)$}
             }
     child{ node [arn_x] {$0.25$ \\ $(THE, \infty)$}
 		};
@@ -1072,22 +1047,22 @@ In the inductive step our new root can cover the larger uncovered child.
   level distance = 1.5cm}]
   \only<1>{
 \node (Root) [arn_n] {$0.30$ \\ THE}
-    child{ node [arn_n,  fill=red] {$0.20$ \\  $BE$} edge from parent[draw=none]
-            child{ node [arn_x,  fill=red] {$0.10$ \\ $(-\infty, BE)$}} 
+    child{ node [arn_n,  fill=red!50] {$0.20$ \\  $BE$} edge from parent[draw=none]
+            child{ node [arn_x,  fill=red!50] {$0.10$ \\ $(-\infty, BE)$}} 
             	child{ node [arn_x] {$0.06$ \\  $(BE, THE)$}}
             }
-    child{ node [arn_n, fill=blue] {$0.20$ \\ $TO$} edge from parent[draw=none]
-            child{ node [arn_x, fill=blue] {$0.10$ \\ $(THE,TO)$}}
+    child{ node [arn_n, fill=red!50] {$0.20$ \\ $TO$} edge from parent[draw=none]
+            child{ node [arn_x, fill=red!50] {$0.10$ \\ $(THE,TO)$}}
             child{ node [arn_x] {$0.04$ \\ $(TO, \infty)$}}
 		}};
 		\only<2>{
-\node (Root) [arn_n, fill=green] {$0.30$ \\ THE}
-    child{ node [arn_n, fill=red] {$0.20$ \\  $BE$} 
-            child{ node [arn_x, fill=red] {$0.10$ \\ $(-\infty, BE)$}} 
-            	child{ node [arn_x, fill=green] {$0.06$ \\  $(BE, THE)$}}
+\node (Root) [arn_n, fill=red!50] {$0.30$ \\ THE}
+    child{ node [arn_n, fill=red!50] {$0.20$ \\  $BE$} 
+            child{ node [arn_x, fill=red!50] {$0.10$ \\ $(-\infty, BE)$}} 
+            	child{ node [arn_x, fill=red!50] {$0.06$ \\  $(BE, THE)$}}
             }
-    child{ node [arn_n, fill=blue] {$0.20$ \\ $TO$}
-            child{ node [arn_x, fill=blue] {$0.10$ \\ $(THE,TO)$}}
+    child{ node [arn_n, fill=red!50] {$0.20$ \\ $TO$}
+            child{ node [arn_x, fill=red!50] {$0.10$ \\ $(THE,TO)$}}
             child{ node [arn_x] {$0.04$ \\ $(TO, \infty)$}}
 		}};
 \end{tikzpicture}
@@ -1097,7 +1072,7 @@ In the inductive step our new root can cover the larger uncovered child.
 \end{frame}
 
 \begin{frame}{Bound of Leaf probabilities (Lemma 5.2.3)}
-For a BST $T$ with all parent probabilities greater than their children's:
+For a BST $T$ with all parent probabilities $\geq$ than their children's:
 \begin{align*}
 \sum_{p_i \in L_T} p_i \leq \frac{n+1}{2n}
 \end{align*}
@@ -1127,7 +1102,7 @@ Using the previous Lemma, we would contradict the optimality of $T$ under the EP
 
 \begin{frame} \frametitle{Conclusion}
 \begin{itemize}
-\item Modified Entropy Rule first proposed by  G{\"u}ttler, Mehlhorn and Schneider in 1980 had a worst case expected cost of $H+4$ (previous $c\cdot H+2$ where $c \approx 1.08$).
+\item Modified Entropy Rule first proposed by  G{\"u}ttler, Mehlhorn and Schneider in 1980 had a worst case expected cost of $H+4$ (previous $c\cdot H+2$ where $c \approx 1.08$) \cite{guttler1980binary}.
 
 \item ApproxMWPaging and ApproxBSTPaging solve the problem "well" under the HMM in $O(n\cdot \lg(m_1))$ and $O(n)$ respectively.
 
@@ -1140,7 +1115,7 @@ Using the previous Lemma, we would contradict the optimality of $T$ under the EP
 \begin{frame}{Open Problems}
 \begin{itemize}
 \item Is the modified entropy rule at most $H+2$?
-\item Can ApproxMWPaging and ApproxBST be extended to more sophisticated models (copying/movement within the hierarchy)?
+\item Can ApproxMWPaging and ApproxBSTPaging be extended to more sophisticated models (copying/movement within the hierarchy)?
 \item Is there a polynomial time algorithm which solves the unordered problem optimally under the \textit{Standard Model}?
 \item Are there better "fast" heuristics for this problem?
 \end{itemize}
@@ -1151,8 +1126,10 @@ Using the previous Lemma, we would contradict the optimality of $T$ under the EP
 {\tiny
 \bibliography{uw-ethesis/uw-ethesis}}
 
-\begin{frame} \frametitle{Why Study Binary Search Trees}
 
+\begin{frame} \frametitle{Why Study Binary Search Trees}
+\appendix
+\backupbegin
 
 \begin{itemize}
 \item AVL trees self-balancing BST in 1963, maintains $O(\lg(n))$ height \cite{adelsonvelskii1963algorithm}
@@ -1420,4 +1397,42 @@ C(B_i) \leq
 This, along with the bound for gaps is summed over all nodes to give a complete equation (Theorem 4.8.3).
 \end{frame}
 
+\begin{frame}
+
+\begin{itemize}
+
+\item Vaishnavi et al. \cite{vaishnavi1980optimum}, and Gotlieb  \cite{gotlieb1981optimal} independently solved optimally in $O(k\cdot n^3)$ time
+
+\item In 1997, Becker propsed an $O(Dkn)$ time solution where D is the height of the tree \cite{becker1997construction}
+\begin{itemize}
+\item Thought, but not proven, to be close to optimal
+\end{itemize}
+
+\item Bose and Dou\"{i}eb's 2009 work also solved this problem with an $O(n)$ solution with worst case expected cost:
+\begin{scriptsize}
+\begin{align*}
+\frac{H}{\lg(2k-1)} \leq C_{OPT} \leq \mathbf{C_{B \& D}} \leq \frac{H}{\lg k} + 1 + \sum_{i=0}^n q_i - q_0 - q_n - \sum_{i=0}^m q_{\text{rank}[i]}
+\end{align*}
+\end{scriptsize}
+
+\end{itemize}
+
+
+\end{frame}
+
+\begin{frame}
+\begin{itemize}
+\item Formally, $R_1, R_2, ...$ unlimited number of registers each with location in memory.
+\item Set of memories $M_1, M_2, ...M_l$
+\item With memory sizes $m_1, m_2, ..., m_l$
+\item Cost of accessing an item in $M_i$ is $c_i$
+\item We assume $c_1 < c_2 < ... < c_l$
+\item Cost of accessing item at location $a$:
+\begin{align*}
+\mu (a) = c_i \text{ if } \sum_{j = 1}^{i-1}m_j  < a \leq \sum_{j = 1}^{i}m_j.
+\end{align*}
+\end{itemize}
+\end{frame}
+
+\backupend
 \end{document}

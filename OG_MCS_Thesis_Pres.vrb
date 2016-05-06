@@ -3,11 +3,11 @@
 \begin{itemize}
 \item<1,3,5,7,9>[1.] Create MWT using work of Bose and Dou\"{i}eb, $m_1$ page size
 
-\item<3,5,7,9>[2.] Create balanced BST inside each node (page).
+\item<3,5,7,9>[2.] Create balanced BST inside each node (page)
 
 \item<5,7,9>[3.] Connect the balanced BSTs to form a single BST
 
-\item<7,9>[4.] Pack into memory in BFS order.
+\item<7,9>[4.] Pack into memory in BFS order
 
 \end{itemize}}
 
