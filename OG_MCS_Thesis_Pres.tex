@@ -723,7 +723,7 @@ C =\sum_{i=1}^{n} p_i \cdot C(B_i) + \sum_{i=0}^{n} q_i \cdot C\big( (B_{i-1}, B
 
 \end{itemize}}
 
-\only<9>{\noindent Left with a BST in our memory in $O(n\cdot\lg(m_1))$  \\
+\only<9>{\noindent Left with a BST in our memory in $O(n)$  \\
 ($O(n)$ if $m_1 \in O(1)$).}
 
 \only<2> {
@@ -1104,7 +1104,7 @@ Using the previous Lemma, we would contradict the optimality of $T$ under the EP
 \begin{itemize}
 \item Modified Entropy Rule first proposed by  G{\"u}ttler, Mehlhorn and Schneider in 1980 had a worst case expected cost of $H+4$ (previous $c\cdot H+2$ where $c \approx 1.08$) \cite{guttler1980binary}.
 
-\item ApproxMWPaging and ApproxBSTPaging solve the problem "well" under the HMM in $O(n\cdot \lg(m_1))$ and $O(n)$ respectively.
+\item ApproxMWPaging and ApproxBSTPaging solve the problem "well" under the HMM in $O(n)$.
 
 \item GREEDY-MS is within $\frac{n+1}{2n}$ when given unordered probabilities under the \textit{Standard Model}.   
 \end{itemize}
@@ -1254,7 +1254,6 @@ TODO PICTURE?
 \item If we have a big gap in the middle of our dataset, we use rule b).
 \item Can happen at most twice for a gap.
 \end{itemize}
-TODO PICTURE?
 \end{frame}
 
 \begin{frame}
@@ -1270,7 +1269,6 @@ TODO PICTURE?
 q_m \cdot \sum\limits_{x=0}^{\infty} \frac{1}{2} \cdot (\frac{4}{5}) ^ x = \mathbf{2 \cdot q_m}
 \end{align*}
 \end{itemize}
-TODO PICTURE?
 \end{frame}
 
 \begin{frame}
