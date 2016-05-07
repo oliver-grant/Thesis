@@ -550,7 +550,7 @@ where $S_T$ is the set of all subtrees of our tree $T$. \\
 
 \item[\textit{Case 2)}]$b_t = q_i$, \textbf{twice for each gap}.
 
-\item[\textit{Case 3)}] $b_t = \frac{q_m^2}{p_t}$, \textbf{all of these cases summed for $q_i$: at most $2\cdot q_i$}.
+\item[\textit{Case 3)}] $b_t = \frac{q_i^2}{p_t}$, \textbf{all of these cases summed for $q_i$: at most $2\cdot q_i$}.
 \end{itemize}
 
 Combining the above we get that our cost is at most:
@@ -723,8 +723,7 @@ C =\sum_{i=1}^{n} p_i \cdot C(B_i) + \sum_{i=0}^{n} q_i \cdot C\big( (B_{i-1}, B
 
 \end{itemize}}
 
-\only<9>{\noindent Left with a BST in our memory in $O(n)$  \\
-($O(n)$ if $m_1 \in O(1)$).}
+\only<9>{\noindent Left with a BST in our memory in $O(n)$.}
 
 \only<2> {
 \begin{tiny}
@@ -916,7 +915,7 @@ Our second solution to create an approximately optimal BST under the HMM model w
 \begin{itemize}
 \item[1.] Bind depth of each key/gap based on its probability in BST
 \begin{itemize}
-\item From work of Bose and DouDou\"{i}eb \cite{bose2009efficient}
+\item From work of Bose and Dou\"{i}eb \cite{bose2009efficient}
 \end{itemize}
 \item[2.] We bind the location in the memory of each key/gap 
 \begin{itemize}
@@ -955,7 +954,7 @@ $b_i$ is the depth of the node representing probability $p_i$.
 
 \begin{frame} \frametitle{Binary Trees on Unordered Sequences of Probabilities}
 \begin{itemize}
-\item Similar to Huffman code problem but we can place probabilities and internal \textbf{and} external node locations.
+\item Similar to Huffman code problem but we can place probabilities at internal \textbf{and} external node locations.
 \item As in previous models, we don't charge to "examine" the leaves.
 \item The above constraint makes finding the optimal solution much more difficult.
 \item We show our GREEDY-MS Algorithm is within $\frac{n+1}{2n}$ of Optimal.
@@ -985,14 +984,14 @@ There is a simple, greedy, $O(n \lg n)$ time algorithm that is optimal under EPL
 \begin{frame}\frametitle{GREEDY-MS optimal under EPL (Lemma 5.2.1)}
 \uncover<1->{
 \textbf{Claim 1.}\label{Claim-EPL}
-For a given depth $d$, the probabilities of all nodes on level $d+1$ are \textbf{less than or equal to} the probabilities of all nodes on level $d$.}
+In an optimal tree under EPL, for a given depth $d$, the probabilities of all nodes on level $d+1$ are \textbf{less than or equal to} the probabilities of all nodes on level $d$.}
 \uncover<2->{
 \begin{proof}
 Otherwise we could swap contradicting probabilities and get a better tree.
 \end{proof}}
 \uncover<3->{
 \noindent \textbf{Claim 2.}\label{Claim-EPL2}
-$T'$ must be full at all depths strictly less than its height.}
+In an optimal tree under EPL, $T$ must be full at all depths strictly less than its height.}
 \uncover<4->{
 \begin{proof}
 Otherwise we could place a leaf at an non-full level and get a better tree.

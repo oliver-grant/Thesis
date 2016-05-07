@@ -11,8 +11,7 @@
 
 \end{itemize}}
 
-\only<9>{\noindent Left with a BST in our memory in $O(n)$  \\
-($O(n)$ if $m_1 \in O(1)$).}
+\only<9>{\noindent Left with a BST in our memory in $O(n)$.}
 
 \only<2> {
 \begin{tiny}
@@ -53,25 +52,25 @@
 
 \node [circle,draw] (z){
   \tikzstyle{level 1}=[level distance=0.5cm, sibling distance=0.5cm]
-\begin{tikzpicture}
-\node [draw,circle] (zZ){10}
-   child {node [draw,circle] (Za) {2}
-   }
-   child {node [draw,circle] (Zb) {12}
-   };
-\end{tikzpicture}
+	\begin{tikzpicture}
+	\node [draw,circle] (zZ){10}
+  	child {node [draw,circle] (Za) {2}
+  	}
+  	child {node [draw,circle] (Zb) {12}
+  	};
+	\end{tikzpicture}
 }
   child {node [rectangle,draw] (a) {$x<2$}
   }
   child {node [circle,draw] (b) {
     \tikzstyle{level 2}=[level distance=0.5cm, sibling distance=0.5cm]
-\begin{tikzpicture}
-\node [draw,circle] (zZa){6}
-   child {node [draw,circle] (Zaa) {4}
-   }
-   child {node [draw,circle] (Zba) {8}
-   };
-\end{tikzpicture}
+	\begin{tikzpicture}
+	\node [draw,circle] (zZa){6}
+  	child {node [draw,circle] (Zaa) {4}
+  	}
+  	child {node [draw,circle] (Zba) {8}
+  	};
+	\end{tikzpicture}
   }
     child {node [rectangle,draw] (a) {$2<x<4$}}
     child {node [rectangle,draw] (a) {$4<x<6$}}
