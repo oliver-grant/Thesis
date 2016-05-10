@@ -233,7 +233,7 @@ In this chapter we provide an introduction to binary search trees and the optimu
 
 \section{Binary Search Trees}
 
-A binary search tree is a simple structure used to store key-value pairs. It was invented in the late 1950s and early 1960s and is generally attributed to the combined efforts of Windley, Booth, Colin and Hibbard \cite{windley1960trees, booth1960efficiency, hibbard1962some}. In general, a binary search tree (BST) allows for quick binary searches through data for a specific key. There is a total ordering over the keys of the tree which are typically numbers or words. The value of a node in the BST usually represents some piece of important information, and is often a pointer to large structure somewhere else in memory. Each BST node has at most two children which are generally labelled as the \textit{left} and \textit{right} children. All nodes in the subtree of the \textit{left} child of a specific node $p$ have a key strictly less than the key of $p$. Similarly, nodes in the subtree of the \textit{right} child of $p$ have a key strictly greater than the key of $p$. A pointer is typically stored to the root node. Search begins from this root node and is done by recursively searching in either the \textit{left} or \textit{right} child of a node; stopping if the node being searched has the correct key, or if the node reached has no children.
+A binary search tree is a simple structure used to store key-value pairs. It was invented in the late 1950s and early 1960s and is generally attributed to the combined efforts of Windley \cite{windley1960trees}, Booth and Colin \cite{booth1960efficiency} and Hibbard \cite{hibbard1962some}. In general, a binary search tree (BST) allows for quick binary searches through data for a specific key. There is a total ordering over the keys of the tree which are typically numbers or words. The value of a node in the BST usually represents some piece of important information, and is often a pointer to a large structure somewhere else in memory. Each BST node has at most two children which are generally labelled as the \textit{left} and \textit{right} children. All nodes in the subtree of the \textit{left} child of a specific node $p$ have a key strictly less than the key of $p$. Similarly, nodes in the subtree of the \textit{right} child of $p$ have a key strictly greater than the key of $p$. A pointer is typically stored to the root node. Search begins from this root node and is done by recursively searching in either the \textit{left} or \textit{right} child of a node; stopping if the node being searched has the correct key, or if the node reached has no children. When searching, we typically make a single comparison at each node visited.
 
 \section{The Optimum Binary Search Tree Problem}
 
@@ -243,19 +243,19 @@ Knuth first proposed the optimum binary search tree problem in 1971 \cite{knuth1
  \end{align*}
 We also assume without loss of generality that $q_{i-1}+p_i+q_i \neq 0$ for any $i \in \{1,...,n\}$. Otherwise, we could simply solve the problem with key $p_i$ removed. The keys must make up the internal nodes of the tree while the gaps make up the leaves. Our goal is to construct a binary search tree such that expected cost of search is minimized. This expected cost of search is also sometimes referred to as the expected path length. It is formally defined as: 
 \begin{equation}\label{1.1}
-P = \sum_{i=1}^{n} p_i \cdot (d_T(B_i)+1) + \sum_{j=0}^{n} q_j \cdot(d_T(B_{j-1}, B_j))
+P = \sum_{i=1}^{n} p_i \cdot (d_T(B_i)+1) + \sum_{j=0}^{n} q_j \cdot(d_T(B_j, B_{j+1}))
 \end{equation}
-where $p_i$ and $q_j$ are the probabilities of searching for key $B_i$ or gap $(B_{i-1}, B_i)$ respectively and $d_T(B_i)$ and $d_T(B_{j-1}, B_j)$ are the depths of $B_i$ and $(B_{j-1}, B_j)$ respectively in the tree $T$. Note that we charge $1$ extra to search for a key at depth $l$ than a leaf at depth $l$ because it requires an extra operation to confirm an internal node, whereas we do not need this confirmation if the node is a leaf. The optimal solution of Knuth requires $\Theta(n^2)$ time, and $\Theta(n^2)$ space \cite{knuth1971optimum}. This solution is both time and space intensive. We will later examine an approximate solution to this problem of G{\"u}ttler, Mehlhorn and Schneider (the Modified Entropy Rule) which uses $O(n^2)$ time but $O(n)$ space \cite{guttler1980binary}. We will improve its worst-case expected search cost bound. While all of the aforementioned algorithms examine the problem in the RAM model, we will also examine the problem in more realistic models of memory and look at approximate solutions under these settings.
+where $p_i$ and $q_j$ are the probabilities of searching for key $B_i$ or gap $(B_{i-1}, B_i)$ respectively and $d_T(B_i)$ and $d_T(B_j, B_{j+1})$ are the depths of the internal node for $B_i$ and the leaf for $(B_j, B_{j-1})$ respectively in the tree $T$. Note that we assume that $B_0$ represents $- \infty$ and $B_{n+1}$ represents $\infty$. Note that we charge $1$ extra to search for a key at depth $l$ than a leaf at depth $l$ because it requires an extra operation to confirm an internal node, whereas we do not need this confirmation if the node is a leaf. The optimal solution of Knuth uses dynamic programming and requires $\Theta(n^2)$ time, and $\Theta(n^2)$ space \cite{knuth1971optimum}. This solution is both time and space intensive. We will later examine an approximate solution to this problem of G{\"u}ttler, Mehlhorn and Schneider (the Modified Entropy Rule) which uses $O(n^2)$ time but $O(n)$ space \cite{guttler1980binary}. We will improve its worst-case expected search cost bound. While all of the aforementioned algorithms examine the problem in the RAM model, we will also examine the problem in more realistic models of memory and look at approximate solutions under these settings.
 
 \section{Three-Way Branching}
 
 
-While modern computers typically only support two-way branching, the optimum BST problem proposed by Knuth is uses the three-way branch model. This model allows a single comparison operation to transfer control to three different locations. \\~\\ Examples of this can be seen in FORTRAN IV which describes the arithmetic IF \cite{Dock:228063}:
+While modern computers typically only support two-way branching, the optimum binary search tree (BST) problem proposed by Knuth uses the three-way branch model. This model allows a single comparison operation to transfer control to three different locations. \\~\\ Examples of this can be seen in FORTRAN IV which describes the arithmetic IF \cite{Dock:228063}:
 
 \definecolor{lightgrey}{rgb}{0.95,0.92,0.92} % Defines the color used for content box headers
 \colorbox{lightgrey}{ \fontfamily{cmtt}\selectfont \uppercase{IF (expr) label1, label2, label3} } 
  
-\noindent Control is transferred to \uppercase{label1}, \uppercase{label2} or \uppercase{label3} if $expr < 0$, $expr=0$, or $expr > 0$ respectively using a single comparison command. While modern programming languages scarcely use this arithmetic if, and compilers may simply encode such expressions using multiple logical if statements, many machines in in the FORTRAN IV era did. For example, the ARM instruction set would utilize condition codes based on comparison operations which could express negative, zero, or positive values. The condition codes would then be examined to determine control flow \cite{ARM}. The difference between a two-way branch model is significant and can be seen through a simple example of searching among 3 keys.
+\noindent Control is transferred to \uppercase{label1}, \uppercase{label2} or \uppercase{label3} if $expr < 0$, $expr=0$, or $expr > 0$ respectively using a single comparison command. While modern programming languages scarcely use this arithmetic IF, and compilers may simply encode such expressions using multiple logical if statements, many machines in in the FORTRAN IV era did. For example, the ARM instruction set would utilize condition codes based on comparison operations which could express negative, zero, or positive values. The condition codes would then be examined to determine control flow \cite{ARM}. The difference between a two-way branch model is significant and can be seen through a simple example of searching among 3 keys.
 
 \begin{figure}[!ht]
 \begin{center}
@@ -273,13 +273,13 @@ While modern computers typically only support two-way branching, the optimum BST
 \end{center}
 \end{figure}
 
-Assume the probability of search for any of $a,b$, or $c$ is $\frac{1}{3}$. Under the three-way branch model, this can be done using exactly one comparison by asking if the key we are searching for is strictly less than $b$, equal to $b$, or strictly greater than $b$ and returning the correct key appropriately. Under a standard two-way branch model, this would require an extra comparison operation $\frac{2}{3}$ of the time as we can only distinguish one of the the three cases from the other two using a single two-way $<, >,$ or $=$ comparison operation. We get an expected cost of $1$ comparison in the three-way branch model and $\frac{5}{3}$ comparisons in the two-way model. In general, each comparison can reveal $3$ bits of information in the three-way model, while only $2$ bits per comparison can be revealed in the two-way model. 
+Assume the probability of search for any of $a,b$, or $c$ is $\frac{1}{3}$. Under the three-way branch model, this can be done using exactly one comparison by asking if the key we are searching for is strictly less than $b$, equal to $b$, or strictly greater than $b$ and returning the correct key appropriately. Under a standard two-way branch model, this would require an extra comparison operation $\frac{2}{3}$ of the time as we can only distinguish one of the the three cases from the other two using a single two-way $<, >,$ or $=$ comparison operation. We get an expected cost of $1$ comparison in the three-way branch model and $\frac{5}{3}$ comparisons in the two-way model. In general, each comparison can reveal up to $\lg(3)$ bits of information in the three-way model, while only $1$ bit per comparison can be revealed in the two-way model. 
 
 \section{Why Study Binary Search Trees}
 
-Binary search trees are ubiquitous throughout computer science with numerous applications. The basic binary search tree has extended in a number of ways. AVL trees (named after creators AdelsonVelskii and Landis) were the first form of self-balancing binary search trees introduced \cite{adelsonvelskii1963algorithm}. This type of tree was invented by the pair in 1963 and maintains a height of $O(\lg(n))$ (where $n$ is the number of nodes in the tree) during insertions and deletions (both of which take $O(\lg(n))$ time). Improved self-balancing binary search trees followed in the form of Symmetric binary B-trees by R. Bayer in 1972 \cite{bayer1972symmetric}. These are commonly referred to as red-black trees, a term coined by Guibas, Sedgewick and Robert in 1978 \cite{guibas1978dichromatic}. Allen and Munro followed with self-organizing binary search trees and examined a move to root heuristic, demonstrating its expected search time was within a constant of the optimal static binary tree \cite{allen1978self}. The famous splay trees of Sleator and Tarjan followed in 1985 \cite{sleator1985self}. Tango trees were invented in 2007 by Demaine et al. and provided the first $O(\lg \lg n)$-competitive binary tree \cite{demaine2007dynamic}. Here, $O(\lg \lg n)$-competitive means that the tango tree does at most $O(\lg \lg n)$ times more work (pointer movements and rotations) than an optimal offline tree. B trees are among the most commonly used binary tree variant and were invented in 1970 by R. Bayer and McCreight \cite{bayer1970organization}. \\
+Traditional binary search trees (without probabilities of searching for different keys) are ubiquitous in computer science with numerous applications. The basic binary search tree has extended in a number of ways. AVL trees (named after creators AdelsonVelskii and Landis) were the first form of self-balancing binary search trees introduced \cite{adelsonvelskii1963algorithm}. This type of tree was invented by the pair in 1963 and maintains a height of $O(\lg(n))$ (where $n$ is the number of nodes in the tree) during insertions and deletions (both of which take $O(\lg(n))$ time). Improved self-balancing binary search trees followed in the form of Symmetric binary B-trees by R. Bayer in 1972 \cite{bayer1972symmetric}. These are commonly referred to as red-black trees, a term coined by Guibas, Sedgewick and Robert in 1978 \cite{guibas1978dichromatic}. Allen and Munro followed with self-organizing binary search trees and examined a move-to-root heuristic, demonstrating that its expected search time was within a constant of the optimal static binary tree \cite{allen1978self}. The famous splay trees of Sleator and Tarjan followed in 1985 \cite{sleator1985self}. Tango trees were invented in 2007 by Demaine et al. and provided the first $O(\lg \lg n)$-competitive binary tree \cite{demaine2007dynamic}. Here, $O(\lg \lg n)$-competitive means that the tango tree does at most $O(\lg \lg n)$ times more work (pointer movements and rotations) than an optimal offline tree. B trees are among the most commonly used binary tree variant and were invented in 1970 by R. Bayer and McCreight \cite{bayer1970organization}. \\
 
-BST's and their extensions are integral to a large number of applications. For example, a BST variant known as the binary space partition is a method for recursviely subdividing space in order to store information in an easily accessible way. It is used extensively in 3D graphics \cite{schumacker1969study, paterson1992optimal}. Binary tries are similar to binary trees, but only store values for leaf nodes. Binary tries are routinely used in routers and IP lookup data structures \cite{song2010building}. Another example can be seen in the C++ \texttt{std::map} data structure, which is usually implemented using a red-black tree (another extension of binary search trees) in order to store its key-value pairs \cite{CppMap}. Finally, syntax trees (trees used in the parsing of various programming languages) are created using binary (and more complicated) tree structures. These trees are used in the parsing of written code during compilation \cite{louden1997compiler}.
+BST's and their extensions are integral to a large number of applications. For example, a BST variant known as the binary space partition is a method for recursively subdividing space in order to store information in an easily accessible way. It is used extensively in 3D graphics \cite{schumacker1969study, paterson1992optimal}. Binary tries are similar to binary trees, but only store values for leaf nodes. Binary tries are routinely used in routers and IP lookup data structures \cite{song2010building}. Another example can be seen in the C++ \texttt{std::map} data structure, which is usually implemented using a red-black tree (another extension of binary search trees) in order to store its key-value pairs \cite{CppMap}. Finally, syntax trees (trees used in the parsing of various programming languages) are created using binary (and more complicated) tree structures. These trees are used in the parsing of written code during compilation \cite{louden1997compiler}. Optimum binary search trees themselves were used in a variety of text indexing applications (like the KWIC index of the late 1960s \cite{helbich1969direct}), especially around the time when they first appeared in the literature.
 
 \section{Overview}
 
@@ -288,7 +288,7 @@ In Chapter~\ref{Background and Related Work}, we review previous work done in th
 
 \chapter{Background and Related Work} \label{Background and Related Work}
 
-In this Chapter we provide an overview of relevant work on binary search trees, alphabetic codes, multiway search trees and models of external memory.
+In this chapter we provide an overview of relevant work on binary search trees, alphabetic codes, multiway search trees and models of external memory.
 
 \section{Binary Search Trees}
 
@@ -545,18 +545,18 @@ Thus, $H(\frac{1}{2}-\frac{1}{2} x, \frac{1}{2} + \frac{1}{2} x) - (1 - \frac{4}
 
 
 \begin{thm}
-Let $C_{ME}$ be the expected cost of search for a tree made by the modified entropy rule.
+Let $C_{ME}$ be the expected cost of search for a tree made by the modified entropy rule. Then
 \begin{align*}
 C_{ME} \leq H + 4
 \end{align*}
 \end{thm}
 
 \begin{proof}
-This uses a similar style to the proof of theorem 4.4 in \cite{bayer1975improved}.
+This uses a similar style to the proof of Theorem 4.4 in \cite{bayer1975improved}.
 We bind each $E_t$ for each subtree of our BST on a case by case basis using the cases of Lemma~\ref{MECases}.\\
 If \textit{Case 1} occurs, we obviously have that
 \begin{equation}\label{EQC1}
-E_t \geq 1-2 \frac{p_r}{p_t}
+E_t \geq 1-2 \frac{p_r}{p_t}.
 \end{equation}
 Note that this can only happen once for each key (a key can only be root once). \\
 
@@ -568,13 +568,13 @@ E_t \geq H(\frac{1}{2}-\frac{1}{2} \frac{q_m}{p_t}, \frac{1}{2} + \frac{1}{2} \f
 \end{equation}
 Note that by the definition of the \textit{Rule c}~\ref{The Modified Entropy Rule}, when this occurs, $(B_m, B_{m+1})$ must be a leaf of depth at most 2. Thus, this condition can only happen twice for each $(B_m, B_{m+1})$ gap. \\
 
-When neither \textit{Case 1} nor \textit{Case 2} occur (and we have a $(B_m, B_{m+1})$ spanning the middle) we must have \textit{Case 3}. This gives us:
+When neither \textit{Case 1} nor \textit{Case 2} occur (and we have a $(B_m, B_{m+1})$ spanning the middle) we must have \textit{Case 3}. This gives us
 \begin{align*}
-E_t \geq H(\frac{1}{2}-\frac{1}{2} \frac{q_m}{p_t}, \frac{1}{2} + \frac{1}{2} \frac{q_m}{p_t})
+E_t \geq H(\frac{1}{2}-\frac{1}{2} \frac{q_m}{p_t}, \frac{1}{2} + \frac{1}{2} \frac{q_m}{p_t}).
 \end{align*}
-We again apply Claim~\ref{Claim1} and get:
+We again apply Claim~\ref{Claim1} and get
 \begin{equation}\label{EQC3}
-E_t \geq 1- \frac{4}{5} (\frac{q_m}{p_t})^2
+E_t \geq 1- \frac{4}{5} (\frac{q_m}{p_t})^2.
 \end{equation}
 
 As in \cite{bayer1975improved} we define a $b_t$ for each subtree $t$ as follows. We want to have a value for $b_t$ such that $E_t \geq 1 - \frac{b_t}{p_t}$ in all cases. Using \textit{Cases 1,2}, and \textit{3} are their respective equations~\ref{EQC1},~\ref{EQC2}, and~\ref{EQC3} we do just that: \\
@@ -583,7 +583,7 @@ Let $b_t=2\cdot q_m$ when \textit{Case 2} occurs. $(B_m, B_{m+1})$ is middle gap
 Let $b_t=\frac{q_m^2}{p_t}$ when \textit{Case 3} occurs. $(B_m, B_{m+1})$ is middle gap of $b_t$. \\
 
 
-Note that, in 1975 P. Bayer showed that the cost $C$ of our tree could be defined as (\textbf{Lemma 2.3} \cite{bayer1975improved}): \\
+Note that, in 1975 P. Bayer showed that the cost $C$ of our tree could be defined as (\textbf{Lemma 2.3} \cite{bayer1975improved}) \\
 \begin{align*}
 C = \sum_{t \in S_T} p_t
 \end{align*}
@@ -606,9 +606,9 @@ C \leq H + \sum_{t \in S_T} b_t = H + 2 \sum\limits_{r = 1}^n p_r + 2 \sum\limit
 By factoring out $q_m$ and examining only cases up to $\frac{q_m}{p_t} = \frac{1}{2}$ (since otherwise \textit{Case 2} will occur) we get:
 \begin{align*}
 C &\leq H + 2 + \sum\limits_{m = 0}^n (\frac{4}{5} \cdot q_m) \sum\limits_{x=0}^{\infty} \frac{1}{2} \cdot (\frac{4}{5}) ^ x \\
-C &\leq H + 2 + \sum\limits_{m = 0}^n \frac{4}{5} \cdot q_m \cdot \frac{1}{2} \cdot (\frac{1}{1-\frac{4}{5}}) \text{    (geometric series)} \\
-C &\leq H + 2 + 2\cdot \sum\limits_{m = 0}^n q_m \\
-C &\leq H + 4
+ &= H + 2 + \sum\limits_{m = 0}^n \frac{4}{5} \cdot q_m \cdot \frac{1}{2} \cdot (\frac{1}{1-\frac{4}{5}}) \text{    (geometric series)} \\
+ &=H + 2 + 2\cdot \sum\limits_{m = 0}^n q_m \\
+ &\leq H + 4.
 \end{align*}
 
 \end{proof}
@@ -626,7 +626,7 @@ The HMM was proposed in 1987 by Aggarwal et al. as an alternative to the classic
 \mu (a) = c_i \text{ if } \sum_{j = 1}^{i-1}m_j  < a \leq \sum_{j = 1}^{i}m_j.
 \end{equation}
 
-\noindent More specifically, we can think of $c_i$ as the entire cost of moving a element in $m_i$ recursively up the memory hierarchy and finally accessing it. While there is interesting problems in more sophisticated models, it is beyond the scope of this work to examine locality optimizations under a more complex model in this recursive movement of items up the hierarchy.
+\noindent More specifically, we can think of $c_i$ as the entire cost of moving a element in $m_i$ recursively up the memory hierarchy and finally accessing it. While there are interesting problems in more sophisticated models, it is beyond the scope of this work to examine locality optimizations under a more complex model in this recursive movement of items up the hierarchy.
 
 Thite notes that typical memory hierarchies have decreasing sizes for faster memory levels (moving \textit{up} the memory hierarchy). We make the same assumption:
 \begin{align*}
