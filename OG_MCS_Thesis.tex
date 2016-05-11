@@ -366,7 +366,7 @@ In this chapter we show that the Modified Minimum Entropy Heuristic of G{\"u}ttl
 
 \section{Preliminaries}
 
-Recall \ref{1.1}, $H = \sum_{i=1}^{n} p_i\cdot\lg(\frac{1}{p_i}) + \sum_{j=0}^{n} q_i\cdot\lg(\frac{1}{q_j})$. We also use
+Recall equation \ref{1.1}, $H = \sum_{i=1}^{n} p_i\cdot\lg(\frac{1}{p_i}) + \sum_{j=0}^{n} q_i\cdot\lg(\frac{1}{q_j})$. We also use
 \begin{align*}
 H(x_1,x_2,...,x_n) = \sum_{i=1}^{n} x_i\cdot\lg(\frac{1}{x_i})
 \end{align*} to describe the entropy of any probability distribution $(x_1, x_2, ...., x_n)$. For subtree $t$, we let 
@@ -443,7 +443,7 @@ If $x \leq \frac{1}{2}$ then $H(x, 1-x) \geq 2x$.
 We refer the reader to Gallager's 1968 work \cite{gallager1968information}.
 \end{proof}
 
-Next, we describe a Lemma which breaks our choice of root in the greedy modified entropy heuristic into one of three cases (not to be confused with the three \textit{rules} used in~\ref{The Modified Entropy Rule}). 
+Next, we describe a Lemma which breaks our choice of root in the greedy modified entropy heuristic into one of three cases (not to be confused with the three \textit{rules} used in section~\ref{The Modified Entropy Rule}). 
 
 \begin{lem}\label{MECases}
 When using the modified entropy rule chooses the root $B_r$ of a subtree $t$ with total probability $p_t$, one of the following three cases must occur: 
@@ -454,11 +454,11 @@ When using the modified entropy rule chooses the root $B_r$ of a subtree $t$ wit
 \end{align*}
 
 \end{lem}
-\begin{proof} At a high level, we first show that \textit{Rule a)} from~\ref{The Modified Entropy Rule} implies \textit{Case 1}. We also show that if there exists $B_i$ such that $P^t_L(B_i) \leq \frac{1}{2}$ and $P^t_R(B_i) \leq \frac{1}{2}$, but cannot apply \textit{Rule a)}, then we still have \textit{Case 1}. Assuming that neither of the two aforementioned conditions occur, we must have that there exists some gap $(B_i, B_{i+1})$ spanning the middle of the data set. Given this condition, we show that if \textit{Case 2} does not occur (i.e. we cannot use \textit{Rule b)}~\ref{The Modified Entropy Rule}) then \textit{Case 3} must occur, completing the proof. 
+\begin{proof} At a high level, we first show that \textit{Rule a)} from section~\ref{The Modified Entropy Rule} implies \textit{Case 1}. We also show that if there exists $B_i$ such that $P^t_L(B_i) \leq \frac{1}{2}$ and $P^t_R(B_i) \leq \frac{1}{2}$, but cannot apply \textit{Rule a)}, then we still have \textit{Case 1}. Assuming that neither of the two aforementioned conditions occur, we must have that there exists some gap $(B_i, B_{i+1})$ spanning the middle of the data set. Given this condition, we show that if \textit{Case 2} does not occur (i.e. we cannot use \textit{Rule b)} of section~\ref{The Modified Entropy Rule}) then \textit{Case 3} must occur, completing the proof. 
 
 
 \noindent\textbf{\textit{Rule a) $\implies$ Case 1}} \\
- First, suppose there exists some $p_i$ such that $\frac{p_i}{p_t} > \max(P^t_L(B_i), P^t_R(B_i))$. By the \textit{Rule a)}~\ref{The Modified Entropy Rule}, it must be selected as the root and thus $r=i$. Moreover, both $P^t_L(B_i)$ and $P^t_R(B_i))$ must be less than one half. Thus, using \ref{entr2x} we have: 
+ First, suppose there exists some $p_i$ such that $\frac{p_i}{p_t} > \max(P^t_L(B_i), P^t_R(B_i))$. By the \textit{Rule a)} of section~\ref{The Modified Entropy Rule}, it must be selected as the root and thus $r=i$. Moreover, both $P^t_L(B_i)$ and $P^t_R(B_i))$ must be less than one half. Thus, using Lemma~\ref{entr2x} we have: 
 \begin{align*}
 E_t &\geq H( max(P^t_L(p_i), P^t_R(p_i)), 1-max(P^t_L(p_i), P^t_R(p_i)) \\
  &\geq 2\cdot \max(P^t_L(p_i), P^t_R(p_i)) \\  &\geq 1-\frac{p_i}{p_t} \\ 
@@ -467,7 +467,7 @@ E_t &\geq H( max(P^t_L(p_i), P^t_R(p_i)), 1-max(P^t_L(p_i), P^t_R(p_i)) \\
  as required. \\
  
 \noindent\textbf{\textit{$B_i$ spans middle $\implies$ Case 1}} \\
-If we do not have some $p_i$ such that $\frac{p_i}{p_t} > \max(P^t_L(B_i), P^t_R(B_i))$ but do have some $B_i$ such that $P^t_L(B_i) \leq \frac{1}{2}$ and $P^t_R(B_i) \leq \frac{1}{2}$ then we must use \textit{Rule c)}~\ref{The Modified Entropy Rule}. We then must have that:
+If we do not have some $p_i$ such that $\frac{p_i}{p_t} > \max(P^t_L(B_i), P^t_R(B_i))$ but do have some $B_i$ such that $P^t_L(B_i) \leq \frac{1}{2}$ and $P^t_R(B_i) \leq \frac{1}{2}$ then we must use \textit{Rule c)} of section~\ref{The Modified Entropy Rule}. We then must have that:
 \begin{align*}
  E_t &\geq H(P^t_L(B_i), \frac{B_i}{p_t} , P^t_R(B_i)) \text{ and} \\
  0 &\leq P^t_L(B_i) \leq 0.5 \text{ and}\\
@@ -566,7 +566,7 @@ Let $(B_m, B_{m+1})$ be the unique middle gap (i.e. $P^t_L(B_m, B_{m+1}) < \frac
 \begin{equation}\label{EQC2} 
 E_t \geq H(\frac{1}{2}-\frac{1}{2} \frac{q_m}{p_t}, \frac{1}{2} + \frac{1}{2} \frac{q_m}{p_t}) \geq 2(\frac{1}{2}-\frac{1}{2} \frac{q_m}{p_t})=1-\frac{q_m}{p_t}.
 \end{equation}
-Note that by the definition of the \textit{Rule c)}~\ref{The Modified Entropy Rule}, when this occurs, $(B_m, B_{m+1})$ must be a leaf of depth at most 2. Thus, this condition can only happen twice for each $(B_m, B_{m+1})$ gap. \\
+Note that by the definition of the \textit{Rule c)} of section~\ref{The Modified Entropy Rule}, when this occurs, $(B_m, B_{m+1})$ must be a leaf of depth at most 2. Thus, this condition can only happen twice for each $(B_m, B_{m+1})$ gap. \\
 
 When neither \textit{Case 1} nor \textit{Case 2} occur (and we have a $(B_m, B_{m+1})$ spanning the middle) we must have \textit{Case 3}. This gives us
 \begin{align*}
@@ -992,7 +992,7 @@ Knowing a key's depth, its location in $T$ (since we use a BFS to place nodes in
 location(B_i) \leq 2^{d_T(B_i)+1}-1.
 \end{align*}
 
-From \ref{451} we know that $d_T(B_i) \leq \lg(\frac{1}{p_i})$. Thus,
+From Lemma~\ref{451} we know that $d_T(B_i) \leq \lg(\frac{1}{p_i})$. Thus,
 
 \begin{align*}
 location(B_i) &\leq 2^{\lg(\frac{1}{p_i})+1}-1 \\
@@ -1016,7 +1016,7 @@ location(par(B_{i-1}, B_i)) &\leq \lfloor 2^{d_T((B_{i-1},B_i))}-\frac{1}{2} \rf
 
 Thus, for any gap $(B_{i-1},B_i)$,
 \begin{align*}
-location(par(B_{i-1},B_i)) &\leq \lfloor 2^{\lg(\frac{1}{q_i}) + 2}-\frac{1}{2} \rfloor \text{ using \ref{451}} \\
+location(par(B_{i-1},B_i)) &\leq \lfloor 2^{\lg(\frac{1}{q_i}) + 2}-\frac{1}{2} \rfloor \text{ using Lemma~\ref{451}} \\
 location(par(B_{i-1},B_i)) &\leq \lfloor \frac{4}{q_i}-\frac{1}{2} \rfloor \text{ for all gaps.}
 \end{align*}
 Moreover, a similar explanation shows that 
@@ -1101,11 +1101,11 @@ C(B_{i-1},B_i) \leq \sum_{k'=1}^{k-1} &\left(\lfloor \lg(m'_{k'}+1) \rfloor - \l
 
 for at least $m$ (and the two most extremal) gaps.
 
-Plugging in our upper bounds on $location(B_i)$ and $location(par(B_{i-1},B_i))$ from \ref{locationLem} immediately gives us the desired result.
+Plugging in our upper bounds on $location(B_i)$ and $location(par(B_{i-1},B_i))$ from Lemma~\ref{locationLem} immediately gives us the desired result.
 
 \end{proof}
 
-In order to use \ref{AMWPExactLem}, we define a function $C'$, which consumes a key $B_i$ as follows:
+In order to use Lemma~\ref{AMWPExactLem}, we define a function $C'$, which consumes a key $B_i$ as follows:
 \begin{align*}
 C'(B_i) :=  \sum_{k'=1}^{k-1} &\left(\lfloor \lg(m'_{k'}+1) \rfloor - \lfloor \lg(m'_{k'-1}+1) \rfloor \right)\cdot c_{k'}+ \\
  &\left(\lg(\frac{1}{p_i}) + 1 - \lfloor \lg(m'_{k-1}+1) \rfloor \right)\cdot c_k\\
@@ -1144,7 +1144,7 @@ The total expected cost of search is simply the sum of the weighted cost of sear
 C &\leq \sum_{i=1}^{n} p_i\cdot C(B_i) + \sum_{j=1}^{n+1} q_j\cdot C(B_{i-1},B_i) 
 \end{align*}
 
-We note that functions $C'$ and $C''$ are exactly equal to the upper bounds of cost of search for a key or gap respectively as defined in \ref{AMWPExactLem}. Hence, we can simply plug them into the equation above and get an upper bound on the expected cost of search in $T$:
+We note that functions $C'$ and $C''$ are exactly equal to the upper bounds of cost of search for a key or gap respectively as defined in Lemma~\ref{AMWPExactLem}. Hence, we can simply plug them into the equation above and get an upper bound on the expected cost of search in $T$:
 \begin{align*}
 C &\leq \sum_{i=1}^{n} p_i\cdot C'(B_i) + \sum_{j=1}^{n+1} q_j\cdot C''((B_{i-1},B_i))
 \end{align*}
@@ -1163,7 +1163,7 @@ W \leq \sum_{k=1}^{h-1} \left(\lfloor \lg(m'_k+1) \rfloor - \lfloor \lg(m'_{i-1}
 
 
 \begin{proof}
-We can follow the exact same logic as in \ref{AMWPExactLem} with the depth of our node as $D(T)$, and its memory level $h$. This immediately gives us the desired result.
+We can follow the exact same logic as in Lemma~\ref{AMWPExactLem} with the depth of our node as $D(T)$, and its memory level $h$. This immediately gives us the desired result.
 
 \end{proof}
 
@@ -1197,7 +1197,7 @@ C((B_{i-1},B_i)) &\leq (\lg(\frac{1}{q_i})+1)\cdot \frac{W}{D(T)} < (\lg(\frac{1
 \end{lem}
 
 \begin{proof}
-From Lemma~\ref{451} we have a bound on the depth of keys $B_i$ and $(B_{i-1},B_i)$. We must do $d_T(B_i) + 1$ accesses to find a key and $d_T((B_{i-1},B_i))$ accesses to find a gap. Note that since our tree is stored in BFS order in memory, whenever we examine a key's child, it will be at a memory location of at least the same, if not higher cost (by being in the same or a deeper page). Thus, the cost of accessing the entire path from the root to a specific key can be upper bounded by multiplying the length of this path by the average cost per memory access of the most expensive (and deepest) key of the tree (this is exactly $\frac{W}{D(T)}$). Note that when searching for keys, we must search along the entire path from root to the key in question, while we need only examine the path from the root to the parent of a key for unsuccessful $(B_{i-1},B_i)$ searches. Combining~\ref{451}, ~\ref{452} and~\ref{W<HT} gives
+From Lemma~\ref{451} we have a bound on the depth of keys $B_i$ and $(B_{i-1},B_i)$. We must do $d_T(B_i) + 1$ accesses to find a key and $d_T((B_{i-1},B_i))$ accesses to find a gap. Note that since our tree is stored in BFS order in memory, whenever we examine a key's child, it will be at a memory location of at least the same, if not higher cost (by being in the same or a deeper page). Thus, the cost of accessing the entire path from the root to a specific key can be upper bounded by multiplying the length of this path by the average cost per memory access of the most expensive (and deepest) key of the tree (this is exactly $\frac{W}{D(T)}$). Note that when searching for keys, we must search along the entire path from root to the key in question, while we need only examine the path from the root to the parent of a key for unsuccessful $(B_{i-1},B_i)$ searches. Combining Lemmas~\ref{451}, ~\ref{452} and~\ref{W<HT} gives
 \begin{align*}
 C(B_i) &\leq (\lg(\frac{1}{p_i})+1)\cdot\frac{W}{D(T)}\\
 \implies C(B_i) &< (\lg(\frac{1}{p_i})+1)\cdot\frac{D(T)\cdot c_h}{D(T)}   \\
@@ -1224,7 +1224,7 @@ where $q_{\text{rank}[i]}$ is the $i^{th}$ smallest access probability among gap
 \end{thm}
 
 \begin{proof}
-As in \ref{ExactApproxMWPagingThm}, the total expected cost of search is simply the sum of the weighted cost of search for all keys multiplied by the probability of searching for each key. Given our last lemma, we have that:
+As in Lemma~\ref{ExactApproxMWPagingThm}, the total expected cost of search is simply the sum of the weighted cost of search for all keys multiplied by the probability of searching for each key. Given our last lemma, we have that:
 \begin{align*}
 C &\leq \sum_{i=1}^{n} p_i\cdot C(B_i) + \sum_{j=1}^{n+1} q_j\cdot C((B_{i-1},B_i)) \\
 \implies C &\leq \sum_{i=1}^{n} p_i\cdot (\lg(\frac{1}{p_i})+1)\cdot \frac{W}{D(T)} + \left(\sum_{i=0}^{n} q_i(\lg(\frac{1}{q_i})+2) - q_0 - q_n -  \sum_{i=0}^m q_{\text{rank}[i]} \right)\cdot \frac{W}{D(T)} \\
@@ -1275,7 +1275,7 @@ d_{T_1}(\alpha) \leq
 \end{cases}
 \end{align*}
 
-Moreover, each key from our original data set has its depth decreased by at least $2$ while each leaf from our original data set, except for possibly one, has its depth reduced by at least $1$ in the next two phases of the algorithm. We wish to write this out as an explicit Lemma for use in \ref{48}. First, we define $R$:
+Moreover, each key from our original data set has its depth decreased by at least $2$ while each leaf from our original data set, except for possibly one, has its depth reduced by at least $1$ in the next two phases of the algorithm. We wish to write this out as an explicit Lemma for use in section~\ref{48}. First, we define $R$:
 
 \begin{align*}
 R = \{\alpha : \alpha &\text{ among the }m' \text{ smallest access probabilities for keys or gaps excluding the} \\
@@ -1316,7 +1316,7 @@ Our second solution to create an approximately optimal BST under the HMM model w
 \begin{enumerate}
 \item First, we create a BST $T$ using the algorithm of De Prisco and De Santis \cite{de1993binary} (as updated by Bose and Dou\"{i}eb \cite{bose2009efficient}). This takes $O(n)$ time. \\
 
-\item In a similar fashion to step 4) of \ref{Algorithm ApproxMWPaging}, we pack keys from $T$ into memory in a breadth-first search order starting from the root. This relatively simple traversal also takes $O(n)$ time.
+\item In a similar fashion to step 4) of section~\ref{Algorithm ApproxMWPaging}, we pack keys from $T$ into memory in a breadth-first search order starting from the root. This relatively simple traversal also takes $O(n)$ time.
 \end{enumerate}
 
 We are left with a binary search tree which is properly packed into memory in total time $O(n)$.
@@ -1324,7 +1324,7 @@ We are left with a binary search tree which is properly packed into memory in to
 
 \section{Expected Cost of ApproxBSTPaging}\label{48}
 
-The explanation here follows in a similar manner to that of \ref{45}. First, we use \ref{ApprBSTLem} to bound the depth of a node in the memory hierarchy given its probability. The proof follows in a similar fashion to \ref{locationLem}. Recall that $m'_j = \sum_{k \leq j} m_j$ and $m'_0 = 0$. Moreover, recall $R$:
+The explanation here follows in a similar manner to that of section~\ref{45}. First, we use Lemma~\ref{ApprBSTLem} to bound the depth of a node in the memory hierarchy given its probability. The proof follows in a similar fashion to Lemma~\ref{locationLem}. Recall that $m'_j = \sum_{k \leq j} m_j$ and $m'_0 = 0$. Moreover, recall $R$:
 
 \begin{align*}
 R = \{\alpha : \alpha &\text{ among the }m' \text{ smallest access probabilities for keys or gaps excluding the} \\
@@ -1356,7 +1356,7 @@ As before, knowing a key's depth, its location in $T$ can be bounded as follows:
 location(B_i) \leq 2^{d_T(B_i)+1}-1.
 \end{align*}
 
-Hence, using \ref{ApprBSTLem} we get:
+Hence, using Lemma~\ref{ApprBSTLem} we get:
 
 \begin{align*}
 location(B_i) &\leq 2^{\lfloor \lg(\frac{1}{p_i}) \rfloor -1 +1}-1 \\
@@ -1395,7 +1395,7 @@ location(par(B_{i-1},B_i)) &\leq \lfloor \frac{2}{q_i}-\frac{1}{2} \rfloor &\tex
 
 \end{proof}
 
-As in \ref{45} we can now bound the cost of search for keys and gaps.
+As in section~\ref{45} we can now bound the cost of search for keys and gaps.
 
 \begin{lem} \label{ABSTExactLem}
 The cost of searching for key $B_i$ or gap $(B_{i-1},B_i)$, $(C(B_i) \text{ and } C(B_{i-1},B_i)$ respectively) using the \textit{ApproxBSTPaging} algorithm can be bounded as follows: 
@@ -1428,11 +1428,11 @@ C((B_{i-1},B_i)) \leq
 
 
 \begin{proof}
-The proof follows an almost identical set of logic to \ref{AMWPExactLem} in terms of how far into the tree we search for each node. We then can simply plug in the maximum depth of nodes from \ref{ApprBSTLem}, and the maximum location in the memory hierarchy from \ref{locationLemBST} and arrive at the result.
+The proof follows an almost identical set of logic to Lemma~\ref{AMWPExactLem} in terms of how far into the tree we search for each node. We then can simply plug in the maximum depth of nodes from Lemma~\ref{ApprBSTLem}, and the maximum location in the memory hierarchy from Lemma~\ref{locationLemBST} and arrive at the result.
 \end{proof}
 
 
-In order to use \ref{ABSTExactLem}, we define a function $C'$, which consumes a key $B_i$ as follows:
+In order to use Lemma~\ref{ABSTExactLem}, we define a function $C'$, which consumes a key $B_i$ as follows:
 \begin{align*} 
 C'(B_i) := 
 \begin{cases}
@@ -1477,7 +1477,7 @@ The total expected cost of search is simply the sum of the weighted cost of sear
 C &\leq \sum_{i=1}^{n} p_i\cdot C(B_i) + \sum_{j=1}^{n+1} q_j\cdot C(B_{i-1},B_i) 
 \end{align*}
 
-As in \ref{ExactApproxMWPagingThm}, $C'$ and $C''$ are exactly equal to the upper bounds of cost of search for a key or gap respectively as defined in \ref{ABSTExactLem}. We simply plug them into the equation above and get an upper bound on the expected cost of search in $T$:
+As in Theorem~\ref{ExactApproxMWPagingThm}, $C'$ and $C''$ are exactly equal to the upper bounds of cost of search for a key or gap respectively as defined in Lemma~\ref{ABSTExactLem}. We simply plug them into the equation above and get an upper bound on the expected cost of search in $T$:
 \begin{align*}
 C &\leq \sum_{i=1}^{n} p_i\cdot C'(B_i) + \sum_{j=1}^{n+1} q_j\cdot C''((B_{i-1},B_i))
 \end{align*}
@@ -1487,7 +1487,7 @@ C &\leq \sum_{i=1}^{n} p_i\cdot C'(B_i) + \sum_{j=1}^{n+1} q_j\cdot C''((B_{i-1}
 
 
 
-Like in \ref{45}, we wish to make a cleaner albeit weaker bound in terms of the entropy of the probability distribution. As explained in the Bose and Dou\"{i}eb paper, the average path length search cost of the tree created by their algorithm is at most: \cite{bose2009efficient}
+Like in section~\ref{45}, we wish to make a cleaner albeit weaker bound in terms of the entropy of the probability distribution. As explained in the Bose and Dou\"{i}eb paper, the average path length search cost of the tree created by their algorithm is at most: \cite{bose2009efficient}
 \begin{align*}
 H + 1 - q_0 - q_n + q_{max} - \sum_{i=0}^{m'} pq_{\text{rank}[i]}
 \end{align*}
@@ -1505,7 +1505,7 @@ W \leq \sum_{k=1}^{h-1} \left(\lfloor \lg(m'_k+1) \rfloor - \lfloor \lg(m'_{i-1}
 Since we are simply putting keys into memory in BFS order, and all we use is the height of the tree and the memory hierarchy, the proof is identical to that of Lemma~\ref{452}.
 \end{proof}
 
-Since we have the same result as Lemma~\ref{452}, this immediately implies Lemma~\ref{W<HT} is true as well. Assuming that $l \neq 1$, we have that $W<D(T)\cdot c_h$. As in \ref{ExactApproxMWPagingThm}, $\frac{W}{D(T)}$ represents the average cost per memory access when accessing the deepest (and most costly) element of our tree. Thus, $\frac{W}{D(T)}$ upper bounds the average cost per memory access when searching for any element of $T$.
+Since we have the same result as Lemma~\ref{452}, this immediately implies Lemma~\ref{W<HT} is true as well. Assuming that $l \neq 1$, we have that $W<D(T)\cdot c_h$. As in Theorem~\ref{ExactApproxMWPagingThm}, $\frac{W}{D(T)}$ represents the average cost per memory access when accessing the deepest (and most costly) element of our tree. Thus, $\frac{W}{D(T)}$ upper bounds the average cost per memory access when searching for any element of $T$.
 \\
 
 \begin{thm} \label{ApproxBSTThm}
@@ -1590,7 +1590,7 @@ In this chapter we examine a problem related to the initial optimal binary searc
 \begin{equation}
 C^S_T = \sum_{i=1}^{n} p_i(b_i+1) - \sum_{p_i \in L_T} p_i
 \end{equation}
-Here, $b_i$ is the \emph{depth} of the $i$'th key of $M$ and $L_T$ is the set of leaves of $T$. We subtract the weight of the leaves of the tree since we need one less comparison to return a pointer a leaf node (as in the original optimal BST problem). Note that this is analogous to our previous cost model \ref{1.1} but with a simple modification of how we describe the set of leaves ($L_T$ instead of $\{q_i\}$ for appropriate $i$).
+Here, $b_i$ is the \emph{depth} of the $i$'th key of $M$ and $L_T$ is the set of leaves of $T$. We subtract the weight of the leaves of the tree since we need one less comparison to return a pointer a leaf node (as in the original optimal BST problem). Note that this is analogous to our previous cost model (equation \ref{1.1}) but with a simple modification of how we describe the set of leaves ($L_T$ instead of $\{q_i\}$ for appropriate $i$).
 
 \section{The GREEDY-MS Algorithm is Within $\frac{n+1}{2n}$ of Optimal}\label{GREEDY-MS}
 
@@ -1665,7 +1665,7 @@ Let $T$ be a tree such that, for all child parent pairs, the probability of the 
 \end{align*}
 \end{lem}
 \begin{proof}
-By \ref{leavesCovered} we know that the sum of the probabilities of all internal nodes is at least as large as the sum of the probabilities of all leaf nodes minus the probability of the smallest leaf node. We also know the sum of all probabilities except the smallest leaf node is $1-l_{min}$. Thus, 
+By Lemma~\ref{leavesCovered} we know that the sum of the probabilities of all internal nodes is at least as large as the sum of the probabilities of all leaf nodes minus the probability of the smallest leaf node. We also know the sum of all probabilities except the smallest leaf node is $1-l_{min}$. Thus, 
 \begin{align*}
 \sum_{p_i \in L_T} p_i \leq \frac{1}{2} \cdot (1-l_{min}) + l_{min}
 \end{align*}
@@ -1684,11 +1684,11 @@ The GREEDY-MS Algorithm is within $\frac{n+1}{2n}$ of optimal under the Standard
 \end{thm}
 
 \begin{proof}
-Let $T$ be our tree created by GREEDY-MS. By \ref{MSSolvesOpt} we know that it solves the problem under the \textit{Expected Path Length Model} optimally. Let $L_T$ be the set of leaves of $T$. Consider the cost of $T$ under the Standard Model:
+Let $T$ be our tree created by GREEDY-MS. By Lemma~\ref{MSSolvesOpt} we know that it solves the problem under the \textit{Expected Path Length Model} optimally. Let $L_T$ be the set of leaves of $T$. Consider the cost of $T$ under the Standard Model:
 \begin{align*}
 C^S_T = C^E_T - \sum_{p_i \in L_T} p_i
 \end{align*}
-Since the sum of the probabilities of the leaves of the tree is at most $\frac{n+1}{2n}$ by \ref{leavesHalf} (since $T$ was made using GREEDY-MS) and at least $0$ we get:
+Since the sum of the probabilities of the leaves of the tree is at most $\frac{n+1}{2n}$ by Lemma~\ref{leavesHalf} (since $T$ was made using GREEDY-MS) and at least $0$ we get:
 \begin{align*}
 C^E_T \leq C^S_T + \frac{n+1}{2n}
 \end{align*}
@@ -1698,12 +1698,12 @@ Suppose for contraction of our theorem that there exists an optimal $T'$ under t
 C^S_{T'} < C^S_T - \frac{n+1}{2n}
 \end{align*}
 
-Consider $T''$ which is identical to $T'$ except that for any parent child pair where the child is a leaf in $T'$ and where this leaf has higher probability than its parent, we swap their positions (and repeat the process if necessary). By the Standard Model, $C^S_{T''} = C^S_{T'}$ so:
+Consider $T''$ which is identical to $T'$ except that for any parent child pair where the child is a leaf in $T'$ and where this leaf has higher probability than its parent, we swap their positions (and repeat the process if necessary). Since this operation cannot decrease cause the tree to increase in cost, and $T'$ is optimal, $C^S_{T''} = C^S_{T'}$ we get that:
 \begin{align*}
-C^S_{T''} < C^S_T - \frac{n+1}{2n}
+C^S_{T''} < C^S_T - \frac{n+1}{2n}.
 \end{align*} 
 
-We also note that for any internal nodes $p_i$ and $p_j$, similar to Claim 1 from \ref{MSSolvesOpt}, if $d_{T''}(p_i) > d_{T''}(p_j)$ then $p_i \leq p_j$. Otherwise, we could swap the locations of $p_i$ and $p_j$ getting a strictly better tree and contradicting our optimality assumption for $T'$. Consider $T''$ under the \textit{Expected Path Length Model}. By the above logic, we can now use \ref{leavesHalf} and we get that:
+We also note that for any internal nodes $p_i$ and $p_j$, similar to Claim 1 from Lemma~\ref{MSSolvesOpt}, if $d_{T''}(p_i) > d_{T''}(p_j)$ then $p_i \leq p_j$. Otherwise, we could swap the locations of $p_i$ and $p_j$ getting a strictly better tree and contradicting our optimality assumption for $T'$. Consider $T''$ under the \textit{Expected Path Length Model}. By the above logic, we can now use Lemma~\ref{leavesHalf} and we get that:
 \begin{align*}
 C^E_{T''} = C^S_{T''} + \sum_{i \in L_{T''}}p_i \leq C^S_{T''} + \frac{n+1}{2n} < C^S_T \leq C^E_T
 \end{align*}
