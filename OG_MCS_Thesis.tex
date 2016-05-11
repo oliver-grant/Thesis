@@ -354,7 +354,7 @@ In Chapter~\ref{Approximate Binary Search in the Hierarchical Memory Model}, we 
 As explained in the survey of Vitter \cite{vitter2001external}, several other models of external memory have followed. Work has been done to consider models with parallelism. Vitter and Shriver \cite{vitter1994algorithms} built upon the HMM and HMBTM models of Aggarwal et al. \cite{aggarwal1987model, aggarwal1987hierarchical} in order to allow parallelism. This updated model connects $P$ parallel memory hierarchies at their base memory levels. In 1994, Alpern et al. introduced the Uniform Memory Hierarchy (UMH) \cite{alpern1994uniform}. The UMH considers block sizes and bandwidths between memory levels, and allows for simultaneous transfer between pairs of memory levels. The UMH was considered with additional parallelization by Vitter and Nodine \cite{vitter1993large}.
 
 
-Cache-oblivious algorithms were introduced by Frigo, Leiserson, Prokop and Ramachandran in 1999 \cite{frigo1999cache}. The model used is the ideal-cache model which has a two-level memory hierarchy. The internal memory (named cache) has $Z$ words and the main memory is arbitrarily large. The cache is divided into cache lines of size $L$ and it is assumed that $Z=\Omega(L^2)$ (the tall cache assumption). Frigo et al.~examined the fast fourier transform and matrix multiplication under this model. Many others have since used this model and examined problems in a cache-oblivious setting such as the cache-oblivious b-trees of Bender et al.~\cite{bender2000cache}, the funnel heap of Brodal et al.~\cite{brodai2002funnel}, or the locality preserving cache-oblivious dynamic dictionary of Bender et al.~\cite{bender2002locality}.
+Cache-oblivious algorithms were introduced by Frigo, Leiserson, Prokop and Ramachandran in 1999 \cite{frigo1999cache}. The model used is the ideal-cache model which has a two-level memory hierarchy. The internal memory (named cache) has $Z$ words and the main memory is arbitrarily large. The cache is divided into cache lines of size $L$ and it is assumed that $Z=\Omega(L^2)$ (the tall cache assumption). Frigo et al.~examined the fast fourier transform and matrix multiplication under this model. Many others have since used this model and examined problems in a cache-oblivious setting such as the cache-oblivious b-trees of Bender et al.~\cite{bender2000cache}, the funnel heap of Brodal et al.~\cite{brodal2002funnel}, or the locality preserving cache-oblivious dynamic dictionary of Bender et al.~\cite{bender2002locality}.
 
 A complete and thorough explanation of memory hierarchies (especially those considered before cache-oblivious settings) can be found in the survey of Vitter \cite{vitter2001external}.
 
@@ -1638,7 +1638,7 @@ In order to prove that GREEDY-MS is within $\frac{n+1}{2n}$ of optimal under the
 We say a leaf $p_i$ (we are using $p_i$ to represent a probability and a node) is \textit{covered} by a unique internal node $p_i'$ if $p_i'$ is an internal node, $p_i$ is a leaf node and $p_i' \geq p_i$.
 
 \begin{lem}\label{leavesCovered}
-Let $T$ be a tree such that, for all child parent pairs, the probability of the parent is greater than that of the child. Let $l_{min}$ be the smallest leaf node by probability. Then
+Let $T$ be a tree such that, for all child parent pairs, the probability of the parent is greater than or equal to that of the child. Let $l_{min}$ be the smallest leaf node by probability. Then
 \begin{align*}
 \forall_{p_i \in L_T-\{l_{min}\}} \exists \text{ unique } p_i' \notin \{L_T \cup \{l_{min}\}\} \text{ such that } p_i' \text{ covers } p_i
 \end{align*}
@@ -1659,7 +1659,7 @@ Suppose for all $T$ (as in the lemma description) with heights strictly less tha
 
 
 \begin{lem}\label{leavesHalf}
-Let $T$ be a tree such that, for all child parent pairs, the probability of the parent is greater than that of the child. Then:
+Let $T$ be a tree such that, for all child parent pairs, the probability of the parent is greater than or equal to that of the child. Then:
 \begin{align*}
 \sum_{p_i \in L_T} p_i \leq \frac{n+1}{2n}
 \end{align*}
@@ -1684,35 +1684,11 @@ The GREEDY-MS Algorithm is within $\frac{n+1}{2n}$ of optimal under the Standard
 \end{thm}
 
 \begin{proof}
-Let $T$ be our tree created by GREEDY-MS. By Lemma~\ref{MSSolvesOpt} we know that it solves the problem under the \textit{Expected Path Length Model} optimally. Let $L_T$ be the set of leaves of $T$. Consider the cost of $T$ under the Standard Model:
+Let $T$ be our tree created by GREEDY-MS. Let $R$ be any tree such that, for all child parent pairs, the probability of the parent is greater than or equal to that of the child. Note that given any tree we can performs a series of parent-child swaps to get such a tree with this property. Moreover this new tree will have cost less than or equal to the cost of the original tree in both the Standard and Expected Path Length models. We can show:
 \begin{align*}
-C^S_T = C^E_T - \sum_{p_i \in L_T} p_i
-\end{align*}
-Since the sum of the probabilities of the leaves of the tree is at most $\frac{n+1}{2n}$ by Lemma~\ref{leavesHalf} (since $T$ was made using GREEDY-MS) and at least $0$ we get:
-\begin{align*}
-C^E_T \leq C^S_T + \frac{n+1}{2n}
-\end{align*}
-
-Suppose for contraction of our theorem that there exists an optimal $T'$ under the Standard Model which has a cost strictly less than the cost of $T-\frac{n+1}{2n}$:
-\begin{align*}
-C^S_{T'} < C^S_T - \frac{n+1}{2n}
-\end{align*}
-
-Consider $T''$ which is identical to $T'$ except that for any parent child pair where the child is a leaf in $T'$ and where this leaf has higher probability than its parent, we swap their positions (and repeat the process if necessary). Since this operation cannot decrease cause the tree to increase in cost, and $T'$ is optimal, $C^S_{T''} = C^S_{T'}$ we get that:
-\begin{align*}
-C^S_{T''} < C^S_T - \frac{n+1}{2n}.
+C^S_T \leq C^E_T \leq C^E_R = C^S_R + \sum_{p_i \in L_R} p_i \leq C^S_R + \frac{n+1}{2n}.
 \end{align*} 
-
-We also note that for any internal nodes $p_i$ and $p_j$, similar to Claim 1 from Lemma~\ref{MSSolvesOpt}, if $d_{T''}(p_i) > d_{T''}(p_j)$ then $p_i \leq p_j$. Otherwise, we could swap the locations of $p_i$ and $p_j$ getting a strictly better tree and contradicting our optimality assumption for $T'$. Consider $T''$ under the \textit{Expected Path Length Model}. By the above logic, we can now use Lemma~\ref{leavesHalf} and we get that:
-\begin{align*}
-C^E_{T''} = C^S_{T''} + \sum_{i \in L_{T''}}p_i \leq C^S_{T''} + \frac{n+1}{2n} < C^S_T \leq C^E_T
-\end{align*}
-
-\noindent Thus, we get that
-\begin{align*}
-C^E_{T''} = C^E_{T'} < C^E_T
-\end{align*} 
-a contradiction to the optimality of $T_E$ under the \textit{Expected Path Length Model}. Thus, our theorem must hold.
+The first inequality comes from the definition of the two models, the second from the optimality of GREEDY-MS under the Expected Path Length model, the equality comes from the definitions of the two models, and the final inequality comes from Lemma~\ref{leavesHalf}. As we noted above, any tree which does not follow the child parent property described is at least as bad, if not worse, under the Standard Model. Thus, $T$ is within $\frac{n+1}{2n}$ of the cost of any tree under the Standard model, completing the proof.
 
 \end{proof}
 
